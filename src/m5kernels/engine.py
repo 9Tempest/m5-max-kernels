@@ -199,7 +199,7 @@ def prepare_gemm(c, backend, precision, seed, distribution, tile):
         path = "software_mxint8_dequantize_then_bf16_matmul"
         quant = True
     else:
-        raise ValueError(backend)
+        raise NotImplementedError(f"GEMM backend {backend} is not implemented")
 
     def check(y):
         return _np(y[mx.array(ri)[:, None], mx.array(ci)[None, :]])
