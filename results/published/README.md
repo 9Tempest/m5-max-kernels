@@ -27,3 +27,17 @@ Immutable raw JSON from the first M5 Max campaign. Host-wall benchmark samples, 
 `unsupported` entries are explicit adapter/precision exclusions, not silently substituted measurements. `ok` means implementation correctness; the separate quality gate may still reject a quantized result. Tuning records also contain independent-seed holdouts outside the main results list.
 
 The local full captures corresponding to the two GPU reports are `results/local/ffn-int8-before-v2.gputrace` and `results/local/ffn-int8-tuned.gputrace`; the system recording is `results/local/ffn-int8-authorized.trace`. These large binary traces are intentionally not published. [Reproduction commands](../../docs/profiling.md).
+
+## Hadamard follow-up
+
+| Record | Contents |
+|---|---|
+| [2026-10-18-hadamard-block-sweep.json](2026-10-18-hadamard-block-sweep.json) | 48 ok; 3 quality rejections |
+| [2026-10-18-hadamard-down-tune.json](2026-10-18-hadamard-down-tune.json) | 8 ok |
+| [2026-10-18-hadamard-gpu-profile.json](2026-10-18-hadamard-gpu-profile.json) | GPU replay: one Hadamard + one quantizer + one GEMM dispatch |
+| [2026-10-18-hadamard-implementation-comparison.json](2026-10-18-hadamard-implementation-comparison.json) | 14 ok; 1 quality rejections |
+| [2026-10-18-hadamard-independent-normal.json](2026-10-18-hadamard-independent-normal.json) | 6 ok |
+| [2026-10-18-hadamard-independent-outliers.json](2026-10-18-hadamard-independent-outliers.json) | 6 ok |
+| [2026-10-18-hadamard-large-blocks.json](2026-10-18-hadamard-large-blocks.json) | 12 ok; 1 quality rejections |
+| [2026-10-18-hadamard-q-tune.json](2026-10-18-hadamard-q-tune.json) | 8 ok |
+| [2026-10-18-hadamard-up-tune.json](2026-10-18-hadamard-up-tune.json) | 8 ok |

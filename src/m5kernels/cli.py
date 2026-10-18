@@ -154,23 +154,31 @@ def _tune(args):
 def _report(args):
     docs = [json.loads(Path(p).read_text()) for p in args.inputs]
     print(
-        "| Case | Backend | Precision | Compute ms | Online ms | Compute TOPS | Relative L2 | Status |"
+        "| Case | Backend | Precision | Rotation | Compute ms | Online ms | Compute TOPS | Relative L2 | Quality gate | Status |"
     )
-    print("|---|---|---|---:|---:|---:|---:|---|")
+    print("|---|---|---|---|---:|---:|---:|---:|---|---|")
     for doc in docs:
         for r in doc["results"]:
             ms = r.get("timing", {}).get("median_ms")
             online = r.get("stages", {}).get("online_activation_plus_gemm", {}).get("median_ms")
             tops = r.get("effective_tops")
             err = r.get("quality_error", {}).get("relative_l2")
+            transform = r.get("transform", {})
+            rotation = (
+                f"H{transform['block_size']} / {transform['implementation']} / signs={transform['sign_seed']}"
+                if transform
+                else "—"
+            )
             cells = [
                 r["case"]["id"],
                 r["backend"],
                 r["precision"],
+                rotation,
                 f"{ms:.4f}" if ms is not None else "—",
                 f"{online:.4f}" if online is not None else "—",
                 f"{tops:.2f}" if tops is not None else "—",
                 f"{err:.5f}" if err is not None else "—",
+                ("pass" if r["quality_pass"] else "reject") if "quality_pass" in r else "—",
                 r["status"],
             ]
             print("| " + " | ".join(cells) + " |")
