@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "description": "H3 text encoder / Qwen3-VL-32B projection shapes; supports decode and prefill studies.",
+  "cases": [
+    {
+      "id": "qwen3vl32b.q.m1",
+      "op": "gemm",
+      "m": 1,
+      "k": 5120,
+      "n": 8192
+    },
+    {
+      "id": "qwen3vl32b.kv.m1",
+      "op": "gemm",
+      "m": 1,
+      "k": 5120,
+      "n": 1024
+    },
+    {
+      "id": "qwen3vl32b.out.m1",
+      "op": "gemm",
+      "m": 1,
+      "k": 8192,
+      "n": 5120
+    },
+    {
+      "id": "qwen3vl32b.gate_up.m1",
+      "op": "gemm",
+      "m": 1,
+      "k": 5120,
+      "n": 51200
+    },
+    {
+      "id": "qwen3vl32b.down.m1",
+      "op": "gemm",
+      "m": 1,
+      "k": 25600,
+      "n": 5120
+    },
+    {
+      "id": "qwen3vl32b.q.m128",
+      "op": "gemm",
+      "m": 128,
+      "k": 5120,
+      "n": 8192
+    },
+    {
+      "id": "qwen3vl32b.kv.m128",
+      "op": "gemm",
+      "m": 128,
+      "k": 5120,
+      "n": 1024
+    },
+    {
+      "id": "qwen3vl32b.out.m128",
+      "op": "gemm",
+      "m": 128,
+      "k": 8192,
+      "n": 5120
+    },
+    {
+      "id": "qwen3vl32b.gate_up.m128",
+      "op": "gemm",
+      "m": 128,
+      "k": 5120,
+      "n": 51200
+    },
+    {
+      "id": "qwen3vl32b.down.m128",
+      "op": "gemm",
+      "m": 128,
+      "k": 25600,
+      "n": 5120
+    },
+    {
+      "id": "qwen3vl32b.q.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "k": 5120,
+      "n": 8192
+    },
+    {
+      "id": "qwen3vl32b.kv.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "k": 5120,
+      "n": 1024
+    },
+    {
+      "id": "qwen3vl32b.out.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "k": 8192,
+      "n": 5120
+    },
+    {
+      "id": "qwen3vl32b.gate_up.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "k": 5120,
+      "n": 51200
+    },
+    {
+      "id": "qwen3vl32b.down.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "k": 25600,
+      "n": 5120
+    }
+  ]
+}

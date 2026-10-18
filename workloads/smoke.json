@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "smoke.gemm",
+      "op": "gemm",
+      "m": 127,
+      "n": 96,
+      "k": 256
+    },
+    {
+      "id": "smoke.attention",
+      "op": "attention",
+      "batch": 1,
+      "heads": 2,
+      "seq": 128,
+      "head_dim": 128,
+      "causal": false
+    },
+    {
+      "id": "smoke.rms",
+      "op": "rms_modulate",
+      "m": 127,
+      "n": 5376
+    }
+  ]
+}

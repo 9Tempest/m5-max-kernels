@@ -1,0 +1,482 @@
+{
+  "schema_version": 1,
+  "description": "H3 transformer operator inventory; token counts are synthetic, not a runtime trace.",
+  "cases": [
+    {
+      "id": "h3.attn_q.m128",
+      "op": "gemm",
+      "m": 128,
+      "n": 7168,
+      "k": 5376,
+      "component": "attn_q",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.attn_k.m128",
+      "op": "gemm",
+      "m": 128,
+      "n": 7168,
+      "k": 5376,
+      "component": "attn_k",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.attn_v.m128",
+      "op": "gemm",
+      "m": 128,
+      "n": 7168,
+      "k": 5376,
+      "component": "attn_v",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.attn_qkv_fused.m128",
+      "op": "gemm",
+      "m": 128,
+      "n": 21504,
+      "k": 5376,
+      "component": "attn_qkv_fused",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.attn_out.m128",
+      "op": "gemm",
+      "m": 128,
+      "n": 5376,
+      "k": 7168,
+      "component": "attn_out",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.ffn_gate.m128",
+      "op": "gemm",
+      "m": 128,
+      "n": 14336,
+      "k": 5376,
+      "component": "ffn_gate",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.ffn_up.m128",
+      "op": "gemm",
+      "m": 128,
+      "n": 14336,
+      "k": 5376,
+      "component": "ffn_up",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.ffn_gate_up_fused.m128",
+      "op": "gemm",
+      "m": 128,
+      "n": 28672,
+      "k": 5376,
+      "component": "ffn_gate_up_fused",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.ffn_down.m128",
+      "op": "gemm",
+      "m": 128,
+      "n": 5376,
+      "k": 14336,
+      "component": "ffn_down",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.text_in.m128",
+      "op": "gemm",
+      "m": 128,
+      "n": 5376,
+      "k": 5120,
+      "component": "text_in",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.video_in.m128",
+      "op": "gemm",
+      "m": 128,
+      "n": 5376,
+      "k": 96,
+      "component": "video_in",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.audio_in.m128",
+      "op": "gemm",
+      "m": 128,
+      "n": 5376,
+      "k": 32,
+      "component": "audio_in",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.video_out.m128",
+      "op": "gemm",
+      "m": 128,
+      "n": 96,
+      "k": 5376,
+      "component": "video_out",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.audio_out.m128",
+      "op": "gemm",
+      "m": 128,
+      "n": 32,
+      "k": 5376,
+      "component": "audio_out",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.attention.s128",
+      "op": "attention",
+      "batch": 1,
+      "heads": 56,
+      "seq": 128,
+      "head_dim": 128,
+      "causal": false,
+      "component": "dit_attention"
+    },
+    {
+      "id": "h3.rms_modulate.m128",
+      "op": "rms_modulate",
+      "m": 128,
+      "n": 5376
+    },
+    {
+      "id": "h3.swiglu.m128",
+      "op": "swiglu",
+      "m": 128,
+      "n": 14336
+    },
+    {
+      "id": "h3.attn_q.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "n": 7168,
+      "k": 5376,
+      "component": "attn_q",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.attn_k.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "n": 7168,
+      "k": 5376,
+      "component": "attn_k",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.attn_v.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "n": 7168,
+      "k": 5376,
+      "component": "attn_v",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.attn_qkv_fused.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "n": 21504,
+      "k": 5376,
+      "component": "attn_qkv_fused",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.attn_out.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "n": 5376,
+      "k": 7168,
+      "component": "attn_out",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.ffn_gate.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "n": 14336,
+      "k": 5376,
+      "component": "ffn_gate",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.ffn_up.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "n": 14336,
+      "k": 5376,
+      "component": "ffn_up",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.ffn_gate_up_fused.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "n": 28672,
+      "k": 5376,
+      "component": "ffn_gate_up_fused",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.ffn_down.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "n": 5376,
+      "k": 14336,
+      "component": "ffn_down",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.text_in.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "n": 5376,
+      "k": 5120,
+      "component": "text_in",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.video_in.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "n": 5376,
+      "k": 96,
+      "component": "video_in",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.audio_in.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "n": 5376,
+      "k": 32,
+      "component": "audio_in",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.video_out.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "n": 96,
+      "k": 5376,
+      "component": "video_out",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.audio_out.m1024",
+      "op": "gemm",
+      "m": 1024,
+      "n": 32,
+      "k": 5376,
+      "component": "audio_out",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.attention.s1024",
+      "op": "attention",
+      "batch": 1,
+      "heads": 56,
+      "seq": 1024,
+      "head_dim": 128,
+      "causal": false,
+      "component": "dit_attention"
+    },
+    {
+      "id": "h3.rms_modulate.m1024",
+      "op": "rms_modulate",
+      "m": 1024,
+      "n": 5376
+    },
+    {
+      "id": "h3.swiglu.m1024",
+      "op": "swiglu",
+      "m": 1024,
+      "n": 14336
+    },
+    {
+      "id": "h3.attn_q.m4096",
+      "op": "gemm",
+      "m": 4096,
+      "n": 7168,
+      "k": 5376,
+      "component": "attn_q",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.attn_k.m4096",
+      "op": "gemm",
+      "m": 4096,
+      "n": 7168,
+      "k": 5376,
+      "component": "attn_k",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.attn_v.m4096",
+      "op": "gemm",
+      "m": 4096,
+      "n": 7168,
+      "k": 5376,
+      "component": "attn_v",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.attn_qkv_fused.m4096",
+      "op": "gemm",
+      "m": 4096,
+      "n": 21504,
+      "k": 5376,
+      "component": "attn_qkv_fused",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.attn_out.m4096",
+      "op": "gemm",
+      "m": 4096,
+      "n": 5376,
+      "k": 7168,
+      "component": "attn_out",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.ffn_gate.m4096",
+      "op": "gemm",
+      "m": 4096,
+      "n": 14336,
+      "k": 5376,
+      "component": "ffn_gate",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.ffn_up.m4096",
+      "op": "gemm",
+      "m": 4096,
+      "n": 14336,
+      "k": 5376,
+      "component": "ffn_up",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.ffn_gate_up_fused.m4096",
+      "op": "gemm",
+      "m": 4096,
+      "n": 28672,
+      "k": 5376,
+      "component": "ffn_gate_up_fused",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.ffn_down.m4096",
+      "op": "gemm",
+      "m": 4096,
+      "n": 5376,
+      "k": 14336,
+      "component": "ffn_down",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.text_in.m4096",
+      "op": "gemm",
+      "m": 4096,
+      "n": 5376,
+      "k": 5120,
+      "component": "text_in",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.video_in.m4096",
+      "op": "gemm",
+      "m": 4096,
+      "n": 5376,
+      "k": 96,
+      "component": "video_in",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.audio_in.m4096",
+      "op": "gemm",
+      "m": 4096,
+      "n": 5376,
+      "k": 32,
+      "component": "audio_in",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.video_out.m4096",
+      "op": "gemm",
+      "m": 4096,
+      "n": 96,
+      "k": 5376,
+      "component": "video_out",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.audio_out.m4096",
+      "op": "gemm",
+      "m": 4096,
+      "n": 32,
+      "k": 5376,
+      "component": "audio_out",
+      "shape_origin": "official config; synthetic token count"
+    },
+    {
+      "id": "h3.attention.s4096",
+      "op": "attention",
+      "batch": 1,
+      "heads": 56,
+      "seq": 4096,
+      "head_dim": 128,
+      "causal": false,
+      "component": "dit_attention"
+    },
+    {
+      "id": "h3.rms_modulate.m4096",
+      "op": "rms_modulate",
+      "m": 4096,
+      "n": 5376
+    },
+    {
+      "id": "h3.swiglu.m4096",
+      "op": "swiglu",
+      "m": 4096,
+      "n": 14336
+    },
+    {
+      "id": "h3.adaln",
+      "op": "gemm",
+      "m": 1,
+      "k": 2688,
+      "n": 96768,
+      "component": "adaln"
+    },
+    {
+      "id": "h3.final_adaln",
+      "op": "gemm",
+      "m": 1,
+      "k": 2688,
+      "n": 10752,
+      "component": "final_adaln"
+    },
+    {
+      "id": "h3.time_in",
+      "op": "gemm",
+      "m": 1,
+      "k": 256,
+      "n": 5376,
+      "component": "time_in"
+    },
+    {
+      "id": "h3.time_out",
+      "op": "gemm",
+      "m": 1,
+      "k": 5376,
+      "n": 2688,
+      "component": "time_out"
+    }
+  ]
+}

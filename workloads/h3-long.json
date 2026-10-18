@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "description": "Long-context synthetic attention. Run explicitly; not the default smoke suite.",
+  "cases": [
+    {
+      "id": "h3.attention.s8192",
+      "op": "attention",
+      "batch": 1,
+      "heads": 56,
+      "seq": 8192,
+      "head_dim": 128,
+      "causal": false
+    },
+    {
+      "id": "h3.attention.s16384",
+      "op": "attention",
+      "batch": 1,
+      "heads": 56,
+      "seq": 16384,
+      "head_dim": 128,
+      "causal": false
+    },
+    {
+      "id": "h3.attention.s32768",
+      "op": "attention",
+      "batch": 1,
+      "heads": 56,
+      "seq": 32768,
+      "head_dim": 128,
+      "causal": false
+    }
+  ]
+}
