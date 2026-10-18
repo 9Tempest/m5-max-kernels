@@ -30,7 +30,7 @@ def main():
                 )
                 candidate = run_case(
                     case,
-                    "mpp",
+                    selection.get("backend", "mpp"),
                     selection["precision"],
                     args.seed,
                     args.distribution,

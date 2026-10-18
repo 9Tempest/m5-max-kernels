@@ -25,3 +25,7 @@ The tuner sweeps 8 combinations of output tiles, SIMD group count and grouped ti
 Result JSON is versioned and cannot overwrite an existing file. It contains hardware, OS/compiler/library versions, git revision and dirty state, source hash, seed, workload and every timing sample. Keep failed candidates. Unavailable configurations stay explicit rather than silently falling back. Host/device identifiers, serial numbers, credentials and absolute home paths are not captured.
 
 Compare paper/blog numbers only after matching hardware/core count, dimensions, layout, precision, output type, accuracy and timing scope. Draw Things' reported ~60 TFLOP/s FP16 and ~110 effective TOPS INT8 are context: their shapes, fusion and timing differ from this harness. They are not acceptance thresholds for arbitrary H3 components. A pinned local MFA baseline is still required to evaluate state-of-the-art status.
+
+## Rotated operands
+
+The `mpp-hadamard` path applies the same orthogonal block rotation to A and W. W rotation and quantization are offline. Its `online_activation_plus_gemm` timing includes activation rotation, FP32 conversion, quantization and GEMM. Independent rotation and dot-preservation checks precede timing; decoded quantization error is recorded separately from total original-operand error. See [hadamard.md](hadamard.md).

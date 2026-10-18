@@ -8,6 +8,8 @@ Initial machine: **Apple M5 Max, 40 GPU cores, 128 GiB unified memory**, macOS 2
 
 At M=4096, tuned W8A8 projections take **3.49 ms Q**, **6.58 ms FFN-up**, and **8.00 ms FFN-down**, including online activation quantization: **1.49× / 1.54× / 1.68×** faster than interleaved MLX BF16 baselines. Normal-input total relative L2 is about 1.3%. **FFN-down INT8 fails the synthetic outlier quality gate (8.84% error)**; FP8 passes that check (3.78%). These are kernel experiments, not a validated model precision policy.
 
+Follow-up: **Hadamard before INT8 reduces FFN-down outlier error from 8.84% to 1.22%**, with 8.70 ms total online latency versus 12.71 ms BF16 (1.46×). Weights are rotated offline; activation rotation is included. See the [Hadamard experiment](docs/hadamard.md).
+
 The repository contains raw baseline/precision/tuning/holdout results, real before/after GPU counter reports and a target-filtered Instruments trace summary. See [results and limitations](docs/initial-results.md).
 
 ## Run
@@ -36,6 +38,7 @@ Output paths are exclusive: choose a new filename for each experiment. Performan
 | GEMM / linear projections | MLX; custom Metal TensorOps tiled GEMM | BF16, FP16, FP32; explicit tail handling |
 | W8A8 GEMM | Native INT8 TensorOps + INT32 accumulation + fused scale epilogue | Symmetric per-token activations, per-output-channel weights; BF16 output |
 | FP8 GEMM | E4M3 TensorOps + FP32 accumulator + fused scale epilogue | Per-token/channel scaling; K/row stride divisible by 128 |
+| Hadamard + INT8 GEMM | Custom Metal or MLX block rotation + existing TensorOps | Identical normalized rotation for A/W; offline W, online A; FP32 transform; FP8 is a separate candidate |
 | MXINT8 | 32-element quantizer + explicit software dequantization | S1.6 factor folded into E8M0 scale; **not native MX acceleration** |
 | Attention | MLX fused SDPA; INT8/FP8/MXINT8 QDQ sensitivity experiment | QDQ runs BF16 SDPA; its timing is **not quantized attention throughput** |
 | RMSNorm + modulation | Compiled MLX; custom fused Metal | FP32 reduction, BF16/FP16/FP32 output |

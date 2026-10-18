@@ -6,6 +6,22 @@ from pathlib import Path
 from .workloads import load
 
 
+def _sign_seed(value):
+    return None if value == "none" else int(value)
+
+
+def _with_hadamard(case, args):
+    config = dict(case.get("hadamard", {}))
+    for option, key in [
+        ("hadamard_block", "block_size"),
+        ("hadamard_sign_seed", "sign_seed"),
+        ("hadamard_implementation", "implementation"),
+    ]:
+        if hasattr(args, option):
+            config[key] = getattr(args, option)
+    return dict(case, hadamard=config)
+
+
 def _run(args):
     from .engine import environment, run_case, write_result
 
@@ -20,8 +36,9 @@ def _run(args):
         for precision in args.precisions.split(","):
             for backend in args.backends.split(","):
                 tile = (256, 1, 1, 1) if c["op"] == "rms_modulate" else tuple(args.tile)
+                case = _with_hadamard(c, args) if backend == "mpp-hadamard" else c
                 r = run_case(
-                    c,
+                    case,
                     backend,
                     precision,
                     args.seed,
@@ -67,13 +84,16 @@ def _tune(args):
         (64, 128, 8, 8),
         (128, 128, 8, 8),
     ]
+    backend = args.tune_backend
     for c in cases:
+        if backend == "mpp-hadamard":
+            c = _with_hadamard(c, args)
         for precision in args.precisions.split(","):
             runs = []
             for tile in tiles:
                 r = run_case(
                     c,
-                    "mpp",
+                    backend,
                     precision,
                     args.seed,
                     args.distribution,
@@ -102,7 +122,7 @@ def _tune(args):
                 # Fresh holdout seed, fresh timing; selected tile remains fixed.
                 holdout = run_case(
                     c,
-                    "mpp",
+                    backend,
                     precision,
                     args.seed + 1,
                     args.distribution,
@@ -111,12 +131,22 @@ def _tune(args):
                     tuple(best["tile"]),
                 )
                 doc["selections"].append(
-                    dict(case_id=c["id"], precision=precision, tile=best["tile"], holdout=holdout)
+                    dict(
+                        case_id=c["id"],
+                        backend=backend,
+                        precision=precision,
+                        tile=best["tile"],
+                        holdout=holdout,
+                    )
                 )
     write_result(args.output, doc)
     return (
         0
-        if doc["selections"] and all(s["holdout"]["status"] == "ok" for s in doc["selections"])
+        if doc["selections"]
+        and all(
+            s["holdout"]["status"] == "ok" and s["holdout"]["quality_pass"]
+            for s in doc["selections"]
+        )
         else 1
     )
 
@@ -124,23 +154,31 @@ def _tune(args):
 def _report(args):
     docs = [json.loads(Path(p).read_text()) for p in args.inputs]
     print(
-        "| Case | Backend | Precision | Compute ms | Online ms | Compute TOPS | Relative L2 | Status |"
+        "| Case | Backend | Precision | Rotation | Compute ms | Online ms | Compute TOPS | Relative L2 | Quality gate | Status |"
     )
-    print("|---|---|---|---:|---:|---:|---:|---|")
+    print("|---|---|---|---|---:|---:|---:|---:|---|---|")
     for doc in docs:
         for r in doc["results"]:
             ms = r.get("timing", {}).get("median_ms")
             online = r.get("stages", {}).get("online_activation_plus_gemm", {}).get("median_ms")
             tops = r.get("effective_tops")
             err = r.get("quality_error", {}).get("relative_l2")
+            transform = r.get("transform", {})
+            rotation = (
+                f"H{transform['block_size']} / {transform['implementation']} / signs={transform['sign_seed']}"
+                if transform
+                else "—"
+            )
             cells = [
                 r["case"]["id"],
                 r["backend"],
                 r["precision"],
+                rotation,
                 f"{ms:.4f}" if ms is not None else "—",
                 f"{online:.4f}" if online is not None else "—",
                 f"{tops:.2f}" if tops is not None else "—",
                 f"{err:.5f}" if err is not None else "—",
+                ("pass" if r["quality_pass"] else "reject") if "quality_pass" in r else "—",
                 r["status"],
             ]
             print("| " + " | ".join(cells) + " |")
@@ -168,6 +206,13 @@ def main():
             default=[64, 64, 4, 1],
             metavar=("M", "N", "SIMDGROUPS", "M_GROUP"),
         )
+        q.add_argument("--hadamard-block", type=int, default=argparse.SUPPRESS)
+        q.add_argument("--hadamard-sign-seed", type=_sign_seed, default=argparse.SUPPRESS)
+        q.add_argument(
+            "--hadamard-implementation", choices=["metal", "mlx"], default=argparse.SUPPRESS
+        )
+        if name == "tune":
+            q.add_argument("--tune-backend", choices=["mpp", "mpp-hadamard"], default="mpp")
         q.add_argument("--seed", type=int, default=17)
         q.add_argument("--distribution", choices=["normal", "outliers", "zeros"], default="normal")
         q.add_argument("--warmup", type=int, default=3)

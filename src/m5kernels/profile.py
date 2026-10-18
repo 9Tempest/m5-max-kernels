@@ -17,6 +17,7 @@ from .engine import (
     write_result,
 )
 from .locking import gpu_lock
+from .cli import _with_hadamard, _sign_seed
 from .workloads import load
 
 
@@ -26,7 +27,7 @@ def workload(args):
     cases = [c for c in load(args.suite)["cases"] if c["id"] == args.case]
     if len(cases) != 1:
         raise ValueError("select one exact case id")
-    case = cases[0]
+    case = _with_hadamard(cases[0], args) if args.backend == "mpp-hadamard" else cases[0]
     prepare = {"gemm": prepare_gemm, "attention": prepare_attention}.get(
         case["op"], prepare_elementwise
     )
@@ -43,7 +44,8 @@ def workload(args):
     mx.eval(y)
     error = metrics(check(y), expected)
     if (
-        not error["finite"]
+        not meta.get("transform_pass", True)
+        or not error["finite"]
         or error["relative_l2"]
         > (0.0001 if args.precision == "fp32" else 0.001 if args.precision == "fp16" else 0.008)
         or not mx.all(mx.isfinite(y)).item()
@@ -155,6 +157,9 @@ def main():
     p.add_argument("--backend", default="mpp")
     p.add_argument("--precision", default="int8")
     p.add_argument("--tile", nargs=4, type=int, default=[64, 64, 4, 1])
+    p.add_argument("--hadamard-block", type=int, default=argparse.SUPPRESS)
+    p.add_argument("--hadamard-sign-seed", type=_sign_seed, default=argparse.SUPPRESS)
+    p.add_argument("--hadamard-implementation", choices=["metal", "mlx"], default=argparse.SUPPRESS)
     p.add_argument("--seed", type=int, default=17)
     p.add_argument("--iterations", type=int, default=1)
     p.add_argument("--seconds", type=int, default=5)
