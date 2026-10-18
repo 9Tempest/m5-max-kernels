@@ -4,6 +4,12 @@ A reproducible kernel laboratory for Apple Silicon: measure latency **and numeri
 
 Initial machine: **Apple M5 Max, 40 GPU cores, 128 GiB unified memory**, macOS 27 / Xcode 27.1, MLX 0.32.4. This is an experimental kernel repository, not a claim of universal state-of-the-art performance or an end-to-end H3 runtime.
 
+## First measured outcome
+
+At M=4096, tuned W8A8 projections take **3.49 ms Q**, **6.58 ms FFN-up**, and **8.00 ms FFN-down**, including online activation quantization: **1.49× / 1.54× / 1.68×** faster than interleaved MLX BF16 baselines. Normal-input total relative L2 is about 1.3%. **FFN-down INT8 fails the synthetic outlier quality gate (8.84% error)**; FP8 passes that check (3.78%). These are kernel experiments, not a validated model precision policy.
+
+The repository contains raw baseline/precision/tuning/holdout results, real before/after GPU counter reports and a target-filtered Instruments trace summary. See [results and limitations](docs/initial-results.md).
+
 ## Run
 
 Install [uv](https://docs.astral.sh/uv/), Xcode and the Metal toolchain. From a source checkout:

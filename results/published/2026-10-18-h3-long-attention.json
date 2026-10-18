@@ -1,0 +1,284 @@
+{
+  "schema_version": 1,
+  "environment": {
+    "timestamp_utc": "2026-10-18T21:01:55.348777+00:00",
+    "os": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.15",
+    "numpy": "2.4.4",
+    "git_commit": "df888ad3aadfc9a24ada94be50cbedf531515774",
+    "git_dirty": true,
+    "source_sha256": "a4b7519eeb28c3a841e85d76455762d769c137d10f87eba80cf57cb45b750987",
+    "xcode": "Xcode 27.1\nBuild version 27A9275",
+    "metal_compiler": "Apple metal version 32023.921 (metalfe-32023.921.6)\nTarget: air64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.266.1.bHU6GW/Metal.xctoolchain/usr/metal/current/bin",
+    "thread_settings": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "VECLIB_MAXIMUM_THREADS": null
+    },
+    "mlx": "0.32.4",
+    "device": {
+      "device_name": "Apple M5 Max",
+      "max_recommended_working_set_size": 115448725504,
+      "memory_size": 137438953472,
+      "architecture": "applegpu_g17s",
+      "max_buffer_length": 86586540032,
+      "resource_limit": 499000
+    }
+  },
+  "suite": "h3-long",
+  "results": [
+    {
+      "case": {
+        "id": "h3.attention.s8192",
+        "op": "attention",
+        "batch": 1,
+        "heads": 56,
+        "seq": 8192,
+        "head_dim": 128,
+        "causal": false
+      },
+      "backend": "mlx",
+      "precision": "bf16",
+      "seed": 17,
+      "distribution": "normal",
+      "tile": [
+        64,
+        64,
+        4,
+        1
+      ],
+      "compute_path": "mlx_sdpa",
+      "input_dtype": "mlx.core.bfloat16",
+      "output_dtype": "mlx.core.bfloat16",
+      "reference": "NumPy float64 selected queries, all keys, all heads",
+      "sample_queries": [
+        0,
+        546,
+        1092,
+        1638,
+        2184,
+        2730,
+        3276,
+        3822,
+        4368,
+        4914,
+        5460,
+        6006,
+        6552,
+        7098,
+        7644,
+        8191
+      ],
+      "mac_operations": 1924145348608,
+      "bytes_lower_bound": 469762048,
+      "quantization_timed": false,
+      "causal": false,
+      "status": "ok",
+      "output_finite": true,
+      "implementation_error": {
+        "finite": true,
+        "relative_l2": 0.0017080001288874594,
+        "max_abs": 0.0002527459007942018,
+        "rmse": 3.1518242960741666e-05,
+        "cosine": 0.9999985878014319
+      },
+      "quality_error": {
+        "finite": true,
+        "relative_l2": 0.0017080001288874594,
+        "max_abs": 0.0002527459007942018,
+        "rmse": 3.1518242960741666e-05,
+        "cosine": 0.9999985878014319
+      },
+      "implementation_relative_l2_limit": 0.008,
+      "quality_relative_l2_limit": 0.008,
+      "quality_pass": true,
+      "timing": {
+        "kind": "synchronized_host_wall",
+        "samples_ms": [
+          40.234666,
+          38.885459,
+          38.574791,
+          39.184625,
+          38.53075
+        ],
+        "median_ms": 38.885459,
+        "p10_ms": 38.5483664,
+        "p90_ms": 39.814649599999996,
+        "min_ms": 38.53075,
+        "warmup": 3,
+        "repeat": 5
+      },
+      "stages": {},
+      "effective_tops": 49.482387455115294
+    },
+    {
+      "case": {
+        "id": "h3.attention.s16384",
+        "op": "attention",
+        "batch": 1,
+        "heads": 56,
+        "seq": 16384,
+        "head_dim": 128,
+        "causal": false
+      },
+      "backend": "mlx",
+      "precision": "bf16",
+      "seed": 17,
+      "distribution": "normal",
+      "tile": [
+        64,
+        64,
+        4,
+        1
+      ],
+      "compute_path": "mlx_sdpa",
+      "input_dtype": "mlx.core.bfloat16",
+      "output_dtype": "mlx.core.bfloat16",
+      "reference": "NumPy float64 selected queries, all keys, all heads",
+      "sample_queries": [
+        0,
+        1092,
+        2184,
+        3276,
+        4368,
+        5461,
+        6553,
+        7645,
+        8737,
+        9829,
+        10922,
+        12014,
+        13106,
+        14198,
+        15290,
+        16383
+      ],
+      "mac_operations": 7696581394432,
+      "bytes_lower_bound": 939524096,
+      "quantization_timed": false,
+      "causal": false,
+      "status": "ok",
+      "output_finite": true,
+      "implementation_error": {
+        "finite": true,
+        "relative_l2": 0.001699283416176087,
+        "max_abs": 0.0001388874320782177,
+        "rmse": 2.1990742441097717e-05,
+        "cosine": 0.9999986046954624
+      },
+      "quality_error": {
+        "finite": true,
+        "relative_l2": 0.001699283416176087,
+        "max_abs": 0.0001388874320782177,
+        "rmse": 2.1990742441097717e-05,
+        "cosine": 0.9999986046954624
+      },
+      "implementation_relative_l2_limit": 0.008,
+      "quality_relative_l2_limit": 0.008,
+      "quality_pass": true,
+      "timing": {
+        "kind": "synchronized_host_wall",
+        "samples_ms": [
+          169.233625,
+          172.925417,
+          167.703542,
+          167.860458,
+          167.006583
+        ],
+        "median_ms": 167.860458,
+        "p10_ms": 167.2853666,
+        "p90_ms": 171.4487002,
+        "min_ms": 167.006583,
+        "warmup": 3,
+        "repeat": 5
+      },
+      "stages": {},
+      "effective_tops": 45.851068715849685
+    },
+    {
+      "case": {
+        "id": "h3.attention.s32768",
+        "op": "attention",
+        "batch": 1,
+        "heads": 56,
+        "seq": 32768,
+        "head_dim": 128,
+        "causal": false
+      },
+      "backend": "mlx",
+      "precision": "bf16",
+      "seed": 17,
+      "distribution": "normal",
+      "tile": [
+        64,
+        64,
+        4,
+        1
+      ],
+      "compute_path": "mlx_sdpa",
+      "input_dtype": "mlx.core.bfloat16",
+      "output_dtype": "mlx.core.bfloat16",
+      "reference": "NumPy float64 selected queries, all keys, all heads",
+      "sample_queries": [
+        0,
+        2184,
+        4368,
+        6553,
+        8737,
+        10922,
+        13106,
+        15291,
+        17475,
+        19660,
+        21844,
+        24029,
+        26213,
+        28398,
+        30582,
+        32767
+      ],
+      "mac_operations": 30786325577728,
+      "bytes_lower_bound": 1879048192,
+      "quantization_timed": false,
+      "causal": false,
+      "status": "ok",
+      "output_finite": true,
+      "implementation_error": {
+        "finite": true,
+        "relative_l2": 0.0017093660806776737,
+        "max_abs": 0.00013265913870156437,
+        "rmse": 1.55499776867242e-05,
+        "cosine": 0.9999985968490397
+      },
+      "quality_error": {
+        "finite": true,
+        "relative_l2": 0.0017093660806776737,
+        "max_abs": 0.00013265913870156437,
+        "rmse": 1.55499776867242e-05,
+        "cosine": 0.9999985968490397
+      },
+      "implementation_relative_l2_limit": 0.008,
+      "quality_relative_l2_limit": 0.008,
+      "quality_pass": true,
+      "timing": {
+        "kind": "synchronized_host_wall",
+        "samples_ms": [
+          731.557583,
+          742.984625,
+          746.346334,
+          740.409125,
+          750.271625
+        ],
+        "median_ms": 742.984625,
+        "p10_ms": 735.0981998,
+        "p90_ms": 748.7015086,
+        "min_ms": 731.557583,
+        "warmup": 3,
+        "repeat": 5
+      },
+      "stages": {},
+      "effective_tops": 41.43601972615247
+    }
+  ]
+}

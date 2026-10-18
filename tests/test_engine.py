@@ -46,3 +46,21 @@ def test_attention_reference(causal):
         repeat=3,
     )
     assert r["status"] == "ok", r
+
+
+@pytest.mark.metal
+@pytest.mark.skipif(sys.platform != "darwin", reason="requires Metal")
+@pytest.mark.parametrize("op", ["rms_modulate", "swiglu"])
+def test_elementwise_distribution_reaches_reference(op):
+    import numpy as np
+    from m5kernels.engine import prepare_elementwise
+
+    case = dict(id="test", op=op, m=2, n=256)
+    references = {
+        dist: prepare_elementwise(case, "mlx", "bf16", 17, dist, (256, 1, 1, 1))[2]
+        for dist in ["normal", "zeros", "outliers"]
+    }
+    assert not np.array_equal(references["normal"], references["outliers"])
+    assert np.all(references["zeros"] == references["zeros"][0, 0])
+    if op == "swiglu":
+        assert np.all(references["zeros"] == 0)

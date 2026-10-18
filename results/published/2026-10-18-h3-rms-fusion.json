@@ -1,0 +1,422 @@
+{
+  "schema_version": 1,
+  "environment": {
+    "timestamp_utc": "2026-10-18T21:01:12.105258+00:00",
+    "os": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.15",
+    "numpy": "2.4.4",
+    "git_commit": "df888ad3aadfc9a24ada94be50cbedf531515774",
+    "git_dirty": true,
+    "source_sha256": "cf76125c836a6d1b8537dbdc65d684c55605f8decc477c080564cf425f06214a",
+    "xcode": "Xcode 27.1\nBuild version 27A9275",
+    "metal_compiler": "Apple metal version 32023.921 (metalfe-32023.921.6)\nTarget: air64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.266.1.bHU6GW/Metal.xctoolchain/usr/metal/current/bin",
+    "thread_settings": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "VECLIB_MAXIMUM_THREADS": null
+    },
+    "mlx": "0.32.4",
+    "device": {
+      "device_name": "Apple M5 Max",
+      "max_recommended_working_set_size": 115448725504,
+      "memory_size": 137438953472,
+      "architecture": "applegpu_g17s",
+      "max_buffer_length": 86586540032,
+      "resource_limit": 499000
+    }
+  },
+  "suite": "h3",
+  "results": [
+    {
+      "case": {
+        "id": "h3.rms_modulate.m128",
+        "op": "rms_modulate",
+        "m": 128,
+        "n": 5376
+      },
+      "backend": "mlx",
+      "precision": "bf16",
+      "seed": 17,
+      "distribution": "normal",
+      "tile": [
+        256,
+        1,
+        1,
+        1
+      ],
+      "compute_path": "mlx",
+      "input_dtype": "mlx.core.bfloat16",
+      "output_dtype": "mlx.core.bfloat16",
+      "reference": "NumPy float64 full tensor",
+      "mac_operations": null,
+      "bytes_lower_bound": 2752512,
+      "status": "ok",
+      "output_finite": true,
+      "implementation_error": {
+        "finite": true,
+        "relative_l2": 0.0016616984961356207,
+        "max_abs": 0.015605588151116123,
+        "rmse": 0.0018299204319059054,
+        "cosine": 0.9999986193878064
+      },
+      "quality_error": {
+        "finite": true,
+        "relative_l2": 0.0016616984961356207,
+        "max_abs": 0.015605588151116123,
+        "rmse": 0.0018299204319059054,
+        "cosine": 0.9999986193878064
+      },
+      "implementation_relative_l2_limit": 0.008,
+      "quality_relative_l2_limit": 0.008,
+      "quality_pass": true,
+      "timing": {
+        "kind": "synchronized_host_wall",
+        "samples_ms": [
+          0.682709,
+          0.580459,
+          0.729834,
+          0.52975,
+          0.595875,
+          0.705458,
+          0.530209,
+          0.673417,
+          0.64775,
+          0.689166
+        ],
+        "median_ms": 0.6605835,
+        "p10_ms": 0.5301631,
+        "p90_ms": 0.7078956000000001,
+        "min_ms": 0.52975,
+        "warmup": 3,
+        "repeat": 10
+      },
+      "stages": {}
+    },
+    {
+      "case": {
+        "id": "h3.rms_modulate.m128",
+        "op": "rms_modulate",
+        "m": 128,
+        "n": 5376
+      },
+      "backend": "metal",
+      "precision": "bf16",
+      "seed": 17,
+      "distribution": "normal",
+      "tile": [
+        256,
+        1,
+        1,
+        1
+      ],
+      "compute_path": "metal",
+      "input_dtype": "mlx.core.bfloat16",
+      "output_dtype": "mlx.core.bfloat16",
+      "reference": "NumPy float64 full tensor",
+      "mac_operations": null,
+      "bytes_lower_bound": 2752512,
+      "status": "ok",
+      "output_finite": true,
+      "implementation_error": {
+        "finite": true,
+        "relative_l2": 0.0016616984961356207,
+        "max_abs": 0.015605588151116123,
+        "rmse": 0.0018299204319059054,
+        "cosine": 0.9999986193878064
+      },
+      "quality_error": {
+        "finite": true,
+        "relative_l2": 0.0016616984961356207,
+        "max_abs": 0.015605588151116123,
+        "rmse": 0.0018299204319059054,
+        "cosine": 0.9999986193878064
+      },
+      "implementation_relative_l2_limit": 0.008,
+      "quality_relative_l2_limit": 0.008,
+      "quality_pass": true,
+      "timing": {
+        "kind": "synchronized_host_wall",
+        "samples_ms": [
+          0.19825,
+          0.216375,
+          0.691042,
+          0.678208,
+          0.692125,
+          0.571,
+          0.624834,
+          0.507208,
+          0.604916,
+          0.642542
+        ],
+        "median_ms": 0.6148750000000001,
+        "p10_ms": 0.21456250000000002,
+        "p90_ms": 0.6911503,
+        "min_ms": 0.19825,
+        "warmup": 3,
+        "repeat": 10
+      },
+      "stages": {}
+    },
+    {
+      "case": {
+        "id": "h3.rms_modulate.m1024",
+        "op": "rms_modulate",
+        "m": 1024,
+        "n": 5376
+      },
+      "backend": "mlx",
+      "precision": "bf16",
+      "seed": 17,
+      "distribution": "normal",
+      "tile": [
+        256,
+        1,
+        1,
+        1
+      ],
+      "compute_path": "mlx",
+      "input_dtype": "mlx.core.bfloat16",
+      "output_dtype": "mlx.core.bfloat16",
+      "reference": "NumPy float64 full tensor",
+      "mac_operations": null,
+      "bytes_lower_bound": 22020096,
+      "status": "ok",
+      "output_finite": true,
+      "implementation_error": {
+        "finite": true,
+        "relative_l2": 0.0016624095973613259,
+        "max_abs": 0.015619736787117589,
+        "rmse": 0.0018306958869998237,
+        "cosine": 0.9999986181986424
+      },
+      "quality_error": {
+        "finite": true,
+        "relative_l2": 0.0016624095973613259,
+        "max_abs": 0.015619736787117589,
+        "rmse": 0.0018306958869998237,
+        "cosine": 0.9999986181986424
+      },
+      "implementation_relative_l2_limit": 0.008,
+      "quality_relative_l2_limit": 0.008,
+      "quality_pass": true,
+      "timing": {
+        "kind": "synchronized_host_wall",
+        "samples_ms": [
+          0.509958,
+          0.4555,
+          0.519167,
+          0.411583,
+          0.44625,
+          0.430708,
+          0.450208,
+          0.434833,
+          0.425167,
+          1.244916
+        ],
+        "median_ms": 0.448229,
+        "p10_ms": 0.42380860000000004,
+        "p90_ms": 0.5917418999999998,
+        "min_ms": 0.411583,
+        "warmup": 3,
+        "repeat": 10
+      },
+      "stages": {}
+    },
+    {
+      "case": {
+        "id": "h3.rms_modulate.m1024",
+        "op": "rms_modulate",
+        "m": 1024,
+        "n": 5376
+      },
+      "backend": "metal",
+      "precision": "bf16",
+      "seed": 17,
+      "distribution": "normal",
+      "tile": [
+        256,
+        1,
+        1,
+        1
+      ],
+      "compute_path": "metal",
+      "input_dtype": "mlx.core.bfloat16",
+      "output_dtype": "mlx.core.bfloat16",
+      "reference": "NumPy float64 full tensor",
+      "mac_operations": null,
+      "bytes_lower_bound": 22020096,
+      "status": "ok",
+      "output_finite": true,
+      "implementation_error": {
+        "finite": true,
+        "relative_l2": 0.0016624095969949182,
+        "max_abs": 0.015619736787117589,
+        "rmse": 0.0018306958865963248,
+        "cosine": 0.9999986181985988
+      },
+      "quality_error": {
+        "finite": true,
+        "relative_l2": 0.0016624095969949182,
+        "max_abs": 0.015619736787117589,
+        "rmse": 0.0018306958865963248,
+        "cosine": 0.9999986181985988
+      },
+      "implementation_relative_l2_limit": 0.008,
+      "quality_relative_l2_limit": 0.008,
+      "quality_pass": true,
+      "timing": {
+        "kind": "synchronized_host_wall",
+        "samples_ms": [
+          0.25875,
+          0.23625,
+          0.24125,
+          0.240542,
+          0.236584,
+          0.244709,
+          0.235833,
+          0.232125,
+          0.242708,
+          0.66425
+        ],
+        "median_ms": 0.240896,
+        "p10_ms": 0.23546219999999998,
+        "p90_ms": 0.29929999999999984,
+        "min_ms": 0.232125,
+        "warmup": 3,
+        "repeat": 10
+      },
+      "stages": {}
+    },
+    {
+      "case": {
+        "id": "h3.rms_modulate.m4096",
+        "op": "rms_modulate",
+        "m": 4096,
+        "n": 5376
+      },
+      "backend": "mlx",
+      "precision": "bf16",
+      "seed": 17,
+      "distribution": "normal",
+      "tile": [
+        256,
+        1,
+        1,
+        1
+      ],
+      "compute_path": "mlx",
+      "input_dtype": "mlx.core.bfloat16",
+      "output_dtype": "mlx.core.bfloat16",
+      "reference": "NumPy float64 full tensor",
+      "mac_operations": null,
+      "bytes_lower_bound": 88080384,
+      "status": "ok",
+      "output_finite": true,
+      "implementation_error": {
+        "finite": true,
+        "relative_l2": 0.0016621739250326322,
+        "max_abs": 0.015625134277337693,
+        "rmse": 0.0018304445700528327,
+        "cosine": 0.9999986185881732
+      },
+      "quality_error": {
+        "finite": true,
+        "relative_l2": 0.0016621739250326322,
+        "max_abs": 0.015625134277337693,
+        "rmse": 0.0018304445700528327,
+        "cosine": 0.9999986185881732
+      },
+      "implementation_relative_l2_limit": 0.008,
+      "quality_relative_l2_limit": 0.008,
+      "quality_pass": true,
+      "timing": {
+        "kind": "synchronized_host_wall",
+        "samples_ms": [
+          2.505208,
+          2.982916,
+          2.527042,
+          1.159417,
+          1.157458,
+          1.407417,
+          2.203875,
+          2.3525,
+          1.962167,
+          2.198125
+        ],
+        "median_ms": 2.201,
+        "p10_ms": 1.1592211,
+        "p90_ms": 2.5726294,
+        "min_ms": 1.157458,
+        "warmup": 3,
+        "repeat": 10
+      },
+      "stages": {}
+    },
+    {
+      "case": {
+        "id": "h3.rms_modulate.m4096",
+        "op": "rms_modulate",
+        "m": 4096,
+        "n": 5376
+      },
+      "backend": "metal",
+      "precision": "bf16",
+      "seed": 17,
+      "distribution": "normal",
+      "tile": [
+        256,
+        1,
+        1,
+        1
+      ],
+      "compute_path": "metal",
+      "input_dtype": "mlx.core.bfloat16",
+      "output_dtype": "mlx.core.bfloat16",
+      "reference": "NumPy float64 full tensor",
+      "mac_operations": null,
+      "bytes_lower_bound": 88080384,
+      "status": "ok",
+      "output_finite": true,
+      "implementation_error": {
+        "finite": true,
+        "relative_l2": 0.0016621739248047602,
+        "max_abs": 0.015625134277337693,
+        "rmse": 0.001830444569801892,
+        "cosine": 0.9999986185881695
+      },
+      "quality_error": {
+        "finite": true,
+        "relative_l2": 0.0016621739248047602,
+        "max_abs": 0.015625134277337693,
+        "rmse": 0.001830444569801892,
+        "cosine": 0.9999986185881695
+      },
+      "implementation_relative_l2_limit": 0.008,
+      "quality_relative_l2_limit": 0.008,
+      "quality_pass": true,
+      "timing": {
+        "kind": "synchronized_host_wall",
+        "samples_ms": [
+          1.29525,
+          0.593583,
+          1.245625,
+          1.094959,
+          1.385875,
+          1.284959,
+          0.633375,
+          0.761,
+          0.689833,
+          0.644625
+        ],
+        "median_ms": 0.9279795,
+        "p10_ms": 0.6293958000000001,
+        "p90_ms": 1.3043125,
+        "min_ms": 0.593583,
+        "warmup": 3,
+        "repeat": 10
+      },
+      "stages": {}
+    }
+  ]
+}

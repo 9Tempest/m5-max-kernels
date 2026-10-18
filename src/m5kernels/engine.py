@@ -315,6 +315,10 @@ def prepare_elementwise(c, backend, precision, seed, distribution, tile):
     m, n = c["m"], c["n"]
     dtype = {"bf16": mx.bfloat16, "fp16": mx.float16, "fp32": mx.float32}[precision]
     x = mx.array(rng.standard_normal((m, n), dtype=np.float32)).astype(dtype)
+    if distribution == "zeros":
+        x = mx.zeros_like(x)
+    elif distribution == "outliers":
+        x = (x * mx.where(mx.arange(n) % 127 == 0, 20, 1)).astype(dtype)
     w = mx.ones((n,), dtype=dtype)
     scale = mx.full((n,), 0.1, dtype=dtype)
     shift = mx.full((n,), 0.05, dtype=dtype)
@@ -341,6 +345,10 @@ def prepare_elementwise(c, backend, precision, seed, distribution, tile):
         if backend != "mlx":
             raise NotImplementedError("SwiGLU currently has a compiled MLX baseline")
         gate = mx.array(rng.standard_normal((m, n), dtype=np.float32)).astype(dtype)
+        if distribution == "zeros":
+            gate = mx.zeros_like(gate)
+        elif distribution == "outliers":
+            gate = (gate * mx.where(mx.arange(n) % 131 == 0, 20, 1)).astype(dtype)
         mx.eval(gate)
         fn = mx.compile(
             lambda: (x.astype(mx.float32) * mx.sigmoid(x.astype(mx.float32)) * gate).astype(dtype)
@@ -428,7 +436,12 @@ def run_case(
             online_finite = bool(mx.all(mx.isfinite(online_y)).item())
             result["online_implementation_error"] = online_error
             result["online_output_finite"] = online_finite
-            passed = passed and online_finite and online_error["relative_l2"] <= tolerance
+            passed = (
+                passed
+                and online_finite
+                and online_error["finite"]
+                and online_error["relative_l2"] <= tolerance
+            )
             result["status"] = "ok" if passed else "incorrect"
             del online_y
         # Never promote or benchmark an incorrect implementation.
