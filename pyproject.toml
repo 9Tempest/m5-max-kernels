@@ -7,7 +7,7 @@ name = "m5-max-kernels"
 version = "0.1.0"
 description = "Reproducible Apple Silicon kernel performance and numerical accuracy experiments"
 requires-python = ">=3.11,<3.14"
-dependencies = ["numpy==2.4.4", "mlx==0.32.4; sys_platform == 'darwin' and platform_machine == 'arm64'"]
+dependencies = ["numpy==2.4.6", "mlx==0.32.4; sys_platform == 'darwin' and platform_machine == 'arm64'"]
 
 [dependency-groups]
 dev = ["pytest>=8,<10", "ruff>=0.12,<1"]
