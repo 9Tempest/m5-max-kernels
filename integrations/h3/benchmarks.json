@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "suite": "h3-five-second-diversity-v1",
+  "recipe": {"width": 512, "height": 512, "seconds": 5, "fps": 24, "steps": 20, "active_dit_blocks": 50, "reuse": 1, "core_reuse": 1, "reference_rope": true},
+  "benchmarks": [
+    {
+      "id": "person-turn-v1",
+      "seed": 71,
+      "prompt": "A person in a blue coat walks across a quiet park path, pauses, turns to face the camera, and waves once. Full body, fixed camera, natural daylight, realistic motion, soft footsteps and birds.",
+      "checks": {
+        "temporal": ["Walk, pause, turn and one wave occur in order", "Body identity and limb structure remain coherent", "Camera remains fixed"],
+        "texture": ["Blue coat and face remain consistent", "Park background remains stable"],
+        "audio": ["Footsteps correspond to walking", "Bird ambience is coherent", "No clipping or discontinuities"]
+      }
+    },
+    {
+      "id": "rainy-street-v1",
+      "seed": 73,
+      "prompt": "A slow forward tracking shot along a rainy city street at night. Neon signs reflect in puddles as one car passes from left to right. Realistic lighting, steady camera, gentle rain and distant traffic.",
+      "checks": {
+        "temporal": ["Camera tracks forward smoothly", "One car crosses from left to right", "Reflections and geometry remain temporally coherent"],
+        "texture": ["Neon and puddle detail avoid flicker", "Rain and dark-region detail remain visible"],
+        "audio": ["Rain and distant traffic match the scene", "No clipping or discontinuities"]
+      }
+    },
+    {
+      "id": "water-pour-v1",
+      "seed": 79,
+      "prompt": "Close-up of clear water pouring from a glass pitcher into a transparent drinking glass on a wooden table. Small splashes and ripples form as the glass fills. Fixed camera, soft daylight, realistic fluid motion and clear pouring sounds.",
+      "checks": {
+        "temporal": ["Water flow is continuous and glass level rises", "Splashes and ripples evolve coherently", "Camera remains fixed"],
+        "texture": ["Transparent glass edges remain stable", "Water and wood detail avoid flicker"],
+        "audio": ["Pouring sound corresponds to visible flow", "No clipping or discontinuities"]
+      }
+    }
+  ]
+}

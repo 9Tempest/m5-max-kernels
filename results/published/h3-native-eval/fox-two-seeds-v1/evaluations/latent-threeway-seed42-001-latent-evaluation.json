@@ -1,0 +1,6142 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "source": {
+    "bf16": {
+      "run_sha256": "8f3131e51b850f76cb1e1bb385e5325d354dd5bd39125a470b180aa9acc288b6",
+      "recipe": {
+        "benchmark": "fox-winter-t2va-v1",
+        "seed": 42,
+        "prompt": "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+        "width": 512,
+        "height": 512,
+        "seconds": 5,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "model": {
+        "repository": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+      },
+      "patch": {
+        "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+      },
+      "metadata_sha256": "760a90826418d623468d80230d8f912044beed9ff991665dd17b76da10c5438a",
+      "metadata": {
+        "schema": 1,
+        "scope": "diagnostic_CPU_readback_after_completed_GPU_Euler",
+        "dtype": "float32_little_endian",
+        "seed": 42,
+        "seed_source": "caller_declared_H3_CAPTURE_SEED_verify_against_request_manifest",
+        "completed_steps": 20,
+        "time_unix_seconds": 1792364284.908614,
+        "time_monotonic_seconds": 13674.427047,
+        "final_video_shape": [
+          24,
+          37,
+          32,
+          32
+        ],
+        "final_audio_shape": [
+          32,
+          2,
+          207
+        ],
+        "final_layout": "unpacked_contiguous_VAE_input_before_decoder",
+        "per_step_video_shape": [
+          9472,
+          96
+        ],
+        "per_step_audio_shape": [
+          414,
+          32
+        ],
+        "per_step_layout": "packed_model_rows_after_Euler_before_unpack",
+        "final_video_sigma": 0,
+        "final_audio_sigma": 0,
+        "int8_mlp": 0,
+        "int8_qkv": 0,
+        "int8_attention_out": 0,
+        "hadamard_fc2": 0,
+        "finite": true
+      },
+      "tensors": [
+        {
+          "key": "euler_step00_video",
+          "source_file": "euler-step00-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "db1e7940e32a21e13fe0e1d90ddd9bcd86e765b80108018a40da5b69de719e5f",
+          "finite": true
+        },
+        {
+          "key": "euler_step00_audio",
+          "source_file": "euler-step00-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "8497f3f11d8ec254d23c14ee793adaa7dbc3130e90aea0b5ae7bbcf8dbbbb462",
+          "finite": true
+        },
+        {
+          "key": "euler_step01_video",
+          "source_file": "euler-step01-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "92320945159b46b54f022e5bd7ba0a7618e537b5d86b6fd07a6c9f9197fa53c4",
+          "finite": true
+        },
+        {
+          "key": "euler_step01_audio",
+          "source_file": "euler-step01-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "e22cefbf1695feceaa5f82863e6e6f27698a5126fc24e61a29cd04b507752c64",
+          "finite": true
+        },
+        {
+          "key": "euler_step02_video",
+          "source_file": "euler-step02-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "d40407c9b39eb61019212818de742922436f7f1106e33edb10a95a72ab85491f",
+          "finite": true
+        },
+        {
+          "key": "euler_step02_audio",
+          "source_file": "euler-step02-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "8337926853350387833dc1fcbd77f3c637988d7b723fb9b6f5bf38ad74a1f0d1",
+          "finite": true
+        },
+        {
+          "key": "euler_step03_video",
+          "source_file": "euler-step03-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "cf0be0fca635fa1b17ea22f999f8a331aa9f8a125a5de918886ae84658d674e1",
+          "finite": true
+        },
+        {
+          "key": "euler_step03_audio",
+          "source_file": "euler-step03-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "e857d9309989227a9635188c3094a61ff95bc8b9bd2d7f75d2edd6bee6d74d8f",
+          "finite": true
+        },
+        {
+          "key": "euler_step04_video",
+          "source_file": "euler-step04-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "3da9f46de6bfd2f7b4558b156c372723531c46a0f9cd6386d5a1ddbb4838e9ef",
+          "finite": true
+        },
+        {
+          "key": "euler_step04_audio",
+          "source_file": "euler-step04-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "15b040726f35b71a3c0dae77e9e480e452cc83f708d83397861e7461b8513dff",
+          "finite": true
+        },
+        {
+          "key": "euler_step05_video",
+          "source_file": "euler-step05-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "755703900ece42df4a49d066a08f583770043f1032c2aff02b4e1a457ab6b3cb",
+          "finite": true
+        },
+        {
+          "key": "euler_step05_audio",
+          "source_file": "euler-step05-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "c29ba77a3077f8c361195dc4aac6898bf5c27849a254b292c680b3fbcd0273da",
+          "finite": true
+        },
+        {
+          "key": "euler_step06_video",
+          "source_file": "euler-step06-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "a9c7473d83f9547889625d41b4826b7063774671afdaf14e9ffe2f0fe678352c",
+          "finite": true
+        },
+        {
+          "key": "euler_step06_audio",
+          "source_file": "euler-step06-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "63592ee0f1f13365bbbb2962c7a5365c7f72c21e257811b14419d99c077acedc",
+          "finite": true
+        },
+        {
+          "key": "euler_step07_video",
+          "source_file": "euler-step07-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "a801119a2649f3c8c3c0ca1e1a29d9a0fc0594006571ba3552a8fa5a5d17b8f4",
+          "finite": true
+        },
+        {
+          "key": "euler_step07_audio",
+          "source_file": "euler-step07-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "e490515440af3c83d0e5ea5c8c81ab1440244a06ca44e08f7979c051ed6942cb",
+          "finite": true
+        },
+        {
+          "key": "euler_step08_video",
+          "source_file": "euler-step08-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "1de305b746a02d7a6646875df28057f19d772632cd2e4342c2390057427ba1de",
+          "finite": true
+        },
+        {
+          "key": "euler_step08_audio",
+          "source_file": "euler-step08-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "c76cb376b8eb9e83159b10984e8e2e9d4b6506e8a7c3181253e6270b14515ad4",
+          "finite": true
+        },
+        {
+          "key": "euler_step09_video",
+          "source_file": "euler-step09-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "214df5b414dbb7550e64e89ae6b49686ddc0f357521801ca3a9f319b54a9d2fa",
+          "finite": true
+        },
+        {
+          "key": "euler_step09_audio",
+          "source_file": "euler-step09-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "f43a21e9c769babe048ebfe3e0c0023cbb59ada33da24fb8f4eb599f9f6a2bdd",
+          "finite": true
+        },
+        {
+          "key": "euler_step10_video",
+          "source_file": "euler-step10-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "a4930ab0c0da38c9b440f1b82986001ec6d8a8425a8bc1172bec235239da2619",
+          "finite": true
+        },
+        {
+          "key": "euler_step10_audio",
+          "source_file": "euler-step10-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "9ecd45aaaeb9c6a84745931c8a4ba151955502acdc2327bd4876dc083c569caa",
+          "finite": true
+        },
+        {
+          "key": "euler_step11_video",
+          "source_file": "euler-step11-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "c345063763cc6b2a0d3d7413a15fc641dfc5d4d7f26e7f760f4c642f827ceef7",
+          "finite": true
+        },
+        {
+          "key": "euler_step11_audio",
+          "source_file": "euler-step11-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "255bfbf91e883ccb03788b1fc8e8114277ea37c4894dd1016fc5a3b41095201e",
+          "finite": true
+        },
+        {
+          "key": "euler_step12_video",
+          "source_file": "euler-step12-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "228c95f3dba8d916772e1f856a593d6e26ae57a84092e94eab5754b3b1bb8815",
+          "finite": true
+        },
+        {
+          "key": "euler_step12_audio",
+          "source_file": "euler-step12-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "39c755c62dd46bb6604ccf6bc8627d6de724dccc029450c4c9c3969f91edb471",
+          "finite": true
+        },
+        {
+          "key": "euler_step13_video",
+          "source_file": "euler-step13-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "9ee6b07688d9c8980313e51a6530dc592dc534bb9dac5660621a3158f18bcac7",
+          "finite": true
+        },
+        {
+          "key": "euler_step13_audio",
+          "source_file": "euler-step13-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "9cfaa12a7a664c2d6bb9f06f00c08f7d1f30123f9e2c43c54c88fa849b398ab0",
+          "finite": true
+        },
+        {
+          "key": "euler_step14_video",
+          "source_file": "euler-step14-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "95d6b36a31e10ae2efd071ead3965bafd368b2d7043a0336479e81b34e588dd2",
+          "finite": true
+        },
+        {
+          "key": "euler_step14_audio",
+          "source_file": "euler-step14-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "c210eb649c4a8ce5da98382d97bf6d75c6063c1412c9eb3d866fe31295ec80a6",
+          "finite": true
+        },
+        {
+          "key": "euler_step15_video",
+          "source_file": "euler-step15-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "4db840bdb310ce47542d98cff9022eb9199f86cc29eb1a43860d3deeaf69fc59",
+          "finite": true
+        },
+        {
+          "key": "euler_step15_audio",
+          "source_file": "euler-step15-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "0dea505e3471b3eecfb82c47606a3f573909791f904a9de36ad903f5dcc19866",
+          "finite": true
+        },
+        {
+          "key": "euler_step16_video",
+          "source_file": "euler-step16-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "b7a9e7f3db5bdb1d58de4f218e9037f54f107156265d7e369ccaf2acf886af39",
+          "finite": true
+        },
+        {
+          "key": "euler_step16_audio",
+          "source_file": "euler-step16-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "bd1494e7a8ca2987bd78d2f1b95e0b5786736ca3b4c756e612e6970edba750f7",
+          "finite": true
+        },
+        {
+          "key": "euler_step17_video",
+          "source_file": "euler-step17-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "ad86619f13f886beda4522fab0574956164c22d9f23ca2ff604d846d15017181",
+          "finite": true
+        },
+        {
+          "key": "euler_step17_audio",
+          "source_file": "euler-step17-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "d7cabc0872e3ea92d9ff828d30fd59f09e0365b3141a95e45ffd510b7e6711be",
+          "finite": true
+        },
+        {
+          "key": "euler_step18_video",
+          "source_file": "euler-step18-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "37f16c2ef50ad2d3db5323da63c170c54b68164dd17765e278839ec0333f1c91",
+          "finite": true
+        },
+        {
+          "key": "euler_step18_audio",
+          "source_file": "euler-step18-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "d239d3803c4358d8bd70acb5e73ae319c4fdf9fc711d27f2c21380df0c63bedc",
+          "finite": true
+        },
+        {
+          "key": "euler_step19_video",
+          "source_file": "euler-step19-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "86cd0f9a90e2f847d1b78e86c8af77fa20c72f0e665064167656d17861377262",
+          "finite": true
+        },
+        {
+          "key": "euler_step19_audio",
+          "source_file": "euler-step19-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "f51ddd3d5f858d1d5a7193ed8f5b23e96864ffa9e8ec665d068b2eb6507a1ade",
+          "finite": true
+        },
+        {
+          "key": "final_video",
+          "source_file": "final-video.f32",
+          "shape": [
+            24,
+            37,
+            32,
+            32
+          ],
+          "sha256": "654eb10643ba6a7b3b93c69cdd4e22e3648845da01dff8b67f0d1d535cc1df45",
+          "finite": true
+        },
+        {
+          "key": "final_audio",
+          "source_file": "final-audio.f32",
+          "shape": [
+            32,
+            2,
+            207
+          ],
+          "sha256": "818425a80db6d785de9c1b93c3bc475c2fc271397b5e2b508bdd2e278f41ccab",
+          "finite": true
+        }
+      ],
+      "npz_sha256": "6f1fa6808f31663e8da19a590d33c6b1ffaa88862604eb86465d9f17fedef047"
+    },
+    "native": {
+      "run_sha256": "393e7cddf16db3dea1bc481c099d3988950626eb98abce8100c795469576eb47",
+      "recipe": {
+        "benchmark": "fox-winter-t2va-v1",
+        "seed": 42,
+        "prompt": "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+        "width": 512,
+        "height": 512,
+        "seconds": 5,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "model": {
+        "repository": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+      },
+      "patch": {
+        "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+      },
+      "metadata_sha256": "d32852f576a7771701624a417395579924aceba135d304aad5b81b5248944a31",
+      "metadata": {
+        "schema": 1,
+        "scope": "diagnostic_CPU_readback_after_completed_GPU_Euler",
+        "dtype": "float32_little_endian",
+        "seed": 42,
+        "seed_source": "caller_declared_H3_CAPTURE_SEED_verify_against_request_manifest",
+        "completed_steps": 20,
+        "time_unix_seconds": 1792363691.826575,
+        "time_monotonic_seconds": 13081.345008,
+        "final_video_shape": [
+          24,
+          37,
+          32,
+          32
+        ],
+        "final_audio_shape": [
+          32,
+          2,
+          207
+        ],
+        "final_layout": "unpacked_contiguous_VAE_input_before_decoder",
+        "per_step_video_shape": [
+          9472,
+          96
+        ],
+        "per_step_audio_shape": [
+          414,
+          32
+        ],
+        "per_step_layout": "packed_model_rows_after_Euler_before_unpack",
+        "final_video_sigma": 0,
+        "final_audio_sigma": 0,
+        "int8_mlp": 1,
+        "int8_qkv": 1,
+        "int8_attention_out": 1,
+        "hadamard_fc2": 0,
+        "finite": true
+      },
+      "tensors": [
+        {
+          "key": "euler_step00_video",
+          "source_file": "euler-step00-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "23756e91a2c070f54ee1b37cc4d04d32c4609b117b60785cefca17545664db9a",
+          "finite": true
+        },
+        {
+          "key": "euler_step00_audio",
+          "source_file": "euler-step00-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "703d65a4488fb5daf9a6efcdf5418eb5bccc270ea9a506b4da58d4bb6e709633",
+          "finite": true
+        },
+        {
+          "key": "euler_step01_video",
+          "source_file": "euler-step01-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "f51dbe12292929fe460e2ea213792a4d7ff0a26579ab09d4ff2b2f850344ab87",
+          "finite": true
+        },
+        {
+          "key": "euler_step01_audio",
+          "source_file": "euler-step01-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "a22de3f9006ee301abde957d86d9fb82dbc7f8147e47a827acea81a69935bf69",
+          "finite": true
+        },
+        {
+          "key": "euler_step02_video",
+          "source_file": "euler-step02-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "3affebb90c51a9d5b446502a30307d1b5aa265d564d745f1832107d04ca767fc",
+          "finite": true
+        },
+        {
+          "key": "euler_step02_audio",
+          "source_file": "euler-step02-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "afd6a7f4a9108ebd83eccc815120a23155f267a6faaf7ec11d54f74745725b14",
+          "finite": true
+        },
+        {
+          "key": "euler_step03_video",
+          "source_file": "euler-step03-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "d67da40dfd12f0271694f4f2051e2752759658b8986720d441fec0a96a39d2f1",
+          "finite": true
+        },
+        {
+          "key": "euler_step03_audio",
+          "source_file": "euler-step03-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "0c215c45009ce03720d7ef157d334bdfd29a95003efd52f592b2acab2ffd893b",
+          "finite": true
+        },
+        {
+          "key": "euler_step04_video",
+          "source_file": "euler-step04-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "b620e21267cf0a58468e95c16d3bafec425d84a66b6aed03ef2c823bc0d1a572",
+          "finite": true
+        },
+        {
+          "key": "euler_step04_audio",
+          "source_file": "euler-step04-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "865bba45932d7c1e37fddd9704e464f262aa2d577b25e7e6cbc5d37585133920",
+          "finite": true
+        },
+        {
+          "key": "euler_step05_video",
+          "source_file": "euler-step05-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "3579c473677a807c11f7a852f4ce269aeb4a6e3b8ff82fb5e233bfd9b8a80fdd",
+          "finite": true
+        },
+        {
+          "key": "euler_step05_audio",
+          "source_file": "euler-step05-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "bee8578257f702662ad7ff31fbbc43bb9d819aa769a3e38a27db2c2da6da277e",
+          "finite": true
+        },
+        {
+          "key": "euler_step06_video",
+          "source_file": "euler-step06-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "af770cf4fe78915887b181622b352c57da4214123043a61d0803859fcaa42e27",
+          "finite": true
+        },
+        {
+          "key": "euler_step06_audio",
+          "source_file": "euler-step06-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "32cf2399cc00ad6491bd3be032c4e8a7b5101c1e43e12697366afb6db2a3d8c2",
+          "finite": true
+        },
+        {
+          "key": "euler_step07_video",
+          "source_file": "euler-step07-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "4c8a3ccbe15200268e98519e0e68ad9af4dd1ad6f337363f3c98d2d3b3648445",
+          "finite": true
+        },
+        {
+          "key": "euler_step07_audio",
+          "source_file": "euler-step07-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "fd2624513ff195b25c2ebe04507b4cff99bc3f5b29ceb3de4711335cc565e906",
+          "finite": true
+        },
+        {
+          "key": "euler_step08_video",
+          "source_file": "euler-step08-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "847d0c318c4617e10bc250cad44df9b434bb4d1d5a47a445bb858fde59cea6b7",
+          "finite": true
+        },
+        {
+          "key": "euler_step08_audio",
+          "source_file": "euler-step08-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "0b392f51abc0499b9481c703fdb32cb44599197921113aeae3f41c60cde5832c",
+          "finite": true
+        },
+        {
+          "key": "euler_step09_video",
+          "source_file": "euler-step09-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "8f1436a242ed96e60b7ba914dd8b64969b243cfe117c330219955fe626c98a9c",
+          "finite": true
+        },
+        {
+          "key": "euler_step09_audio",
+          "source_file": "euler-step09-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "2bc595303c263bb80cf9cdc78aa6f33251ba2968e90d748c627f6788b3852897",
+          "finite": true
+        },
+        {
+          "key": "euler_step10_video",
+          "source_file": "euler-step10-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "6df5011ed9e6353bc01236e0ec5b4376230ec00883bd79d5b1f80cc4e4f33d4a",
+          "finite": true
+        },
+        {
+          "key": "euler_step10_audio",
+          "source_file": "euler-step10-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "acfe0d1b82339c0ed9b5e935adbf1aaf230f258683c221f314b13d6f11319ee9",
+          "finite": true
+        },
+        {
+          "key": "euler_step11_video",
+          "source_file": "euler-step11-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "71960a334a5a23e3a97bc457dc882a028cb4a610971328562588424fb839d0ce",
+          "finite": true
+        },
+        {
+          "key": "euler_step11_audio",
+          "source_file": "euler-step11-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "8f7d69af1ad0c8f403b024cb40da300004268cf6ba46e21b243cea2cdb39a630",
+          "finite": true
+        },
+        {
+          "key": "euler_step12_video",
+          "source_file": "euler-step12-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "ffe76a5f0007a6aa85de05802006b9f8620100107ad88062e0a32ce16666fbdc",
+          "finite": true
+        },
+        {
+          "key": "euler_step12_audio",
+          "source_file": "euler-step12-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "b2d559ba9976dba303315bf4e277f917e64e2096e35105adeaab54cb06515984",
+          "finite": true
+        },
+        {
+          "key": "euler_step13_video",
+          "source_file": "euler-step13-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "b1b646efdf8ee7fe49797da20d8ccc04d58b34ab038d79ebba742be71ee0586e",
+          "finite": true
+        },
+        {
+          "key": "euler_step13_audio",
+          "source_file": "euler-step13-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "f7cde6b8ac38d5826f984d65e6f5624e037685fb44dbfc631d39bdda90da47a3",
+          "finite": true
+        },
+        {
+          "key": "euler_step14_video",
+          "source_file": "euler-step14-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "26dfb13aee8e56c9cf4762611793a259215e3763472050c7a696d9c4c1db076f",
+          "finite": true
+        },
+        {
+          "key": "euler_step14_audio",
+          "source_file": "euler-step14-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "4aec8b6eb40eaf7faebdfcadfd2cbbdb850c59fdf6b0b8a9299d8f1047772d7f",
+          "finite": true
+        },
+        {
+          "key": "euler_step15_video",
+          "source_file": "euler-step15-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "f47f6a7431d9fc099c0819bada7040023af2f59b55287586cb1f031d0ef99577",
+          "finite": true
+        },
+        {
+          "key": "euler_step15_audio",
+          "source_file": "euler-step15-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "27a40127125af95ef075c7fea1f9c745ef3b0b3dd3dd11b60754feb2735fd697",
+          "finite": true
+        },
+        {
+          "key": "euler_step16_video",
+          "source_file": "euler-step16-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "408864cb7aad0a9bb797ae73ed30f6fc913cdd09002c7715da792e97e2903301",
+          "finite": true
+        },
+        {
+          "key": "euler_step16_audio",
+          "source_file": "euler-step16-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "cf57d4d0f4c4130798ab5c0944e3541c6ae6a7a0f91bf8eb276f5d459ec04767",
+          "finite": true
+        },
+        {
+          "key": "euler_step17_video",
+          "source_file": "euler-step17-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "0cbe7206dd302d3c958c7c2da35cbac998b1fd4e2bc39c8f36eaa75d8b7d5459",
+          "finite": true
+        },
+        {
+          "key": "euler_step17_audio",
+          "source_file": "euler-step17-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "c348af733c2029f70a9a0eecd6b84cbcf350d25740dccc70bb8fe92d3d30a68c",
+          "finite": true
+        },
+        {
+          "key": "euler_step18_video",
+          "source_file": "euler-step18-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "f92a3b4a48155b298623e63efda655aa1e393fe68bbde50bf2c5dd3ab7cf455d",
+          "finite": true
+        },
+        {
+          "key": "euler_step18_audio",
+          "source_file": "euler-step18-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "4d9b858ed9115a1fe193022d5eb0637a4922f77450e109583b2132b28cd1cc25",
+          "finite": true
+        },
+        {
+          "key": "euler_step19_video",
+          "source_file": "euler-step19-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "cf6451d2dc4673e732f377e94aca8694611605d7e5221975f5858416cf6798b8",
+          "finite": true
+        },
+        {
+          "key": "euler_step19_audio",
+          "source_file": "euler-step19-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "8da08034a6554196119a3f89d16637bee638a6605eab6c1afec4fa97ca44beeb",
+          "finite": true
+        },
+        {
+          "key": "final_video",
+          "source_file": "final-video.f32",
+          "shape": [
+            24,
+            37,
+            32,
+            32
+          ],
+          "sha256": "a629c91969b5082ad47faebfd4ac1ac94f5922926253b1c5de8cfcda43b68153",
+          "finite": true
+        },
+        {
+          "key": "final_audio",
+          "source_file": "final-audio.f32",
+          "shape": [
+            32,
+            2,
+            207
+          ],
+          "sha256": "54551ba41305dc639e592c226def0bec81f16f009ae1e7cc52c10b8b44edee91",
+          "finite": true
+        }
+      ],
+      "npz_sha256": "4d6f01ac1d3870890576465b98b1685115c1fca1118600382c83d4d757b0c0e5"
+    },
+    "hadamard": {
+      "run_sha256": "41c701852bc7a0c5502ba4c67d6fb50633f592f520497373b803b8f877290a4f",
+      "recipe": {
+        "benchmark": "fox-winter-t2va-v1",
+        "seed": 42,
+        "prompt": "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+        "width": 512,
+        "height": 512,
+        "seconds": 5,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "model": {
+        "repository": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+      },
+      "patch": {
+        "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+      },
+      "metadata_sha256": "e4836ef650ca6164be16376ebd1e012e6e4002fa5a0c4e43528cd8a1a1e53196",
+      "metadata": {
+        "schema": 1,
+        "scope": "diagnostic_CPU_readback_after_completed_GPU_Euler",
+        "dtype": "float32_little_endian",
+        "seed": 42,
+        "seed_source": "caller_declared_H3_CAPTURE_SEED_verify_against_request_manifest",
+        "completed_steps": 20,
+        "time_unix_seconds": 1792363979.211017,
+        "time_monotonic_seconds": 13368.72945,
+        "final_video_shape": [
+          24,
+          37,
+          32,
+          32
+        ],
+        "final_audio_shape": [
+          32,
+          2,
+          207
+        ],
+        "final_layout": "unpacked_contiguous_VAE_input_before_decoder",
+        "per_step_video_shape": [
+          9472,
+          96
+        ],
+        "per_step_audio_shape": [
+          414,
+          32
+        ],
+        "per_step_layout": "packed_model_rows_after_Euler_before_unpack",
+        "final_video_sigma": 0,
+        "final_audio_sigma": 0,
+        "int8_mlp": 1,
+        "int8_qkv": 1,
+        "int8_attention_out": 1,
+        "hadamard_fc2": 1,
+        "finite": true
+      },
+      "tensors": [
+        {
+          "key": "euler_step00_video",
+          "source_file": "euler-step00-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "98a385ef14ce2bb211aafbb739a170dd477a100e369db267c91a6365165ef1f1",
+          "finite": true
+        },
+        {
+          "key": "euler_step00_audio",
+          "source_file": "euler-step00-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "702899a3f088fb4800fdbdaceaea5f2401fdfa7c825f3c3c3f017bcc4339ec41",
+          "finite": true
+        },
+        {
+          "key": "euler_step01_video",
+          "source_file": "euler-step01-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "a4199963e0051758c0f7fdcae6e609fcf6840a709e7d5ad519c089c38f6c4450",
+          "finite": true
+        },
+        {
+          "key": "euler_step01_audio",
+          "source_file": "euler-step01-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "fa722480c4baec61066416e8b23ca4f015aca7a9cb05f5be8bfcc10d9b3a350d",
+          "finite": true
+        },
+        {
+          "key": "euler_step02_video",
+          "source_file": "euler-step02-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "0bf00ba6448d9d68a2daa8ddcf9a395738ac02ec7c4c7dfe5d14cb1f0ebe9f43",
+          "finite": true
+        },
+        {
+          "key": "euler_step02_audio",
+          "source_file": "euler-step02-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "b9bba9fc9b96a84a55325fcba636c8cb9f0540a4d22215ce1786270b0d1ce97d",
+          "finite": true
+        },
+        {
+          "key": "euler_step03_video",
+          "source_file": "euler-step03-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "cd3051681440291b6c85d4e56db78fe3e16b8e1fbc744193de598400e08cf762",
+          "finite": true
+        },
+        {
+          "key": "euler_step03_audio",
+          "source_file": "euler-step03-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "49131ef50275d8a10a3e37576f0511d37f053762c0ecd3a2ec20036a0af3ebb7",
+          "finite": true
+        },
+        {
+          "key": "euler_step04_video",
+          "source_file": "euler-step04-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "1af50fab476e932c4dcf725bf869f2daff2d528650e1c24c8603977fa4b5bde7",
+          "finite": true
+        },
+        {
+          "key": "euler_step04_audio",
+          "source_file": "euler-step04-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "f0fadd01e94995eb5568ea733c26b80741524c79860974d370740ed4a56f5471",
+          "finite": true
+        },
+        {
+          "key": "euler_step05_video",
+          "source_file": "euler-step05-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "856145d89fcfc96e72480e62a7e43ad1824661d2ae23c44fcda0c1a24dd70ae5",
+          "finite": true
+        },
+        {
+          "key": "euler_step05_audio",
+          "source_file": "euler-step05-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "baa306be6b138b0f051b4769aae17f85ddbb71ee5e07edd5a72b82f042fa7bc1",
+          "finite": true
+        },
+        {
+          "key": "euler_step06_video",
+          "source_file": "euler-step06-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "8282e727c056f2a05a7da921b6ac3343c5203ae46f520333c2c654ea9d080a49",
+          "finite": true
+        },
+        {
+          "key": "euler_step06_audio",
+          "source_file": "euler-step06-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "41da7ca0afdbd4c5b5dacd0a1c3e4d7ad157100518fb596cc9235c8272b1d244",
+          "finite": true
+        },
+        {
+          "key": "euler_step07_video",
+          "source_file": "euler-step07-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "6405db9b22d186873b2e88b9449d60c24181cd7caf9be8e8a342854afe1f556a",
+          "finite": true
+        },
+        {
+          "key": "euler_step07_audio",
+          "source_file": "euler-step07-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "a668f5f1f125c88d0f06abaf0c6a56cf8ba3ad31539645d7a5733c00502fdfa8",
+          "finite": true
+        },
+        {
+          "key": "euler_step08_video",
+          "source_file": "euler-step08-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "730200fa4aacec4e64f0655e3b2f218962abe83c5e57f4405f8185e26f2fd06a",
+          "finite": true
+        },
+        {
+          "key": "euler_step08_audio",
+          "source_file": "euler-step08-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "7d1b31769c8f3a0f32cb6d9dfbb0d04e6a16ec4500a439c9924598e3530afdaf",
+          "finite": true
+        },
+        {
+          "key": "euler_step09_video",
+          "source_file": "euler-step09-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "de511e1f3934551022da39d61d8fd3f03c11b4300a778fc0e5b6f6ec10f4f68b",
+          "finite": true
+        },
+        {
+          "key": "euler_step09_audio",
+          "source_file": "euler-step09-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "14642970e52f66f192254cf324c463542690fe632804d225f3af65c86d58cee2",
+          "finite": true
+        },
+        {
+          "key": "euler_step10_video",
+          "source_file": "euler-step10-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "f85dc9c3f051c7a9f9da1cf9f78b3da2fc4e69f8fdeb9f17975a50b2998ad3b6",
+          "finite": true
+        },
+        {
+          "key": "euler_step10_audio",
+          "source_file": "euler-step10-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "d000afb546628787bb86b041b18b2afab1b4b88a69fc878fd827bc405b330c7e",
+          "finite": true
+        },
+        {
+          "key": "euler_step11_video",
+          "source_file": "euler-step11-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "22c0f78a911e547ac110388e240526751551f487cc3d9e473d804b90937d1212",
+          "finite": true
+        },
+        {
+          "key": "euler_step11_audio",
+          "source_file": "euler-step11-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "5e98e08069ca5f06a6524999a90ad5425fcdf2926adf3cffa6c0cc1dbdcb253f",
+          "finite": true
+        },
+        {
+          "key": "euler_step12_video",
+          "source_file": "euler-step12-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "f99d982a58ae8c2b88e3aaa1014c66e2b3e927d63f9e984572a7ecde6b7865e7",
+          "finite": true
+        },
+        {
+          "key": "euler_step12_audio",
+          "source_file": "euler-step12-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "aeaee3d89f038658763cb351f5bfbdff2a7518128945e6d97058743c36995c44",
+          "finite": true
+        },
+        {
+          "key": "euler_step13_video",
+          "source_file": "euler-step13-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "5451178b77f12e8a8396c7f5c4120bc2791eb1cff6fbc0a41a9cab6a63bf4ff4",
+          "finite": true
+        },
+        {
+          "key": "euler_step13_audio",
+          "source_file": "euler-step13-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "5fa9c8c1b32dacd987aba7c0719f914836cd1fab087666cec348603df62a9c59",
+          "finite": true
+        },
+        {
+          "key": "euler_step14_video",
+          "source_file": "euler-step14-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "00cba6b7d1dc772c5301b5ee4ba942b3bb6adf3ad7b4854e26979e8f058badc9",
+          "finite": true
+        },
+        {
+          "key": "euler_step14_audio",
+          "source_file": "euler-step14-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "538bad6db92c7692d52f3b9c7692f793794a90832042f5179129a30f95b3f022",
+          "finite": true
+        },
+        {
+          "key": "euler_step15_video",
+          "source_file": "euler-step15-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "fabe6740bbf2eba51ae29ac7fc7ff8f87e64eaa778ebc2a3b75852c948b37bec",
+          "finite": true
+        },
+        {
+          "key": "euler_step15_audio",
+          "source_file": "euler-step15-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "a1eaa2fcd7b371f1f8e4a1f870f5d3a8bb841e103b9905fdaa77c4694a9750e1",
+          "finite": true
+        },
+        {
+          "key": "euler_step16_video",
+          "source_file": "euler-step16-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "383667e0b2459f70fd0cad3048e405911877770c04a3104148eef6188961ef01",
+          "finite": true
+        },
+        {
+          "key": "euler_step16_audio",
+          "source_file": "euler-step16-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "9b4a85b3c53b234d80f87c0edf937b5a239ccfdb909952732834ca324d17c51e",
+          "finite": true
+        },
+        {
+          "key": "euler_step17_video",
+          "source_file": "euler-step17-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "eb6e56ba101bc22a8af660484112e6509e7dbcc959a6b64898c8cf77e0a49f2d",
+          "finite": true
+        },
+        {
+          "key": "euler_step17_audio",
+          "source_file": "euler-step17-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "7984718d2c533115a4ae294c0b4daa688f48638a29de3cdf33fab6c6150d0992",
+          "finite": true
+        },
+        {
+          "key": "euler_step18_video",
+          "source_file": "euler-step18-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "77791d5ddbbb1a11b1c4a16d5e1df1948206654ba71a1bc7f289c908aa15c0ad",
+          "finite": true
+        },
+        {
+          "key": "euler_step18_audio",
+          "source_file": "euler-step18-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "f1f0058f403b899921c144fdddb2bf6aef6f5988e3bc8e7641251109241d835e",
+          "finite": true
+        },
+        {
+          "key": "euler_step19_video",
+          "source_file": "euler-step19-video.f32",
+          "shape": [
+            9472,
+            96
+          ],
+          "sha256": "85359f637e0449be386ccdc07791c5e8e105abfaf5ffd1d031937e670176ec15",
+          "finite": true
+        },
+        {
+          "key": "euler_step19_audio",
+          "source_file": "euler-step19-audio.f32",
+          "shape": [
+            414,
+            32
+          ],
+          "sha256": "bdfb437fb0939fbd6923630fc37c3eecd2606cad42791be3fc9dc52baf35ed52",
+          "finite": true
+        },
+        {
+          "key": "final_video",
+          "source_file": "final-video.f32",
+          "shape": [
+            24,
+            37,
+            32,
+            32
+          ],
+          "sha256": "4223cc83fdef2ab3ea0e010101d4fdf00dc5eb9f34e3081ea074fc25bf56d1db",
+          "finite": true
+        },
+        {
+          "key": "final_audio",
+          "source_file": "final-audio.f32",
+          "shape": [
+            32,
+            2,
+            207
+          ],
+          "sha256": "5745929caf479e31d9177a4b5019ed852ac8bf06aa826a9a8c9e7e64b119bf5f",
+          "finite": true
+        }
+      ],
+      "npz_sha256": "aca397d23523b3813b45847fa57b49ad59ac1cf11bc455fed94cf78431e06e56"
+    }
+  },
+  "evaluator_sha256": "1a72a05b4667e5e9889762efff8c9fb0ab96d9218fdd2913e7c72240c9515f95",
+  "metric_implementation_sha256": "e54704bba58a6c85bf2bddd6825f7ecbb39b4a50440f6a350708fdd3e5e62f8a",
+  "scope": "matched packed post-Euler states and unpacked final VAE inputs",
+  "data_range": 1.0,
+  "data_range_note": "convention only; latent PSNR is not model quality",
+  "quality_decision": "not_evaluated",
+  "source_revision": {
+    "status": "available",
+    "revision": "7c800faa29e4ea5a43bd90ec99fe8623b7dee76e",
+    "dirty": true
+  },
+  "comparisons": {
+    "bf16_vs_native": {
+      "euler_step00_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.992717266082764,
+          4.833425998687744
+        ],
+        "candidate_min_max": [
+          -4.99285364151001,
+          4.833016872406006
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.0023198723793029785
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.00025498173482798534
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 71.86981856759729
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 71.83306261829141
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0002560630234455206
+          }
+        }
+      },
+      "euler_step00_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.878444194793701,
+          4.09061336517334
+        ],
+        "candidate_min_max": [
+          -3.878444194793701,
+          4.091152191162109
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.002963423728942871
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0005006635832821903
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 66.00907993374611
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 65.83565694213824
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0005107603229464578
+          }
+        }
+      },
+      "euler_step01_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.961167812347412,
+          4.805632591247559
+        ],
+        "candidate_min_max": [
+          -4.96025276184082,
+          4.80522346496582
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.0034616664052009583
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0006092999172777497
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 64.30337761675955
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 64.22441290842816
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0006148644084922556
+          }
+        }
+      },
+      "euler_step01_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.806572914123535,
+          4.013835430145264
+        ],
+        "candidate_min_max": [
+          -3.806861639022827,
+          4.0126423835754395
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.004541218280792236
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0015779206869631687
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 56.03829660149148
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 55.69878011551655
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0016408202010124383
+          }
+        }
+      },
+      "euler_step02_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.933080196380615,
+          4.777379035949707
+        ],
+        "candidate_min_max": [
+          -4.930171012878418,
+          4.776969909667969
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.007768988609313965
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0013574254818049132
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 57.34568004847244
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 57.21983096653492
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0013772362706107007
+          }
+        }
+      },
+      "euler_step02_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.7299983501434326,
+          3.9307503700256348
+        ],
+        "candidate_min_max": [
+          -3.7305970191955566,
+          3.9295573234558105
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.005778133869171143
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.002076628583969197
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 53.6528234477943
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 53.132905264899435
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0022047265739388723
+          }
+        }
+      },
+      "euler_step03_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.904612064361572,
+          4.746138095855713
+        ],
+        "candidate_min_max": [
+          -4.898375511169434,
+          4.744619846343994
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.011868365108966827
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.002121742644139363
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 53.466145896048175
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 53.28855454527274
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0021655702307992117
+          }
+        }
+      },
+      "euler_step03_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.6482009887695312,
+          3.8399386405944824
+        ],
+        "candidate_min_max": [
+          -3.6477980613708496,
+          3.840080976486206
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.008399724960327148
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.001770980291296937
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 55.035725438294634
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 54.31740983379984
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.001923665287886062
+          }
+        }
+      },
+      "euler_step04_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.875654697418213,
+          4.713871002197266
+        ],
+        "candidate_min_max": [
+          -4.864660739898682,
+          4.7115254402160645
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.01971489191055298
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.002860211598899764
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 50.872036730179886
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 50.636841553504546
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0029387180625436767
+          }
+        }
+      },
+      "euler_step04_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.5558929443359375,
+          3.741861343383789
+        ],
+        "candidate_min_max": [
+          -3.555490016937256,
+          3.7420036792755127
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.01200556755065918
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0021136232208903536
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 53.499448568312104
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 52.56197023552381
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.00235451514453404
+          }
+        }
+      },
+      "euler_step05_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.843268871307373,
+          4.678922176361084
+        ],
+        "candidate_min_max": [
+          -4.825750827789307,
+          4.676110744476318
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.04867168515920639
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0041540183328468054
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 47.63063182266915
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 47.33079818403952
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.004299917180125852
+          }
+        }
+      },
+      "euler_step05_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.4582364559173584,
+          3.63639235496521
+        ],
+        "candidate_min_max": [
+          -3.4574429988861084,
+          3.6365346908569336
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.022552490234375
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0024537440474452226
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 52.20341481897336
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 51.023271467324165
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0028108419510077306
+          }
+        }
+      },
+      "euler_step06_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.803338527679443,
+          4.641372203826904
+        ],
+        "candidate_min_max": [
+          -4.7749786376953125,
+          4.638296127319336
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.10089816153049469
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.006788287863873206
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 43.36479498577642
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 42.99181815077148
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.007086129624001772
+          }
+        }
+      },
+      "euler_step06_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.3533623218536377,
+          3.5276968479156494
+        ],
+        "candidate_min_max": [
+          -3.3538424968719482,
+          3.5261409282684326
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.032318115234375
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.003691516828702863
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 48.655902947939445
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 47.2072975417859
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0043614924287848035
+          }
+        }
+      },
+      "euler_step07_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.750363826751709,
+          4.600203037261963
+        ],
+        "candidate_min_max": [
+          -4.714436054229736,
+          4.594099998474121
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.1537216380238533
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0095823717228717
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 40.37053971681133
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 39.91419616932018
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.010099274848245972
+          }
+        }
+      },
+      "euler_step07_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.239417314529419,
+          3.411435842514038
+        ],
+        "candidate_min_max": [
+          -3.2412869930267334,
+          3.4084904193878174
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.03417086601257324
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.004909257348526759
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 46.17968402243273
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 44.43383826552127
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0060021671654047915
+          }
+        }
+      },
+      "euler_step08_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.682825088500977,
+          4.554710388183594
+        ],
+        "candidate_min_max": [
+          -4.643397808074951,
+          4.543358325958252
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.211614727973938
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.012848131151767939
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 37.82320077661549
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 37.270813277363814
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.01369176183661946
+          }
+        }
+      },
+      "euler_step08_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.1151280403137207,
+          3.28714656829834
+        ],
+        "candidate_min_max": [
+          -3.117504835128784,
+          3.2862303256988525
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.03619992733001709
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.00484265277296933
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 46.298333390861615
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 44.22091189991993
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.006151122909205791
+          }
+        }
+      },
+      "euler_step09_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.6030378341674805,
+          4.5007004737854
+        ],
+        "candidate_min_max": [
+          -4.5587005615234375,
+          4.484438419342041
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.27291280031204224
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.016714486248733527
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 35.53813935452913
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 34.8741932444233
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.018042235106970093
+          }
+        }
+      },
+      "euler_step09_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -2.981199026107788,
+          3.1543335914611816
+        ],
+        "candidate_min_max": [
+          -2.983017921447754,
+          3.1534173488616943
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.035083770751953125
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.006070432375462131
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 44.335607491213906
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 41.88471843622
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.008049410542437378
+          }
+        }
+      },
+      "euler_step10_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.508014678955078,
+          4.436220645904541
+        ],
+        "candidate_min_max": [
+          -4.456890106201172,
+          4.416079998016357
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.35355179011821747
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.02136970843881101
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 33.40402806329728
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 32.60892714673325
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.023418207114994767
+          }
+        }
+      },
+      "euler_step10_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -2.836256504058838,
+          3.010624647140503
+        ],
+        "candidate_min_max": [
+          -2.8368418216705322,
+          3.0121755599975586
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.040634751319885254
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.006711828779382236
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 43.46318262021986
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 40.59081434941742
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.009342417739012187
+          }
+        }
+      },
+      "euler_step11_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.3936357498168945,
+          4.360357284545898
+        ],
+        "candidate_min_max": [
+          -4.336091995239258,
+          4.334964275360107
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.46092770993709564
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.02711641582342509
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 31.33535429829489
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 30.384044595668964
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.03025504270088332
+          }
+        }
+      },
+      "euler_step11_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -2.678635835647583,
+          2.851633310317993
+        ],
+        "candidate_min_max": [
+          -2.6785359382629395,
+          2.851813793182373
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.05913805961608887
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.00787236299739991
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 42.07789777290351
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 38.72651731842169
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.011579082122071406
+          }
+        }
+      },
+      "euler_step12_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.259042263031006,
+          4.263707637786865
+        ],
+        "candidate_min_max": [
+          -4.191475868225098,
+          4.234735012054443
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.5926574915647507
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.03431052038855985
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 29.291453898762224
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 28.151563208106946
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.03912207124140817
+          }
+        }
+      },
+      "euler_step12_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -2.50553560256958,
+          2.674703598022461
+        ],
+        "candidate_min_max": [
+          -2.5054357051849365,
+          2.6741180419921875
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.0759885311126709
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.009286993465330547
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 40.64249720074792
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 36.74729272403315
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.01454237581437148
+          }
+        }
+      },
+      "euler_step13_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.100806713104248,
+          4.138737678527832
+        ],
+        "candidate_min_max": [
+          -4.016158103942871,
+          4.107067584991455
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.768424766138196
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.043582407902217235
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 27.21377557828119
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 25.843525711247555
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.051029782166147765
+          }
+        }
+      },
+      "euler_step13_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -2.315105676651001,
+          2.4765186309814453
+        ],
+        "candidate_min_max": [
+          -2.3158674240112305,
+          2.477656364440918
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.07857346534729004
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.010654310995509161
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 39.44949260932624
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 34.93303684926016
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.017920418908719916
+          }
+        }
+      },
+      "euler_step14_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.906620740890503,
+          3.979435443878174
+        ],
+        "candidate_min_max": [
+          -3.841371536254883,
+          3.9431142807006836
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.9829594567418098
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.055922915997004205
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 25.04820382379166
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 23.3932181034604
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0676611063529058
+          }
+        }
+      },
+      "euler_step14_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -2.104168176651001,
+          2.2528858184814453
+        ],
+        "candidate_min_max": [
+          -2.1068830490112305,
+          2.255000114440918
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.08638596534729004
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.012506220399176529
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 38.05747843889822
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 32.83715155142597
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.022810900094675592
+          }
+        }
+      },
+      "euler_step15_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.776989221572876,
+          3.766935348510742
+        ],
+        "candidate_min_max": [
+          -3.702814817428589,
+          3.722801685333252
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 1.286865770816803
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.07311298410818391
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 22.7201097998853
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 20.712610791581078
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.09212329443090635
+          }
+        }
+      },
+      "euler_step15_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -1.887073278427124,
+          2.0028858184814453
+        ],
+        "candidate_min_max": [
+          -1.890844702720642,
+          2.0038838386535645
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.09977883100509644
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.015590280344047365
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 36.142921505359624
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 30.150153591319857
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.031080809425114753
+          }
+        }
+      },
+      "euler_step16_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.6791040897369385,
+          3.461805582046509
+        ],
+        "candidate_min_max": [
+          -3.6465344429016113,
+          3.4132497310638428
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 1.7290826737880707
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.09819322542496708
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 20.158369482966684
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 17.734184777836994
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.1298048026135206
+          }
+        }
+      },
+      "euler_step16_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -1.6803407669067383,
+          1.7144241333007812
+        ],
+        "candidate_min_max": [
+          -1.6767573356628418,
+          1.7141344547271729
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.10820925235748291
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.01959092742194134
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 34.158900085926774
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 27.376923965348837
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.04277143307610447
+          }
+        }
+      },
+      "euler_step17_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.70584774017334,
+          3.042311429977417
+        ],
+        "candidate_min_max": [
+          -3.6749627590179443,
+          3.031989812850952
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 2.4164141416549683
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.138154518463456
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 17.192698130743068
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 14.386608203064304
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.19084007995780586
+          }
+        }
+      },
+      "euler_step17_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -1.5593973398208618,
+          1.4229652881622314
+        ],
+        "candidate_min_max": [
+          -1.5573164224624634,
+          1.4326746463775635
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.17220988869667053
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.02565572113200722
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 31.81631547341696
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 24.385948340860285
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.060353517000488334
+          }
+        }
+      },
+      "euler_step18_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.77317214012146,
+          2.7885072231292725
+        ],
+        "candidate_min_max": [
+          -3.755607843399048,
+          2.8529956340789795
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 3.6462526321411133
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.2110318032193126
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 13.513041801927967
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 10.926118883325856
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.2842457996972509
+          }
+        }
+      },
+      "euler_step18_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -1.4430975914001465,
+          1.404651165008545
+        ],
+        "candidate_min_max": [
+          -1.4472311735153198,
+          1.4192290306091309
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.26978562492877245
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.03516483911576817
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 29.077827304123648
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 21.459148095138172
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.08453617534750643
+          }
+        }
+      },
+      "euler_step19_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.880687236785889,
+          3.533013105392456
+        ],
+        "candidate_min_max": [
+          -4.640429496765137,
+          3.5543625354766846
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 6.180527210235596
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.3816560286226847
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 8.366557462614175
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 8.57203765064842
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.3727332340034035
+          }
+        }
+      },
+      "euler_step19_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -1.6443848609924316,
+          1.566321611404419
+        ],
+        "candidate_min_max": [
+          -1.5375828742980957,
+          1.5284265279769897
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.4881042540073395
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.05562238379461382
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 25.09500805245684
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 18.149122064343377
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.12374962648829216
+          }
+        }
+      },
+      "final_video": {
+        "status": "completed",
+        "shape": [
+          24,
+          37,
+          32,
+          32
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.880687236785889,
+          3.533013105392456
+        ],
+        "candidate_min_max": [
+          -4.640429496765137,
+          3.5543625354766846
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 6.180527210235596
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.3816560286226847
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 8.366557462614175
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 8.57203765064842
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.3727332340034035
+          }
+        }
+      },
+      "final_audio": {
+        "status": "completed",
+        "shape": [
+          32,
+          2,
+          207
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -1.6443848609924316,
+          1.566321611404419
+        ],
+        "candidate_min_max": [
+          -1.5375828742980957,
+          1.5284265279769897
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.4881042540073395
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.05562238379461382
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 25.09500805245684
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 18.149122064343377
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.12374962648829216
+          }
+        }
+      }
+    },
+    "bf16_vs_hadamard": {
+      "euler_step00_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.992717266082764,
+          4.833425998687744
+        ],
+        "candidate_min_max": [
+          -4.99285364151001,
+          4.832880020141602
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.002183377742767334
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0002746375004565048
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 71.22480324370605
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 71.18804729440016
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0002758021423215085
+          }
+        }
+      },
+      "euler_step00_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.878444194793701,
+          4.09061336517334
+        ],
+        "candidate_min_max": [
+          -3.8779053688049316,
+          4.091152191162109
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.00242459774017334
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0004382481519102142
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 67.16559813294978
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 66.99217514134192
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0004470861773746902
+          }
+        }
+      },
+      "euler_step01_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.961167812347412,
+          4.805632591247559
+        ],
+        "candidate_min_max": [
+          -4.96100378036499,
+          4.804936408996582
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.0035912394523620605
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0005847462723441619
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 64.66065076123624
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 64.58168605290484
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0005900865249897089
+          }
+        }
+      },
+      "euler_step01_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.806572914123535,
+          4.013835430145264
+        ],
+        "candidate_min_max": [
+          -3.8060340881347656,
+          4.014951229095459
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.005038261413574219
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0007729411890140285
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 62.237070982133915
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 61.89755449615899
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0008037523860401702
+          }
+        }
+      },
+      "euler_step02_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.933080196380615,
+          4.777379035949707
+        ],
+        "candidate_min_max": [
+          -4.9320855140686035,
+          4.775519371032715
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.005758404731750488
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0010524680243394406
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 59.55582179704561
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 59.4299727151081
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0010678281468909266
+          }
+        }
+      },
+      "euler_step02_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.7299983501434326,
+          3.9307503700256348
+        ],
+        "candidate_min_max": [
+          -3.7303895950317383,
+          3.9331064224243164
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.005852073431015015
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0008526264410613609
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 61.384824068800285
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 60.864905885905415
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.000905221177615646
+          }
+        }
+      },
+      "euler_step03_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.904612064361572,
+          4.746138095855713
+        ],
+        "candidate_min_max": [
+          -4.901583671569824,
+          4.74316930770874
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.00959048792719841
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0015436659819485533
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 56.228933327281915
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 56.05134197650647
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.001575552579875303
+          }
+        }
+      },
+      "euler_step03_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.6482009887695312,
+          3.8399386405944824
+        ],
+        "candidate_min_max": [
+          -3.648926019668579,
+          3.842294692993164
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.007311463356018066
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0013219517681510493
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 57.57568779879232
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 56.85737219429754
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0014359237881690213
+          }
+        }
+      },
+      "euler_step04_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.875654697418213,
+          4.713871002197266
+        ],
+        "candidate_min_max": [
+          -4.87076473236084,
+          4.709454536437988
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.0246584415435791
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0023849205015735726
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 52.450521861226584
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 52.21532668455125
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0024503812789238993
+          }
+        }
+      },
+      "euler_step04_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.5558929443359375,
+          3.741861343383789
+        ],
+        "candidate_min_max": [
+          -3.556978464126587,
+          3.7442173957824707
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.009393662214279175
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0015712656779089014
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 56.075007518875736
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 55.13752918608744
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.0017503445260052676
+          }
+        }
+      },
+      "euler_step05_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.843268871307373,
+          4.678922176361084
+        ],
+        "candidate_min_max": [
+          -4.833951950073242,
+          4.673107624053955
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.05861753225326538
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.004286800407937131
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 47.35733473263055
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 47.057501094000926
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.004437362872500144
+          }
+        }
+      },
+      "euler_step05_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.4582364559173584,
+          3.63639235496521
+        ],
+        "candidate_min_max": [
+          -3.4597127437591553,
+          3.6387484073638916
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.01456943154335022
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.002549433144076719
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 51.871127448311526
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 50.69098409666233
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.002920456858620399
+          }
+        }
+      },
+      "euler_step06_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.803338527679443,
+          4.641372203826904
+        ],
+        "candidate_min_max": [
+          -4.789261817932129,
+          4.634499549865723
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.11309176683425903
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.006325270350431576
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 43.978418148682685
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 43.60544131367774
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.006602796833138321
+          }
+        }
+      },
+      "euler_step06_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.3533623218536377,
+          3.5276968479156494
+        ],
+        "candidate_min_max": [
+          -3.356112241744995,
+          3.5292036533355713
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.013939142227172852
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0031549237477235285
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 50.0202226576717
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 48.57161725151815
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.003727512748174208
+          }
+        }
+      },
+      "euler_step07_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.750363826751709,
+          4.600203037261963
+        ],
+        "candidate_min_max": [
+          -4.732654571533203,
+          4.58969783782959
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.15978527069091797
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.008619848817962177
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 41.290007022486165
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 40.833663474995014
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.009084830444966208
+          }
+        }
+      },
+      "euler_step07_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.239417314529419,
+          3.411435842514038
+        ],
+        "candidate_min_max": [
+          -3.241703987121582,
+          3.411553144454956
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.017644643783569336
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.004369399957248384
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 47.19156399811412
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 45.44571824120265
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.005342125517984425
+          }
+        }
+      },
+      "euler_step08_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.682825088500977,
+          4.554710388183594
+        ],
+        "candidate_min_max": [
+          -4.666865348815918,
+          4.541055679321289
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.20571523904800415
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.011568291985815072
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 38.734615164773835
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 38.182227665522156
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.012327886200356752
+          }
+        }
+      },
+      "euler_step08_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.1151280403137207,
+          3.28714656829834
+        ],
+        "candidate_min_max": [
+          -3.117921829223633,
+          3.288278341293335
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.02172154188156128
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.00509452641060165
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 45.85792363971446
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 43.78050214877278
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.006471052042120922
+          }
+        }
+      },
+      "euler_step09_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.6030378341674805,
+          4.5007004737854
+        ],
+        "candidate_min_max": [
+          -4.590760707855225,
+          4.4837727546691895
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.265439972281456
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.015123003543835112
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 36.40723892144354
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 35.74329281133772
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.016324329770057353
+          }
+        }
+      },
+      "euler_step09_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -2.981199026107788,
+          3.1543335914611816
+        ],
+        "candidate_min_max": [
+          -2.9834349155426025,
+          3.1554653644561768
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.02887141704559326
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.006391917068562389
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 43.88737736755894
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 41.43648831256505
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.008475700157050936
+          }
+        }
+      },
+      "euler_step10_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.508014678955078,
+          4.436220645904541
+        ],
+        "candidate_min_max": [
+          -4.500586032867432,
+          4.416384220123291
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.3471306413412094
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.01942814268545687
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 34.23137431225775
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 33.43627339569372
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.02129052301160052
+          }
+        }
+      },
+      "euler_step10_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -2.836256504058838,
+          3.010624647140503
+        ],
+        "candidate_min_max": [
+          -2.8384923934936523,
+          3.012373208999634
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.03308197855949402
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.007027149415466369
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 43.06441624269611
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 40.19204797189368
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.00978132302114307
+          }
+        }
+      },
+      "euler_step11_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.3936357498168945,
+          4.360357284545898
+        ],
+        "candidate_min_max": [
+          -4.3914594650268555,
+          4.334685325622559
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.4385106563568115
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.024704344144939286
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 32.14453342688143
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 31.1932237242555
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.02756378246555619
+          }
+        }
+      },
+      "euler_step11_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -2.678635835647583,
+          2.851633310317993
+        ],
+        "candidate_min_max": [
+          -2.6808717250823975,
+          2.854067325592041
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.039335399866104126
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.00811108671222369
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 41.818419114285035
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 38.467038659803215
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.011930209413755423
+          }
+        }
+      },
+      "euler_step12_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.259042263031006,
+          4.263707637786865
+        ],
+        "candidate_min_max": [
+          -4.260445594787598,
+          4.231592655181885
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.5476888418197632
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.03125307585028924
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 30.10214468059246
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 28.96225398993718
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.035635864629317275
+          }
+        }
+      },
+      "euler_step12_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -2.50553560256958,
+          2.674703598022461
+        ],
+        "candidate_min_max": [
+          -2.508537530899048,
+          2.6786694526672363
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.045364439487457275
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.009163472521981922
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 40.75879836212279
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 36.863593885408015
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.014348956061700498
+          }
+        }
+      },
+      "euler_step13_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.100806713104248,
+          4.138737678527832
+        ],
+        "candidate_min_max": [
+          -4.099513053894043,
+          4.099430084228516
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.6823238730430603
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.03960249199116707
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 28.045549703731417
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 26.675299836697782
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.04636977709171169
+          }
+        }
+      },
+      "euler_step13_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -2.315105676651001,
+          2.4765186309814453
+        ],
+        "candidate_min_max": [
+          -2.3181076049804688,
+          2.483931303024292
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.05576515197753906
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.010644543030039151
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 39.4574595615301
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 34.94100380146402
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.017903989311988385
+          }
+        }
+      },
+      "euler_step14_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.906620740890503,
+          3.979435443878174
+        ],
+        "candidate_min_max": [
+          -3.8902108669281006,
+          3.928499937057495
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.8529632687568665
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.050736691536824564
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 25.893557117590046
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 24.238571397258784
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.061386296133977766
+          }
+        }
+      },
+      "euler_step14_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -2.104168176651001,
+          2.2528858184814453
+        ],
+        "candidate_min_max": [
+          -2.1071701049804688,
+          2.262251615524292
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.06806373596191406
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.012583968165729997
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 38.00364778078071
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 32.783320893308456
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.02295270924874681
+          }
+        }
+      },
+      "euler_step15_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.776989221572876,
+          3.766935348510742
+        ],
+        "candidate_min_max": [
+          -3.742128849029541,
+          3.714143991470337
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 1.083041399717331
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0660578480828076
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 23.60151156202449
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 21.59401255372027
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.08323373286747557
+          }
+        }
+      },
+      "euler_step15_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -1.887073278427124,
+          2.0028858184814453
+        ],
+        "candidate_min_max": [
+          -1.879582166671753,
+          2.0111353397369385
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.10660266876220703
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.015635273734394172
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 36.117890218966224
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 30.12512230492646
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.031170508324678985
+          }
+        }
+      },
+      "euler_step16_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.6791040897369385,
+          3.461805582046509
+        ],
+        "candidate_min_max": [
+          -3.69014835357666,
+          3.417858600616455
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 1.410834640264511
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0883480249187064
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 21.076063100053233
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 18.651878394923543
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.11679011343435486
+          }
+        }
+      },
+      "euler_step16_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -1.6803407669067383,
+          1.7144241333007812
+        ],
+        "candidate_min_max": [
+          -1.6661158800125122,
+          1.7200981378555298
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.13171428442001343
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.0196125938279867
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 34.14929931411222
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 27.36732319353428
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.04281873574923524
+          }
+        }
+      },
+      "euler_step17_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.70584774017334,
+          3.042311429977417
+        ],
+        "candidate_min_max": [
+          -3.7177343368530273,
+          3.0198631286621094
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 1.8825325965881348
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.1238389779913107
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 18.142852815162556
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 15.336762887483792
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.17106527332297208
+          }
+        }
+      },
+      "euler_step17_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -1.5593973398208618,
+          1.4229652881622314
+        ],
+        "candidate_min_max": [
+          -1.5391628742218018,
+          1.4186428785324097
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.15634870529174805
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.025158105022566088
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 31.986441484914216
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 24.556074352357545
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.059182905495695944
+          }
+        }
+      },
+      "euler_step18_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -3.77317214012146,
+          2.7885072231292725
+        ],
+        "candidate_min_max": [
+          -3.805219888687134,
+          2.7892186641693115
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 2.7916929721832275
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.18901957675122052
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 14.469864272647955
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 11.882941354045846
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.2545967950444431
+          }
+        }
+      },
+      "euler_step18_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -1.4430975914001465,
+          1.404651165008545
+        ],
+        "candidate_min_max": [
+          -1.4166486263275146,
+          1.4048610925674438
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.19940626621246338
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.03342085028798372
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 29.51965010101185
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 21.900970892026375
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.08034363106017683
+          }
+        }
+      },
+      "euler_step19_video": {
+        "status": "completed",
+        "shape": [
+          9472,
+          96
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.880687236785889,
+          3.533013105392456
+        ],
+        "candidate_min_max": [
+          -4.86195707321167,
+          3.8758251667022705
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 4.824707388877869
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.34382947879627135
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 9.27313782175669
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 9.478618009790935
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.3357910368661776
+          }
+        }
+      },
+      "euler_step19_audio": {
+        "status": "completed",
+        "shape": [
+          414,
+          32
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -1.6443848609924316,
+          1.566321611404419
+        ],
+        "candidate_min_max": [
+          -1.5430521965026855,
+          1.490414023399353
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.4429418742656708
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.05176491407150782
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 25.719290051409175
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 18.773404063295708
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.1151674621713704
+          }
+        }
+      },
+      "final_video": {
+        "status": "completed",
+        "shape": [
+          24,
+          37,
+          32,
+          32
+        ],
+        "elements": 909312,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -4.880687236785889,
+          3.533013105392456
+        ],
+        "candidate_min_max": [
+          -4.86195707321167,
+          3.8758251667022705
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 4.824707388877869
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.34382947879627135
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 9.27313782175669
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 9.478618009790935
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.3357910368661776
+          }
+        }
+      },
+      "final_audio": {
+        "status": "completed",
+        "shape": [
+          32,
+          2,
+          207
+        ],
+        "elements": 13248,
+        "reference_dtype": "float32",
+        "candidate_dtype": "float32",
+        "data_range": 1.0,
+        "accumulation_dtype": "float64",
+        "reference_nonfinite": 0,
+        "candidate_nonfinite": 0,
+        "exactly_equal": false,
+        "reference_min_max": [
+          -1.6443848609924316,
+          1.566321611404419
+        ],
+        "candidate_min_max": [
+          -1.5430521965026855,
+          1.490414023399353
+        ],
+        "metrics": {
+          "maximum_absolute_error": {
+            "status": "finite",
+            "value": 0.4429418742656708
+          },
+          "rmse": {
+            "status": "finite",
+            "value": 0.05176491407150782
+          },
+          "psnr_db": {
+            "status": "finite",
+            "value": 25.719290051409175
+          },
+          "snr_db": {
+            "status": "finite",
+            "value": 18.773404063295708
+          },
+          "relative_l2": {
+            "status": "finite",
+            "value": 0.1151674621713704
+          }
+        }
+      }
+    }
+  },
+  "summary": {
+    "video": {
+      "per_step": [
+        {
+          "step": 0,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.0002560630234455206
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.0002758021423215085
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 71.83306261829141
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 71.18804729440016
+          }
+        },
+        {
+          "step": 1,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.0006148644084922556
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.0005900865249897089
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 64.22441290842816
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 64.58168605290484
+          }
+        },
+        {
+          "step": 2,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.0013772362706107007
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.0010678281468909266
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 57.21983096653492
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 59.4299727151081
+          }
+        },
+        {
+          "step": 3,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.0021655702307992117
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.001575552579875303
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 53.28855454527274
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 56.05134197650647
+          }
+        },
+        {
+          "step": 4,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.0029387180625436767
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.0024503812789238993
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 50.636841553504546
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 52.21532668455125
+          }
+        },
+        {
+          "step": 5,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.004299917180125852
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.004437362872500144
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 47.33079818403952
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 47.057501094000926
+          }
+        },
+        {
+          "step": 6,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.007086129624001772
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.006602796833138321
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 42.99181815077148
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 43.60544131367774
+          }
+        },
+        {
+          "step": 7,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.010099274848245972
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.009084830444966208
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 39.91419616932018
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 40.833663474995014
+          }
+        },
+        {
+          "step": 8,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.01369176183661946
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.012327886200356752
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 37.270813277363814
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 38.182227665522156
+          }
+        },
+        {
+          "step": 9,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.018042235106970093
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.016324329770057353
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 34.8741932444233
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 35.74329281133772
+          }
+        },
+        {
+          "step": 10,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.023418207114994767
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.02129052301160052
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 32.60892714673325
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 33.43627339569372
+          }
+        },
+        {
+          "step": 11,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.03025504270088332
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.02756378246555619
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 30.384044595668964
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 31.1932237242555
+          }
+        },
+        {
+          "step": 12,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.03912207124140817
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.035635864629317275
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 28.151563208106946
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 28.96225398993718
+          }
+        },
+        {
+          "step": 13,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.051029782166147765
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.04636977709171169
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 25.843525711247555
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 26.675299836697782
+          }
+        },
+        {
+          "step": 14,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.0676611063529058
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.061386296133977766
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 23.3932181034604
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 24.238571397258784
+          }
+        },
+        {
+          "step": 15,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.09212329443090635
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.08323373286747557
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 20.712610791581078
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 21.59401255372027
+          }
+        },
+        {
+          "step": 16,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.1298048026135206
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.11679011343435486
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 17.734184777836994
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 18.651878394923543
+          }
+        },
+        {
+          "step": 17,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.19084007995780586
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.17106527332297208
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 14.386608203064304
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 15.336762887483792
+          }
+        },
+        {
+          "step": 18,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.2842457996972509
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.2545967950444431
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 10.926118883325856
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 11.882941354045846
+          }
+        },
+        {
+          "step": 19,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.3727332340034035
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.3357910368661776
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 8.57203765064842
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 9.478618009790935
+          }
+        }
+      ],
+      "finite_comparable_steps": 20,
+      "hadamard_lower_relative_l2_steps": 18,
+      "final_native": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 6.180527210235596
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.3816560286226847
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 8.366557462614175
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 8.57203765064842
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.3727332340034035
+        }
+      },
+      "final_hadamard": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 4.824707388877869
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.34382947879627135
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 9.27313782175669
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 9.478618009790935
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.3357910368661776
+        }
+      }
+    },
+    "audio": {
+      "per_step": [
+        {
+          "step": 0,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.0005107603229464578
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.0004470861773746902
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 65.83565694213824
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 66.99217514134192
+          }
+        },
+        {
+          "step": 1,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.0016408202010124383
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.0008037523860401702
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 55.69878011551655
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 61.89755449615899
+          }
+        },
+        {
+          "step": 2,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.0022047265739388723
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.000905221177615646
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 53.132905264899435
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 60.864905885905415
+          }
+        },
+        {
+          "step": 3,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.001923665287886062
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.0014359237881690213
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 54.31740983379984
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 56.85737219429754
+          }
+        },
+        {
+          "step": 4,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.00235451514453404
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.0017503445260052676
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 52.56197023552381
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 55.13752918608744
+          }
+        },
+        {
+          "step": 5,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.0028108419510077306
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.002920456858620399
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 51.023271467324165
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 50.69098409666233
+          }
+        },
+        {
+          "step": 6,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.0043614924287848035
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.003727512748174208
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 47.2072975417859
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 48.57161725151815
+          }
+        },
+        {
+          "step": 7,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.0060021671654047915
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.005342125517984425
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 44.43383826552127
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 45.44571824120265
+          }
+        },
+        {
+          "step": 8,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.006151122909205791
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.006471052042120922
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 44.22091189991993
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 43.78050214877278
+          }
+        },
+        {
+          "step": 9,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.008049410542437378
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.008475700157050936
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 41.88471843622
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 41.43648831256505
+          }
+        },
+        {
+          "step": 10,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.009342417739012187
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.00978132302114307
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 40.59081434941742
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 40.19204797189368
+          }
+        },
+        {
+          "step": 11,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.011579082122071406
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.011930209413755423
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 38.72651731842169
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 38.467038659803215
+          }
+        },
+        {
+          "step": 12,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.01454237581437148
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.014348956061700498
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 36.74729272403315
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 36.863593885408015
+          }
+        },
+        {
+          "step": 13,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.017920418908719916
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.017903989311988385
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 34.93303684926016
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 34.94100380146402
+          }
+        },
+        {
+          "step": 14,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.022810900094675592
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.02295270924874681
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 32.83715155142597
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 32.783320893308456
+          }
+        },
+        {
+          "step": 15,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.031080809425114753
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.031170508324678985
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 30.150153591319857
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 30.12512230492646
+          }
+        },
+        {
+          "step": 16,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.04277143307610447
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.04281873574923524
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 27.376923965348837
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 27.36732319353428
+          }
+        },
+        {
+          "step": 17,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.060353517000488334
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.059182905495695944
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 24.385948340860285
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 24.556074352357545
+          }
+        },
+        {
+          "step": 18,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.08453617534750643
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.08034363106017683
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 21.459148095138172
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 21.900970892026375
+          }
+        },
+        {
+          "step": 19,
+          "native_relative_l2": {
+            "status": "finite",
+            "value": 0.12374962648829216
+          },
+          "hadamard_relative_l2": {
+            "status": "finite",
+            "value": 0.1151674621713704
+          },
+          "native_snr_db": {
+            "status": "finite",
+            "value": 18.149122064343377
+          },
+          "hadamard_snr_db": {
+            "status": "finite",
+            "value": 18.773404063295708
+          }
+        }
+      ],
+      "finite_comparable_steps": 20,
+      "hadamard_lower_relative_l2_steps": 12,
+      "final_native": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.4881042540073395
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.05562238379461382
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 25.09500805245684
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 18.149122064343377
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.12374962648829216
+        }
+      },
+      "final_hadamard": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.4429418742656708
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.05176491407150782
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 25.719290051409175
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 18.773404063295708
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.1151674621713704
+        }
+      }
+    }
+  },
+  "evaluation_wall_seconds": 0.41876829099965107
+}

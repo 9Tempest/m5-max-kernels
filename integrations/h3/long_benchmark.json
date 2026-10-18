@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "suite": "h3-first-frame-15s-v1",
+  "recipe": {
+    "width": 512,
+    "height": 288,
+    "seconds": 15,
+    "fps": 24,
+    "steps": 20,
+    "source_frames": 362,
+    "exact_frames": 360,
+    "active_dit_blocks": 50,
+    "reuse": 1,
+    "core_reuse": 1,
+    "reference_rope": true
+  },
+  "benchmarks": [
+    {
+      "id": "deepseek-whale-maid-15s-v1",
+      "seed": 83,
+      "prompt_file": "prompts/deepseek-whale-maid-15s-zh.txt",
+      "prompt_sha256": "fccc21a2e05295b2920af3b6a3a58e720d7d8f5f15f2e057986faecd4f95f0cc",
+      "prompt_bytes": 2233,
+      "prompt_tokens": 545,
+      "image_prefix_tokens": 6,
+      "image_sha256": "b1b4c9330f8e27fd95c770e610210b366ad30933a651f71d1e39401bf63cf24d",
+      "image_bytes": 208682,
+      "image_width": 1280,
+      "image_height": 720,
+      "checks": {
+        "temporal": "Single fixed medium shot; spoon-to-mouth, noticing camera, and tail timing across all 15 seconds.",
+        "texture": "Character identity from the first frame, blue hair, fin ears, maid clothing, rice and hand/spoon integrity.",
+        "audio": "No dialogue requested; inspect generated audio for artifacts without treating silence as required."
+      }
+    }
+  ]
+}
