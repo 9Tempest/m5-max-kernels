@@ -27,6 +27,9 @@ def test_harness_reference_and_timing(backend, precision):
     assert r["status"] == "ok", r
     assert len(r["timing"]["samples_ms"]) == 3
     assert r["quality_pass"]
+    if precision in {"int8", "fp8", "mxint8"}:
+        assert r["online_output_finite"]
+        assert r["online_implementation_error"]["relative_l2"] <= 0.008
 
 
 @pytest.mark.metal

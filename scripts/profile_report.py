@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import time
 
 from m5kernels.engine import write_result
 from m5kernels.locking import gpu_lock
@@ -45,17 +46,30 @@ def collect(trace, expected):
         result = objects(call("-s", session, "-c", "profile run --gpu-state default --exec serial"))
         if not result[-1].get("success"):
             raise RuntimeError(result)
-        timeline = objects(call("-s", session, "-c", "info /performance/timeline"))[-1]
+        # Materialize the completed collection before querying its lazily loaded tree.
+        call("-s", session, "-c", "profile embed")
+        call("-s", session, "-c", "profile load")
+        # Counter postprocessing can continue after the collection-complete callback.
+        for delay in (0, 1, 2, 4, 8, 16):
+            time.sleep(delay)
+            try:
+                timeline = objects(call("-s", session, "-c", "info /performance/timeline"))[-1]
+                break
+            except RuntimeError as exc:
+                if "has no info handler" not in str(exc) or delay == 16:
+                    raise
+
         listing = objects(call("-s", session, "-c", "go /performance/shaders", "-c", "list --all"))[
             -1
         ]
+        if not listing["children"]:
+            raise RuntimeError("Profiler returned no shaders; this is not a valid profile")
         shaders = []
         for shader in listing["children"]:
             detail = objects(
                 call("-s", session, "-c", f"info /performance/shaders/{shader['name']}")
             )[-1]
             shaders.append(dict(function=shader["values"][0]["value"], counters=detail))
-        call("-s", session, "-c", "profile embed")
         return dict(
             schema_version=1,
             trace_basename=trace.name,

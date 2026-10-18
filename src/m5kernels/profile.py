@@ -109,14 +109,30 @@ def run(args):
             mx.synchronize()
             mx.metal.start_capture(str(output))
             try:
-                # A fresh stream avoids a pre-capture encoder dropping the first dispatch.
-                with mx.stream(mx.new_stream(mx.gpu)):
-                    for _ in range(args.iterations):
-                        mx.eval(fn())
-                    mx.synchronize()
+                # Flush any encoder created before capture, on the workload stream.
+                marker = mx.fast.metal_kernel(
+                    name="capture_boundary",
+                    input_names=[],
+                    output_names=["Y"],
+                    source="Y[0] = 1;",
+                )
+                mx.eval(
+                    marker(
+                        inputs=[],
+                        grid=(1, 1, 1),
+                        threadgroup=(1, 1, 1),
+                        output_shapes=[(1,)],
+                        output_dtypes=[mx.int32],
+                    )
+                )
+                mx.synchronize()
+                for _ in range(args.iterations):
+                    mx.eval(fn())
+                mx.synchronize()
             finally:
                 mx.metal.stop_capture()
             doc["iterations"] = args.iterations
+
         else:
             start = time.monotonic()
             count = 0

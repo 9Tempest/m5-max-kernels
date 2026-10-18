@@ -37,6 +37,8 @@ Output paths are exclusive: choose a new filename for each experiment. Performan
 
 Native scaled INT8→FP32 TensorOps is not working in the tested stack. FP8 execution support alone does not establish a dedicated FP8 hardware speedup. FP32 TensorOps may use reduced-mantissa multiplication: the strict FP32 correctness gate must pass before promotion.
 
+For GPU counters, shader resource usage and CPU/GPU timelines, see the executable [profiling workflow](docs/profiling.md). Both Metal captures and an Instruments trace have been collected on the target machine.
+
 See [initial measured results](docs/initial-results.md), [methodology](docs/methodology.md), [H3 coverage](docs/h3-coverage.md), and [precision contracts](docs/precision.md). Raw records live in [results/published](results/published).
 
 ## Workload coverage

@@ -420,6 +420,17 @@ def run_case(
             quality_relative_l2_limit=quality_limit,
             quality_pass=quality_passed,
         )
+        # Validate the deployed path independently of its prequantized counterpart.
+        if "online_activation_plus_gemm" in stages:
+            online_y = stages["online_activation_plus_gemm"]()
+            mx.eval(online_y)
+            online_error = metrics(check(online_y), expected)
+            online_finite = bool(mx.all(mx.isfinite(online_y)).item())
+            result["online_implementation_error"] = online_error
+            result["online_output_finite"] = online_finite
+            passed = passed and online_finite and online_error["relative_l2"] <= tolerance
+            result["status"] = "ok" if passed else "incorrect"
+            del online_y
         # Never promote or benchmark an incorrect implementation.
         if passed:
             result["timing"] = timed(fn, warmup, repeat)
