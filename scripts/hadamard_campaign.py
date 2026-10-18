@@ -56,6 +56,8 @@ def main():
                 configurations = [("mlx", "bf16", case)]
                 for precision in args.precisions.split(","):
                     configurations.append(("mpp", precision, case))
+                    if precision != "int8":
+                        continue
                     for implementation in args.implementations.split(","):
                         for block in map(int, args.blocks.split(",")):
                             for sign in args.sign_seeds.split(","):

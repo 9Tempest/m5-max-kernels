@@ -1,5 +1,7 @@
 # Hadamard before quantized GEMM
 
+The active experiment compares **INT8 + Hadamard** with **unrotated FP8** as separate candidates. FP8 + Hadamard is outside scope; its earlier ablation records and backend compatibility are retained only for reproducibility.
+
 For row-major activation `A[M,K]` and weight `W[N,K]`, this experiment uses one shared orthogonal right rotation `R = D H`:
 
 ```
@@ -10,7 +12,7 @@ A' W'^T = A R R^T W^T = A W^T
 
 `H` is a block-diagonal normalized Sylvester Hadamard matrix. `D` is either identity (plain Hadamard) or a fixed diagonal of ±1 signs generated with a separate PCG64 seed. Exactly the same signs apply to every activation row and weight row; they are never regenerated per token or data seed. The block size, sign seed and SHA256 of the sign vector are recorded.
 
-Weights are rotated and quantized **offline**. Online inference rotates the activation, quantizes each rotated row, runs the existing INT8/FP8 TensorOps GEMM, then produces BF16 output. Both transforms accumulate and output FP32; there is no additional BF16 rounding between rotation and quantization. INT8 uses INT32 accumulation with the existing scale epilogue. The quantization scale remains per complete K row, not per Hadamard block.
+Weights are rotated and quantized **offline**. Online inference rotates the activation, quantizes each rotated row, runs the existing INT8 TensorOps GEMM, then produces BF16 output. Both transforms accumulate and output FP32; there is no additional BF16 rounding between rotation and quantization. INT8 uses INT32 accumulation with the existing scale epilogue. The quantization scale remains per complete K row, not per Hadamard block.
 
 This is a three-stage GPU composition (rotation → quantizer → GEMM), not a fused Hadamard/GEMM kernel. The custom rotation fuses the optional sign multiplication into its load. Its first five butterfly stages use SIMD shuffles; larger strides use threadgroup scratch and barriers. The comparison implementation uses MLX's built-in transform on FP32 blocks and includes its cast/sign multiplication in timing.
 
@@ -28,7 +30,7 @@ All three rotated candidates pass the unchanged 5% synthetic quality gate, inclu
 
 The same-tile FFN-down implementation comparison (128/128/8/8, seed29) isolates the added transform: unrotated INT8 is 8.059 ms with 8.84% error; Metal H256+INT8 is 9.051 ms with 1.22% error. The MLX Hadamard composition gives the same error at 10.795 ms. The retuned complete path in the table is 8.701 ms. Thus the benefit is improved INT8 accuracy while retaining a BF16 speed advantage, not a faster GEMM merely from rotation.
 
-FP8 does not benefit in this experiment: its FFN-down outlier error is 3.78% unrotated versus 3.88% with H256, while online latency increases from 11.335 to 12.223 ms on the same tile. Larger Hadamard blocks (512/1024 for FFN-down) and fixed random signs did not give a compelling improvement over plain H256 in this sweep; they remain explicit configurable experiments. No universal optimal-block or model-quality claim is made.
+Larger Hadamard blocks (512/1024 for FFN-down) and fixed random signs did not give a compelling improvement over plain H256 in this sweep; they remain explicit configurable experiments. No universal optimal-block or model-quality claim is made. The earlier FP8 + Hadamard ablation is preserved in the raw comparison record but is outside the active experiment policy.
 
 Evidence: [block/sign sweep](../results/published/2026-10-18-hadamard-block-sweep.json), [larger blocks](../results/published/2026-10-18-hadamard-large-blocks.json), [Q tuning](../results/published/2026-10-18-hadamard-q-tune.json), [FFN-up tuning](../results/published/2026-10-18-hadamard-up-tune.json), [FFN-down tuning](../results/published/2026-10-18-hadamard-down-tune.json), [independent outlier rerun](../results/published/2026-10-18-hadamard-independent-outliers.json), [normal rerun](../results/published/2026-10-18-hadamard-independent-normal.json), [same-tile Metal/MLX/FP8 ablation](../results/published/2026-10-18-hadamard-implementation-comparison.json). Unrotated seed29 errors are preserved in the [earlier outlier record](../results/published/2026-10-18-outliers-validation.json); the direct same-tile comparison also reproduces FFN-down’s error.
 
@@ -69,6 +71,8 @@ uv run python scripts/hadamard_campaign.py \
 ```
 
 Custom workload JSON can include `"hadamard": {"block_size": 256, "sign_seed": null, "implementation": "metal"}` on GEMM cases. Explicit CLI flags override these fields; unspecified flags preserve the workload settings. Defaults are block256, unsigned, Metal. `m5bench tune --tune-backend mpp-hadamard` tunes GEMM tiles while keeping the requested rotation fixed; it does not choose a rotation size or signs.
+
+The campaign defaults to INT8. With `--precisions int8,fp8`, it measures INT8 with and without Hadamard and adds unrotated FP8 as a separate comparator; it does not schedule FP8 + Hadamard.
 
 ## Measurement and numerical gates
 

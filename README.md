@@ -38,7 +38,7 @@ Output paths are exclusive: choose a new filename for each experiment. Performan
 | GEMM / linear projections | MLX; custom Metal TensorOps tiled GEMM | BF16, FP16, FP32; explicit tail handling |
 | W8A8 GEMM | Native INT8 TensorOps + INT32 accumulation + fused scale epilogue | Symmetric per-token activations, per-output-channel weights; BF16 output |
 | FP8 GEMM | E4M3 TensorOps + FP32 accumulator + fused scale epilogue | Per-token/channel scaling; K/row stride divisible by 128 |
-| Hadamard + INT8/FP8 GEMM | Custom Metal or MLX block rotation + existing TensorOps | Identical normalized rotation for A/W; offline W, online A; FP32 transform |
+| Hadamard + INT8 GEMM | Custom Metal or MLX block rotation + existing TensorOps | Identical normalized rotation for A/W; offline W, online A; FP32 transform; FP8 is a separate candidate |
 | MXINT8 | 32-element quantizer + explicit software dequantization | S1.6 factor folded into E8M0 scale; **not native MX acceleration** |
 | Attention | MLX fused SDPA; INT8/FP8/MXINT8 QDQ sensitivity experiment | QDQ runs BF16 SDPA; its timing is **not quantized attention throughput** |
 | RMSNorm + modulation | Compiled MLX; custom fused Metal | FP32 reduction, BF16/FP16/FP32 output |
