@@ -187,7 +187,10 @@ def main():
             raise ValueError("warmup >=1 and repeat >=3 required")
         if any(v <= 0 for v in args.tile) or args.tile[2] > 32:
             raise ValueError("invalid tile")
-        return _run(args) if args.command == "bench" else _tune(args)
+        from .locking import gpu_lock
+
+        with gpu_lock():
+            return _run(args) if args.command == "bench" else _tune(args)
     except (ValueError, KeyError, FileExistsError) as e:
         print(f"error: {e}", file=sys.stderr)
         return 2

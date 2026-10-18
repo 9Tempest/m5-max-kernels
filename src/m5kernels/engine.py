@@ -395,11 +395,12 @@ def run_case(
         )
         y = fn()
         mx.eval(y)
+        output_finite = bool(mx.all(mx.isfinite(y)).item())
         actual = check(y)
         impl = metrics(actual, expected)
         quality = metrics(actual, original)
         tolerance = 0.0001 if precision == "fp32" else (0.001 if precision == "fp16" else 0.008)
-        passed = impl["finite"] and impl["relative_l2"] <= tolerance
+        passed = output_finite and impl["finite"] and impl["relative_l2"] <= tolerance
         quality_limit = {
             "fp16": 0.001,
             "bf16": 0.008,
@@ -412,6 +413,7 @@ def run_case(
         result.update(
             meta,
             status="ok" if passed else "incorrect",
+            output_finite=output_finite,
             implementation_error=impl,
             quality_error=quality,
             implementation_relative_l2_limit=tolerance,

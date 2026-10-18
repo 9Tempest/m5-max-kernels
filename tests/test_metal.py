@@ -75,3 +75,12 @@ def test_fused_rms_modulation(n):
     z = np.asarray(x.astype(mx.float32)).astype(np.float64)
     ref = z / np.sqrt(np.mean(z * z, axis=-1, keepdims=True) + 1e-5) * 1.1 + 0.05
     assert metrics(np.asarray(y.astype(mx.float32)), ref)["relative_l2"] < 0.004
+
+
+def test_fp8_alignment_is_explicit():
+    a = mx.ones((2, 96))
+    b = mx.ones((3, 96))
+    aq, sa = quantize(a, "fp8")
+    bq, sb = quantize(b, "fp8")
+    with pytest.raises(NotImplementedError, match="stride"):
+        gemm(aq, bq, "fp8", a_scales=sa, b_scales=sb)

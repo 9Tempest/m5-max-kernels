@@ -124,6 +124,8 @@ def gemm(a, b, mode="bf16", tile=(64, 64, 4, 1), a_scales=None, b_scales=None, o
         raise NotImplementedError(
             "FP8 requires K/row stride divisible by 128; padding is not implicit"
         )
+    if mode == "int8" and k > 133144:
+        raise NotImplementedError("INT32 worst-case overflow bound exceeded")
     tm, tn, groups, swizzle = tile
     inputs = [a, b]
     if mode in {"int8", "fp8", "mxint8"}:
