@@ -14,6 +14,8 @@ def validate(c):
         "norm_hadamard_gemm": ("m", "n", "k"),
         "gated_norm_hadamard_gemm": ("m", "n", "k"),
         "rms_quant_gemm": ("m", "n", "k"),
+        "gate_epilogue_chain": ("m", "n", "k", "previous_k"),
+        "qk_rope": ("m", "n", "k"),
         "attention": ("batch", "heads", "seq", "head_dim"),
         "rms_modulate": ("m", "n"),
         "swiglu": ("m", "n"),

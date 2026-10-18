@@ -405,6 +405,18 @@ def prepare_rms_quant_gemm(c, backend, precision, seed, distribution, tile):
     return prepare(c, backend, precision, seed, distribution, tile)
 
 
+def prepare_gate_epilogue_chain(c, backend, precision, seed, distribution, tile):
+    from .gate_epilogue_chain import prepare
+
+    return prepare(c, backend, precision, seed, distribution, tile)
+
+
+def prepare_qk_rope(c, backend, precision, seed, distribution, tile):
+    from .qk_rope_experiment import prepare
+
+    return prepare(c, backend, precision, seed, distribution, tile)
+
+
 def run_case(
     c, backend, precision, seed=17, distribution="normal", warmup=3, repeat=10, tile=(64, 64, 4, 1)
 ):
@@ -421,10 +433,19 @@ def run_case(
     meta = {}
     try:
         # Conservative budget includes references and temporary activation buffers.
-        if c["op"] in {"gemm", "norm_hadamard_gemm", "gated_norm_hadamard_gemm", "rms_quant_gemm"}:
+        if c["op"] in {
+            "gemm",
+            "norm_hadamard_gemm",
+            "gated_norm_hadamard_gemm",
+            "rms_quant_gemm",
+            "gate_epilogue_chain",
+            "qk_rope",
+        }:
             est = (c["m"] * c["k"] + c["n"] * c["k"] + c["m"] * c["n"]) * 24
             if c["op"] == "gated_norm_hadamard_gemm":
                 est += c["m"] * c["k"] * 16
+            if c["op"] == "gate_epilogue_chain":
+                est += (c["m"] + c["k"]) * c["previous_k"] * 32
         elif c["op"] == "attention":
             est = c["batch"] * c["heads"] * c["seq"] * c["head_dim"] * 64
         else:
@@ -437,6 +458,8 @@ def run_case(
             "norm_hadamard_gemm": prepare_norm_hadamard_gemm,
             "gated_norm_hadamard_gemm": prepare_norm_hadamard_gemm,
             "rms_quant_gemm": prepare_rms_quant_gemm,
+            "gate_epilogue_chain": prepare_gate_epilogue_chain,
+            "qk_rope": prepare_qk_rope,
         }.get(c["op"], prepare_elementwise)
         fn, check, expected, original, stages, meta = prepare(
             c, backend, precision, seed, distribution, tile

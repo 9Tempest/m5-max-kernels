@@ -151,3 +151,38 @@ save(
         "Condition preparation is measured separately and in an inclusive stage."
     ),
 )
+save(
+    "h3-gate-epilogue",
+    [
+        dict(
+            id=f"h3.chain_{name}.m{m}",
+            op="gate_epilogue_chain",
+            m=m,
+            k=5376,
+            n=n,
+            previous_k=pk,
+            previous_tile=[128, 128, 8, 8] if pk == 14336 else [128, 64, 4, 8],
+            shape_origin="H3 branch+next-projection widths; synthetic inputs and shared modulation",
+        )
+        for m in [128, 4096, 9914]
+        for name, pk, n in [("attention_to_ffn", 7168, 14336), ("ffn_to_q", 14336, 7168)]
+    ],
+    description="Previous INT8 GEMM + BF16 gated residual + AdaLN/H256/INT8 + next GEMM; both outputs retained.",
+)
+save(
+    "h3-qk-rope",
+    [
+        dict(
+            id=f"h3.qk_rope.m{m}",
+            op="qk_rope",
+            m=m,
+            k=5376,
+            n=7168,
+            head_dim=128,
+            rope_half=48,
+            shape_origin="H3 Q or K projection; synthetic BF16 activations/gamma/trig tables",
+        )
+        for m in [128, 4096, 9914]
+    ],
+    description="One Q or K projection -> BF16 boundary -> per-head RMS/gamma -> partial RoPE -> head-major BF16; no norm BF16 round.",
+)

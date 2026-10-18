@@ -14,6 +14,8 @@ Further fusion combines **AdaLN + Hadamard + dynamic INT8 quantization** in one 
 
 Adding the preceding **gated residual update** to that fused preparation lowers Q4096 online latency by another 4–6% versus a separate gate-add dispatch, while preserving the updated BF16 residual output. The benefit varies by shape; Q9914 outliers show no improvement. [Repeated gated-fusion results](docs/gated-residual-fusion.md).
 
+Moving the gate further into the **preceding GEMM epilogue** preserves the BF16 branch/residual boundaries and yields a smaller 0.3–4.6% reduction across repeated large-shape two-projection chains. [Complete-chain experiment](docs/gate-epilogue-fusion.md). Independently, **Q/K projection + RMSNorm + RoPE** fusion reduces complete online latency by 13–14% at M4096 and about 18% at M9914, with exact paired outputs. This single-Q/K comparison includes input packing and head-major output; the upstream native runtime already has grouped QKV fusion. [Q/K results and contract](docs/qk-rope-fusion.md).
+
 The repository contains raw baseline/precision/tuning/holdout results, real before/after GPU counter reports and a target-filtered Instruments trace summary. See [results and limitations](docs/initial-results.md).
 
 RMS factors can be folded into INT8 dequant scales, including after Hadamard. The [scale-folding experiment](docs/rms-scale-folding.md) reduces synchronization but finds no stable overall speedup here. [Moving AdaLN shift into a projected output bias](docs/affine-shift-splitting.md) is also implemented as an alternate precision policy, with conditioning costs and negative results retained.
@@ -53,6 +55,8 @@ Output paths are exclusive: choose a new filename for each experiment. Performan
 | SwiGLU | Compiled MLX | Baseline for fusion experiments |
 | RMS + INT8 scale folding | Direct/folded Metal, optional H, 128/256/512 threads | Zero shift, FP32 intermediate; norm factor enters row scale |
 | Projected AdaLN shift | FP32 bias in INT8 GEMM epilogue | Shared vector or mapped table; explicit rounding-policy change and conditioning cost |
+| Gated GEMM epilogue | Gate in preceding projection versus gate in following norm | Preserves BF16 branch/residual boundaries; both projections and next preparation timed |
+| Q/K projection + RMSNorm + RoPE | Fused Metal versus GEMM plus standalone postprocess | Complete 128-wide heads; BF16 projection/output, FP32 normalization/rotation, direct head-major output |
 
 Native scaled INT8→FP32 TensorOps is not working in the tested stack. FP8 execution support alone does not establish a dedicated FP8 hardware speedup. FP32 TensorOps may use reduced-mantissa multiplication: the strict FP32 correctness gate must pass before promotion.
 

@@ -1,5 +1,7 @@
 # H3 coverage ledger
 
+Projection-epilogue follow-up: gated residual placement now has a full two-projection chain comparison, retaining the BF16 branch/residual/AdaLN boundaries and residual side output. Two seeds with reversed order give 0.3–4.6% lower online latency across M4096/M9914 chains; full residual/codes/scales agree exactly. Q/K projection + per-head RMS + RoPE + head-major output has a separate synthetic INT8/H256 comparison, with exact paired outputs and 13–14% / about 18% online reductions at M4096/M9914. Small-M timings do not support promotion. The native upstream runtime already fuses grouped QKV/RMS/RoPE; our single-projection measurements do not establish native runtime improvement. [Gate epilogue](gate-epilogue-fusion.md), [Q/K epilogue](qk-rope-fusion.md).
+
 RMS algebra follow-up: zero-shift RMS/weighted RMS/H256 scale folding is implemented and measured at Q-sized M4096 across two seeds and 256/512-thread candidates. Fewer synchronizations did not establish a stable full-path speedup. Weighted RMS without H exceeds the synthetic outlier quality budget. Projecting nonzero shift into an output bias is also measured, including condition preparation, for shared P=1 only; no performance promotion. Bias-table maps have correctness coverage; actual H3 schedule-wide cache integration and model quality remain unmeasured. [Scale folding](rms-scale-folding.md), [shift splitting and cache costs](affine-shift-splitting.md).
 
 Pinned official configuration revision: `42ed227ee7df40d41602854ae760620d6eb651fe`. Projection semantics were checked against the pinned Diffusers transformer source linked in sources/README.md. This ledger distinguishes **operator microbenchmarks** from a complete H3 deployment.
@@ -13,7 +15,8 @@ Pinned official configuration revision: `42ed227ee7df40d41602854ae760620d6eb651f
 | FFN down | [T,14336] × [5376,14336]ᵀ | MLX and custom MPP |
 | Pre-norm / AdaLN application | Width 5376, FP32 RMS reduction | Compiled MLX and fused Metal; one shared modulation vector microbenchmark |
 | Gated residual into next AdaLN | BF16 residual update, then RMS/modulation, H256 and per-token INT8 packing | Separate gate + prior fused preparation compared with fused gate/preparation; both retain updated residual; synthetic Q/FFN-up results |
-| Q/K normalization | Per-head RMS width 128 | Fused RMS kernel supports width, but isolated QK norm/RoPE composition not benchmarked |
+| Q/K normalization and RoPE | Per-head RMS width 128; 48 split-half rotary pairs | Independent fused projection/RMS/RoPE and staged comparator, native BF16 boundaries and head-major output; single Q/K synthetic microbenchmark, grouped QKV integration pending |
+| Gated preceding projection | Attention output or FFN-down into next AdaLN/H256/INT8 projection | Gate in GEMM epilogue versus gate in next preparation; both projections and residual output included |
 | Text refiner | Two transformer blocks, same projection widths | Shape-equivalent GEMMs covered; block integration pending |
 | Text input projection | 5120→5376 | GEMM core; bias not fused |
 | Video input / output | 96↔5376 (24×1×2×2 patch) | GEMM core; patchification/bias pending |

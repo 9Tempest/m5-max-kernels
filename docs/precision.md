@@ -1,5 +1,9 @@
 # Precision and backend contracts
 
+The [gated GEMM epilogue](gate-epilogue-fusion.md) casts the projection to BF16 **before** multiplying by the gate, then casts the updated residual to BF16. Removing the intermediate device buffer does not remove either rounding boundary. The two-projection chain retains the residual output and the following AdaLN BF16 boundary.
+
+The [Q/K epilogue](qk-rope-fusion.md) follows the pinned native H3 contract: BF16 projection, per-head FP32 RMS/gamma, split-half RoPE on the first 96 of 128 channels, then BF16 head-major output. There is no intermediate BF16 normalization round. Gamma precedes the rotation. The single-projection API supports INT8/BF16; the measured INT8 experiment uses common online H256 packing and offline weight preparation. Grouped QKV and complete attention are separate integration work.
+
 The [RMS scale-folded path](rms-scale-folding.md) permits zero shift and FP32 intermediates only. Codes derive from `(x*gamma) D H`; inverse RMS enters the row scale. The maximum follows gamma and H, while square sums use original x. Codes may differ by one near FP32 quantization midpoints. A zero transformed row uses Q=0/S=1. This does not preserve the post-AdaLN BF16 boundary.
 
 The [shift-split path](affine-shift-splitting.md) adds `beta @ original_BF16_W.T` as FP32 output bias after INT8 dequantization and before BF16 output rounding. It is a mixed precision policy: rotated INT8 weights for the dynamic branch, original weights for the shift branch. Bias preparation is per condition. Shared vectors and independently mapped FP32 bias tables are supported; table bounds and finite values are caller preconditions checked outside timing. Cancellation can make split quantization less accurate than quantizing the complete affine activation.

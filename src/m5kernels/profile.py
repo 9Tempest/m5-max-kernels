@@ -16,6 +16,8 @@ from .engine import (
     prepare_elementwise,
     prepare_norm_hadamard_gemm,
     prepare_rms_quant_gemm,
+    prepare_gate_epilogue_chain,
+    prepare_qk_rope,
     all_finite,
     write_result,
 )
@@ -37,6 +39,8 @@ def workload(args):
         "norm_hadamard_gemm": prepare_norm_hadamard_gemm,
         "gated_norm_hadamard_gemm": prepare_norm_hadamard_gemm,
         "rms_quant_gemm": prepare_rms_quant_gemm,
+        "gate_epilogue_chain": prepare_gate_epilogue_chain,
+        "qk_rope": prepare_qk_rope,
     }.get(case["op"], prepare_elementwise)
     fn, check, expected, original, stages, meta = prepare(
         case, args.backend, args.precision, args.seed, "normal", tuple(args.tile)
