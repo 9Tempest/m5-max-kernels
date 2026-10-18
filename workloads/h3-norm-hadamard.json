@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "description": "RMSNorm/AdaLN + H256 + INT8 + projection; shared modulation vector, native BF16 rounding boundary. 128/4096 synthetic; 9914 is the integration task's 512x512 124-frame request (9472 video + 414 audio + 28 text), still synthetic tensor values.",
+  "cases": [
+    {
+      "id": "h3.norm_q.m128",
+      "op": "norm_hadamard_gemm",
+      "m": 128,
+      "n": 7168,
+      "k": 5376,
+      "fusion": {
+        "norm": "rms",
+        "block_size": 256,
+        "round_output": "input"
+      },
+      "shape_origin": "official H3 widths; scenario token count recorded explicitly"
+    },
+    {
+      "id": "h3.norm_ffn_up.m128",
+      "op": "norm_hadamard_gemm",
+      "m": 128,
+      "n": 14336,
+      "k": 5376,
+      "fusion": {
+        "norm": "rms",
+        "block_size": 256,
+        "round_output": "input"
+      },
+      "shape_origin": "official H3 widths; scenario token count recorded explicitly"
+    },
+    {
+      "id": "h3.norm_q.m4096",
+      "op": "norm_hadamard_gemm",
+      "m": 4096,
+      "n": 7168,
+      "k": 5376,
+      "fusion": {
+        "norm": "rms",
+        "block_size": 256,
+        "round_output": "input"
+      },
+      "shape_origin": "official H3 widths; scenario token count recorded explicitly"
+    },
+    {
+      "id": "h3.norm_ffn_up.m4096",
+      "op": "norm_hadamard_gemm",
+      "m": 4096,
+      "n": 14336,
+      "k": 5376,
+      "fusion": {
+        "norm": "rms",
+        "block_size": 256,
+        "round_output": "input"
+      },
+      "shape_origin": "official H3 widths; scenario token count recorded explicitly"
+    },
+    {
+      "id": "h3.norm_q.m9914",
+      "op": "norm_hadamard_gemm",
+      "m": 9914,
+      "n": 7168,
+      "k": 5376,
+      "fusion": {
+        "norm": "rms",
+        "block_size": 256,
+        "round_output": "input"
+      },
+      "shape_origin": "official H3 widths; scenario token count recorded explicitly"
+    },
+    {
+      "id": "h3.norm_ffn_up.m9914",
+      "op": "norm_hadamard_gemm",
+      "m": 9914,
+      "n": 14336,
+      "k": 5376,
+      "fusion": {
+        "norm": "rms",
+        "block_size": 256,
+        "round_output": "input"
+      },
+      "shape_origin": "official H3 widths; scenario token count recorded explicitly"
+    }
+  ]
+}

@@ -64,3 +64,125 @@ save(
     c,
     description="H3 text encoder / Qwen3-VL-32B projection shapes; supports decode and prefill studies.",
 )
+save(
+    "h3-norm-hadamard",
+    [
+        dict(
+            id=f"h3.norm_{name}.m{m}",
+            op="norm_hadamard_gemm",
+            m=m,
+            n=n,
+            k=5376,
+            fusion=dict(norm="rms", block_size=256, round_output="input"),
+            shape_origin="official H3 widths; scenario token count recorded explicitly",
+        )
+        for m in [128, 4096, 9914]
+        for name, n in [("q", 7168), ("ffn_up", 14336)]
+    ],
+    description=(
+        "RMSNorm/AdaLN + H256 + INT8 + projection; shared modulation vector, native BF16 "
+        "rounding boundary. 128/4096 synthetic; 9914 is the integration task's 512x512 "
+        "124-frame request (9472 video + 414 audio + 28 text), still synthetic tensor values."
+    ),
+)
+save(
+    "h3-gated-norm-hadamard",
+    [
+        dict(
+            id=f"h3.gated_{name}.m{m}",
+            op="gated_norm_hadamard_gemm",
+            m=m,
+            n=n,
+            k=5376,
+            fusion=dict(norm="rms", block_size=256, round_output="input"),
+            shape_origin="official H3 widths; scenario token count recorded explicitly",
+        )
+        for m in [128, 4096, 9914]
+        for name, n in [("q", 7168), ("ffn_up", 14336)]
+    ],
+    description=(
+        "Gated residual add + RMSNorm/AdaLN + H256 + INT8 + projection, including the "
+        "updated BF16 residual output. Shared gate and upcoming modulation are independent; "
+        "synthetic values. 9914 matches the integration request's recorded token count."
+    ),
+)
+save(
+    "rms-quant",
+    [
+        dict(
+            id=f"rms.{name}.m{m}",
+            op="rms_quant_gemm",
+            m=m,
+            n=7168,
+            k=5376,
+            rms_quant=dict(block_size=block, gamma=gamma, threads=256, epsilon=1e-5),
+            shape_origin="H3 Q widths; synthetic zero-shift RMS inputs, alternate FP32 contract",
+        )
+        for m in [4096, 9914]
+        for name, gamma, block in [
+            ("plain", "identity", 1),
+            ("weighted", "random", 1),
+            ("weighted_h256", "random", 256),
+        ]
+    ],
+    description=(
+        "Direct versus scale-folded RMS dynamic INT8 preparation + Q-sized GEMM. "
+        "No additive shift or BF16 normalized intermediate. This is not the H3 AdaLN contract. "
+        "Identical BF16 inputs/weights and FP32 gamma within each paired seed."
+    ),
+)
+save(
+    "h3-shift-split",
+    [
+        dict(
+            id=f"h3.shift_q.m{m}",
+            op="norm_hadamard_gemm",
+            m=m,
+            n=7168,
+            k=5376,
+            fusion=dict(norm="rms", block_size=256, round_output="fp32", threads=256),
+            shape_origin="H3 projection widths; synthetic shared conditioning row, alternate FP32 contract",
+        )
+        for m in [4096, 9914]
+    ],
+    description=(
+        "Move AdaLN shift through GEMM to a projected bias and fold RMS into activation scales. "
+        "Shared P=1 condition microbenchmark; original BF16 weights for bias, INT8 main GEMM. "
+        "Condition preparation is measured separately and in an inclusive stage."
+    ),
+)
+save(
+    "h3-gate-epilogue",
+    [
+        dict(
+            id=f"h3.chain_{name}.m{m}",
+            op="gate_epilogue_chain",
+            m=m,
+            k=5376,
+            n=n,
+            previous_k=pk,
+            previous_tile=[128, 128, 8, 8] if pk == 14336 else [128, 64, 4, 8],
+            shape_origin="H3 branch+next-projection widths; synthetic inputs and shared modulation",
+        )
+        for m in [128, 4096, 9914]
+        for name, pk, n in [("attention_to_ffn", 7168, 14336), ("ffn_to_q", 14336, 7168)]
+    ],
+    description="Previous INT8 GEMM + BF16 gated residual + AdaLN/H256/INT8 + next GEMM; both outputs retained.",
+)
+save(
+    "h3-qk-rope",
+    [
+        dict(
+            id=f"h3.qk_rope.m{m}",
+            op="qk_rope",
+            m=m,
+            k=5376,
+            n=7168,
+            head_dim=128,
+            rope_half=48,
+            shape_origin="H3 Q or K projection; synthetic BF16 activations/gamma/trig tables",
+        )
+        for m in [128, 4096, 9914]
+    ],
+    description="One Q or K projection -> BF16 boundary -> per-head RMS/gamma -> partial RoPE -> head-major BF16; no norm BF16 round.",
+)

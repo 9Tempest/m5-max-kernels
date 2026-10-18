@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "description": "One Q or K projection -> BF16 boundary -> per-head RMS/gamma -> partial RoPE -> head-major BF16; no norm BF16 round.",
+  "cases": [
+    {
+      "id": "h3.qk_rope.m128",
+      "op": "qk_rope",
+      "m": 128,
+      "k": 5376,
+      "n": 7168,
+      "head_dim": 128,
+      "rope_half": 48,
+      "shape_origin": "H3 Q or K projection; synthetic BF16 activations/gamma/trig tables"
+    },
+    {
+      "id": "h3.qk_rope.m4096",
+      "op": "qk_rope",
+      "m": 4096,
+      "k": 5376,
+      "n": 7168,
+      "head_dim": 128,
+      "rope_half": 48,
+      "shape_origin": "H3 Q or K projection; synthetic BF16 activations/gamma/trig tables"
+    },
+    {
+      "id": "h3.qk_rope.m9914",
+      "op": "qk_rope",
+      "m": 9914,
+      "k": 5376,
+      "n": 7168,
+      "head_dim": 128,
+      "rope_half": 48,
+      "shape_origin": "H3 Q or K projection; synthetic BF16 activations/gamma/trig tables"
+    }
+  ]
+}

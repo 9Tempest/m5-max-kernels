@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "description": "Previous INT8 GEMM + BF16 gated residual + AdaLN/H256/INT8 + next GEMM; both outputs retained.",
+  "cases": [
+    {
+      "id": "h3.chain_attention_to_ffn.m128",
+      "op": "gate_epilogue_chain",
+      "m": 128,
+      "k": 5376,
+      "n": 14336,
+      "previous_k": 7168,
+      "previous_tile": [
+        128,
+        64,
+        4,
+        8
+      ],
+      "shape_origin": "H3 branch+next-projection widths; synthetic inputs and shared modulation"
+    },
+    {
+      "id": "h3.chain_ffn_to_q.m128",
+      "op": "gate_epilogue_chain",
+      "m": 128,
+      "k": 5376,
+      "n": 7168,
+      "previous_k": 14336,
+      "previous_tile": [
+        128,
+        128,
+        8,
+        8
+      ],
+      "shape_origin": "H3 branch+next-projection widths; synthetic inputs and shared modulation"
+    },
+    {
+      "id": "h3.chain_attention_to_ffn.m4096",
+      "op": "gate_epilogue_chain",
+      "m": 4096,
+      "k": 5376,
+      "n": 14336,
+      "previous_k": 7168,
+      "previous_tile": [
+        128,
+        64,
+        4,
+        8
+      ],
+      "shape_origin": "H3 branch+next-projection widths; synthetic inputs and shared modulation"
+    },
+    {
+      "id": "h3.chain_ffn_to_q.m4096",
+      "op": "gate_epilogue_chain",
+      "m": 4096,
+      "k": 5376,
+      "n": 7168,
+      "previous_k": 14336,
+      "previous_tile": [
+        128,
+        128,
+        8,
+        8
+      ],
+      "shape_origin": "H3 branch+next-projection widths; synthetic inputs and shared modulation"
+    },
+    {
+      "id": "h3.chain_attention_to_ffn.m9914",
+      "op": "gate_epilogue_chain",
+      "m": 9914,
+      "k": 5376,
+      "n": 14336,
+      "previous_k": 7168,
+      "previous_tile": [
+        128,
+        64,
+        4,
+        8
+      ],
+      "shape_origin": "H3 branch+next-projection widths; synthetic inputs and shared modulation"
+    },
+    {
+      "id": "h3.chain_ffn_to_q.m9914",
+      "op": "gate_epilogue_chain",
+      "m": 9914,
+      "k": 5376,
+      "n": 7168,
+      "previous_k": 14336,
+      "previous_tile": [
+        128,
+        128,
+        8,
+        8
+      ],
+      "shape_origin": "H3 branch+next-projection widths; synthetic inputs and shared modulation"
+    }
+  ]
+}

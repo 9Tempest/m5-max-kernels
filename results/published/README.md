@@ -41,3 +41,46 @@ The local full captures corresponding to the two GPU reports are `results/local/
 | [2026-10-18-hadamard-large-blocks.json](2026-10-18-hadamard-large-blocks.json) | 12 ok; 1 quality rejections |
 | [2026-10-18-hadamard-q-tune.json](2026-10-18-hadamard-q-tune.json) | 8 ok |
 | [2026-10-18-hadamard-up-tune.json](2026-10-18-hadamard-up-tune.json) | 8 ok |
+
+## AdaLN + Hadamard + INT8 fusion
+
+See the [fusion report](../../docs/norm-hadamard-fusion.md) for timing scopes, rounding boundaries and measured coverage.
+
+| Record | Contents |
+|---|---|
+| [2026-10-18-norm-hadamard-sweep.json](2026-10-18-norm-hadamard-sweep.json) | Seed17, 128/256 threads and one/two input reads, 12 ok |
+| [2026-10-18-norm-hadamard-independent.json](2026-10-18-norm-hadamard-independent.json) | Seed29, normal/outliers, Q M128/4096/9914 and FFN-up M4096, 24 ok |
+| [2026-10-18-norm-hadamard-rerun.json](2026-10-18-norm-hadamard-rerun.json) | Independent seed43 normal-input rerun, 12 ok |
+| [2026-10-18-norm-hadamard-fused-profile.json](2026-10-18-norm-hadamard-fused-profile.json) | One fused preparation + one GEMM dispatch; register/spill counters |
+| [2026-10-18-norm-hadamard-staged-profile.json](2026-10-18-norm-hadamard-staged-profile.json) | AdaLN + Hadamard + quantization + GEMM: four dispatches |
+| [2026-10-18-norm-hadamard-128-profile.json](2026-10-18-norm-hadamard-128-profile.json) | Slower 128-thread buffered variant: 208 spilled bytes in preparation |
+
+## Gated residual + AdaLN + Hadamard + INT8 fusion
+
+See the [gated fusion report](../../docs/gated-residual-fusion.md) for the fair separate-gate comparator, retained BF16 residual output, repeated results and the initial timing anomaly. The seed29/43 online comparison includes writing the updated residual; profile percentages have a separate serial-replay scope.
+
+| Record | Contents |
+|---|---|
+| [2026-10-18-gated-norm-sweep.json](2026-10-18-gated-norm-sweep.json) | Seed17 Q4096 normal/outliers, 128/256 threads and one/two reads, 12 ok; initial timing anomaly retained |
+| [2026-10-18-gated-norm-independent.json](2026-10-18-gated-norm-independent.json) | Seed29 Q4096/9914 and FFN-up4096 normal/outliers, 18 ok |
+| [2026-10-18-gated-norm-rerun.json](2026-10-18-gated-norm-rerun.json) | Independent seed43 comparison on the same three shapes/distributions, 18 ok |
+| [2026-10-18-gated-norm-separate-profile.json](2026-10-18-gated-norm-separate-profile.json) | Gate addition + existing fused norm/Hadamard/quantizer + GEMM: three dispatches |
+| [2026-10-18-gated-norm-fused-profile.json](2026-10-18-gated-norm-fused-profile.json) | Gated preparation + GEMM: two dispatches; preparation has 52 temporary registers and zero spills |
+
+## RMS scale folding and affine shift splitting
+
+See [RMS results](../../docs/rms-scale-folding.md) and [affine policy/costs](../../docs/affine-shift-splitting.md). No full-path performance promotion is claimed. Each RMS campaign has 12 correct records and two weighted/no-H outlier quality rejections; each shift campaign has six correct, quality-passing records.
+
+| Records (2026-10-18 prefix) | Contents |
+|---|---|
+| `rms-quant-initial`, `rms-quant-initial-rerun` | Seed29/43; eager-gamma folded shader, initial negative result |
+| `rms-quant-scheduled`, `rms-quant-scheduled-rerun` | Delayed gamma schedule, same 256 threads; approximately tied |
+| `rms-quant-512-independent`, `rms-quant-512-rerun` | 512 threads, 50 warmups; no stable full-path gain |
+| `rms-direct-profile`, `rms-folded-initial-profile`, `rms-folded-scheduled-profile` | Two dispatches each; preparation temporary registers 72/96/75, no preparation spills |
+| `shift-split-independent`, `shift-split-rerun` | Native-boundary/full-FP32/split policies, including P1 condition cost |
+| `shift-split-native-bias`, `shift-split-native-bias-rerun` | Native BF16-to-FP32 bias construction, 50 warmups; complete path still slower |
+| `shift-split-profile` | Cached split preparation plus fused-bias INT8 GEMM, two dispatches |
+| `bias-cache-independent`, `bias-cache-rerun` | Eight records each: P1/3/60/117, FP32-converting MLX vs BF16-input/FP32-output MPP |
+| `shift-split-reference-failure` | Preserved incorrect/not-timed development record: algebraic reference mixed unrounded and FP32-rounded targets; fixed by comparing the same mathematical expression, without loosening its tolerance |
+
+Filenames end in `.json`. All files were copied byte-for-byte from immutable local records. The historical RMS shader versions are preserved in `experiments/rms-scale-folding/`. Large `.gputrace` bundles remain local.

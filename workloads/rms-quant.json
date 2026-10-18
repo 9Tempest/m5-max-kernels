@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "description": "Direct versus scale-folded RMS dynamic INT8 preparation + Q-sized GEMM. No additive shift or BF16 normalized intermediate. This is not the H3 AdaLN contract. Identical BF16 inputs/weights and FP32 gamma within each paired seed.",
+  "cases": [
+    {
+      "id": "rms.plain.m4096",
+      "op": "rms_quant_gemm",
+      "m": 4096,
+      "n": 7168,
+      "k": 5376,
+      "rms_quant": {
+        "block_size": 1,
+        "gamma": "identity",
+        "threads": 256,
+        "epsilon": 1e-05
+      },
+      "shape_origin": "H3 Q widths; synthetic zero-shift RMS inputs, alternate FP32 contract"
+    },
+    {
+      "id": "rms.weighted.m4096",
+      "op": "rms_quant_gemm",
+      "m": 4096,
+      "n": 7168,
+      "k": 5376,
+      "rms_quant": {
+        "block_size": 1,
+        "gamma": "random",
+        "threads": 256,
+        "epsilon": 1e-05
+      },
+      "shape_origin": "H3 Q widths; synthetic zero-shift RMS inputs, alternate FP32 contract"
+    },
+    {
+      "id": "rms.weighted_h256.m4096",
+      "op": "rms_quant_gemm",
+      "m": 4096,
+      "n": 7168,
+      "k": 5376,
+      "rms_quant": {
+        "block_size": 256,
+        "gamma": "random",
+        "threads": 256,
+        "epsilon": 1e-05
+      },
+      "shape_origin": "H3 Q widths; synthetic zero-shift RMS inputs, alternate FP32 contract"
+    },
+    {
+      "id": "rms.plain.m9914",
+      "op": "rms_quant_gemm",
+      "m": 9914,
+      "n": 7168,
+      "k": 5376,
+      "rms_quant": {
+        "block_size": 1,
+        "gamma": "identity",
+        "threads": 256,
+        "epsilon": 1e-05
+      },
+      "shape_origin": "H3 Q widths; synthetic zero-shift RMS inputs, alternate FP32 contract"
+    },
+    {
+      "id": "rms.weighted.m9914",
+      "op": "rms_quant_gemm",
+      "m": 9914,
+      "n": 7168,
+      "k": 5376,
+      "rms_quant": {
+        "block_size": 1,
+        "gamma": "random",
+        "threads": 256,
+        "epsilon": 1e-05
+      },
+      "shape_origin": "H3 Q widths; synthetic zero-shift RMS inputs, alternate FP32 contract"
+    },
+    {
+      "id": "rms.weighted_h256.m9914",
+      "op": "rms_quant_gemm",
+      "m": 9914,
+      "n": 7168,
+      "k": 5376,
+      "rms_quant": {
+        "block_size": 256,
+        "gamma": "random",
+        "threads": 256,
+        "epsilon": 1e-05
+      },
+      "shape_origin": "H3 Q widths; synthetic zero-shift RMS inputs, alternate FP32 contract"
+    }
+  ]
+}
