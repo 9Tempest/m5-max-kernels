@@ -130,6 +130,10 @@ def prepare_gemm(c, backend, precision, seed, distribution, tile):
     stages = {}
     path = ""
     quant = False
+    if backend == "mpp-hadamard":
+        from .hadamard_gemm import prepare
+
+        return prepare(c, x, w, ri, ci, original, precision, tile)
     if backend == "mlx":
         if precision not in {"bf16", "fp16", "fp32"}:
             raise NotImplementedError("MLX baseline uses floating point operands; no A8 claim")
@@ -408,7 +412,12 @@ def run_case(
         impl = metrics(actual, expected)
         quality = metrics(actual, original)
         tolerance = 0.0001 if precision == "fp32" else (0.001 if precision == "fp16" else 0.008)
-        passed = output_finite and impl["finite"] and impl["relative_l2"] <= tolerance
+        passed = (
+            output_finite
+            and impl["finite"]
+            and impl["relative_l2"] <= tolerance
+            and meta.get("transform_pass", True)
+        )
         quality_limit = {
             "fp16": 0.001,
             "bf16": 0.008,

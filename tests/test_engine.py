@@ -64,3 +64,35 @@ def test_elementwise_distribution_reaches_reference(op):
     assert np.all(references["zeros"] == references["zeros"][0, 0])
     if op == "swiglu":
         assert np.all(references["zeros"] == 0)
+
+
+@pytest.mark.metal
+@pytest.mark.skipif(sys.platform != "darwin", reason="requires Metal")
+@pytest.mark.parametrize("precision", ["int8", "fp8"])
+@pytest.mark.parametrize("distribution", ["normal", "zeros", "outliers"])
+def test_hadamard_gemm_harness(precision, distribution):
+    from m5kernels.engine import run_case
+
+    case = dict(
+        id="rotated",
+        op="gemm",
+        m=65,
+        n=33,
+        k=512,
+        hadamard=dict(block_size=128, sign_seed=0, implementation="metal"),
+    )
+    r = run_case(
+        case,
+        "mpp-hadamard",
+        precision,
+        distribution=distribution,
+        warmup=1,
+        repeat=3,
+        tile=(32, 64, 4, 8),
+    )
+    assert r["status"] == "ok", r
+    assert r["transform_pass"] and r["online_output_finite"]
+    assert r["transform"]["float64_dot_preservation_error"]["relative_l2"] <= 1e-12
+    assert "activation_hadamard_plus_quantization" in r["stages"]
+    assert not r["weight_rotation_timed"]
+    assert not r["weight_quantization_timed"]
