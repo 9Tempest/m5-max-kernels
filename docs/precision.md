@@ -12,7 +12,7 @@ The MXINT8 encoder chooses `e=floor(log2(amax))`, `q=clip(round(x*64/2^e),-127,1
 
 Quantization is symmetric, round-to-nearest-even, and has no zero point. Finite-value references reject nonfinite inputs. General NaN/Inf propagation is not part of the quantizer's contract. INT32 dot products require a safe reduction length: for worst-case [-127,127] operands K must not exceed 133144. Current H3 shapes are below that limit.
 
-Native scaled INT8 TensorOps with floating accumulation currently fails compilation in the tested macOS 27.1 stack. This is a failed **specific API path**, not proof that every possible MXINT8 implementation or M5 hardware feature is unavailable. The explicit software fallback measures numerical effects; its decoded weights consume BF16 memory and it is not a compressed deployment.
+Native scaled INT8 TensorOps with floating accumulation currently fails compilation in the tested macOS 27.0.1 / Xcode 27.1 stack. This is a failed **specific API path**, not proof that every possible MXINT8 implementation or M5 hardware feature is unavailable. The explicit software fallback measures numerical effects; its decoded weights consume BF16 memory and it is not a compressed deployment.
 
 FP8 tensors have alignment constraints. The current adapter requires K (the contiguous row stride) divisible by 128. Unsupported shapes are reported; no hidden padding or conversion is excluded from latency. Use `int8` or `bf16` for other shapes until a timed padding adapter is added.
 

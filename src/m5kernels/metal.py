@@ -15,23 +15,23 @@ HEADER = (
 
 
 @lru_cache(None)
-def _quant_kernel(mode):
+def _quant_kernel(mode, tag="packed"):
     src = (KERNELS / "quantize.metal").read_text()
     src = src.replace("$BLOCK", "true" if mode == "mxint8" else "false")
     src = src.replace("$FP8", "true" if mode == "fp8" else "false")
     return mx.fast.metal_kernel(
-        name="quant_" + mode, input_names=["X"], output_names=["Q", "S"], source=src
+        name="quant_" + mode + "_" + tag, input_names=["X"], output_names=["Q", "S"], source=src
     )
 
 
-def quantize(x, mode):
+def quantize(x, mode, tag="packed"):
     """Return packed bytes and scales; MX scales include the S1.6 /64 adjustment."""
     rows, k = x.shape
     if mode == "mxint8" and k % 32:
         raise ValueError("MXINT8 requires K divisible by 32")
     blocks = rows * k // 32 if mode == "mxint8" else rows
     return tuple(
-        _quant_kernel(mode)(
+        _quant_kernel(mode, tag)(
             inputs=[x],
             grid=(blocks * 256, 1, 1),
             threadgroup=(256, 1, 1),

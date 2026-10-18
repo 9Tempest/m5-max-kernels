@@ -157,11 +157,11 @@ def prepare_gemm(c, backend, precision, seed, distribution, tile):
                 return gemm(aq, bq, precision, tile, a_scales=sa, b_scales=sb, output_dtype=dtype)
 
             def online():
-                q, s = quantize(x, precision)
+                q, s = quantize(x, precision, tag="online")
                 return gemm(q, bq, precision, tile, a_scales=s, b_scales=sb, output_dtype=dtype)
 
             stages = {
-                "activation_quantization": lambda: quantize(x, precision),
+                "activation_quantization": lambda: quantize(x, precision, tag="stage"),
                 "online_activation_plus_gemm": online,
             }
             path = "tensorops_int8_int32" if precision == "int8" else "tensorops_e4m3_float32"
@@ -189,11 +189,11 @@ def prepare_gemm(c, backend, precision, seed, distribution, tile):
             return _dequant_mlx(aq, sa, "mxint8").astype(mx.bfloat16) @ wd.T
 
         def online():
-            q, s = quantize(x, "mxint8")
+            q, s = quantize(x, "mxint8", tag="online")
             return _dequant_mlx(q, s, "mxint8").astype(mx.bfloat16) @ wd.T
 
         stages = {
-            "activation_quantization": lambda: quantize(x, "mxint8"),
+            "activation_quantization": lambda: quantize(x, "mxint8", tag="stage"),
             "online_activation_plus_gemm": online,
         }
         path = "software_mxint8_dequantize_then_bf16_matmul"
