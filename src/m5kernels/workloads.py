@@ -16,6 +16,7 @@ def validate(c):
         "rms_quant_gemm": ("m", "n", "k"),
         "gate_epilogue_chain": ("m", "n", "k", "previous_k"),
         "qk_rope": ("m", "n", "k"),
+        "grouped_qkv": ("m", "n", "k", "heads"),
         "attention": ("batch", "heads", "seq", "head_dim"),
         "rms_modulate": ("m", "n"),
         "swiglu": ("m", "n"),

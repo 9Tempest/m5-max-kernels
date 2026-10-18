@@ -16,6 +16,10 @@ Adding the preceding **gated residual update** to that fused preparation lowers 
 
 Moving the gate further into the **preceding GEMM epilogue** preserves the BF16 branch/residual boundaries and yields a smaller 0.3–4.6% reduction across repeated large-shape two-projection chains. [Complete-chain experiment](docs/gate-epilogue-fusion.md). Independently, **Q/K projection + RMSNorm + RoPE** fusion reduces complete online latency by 13–14% at M4096 and about 18% at M9914, with exact paired outputs. This single-Q/K comparison includes input packing and head-major output; the upstream native runtime already has grouped QKV fusion. [Q/K results and contract](docs/qk-rope-fusion.md).
 
+The [matched grouped QKV comparison](docs/grouped-qkv-native.md) now includes V, all output layouts and native activation packing under one common Metal driver. Against the unchanged pinned h3.c fusion, our candidate is **5.7–7.5% slower at M4096 and 5.1–5.4% slower at M9914** across two seeds. V is bit-identical; Q/K preserve BF16 rounding with paired error below 2.44e-5, and ordered RMS can restore exact bits. Normal inputs pass the quality screen; both unrotated INT8 paths reject the outlier cases. Native remains the preferred large-shape baseline. The harness retains all tile/scratch/K-specialization experiments and Metal traces for further work.
+
+A same-buffer, alternating-order M128 cross-check gives 6.7–6.8% lower candidate wall latency across two seeds (about 5.3–5.8% lower supplemental GPU command duration). This small-shape result does not change the large-shape preference for native. See [grouped QKV evidence](docs/grouped-qkv-native.md).
+
 The repository contains raw baseline/precision/tuning/holdout results, real before/after GPU counter reports and a target-filtered Instruments trace summary. See [results and limitations](docs/initial-results.md).
 
 RMS factors can be folded into INT8 dequant scales, including after Hadamard. The [scale-folding experiment](docs/rms-scale-folding.md) reduces synchronization but finds no stable overall speedup here. [Moving AdaLN shift into a projected output bias](docs/affine-shift-splitting.md) is also implemented as an alternate precision policy, with conditioning costs and negative results retained.
@@ -57,6 +61,7 @@ Output paths are exclusive: choose a new filename for each experiment. Performan
 | Projected AdaLN shift | FP32 bias in INT8 GEMM epilogue | Shared vector or mapped table; explicit rounding-policy change and conditioning cost |
 | Gated GEMM epilogue | Gate in preceding projection versus gate in following norm | Preserves BF16 branch/residual boundaries; both projections and next preparation timed |
 | Q/K projection + RMSNorm + RoPE | Fused Metal versus GEMM plus standalone postprocess | Complete 128-wide heads; BF16 projection/output, FP32 normalization/rotation, direct head-major output |
+| Grouped QKV + RMSNorm + RoPE | Pinned native h3.c versus common-driver Metal candidate | Same W8A8 packing, all Q/K/V layouts and BF16 rounds; shape-dependent positive and negative results |
 
 Native scaled INT8→FP32 TensorOps is not working in the tested stack. FP8 execution support alone does not establish a dedicated FP8 hardware speedup. FP32 TensorOps may use reduced-mantissa multiplication: the strict FP32 correctness gate must pass before promotion.
 

@@ -186,3 +186,27 @@ save(
     ],
     description="One Q or K projection -> BF16 boundary -> per-head RMS/gamma -> partial RoPE -> head-major BF16; no norm BF16 round.",
 )
+save(
+    "h3-grouped-qkv",
+    [
+        dict(
+            id=f"h3.grouped_qkv.m{m}",
+            op="grouped_qkv",
+            m=m,
+            k=5376,
+            n=21504,
+            heads=56,
+            head_dim=128,
+            rope_half=48,
+            epsilon=1e-5,
+            shape_origin="H3 grouped Q/K/V projection; synthetic BF16 activations/weights/gamma/trig tables",
+        )
+        for m in [128, 4096, 9914]
+    ],
+    description=(
+        "Matched pinned-native/candidate grouped W8A8 QKV: native scalar INT8 quantization, "
+        "BF16 projection, per-head Q/K RMS/gamma and partial RoPE, all three head-major "
+        "BF16 outputs. No Hadamard or normalized BF16 intermediate. 128/4096 synthetic; "
+        "9914 matches the integration request's recorded token count, with synthetic values."
+    ),
+)

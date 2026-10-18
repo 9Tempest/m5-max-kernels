@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "description": "Matched pinned-native/candidate grouped W8A8 QKV: native scalar INT8 quantization, BF16 projection, per-head Q/K RMS/gamma and partial RoPE, all three head-major BF16 outputs. No Hadamard or normalized BF16 intermediate. 128/4096 synthetic; 9914 matches the integration request's recorded token count, with synthetic values.",
+  "cases": [
+    {
+      "id": "h3.grouped_qkv.m128",
+      "op": "grouped_qkv",
+      "m": 128,
+      "k": 5376,
+      "n": 21504,
+      "heads": 56,
+      "head_dim": 128,
+      "rope_half": 48,
+      "epsilon": 1e-05,
+      "shape_origin": "H3 grouped Q/K/V projection; synthetic BF16 activations/weights/gamma/trig tables"
+    },
+    {
+      "id": "h3.grouped_qkv.m4096",
+      "op": "grouped_qkv",
+      "m": 4096,
+      "k": 5376,
+      "n": 21504,
+      "heads": 56,
+      "head_dim": 128,
+      "rope_half": 48,
+      "epsilon": 1e-05,
+      "shape_origin": "H3 grouped Q/K/V projection; synthetic BF16 activations/weights/gamma/trig tables"
+    },
+    {
+      "id": "h3.grouped_qkv.m9914",
+      "op": "grouped_qkv",
+      "m": 9914,
+      "k": 5376,
+      "n": 21504,
+      "heads": 56,
+      "head_dim": 128,
+      "rope_half": 48,
+      "epsilon": 1e-05,
+      "shape_origin": "H3 grouped Q/K/V projection; synthetic BF16 activations/weights/gamma/trig tables"
+    }
+  ]
+}

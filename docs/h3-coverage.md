@@ -8,7 +8,7 @@ Pinned official configuration revision: `42ed227ee7df40d41602854ae760620d6eb651f
 
 | Component | Shape / semantics | Coverage |
 |---|---|---|
-| DiT Q/K/V | [T,5376] × [7168,5376]ᵀ each, no bias | MLX and custom MPP; fused QKV alternative also listed |
+| DiT Q/K/V | [T,5376] × [7168,5376]ᵀ each, no bias | MLX/custom MPP projections; matched native grouped QKV/RMS/RoPE comparison includes V and head-major stores (see below) |
 | DiT attention | B=1, H=56, D=128, noncausal packed sequence | MLX fused SDPA; low-bit QDQ sensitivity; native low-bit attention pending |
 | Attention output | [T,7168] × [5376,7168]ᵀ | MLX and custom MPP |
 | SwiGLU gate / up | [T,5376] × [14336,5376]ᵀ each | Separate and fused-projection alternatives; compiled activation baseline |
@@ -43,3 +43,11 @@ Hadamard follow-up: identical normalized block rotations on A/W are implemented 
 AdaLN fusion follow-up: RMSNorm/modulation, H256 and per-token INT8 packing now share one Metal dispatch. Shared-vector RMS microbenchmarks cover Q at M=128/4096/9914 and FFN-up at M=4096 with independent seeds; Q4096's full online path improves about 9% over staged INT8. M9914 matches a deployment-request token count, but operands remain synthetic. LayerNorm and modality/timestep row-map selection have correctness tests; mapped-table performance and full model integration are not measured here. FFN-down remains a separate post-SwiGLU path. [Fusion results and trace](norm-hadamard-fusion.md).
 
 Gated residual follow-up: both the separate and fused INT8 paths materialize BF16 R_next before the next normalization and retain it for a later skip connection. Seed29/43 normal Q4096 online medians improve 3.942 → 3.698 ms and 3.875 → 3.713 ms over standalone gate-add plus the existing fused AdaLN/Hadamard/quantizer. Gains vary by shape and distribution; Q9914 outliers show no benefit in either rerun. Gate and upcoming modulation are independent operands/maps. Shared-vector synthetic performance and correctness do not establish mapped-table performance or model quality. [Contract and repeated evidence](gated-residual-fusion.md).
+
+## Matched grouped QKV native comparison
+
+The [grouped QKV experiment](grouped-qkv-native.md) covers M128/4096/9914, K5376, 56 heads, all Q/K/V projections, BF16 rounding, Q/K RMS/gamma/RoPE, native activation quantization/padding and final head-major stores. A common Metal driver loads pinned h3.c shaders unchanged and reproduces its default dispatch. Independent complete-head references, full-buffer paired checks and GPU tail/zero/outlier/tiny tests pass. V is bit-identical; SIMD Q/K paired relative L2 stays below 2.44e-5, and ordered RMS achieves bit parity in the recorded M4096 diagnostic.
+
+Two-seed normal-input online measurements favor native: the candidate is 5.7–7.5% slower at M4096 and 5.1–5.4% slower at M9914. All six outlier conditions are quality rejected for both unrotated INT8 implementations despite passing implementation checks. Native remains the large-shape baseline; no custom grouped-QKV model integration, SDPA gain or generated-media quality claim is made. Public raw timings and two-dispatch Metal counter reports are linked in the experiment report.
+
+A same-buffer, alternating-order M128 cross-check gives 6.7–6.8% lower candidate wall latency across two seeds (about 5.3–5.8% lower supplemental GPU command duration). This small-shape result does not change the large-shape preference for native. See [grouped QKV evidence](grouped-qkv-native.md).

@@ -1,0 +1,59 @@
+{
+  "environment": {
+    "timestamp_utc": "2026-10-18T22:33:13.479380+00:00",
+    "os": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.15",
+    "numpy": "2.4.4",
+    "git_commit": "5882162acf0b2a6f5961c31dcd95ef07f06ad8c5",
+    "git_dirty": true,
+    "source_sha256": "ec7e03504a3fe26052bf79b8d4c261195cd257d2720cebc04a46c98365c254a0",
+    "xcode": "Xcode 27.1\nBuild version 27A9275",
+    "metal_compiler": "Apple metal version 32023.921 (metalfe-32023.921.6)\nTarget: air64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: <toolchain path omitted>",
+    "thread_settings": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "VECLIB_MAXIMUM_THREADS": null
+    },
+    "mlx": "0.32.4",
+    "device": {
+      "device_name": "Apple M5 Max",
+      "max_recommended_working_set_size": 115448725504,
+      "memory_size": 137438953472,
+      "architecture": "applegpu_g17s",
+      "max_buffer_length": 86586540032,
+      "resource_limit": 499000
+    }
+  },
+  "results": [
+    {
+      "case": {
+        "id": "grouped-qkv-tail-smoke",
+        "op": "grouped_qkv",
+        "m": 129,
+        "k": 256,
+        "n": 1536,
+        "heads": 4
+      },
+      "backend": "candidate-qkv",
+      "precision": "int8",
+      "seed": 29,
+      "distribution": "normal",
+      "tile": [
+        64,
+        128,
+        4,
+        8
+      ],
+      "status": "error",
+      "reason": "native shader compilation: program_source:8:17: error: use of undeclared identifier 'mpp'\nusing namespace mpp::tensor_ops;\n                ^\nprogram_source:929:36: error: use of undeclared identifier 'dextents'\n    auto x = tensor<device bfloat, dextents<int32_t, 2>, tensor_inline>(\n                                   ^\nprogram_source:930:16: error: use of undeclared identifier 'dextents'\n        input, dextents<int32_t, 2>((int)args.input_dim, (int)args.rows));\n               ^\nprogram_source:931:36: error: use of undeclared identifier 'dextents'\n    auto w = tensor<device bfloat, dextents<int32_t, 2>, tensor_inline>(\n                                   ^\nprogram_source:933:9: error: use of undeclared identifier 'dextents'\n        dextents<int32_t, 2>((int)args.input_dim, (int)args.output_dim));\n        ^\nprogram_source:934:36: error: use of undeclared identifier 'dextents'\n    auto y = tensor<device bfloat, dextents<int32_t, 2>, tensor_inline>(\n                                   ^\nprogram_source:936:9: error: use of undeclared identifier 'dextents'\n        dextents<int32_t, 2>((int)args.output_dim, (int)args.rows));\n        ^\nprogram_source:940:43: error: use of undeclared identifier 'dynamic_extent'; did you mean 'dynamic_cast'?\n    matmul2d<matmul2d_descriptor(128, 64, dynamic_extent,\n                                          ^~~~~~~~~~~~~~\n                                          dynamic_cast\nprogram_source:940:57: error: 'dynamic_cast' is not supported in Metal\n    matmul2d<matmul2d_descriptor(128, 64, dynamic_extent,\n                                                        ^\nprogram_source:1009:2: error: expected '>'\n};\n ^\nprogram_source:940:13: note: to match this '<'\n    matmul2d<matmul2d_descriptor(128, 64, dynamic_extent,\n            ^\nprogram_source:1014:1: error: expected expression\nkernel void h3_qkv_project_split_bf16_nax_r128_morton4(\n^\nprogram_source:1932:1: error: expected expression\ntemplate [[host_name(\"h3_qkv_project_split_int8_rope_nax_r128_morton4\")]]\n^\nprogram_source:1935:1: error: expected expression\ntemplate [[host_name(\"h3_qkv_project_split_int8_rope_nax_r128_k5376_morton4\")]]\n^\nprogram_source:1942:1: error: expected expression\ntemplate<uint K_TILE>\n^\nprogram_source:2127:1: error: expected expression\ntemplate [[host_name(\n^\nprogram_source:2131:1: error: expected expression\ntemplate [[host_name(\n^\nprogram_source:2138:1: error: expected expression\ntemplate<uint INPUT_DIM, uint K_TILE>\n^\nprogram_source:2250:1: error: expected expression\ntemplate [[host_name(\"h3_fc1_swiglu_int8_nax_r128\")]]\n^\nprogram_source:2253:1: error: expected expression\ntemplate [[host_name(\"h3_fc1_swiglu_int8_nax_r128_k5376\")]]\n^\nprogram_source:2256:1: error: expected expression\ntemplate [[host_name(\"h3_fc1_swiglu_int8_nax_r128_full_k5376\")]]\n^\nprogram_source:2263:1: error: expected expression\nkernel void h3_fc1_swiglu_int8_local_nax_r128(\n^\nprogram_source:2585:1: error: expected expression\ntemplate [[host_name(\"h3_linear_int8_local_scales_nax_r128\")]]\n^\nprogram_source:2588:1: error: expected expression\ntemplate [[host_name(\"h3_linear_int8_local_scales_nax_r128_k7168\")]]\n^\nprogram_source:2597:1: error: expected expression\nkernel void h3_linear_int8_grouped_nax_r128x64(\n^\nprogram_source:2958:41: error: function definition is not allowed here\ninline float h3_erf_approx(float value) {\n                                        ^\nprogram_source:2968:1: error: expected expression\nkernel void h3_gelu_bf16(device const ushort *input [[buffer(0)]],\n^\nprogram_source:3116:1: error: expected expression\nkernel void h3_adaln_linear_bf16(\n^\nprogram_source:3196:1: error: expected expression\nkernel void h3_gate_adaln_bf16(\n^\nprogram_source:3803:1: error: expected expression\nkernel void h3_embedding_bf16(device const ushort *weight [[buffer(0)]],\n^\nprogram_source:3824:1: error: expected expression\nkernel void h3_text_qk_rope_bf16(\n^\nprogram_source:3892:1: error: expected expression\nkernel void h3_head_rms_norm_bf16(\n^\nprogram_source:3923:1: error: expected expression\nkernel void h3_rope_text_bf16(\n^\nprogram_source:4060:1: error: expected expression\nkernel void h3_token_pool_bf16(\n^\nprogram_source:4106:1: error: expected expression\nkernel void h3_token_pool_adaln_bf16(\n^\nprogram_source:4186:1: error: expected expression\nkernel void h3_token_expand_delta_bf16(\n^\nprogram_source:4235:1: error: expected expression\nkernel void h3_token_expand_adaln_bf16(\n^\nprogram_source:4309:1: error: expected expression\nkernel void h3_euler_bf16(device float *sample [[buffer(0)]],\n^\nprogram_source:4332:2: error: expected '}'\n}\n ^\nprogram_source:928:74: note: to match this '{'\n                           uint2 group [[threadgroup_position_in_grid]]) {\n                                                                         ^\n"
+    }
+  ],
+  "publication": {
+    "raw_record_sha256": "319c838e7222b96a8ed1e9f39025f8c5163c2ae5ac1fe2be62618ce2dbb1a1f8",
+    "redacted_fields": [
+      ".environment.metal_compiler"
+    ],
+    "policy": "Compiler installation path omitted; numerical data, timing samples, source hashes and versions unchanged. Original local record retained immutably."
+  }
+}

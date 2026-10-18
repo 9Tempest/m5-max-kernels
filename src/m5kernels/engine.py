@@ -67,18 +67,33 @@ def environment():
     return result
 
 
+def evaluate(outputs):
+    """Evaluate MLX arrays or a synchronous native backend result handle."""
+    native = getattr(outputs, "__m5_evaluate__", None)
+    if native is not None:
+        native()
+    else:
+        import mlx.core as mx
+
+        mx.eval(outputs)
+
+
 def timed(fn, warmup, repeat):
-    import mlx.core as mx
+    synchronize = getattr(fn, "synchronize", None)
+    if synchronize is None:
+        import mlx.core as mx
+
+        synchronize = mx.synchronize
 
     for _ in range(warmup):
-        mx.eval(fn())
+        evaluate(fn())
     samples = []
     for _ in range(repeat):
-        mx.synchronize()
+        synchronize()
         start = time.perf_counter_ns()
         y = fn()
-        mx.eval(y)
-        mx.synchronize()
+        evaluate(y)
+        synchronize()
         samples.append((time.perf_counter_ns() - start) / 1e6)
     return dict(
         kind="synchronized_host_wall",
@@ -100,6 +115,9 @@ def _np(x):
 
 def all_finite(outputs):
     """Check every materialized output, including an updated residual side output."""
+    native = getattr(outputs, "__m5_all_finite__", None)
+    if native is not None:
+        return bool(native())
     import mlx.core as mx
 
     if isinstance(outputs, (tuple, list)):
@@ -417,10 +435,18 @@ def prepare_qk_rope(c, backend, precision, seed, distribution, tile):
     return prepare(c, backend, precision, seed, distribution, tile)
 
 
+def prepare_grouped_qkv(c, backend, precision, seed, distribution, tile):
+    from .grouped_qkv_experiment import prepare
+
+    return prepare(c, backend, precision, seed, distribution, tile)
+
+
 def run_case(
     c, backend, precision, seed=17, distribution="normal", warmup=3, repeat=10, tile=(64, 64, 4, 1)
 ):
-    import mlx.core as mx
+    native = c["op"] == "grouped_qkv"
+    if not native:
+        import mlx.core as mx
 
     result = dict(
         case=c,
@@ -440,6 +466,7 @@ def run_case(
             "rms_quant_gemm",
             "gate_epilogue_chain",
             "qk_rope",
+            "grouped_qkv",
         }:
             est = (c["m"] * c["k"] + c["n"] * c["k"] + c["m"] * c["n"]) * 24
             if c["op"] == "gated_norm_hadamard_gemm":
@@ -460,12 +487,13 @@ def run_case(
             "rms_quant_gemm": prepare_rms_quant_gemm,
             "gate_epilogue_chain": prepare_gate_epilogue_chain,
             "qk_rope": prepare_qk_rope,
+            "grouped_qkv": prepare_grouped_qkv,
         }.get(c["op"], prepare_elementwise)
         fn, check, expected, original, stages, meta = prepare(
             c, backend, precision, seed, distribution, tile
         )
         y = fn()
-        mx.eval(y)
+        evaluate(y)
         output_finite = all_finite(y)
         actual = check(y)
         impl = metrics(actual, expected)
@@ -485,7 +513,11 @@ def run_case(
             "mxint8": 0.05,
             "fp8": 0.10,
         }[precision]
-        quality_passed = quality["finite"] and quality["relative_l2"] <= quality_limit
+        quality_passed = (
+            quality["finite"]
+            and quality["relative_l2"] <= quality_limit
+            and meta.get("component_quality_pass", True)
+        )
         result.update(
             meta,
             status="ok" if passed else "incorrect",
@@ -499,7 +531,7 @@ def run_case(
         # Validate the deployed path independently of its prequantized counterpart.
         if "online_activation_plus_gemm" in stages:
             online_y = stages["online_activation_plus_gemm"]()
-            mx.eval(online_y)
+            evaluate(online_y)
             online_error = metrics(check(online_y), expected)
             online_finite = all_finite(online_y)
             result["online_implementation_error"] = online_error
@@ -528,7 +560,8 @@ def run_case(
         result.update(status="unsupported", reason=str(e))
     except Exception as e:
         result.update(status="error", reason=str(e)[:5000])
-    mx.clear_cache()
+    if not native:
+        mx.clear_cache()
     return result
 
 

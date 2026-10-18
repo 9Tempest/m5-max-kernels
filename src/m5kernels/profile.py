@@ -9,6 +9,7 @@ import sys
 import time
 
 from .engine import (
+    evaluate,
     environment,
     metrics,
     prepare_gemm,
@@ -18,6 +19,7 @@ from .engine import (
     prepare_rms_quant_gemm,
     prepare_gate_epilogue_chain,
     prepare_qk_rope,
+    prepare_grouped_qkv,
     all_finite,
     write_result,
 )
@@ -27,12 +29,19 @@ from .workloads import load
 
 
 def workload(args):
-    import mlx.core as mx
-
     cases = [c for c in load(args.suite)["cases"] if c["id"] == args.case]
     if len(cases) != 1:
         raise ValueError("select one exact case id")
     case = _with_hadamard(cases[0], args) if args.backend == "mpp-hadamard" else cases[0]
+    if case["op"] == "grouped_qkv":
+        case = dict(
+            case,
+            k_specialization=getattr(
+                args, "qkv_k_specialization", case.get("k_specialization", "dynamic")
+            ),
+            scratch=getattr(args, "qkv_scratch", case.get("scratch", "threadgroup")),
+            rms_order=getattr(args, "qkv_rms_order", case.get("rms_order", "simd")),
+        )
     prepare = {
         "gemm": prepare_gemm,
         "attention": prepare_attention,
@@ -41,6 +50,7 @@ def workload(args):
         "rms_quant_gemm": prepare_rms_quant_gemm,
         "gate_epilogue_chain": prepare_gate_epilogue_chain,
         "qk_rope": prepare_qk_rope,
+        "grouped_qkv": prepare_grouped_qkv,
     }.get(case["op"], prepare_elementwise)
     fn, check, expected, original, stages, meta = prepare(
         case, args.backend, args.precision, args.seed, "normal", tuple(args.tile)
@@ -50,9 +60,9 @@ def workload(args):
             raise ValueError("online stage requires a quantized GEMM backend")
         fn = stages["online_activation_plus_gemm"]
     for _ in range(5):
-        mx.eval(fn())
+        evaluate(fn())
     y = fn()
-    mx.eval(y)
+    evaluate(y)
     error = metrics(check(y), expected)
     if (
         not meta.get("transform_pass", True)
@@ -74,8 +84,54 @@ def workload(args):
     )
 
 
+def _synchronize(fn):
+    synchronize = getattr(fn, "synchronize", None)
+    if synchronize is None:
+        import mlx.core as mx
+
+        synchronize = mx.synchronize
+    synchronize()
+
+
+def _capture(fn, output, iterations):
+    capture = getattr(fn, "capture", None)
+    if capture is not None:
+        _synchronize(fn)
+        capture(output, iterations=iterations)
+        _synchronize(fn)
+        return
+
+    import mlx.core as mx
+
+    mx.synchronize()
+    mx.metal.start_capture(str(output))
+    try:
+        # Flush any encoder created before capture, on the MLX workload stream.
+        marker = mx.fast.metal_kernel(
+            name="capture_boundary",
+            input_names=[],
+            output_names=["Y"],
+            source="Y[0] = 1;",
+        )
+        evaluate(
+            marker(
+                inputs=[],
+                grid=(1, 1, 1),
+                threadgroup=(1, 1, 1),
+                output_shapes=[(1,)],
+                output_dtypes=[mx.int32],
+            )
+        )
+        mx.synchronize()
+        for _ in range(iterations):
+            evaluate(fn())
+        mx.synchronize()
+    finally:
+        mx.metal.stop_capture()
+
+
 def run(args):
-    # Capture must be enabled before MLX initializes its Metal device.
+    # Capture must be enabled before either backend initializes its Metal device.
     os.environ.setdefault("MTL_CAPTURE_ENABLED", "1")
     if args.kind == "system" and not args.worker:
         output = Path(args.output).resolve()
@@ -101,8 +157,6 @@ def run(args):
             *worker,
         ]
         return subprocess.run(cmd, check=False).returncode
-    import mlx.core as mx
-
     with gpu_lock():
         fn, meta = workload(args)
         doc = dict(
@@ -119,40 +173,16 @@ def run(args):
             if output.exists():
                 raise FileExistsError(output)
             output.parent.mkdir(parents=True, exist_ok=True)
-            mx.synchronize()
-            mx.metal.start_capture(str(output))
-            try:
-                # Flush any encoder created before capture, on the workload stream.
-                marker = mx.fast.metal_kernel(
-                    name="capture_boundary",
-                    input_names=[],
-                    output_names=["Y"],
-                    source="Y[0] = 1;",
-                )
-                mx.eval(
-                    marker(
-                        inputs=[],
-                        grid=(1, 1, 1),
-                        threadgroup=(1, 1, 1),
-                        output_shapes=[(1,)],
-                        output_dtypes=[mx.int32],
-                    )
-                )
-                mx.synchronize()
-                for _ in range(args.iterations):
-                    mx.eval(fn())
-                mx.synchronize()
-            finally:
-                mx.metal.stop_capture()
+            _capture(fn, output, args.iterations)
             doc["iterations"] = args.iterations
 
         else:
             start = time.monotonic()
             count = 0
             while time.monotonic() - start < args.seconds:
-                mx.eval(fn())
+                evaluate(fn())
                 count += 1
-            mx.synchronize()
+            _synchronize(fn)
             doc["iterations"] = count
             doc["hot_loop_seconds"] = time.monotonic() - start
         write_result(str(output) + ".json", doc)
@@ -171,6 +201,24 @@ def main():
     p.add_argument("--hadamard-block", type=int, default=argparse.SUPPRESS)
     p.add_argument("--hadamard-sign-seed", type=_sign_seed, default=argparse.SUPPRESS)
     p.add_argument("--hadamard-implementation", choices=["metal", "mlx"], default=argparse.SUPPRESS)
+    p.add_argument(
+        "--qkv-k-specialization",
+        choices=["dynamic", "native"],
+        default=argparse.SUPPRESS,
+        help="override candidate K specialization for grouped_qkv cases",
+    )
+    p.add_argument(
+        "--qkv-scratch",
+        choices=["threadgroup", "device"],
+        default=argparse.SUPPRESS,
+        help="override candidate scratch storage for grouped_qkv cases",
+    )
+    p.add_argument(
+        "--qkv-rms-order",
+        choices=["simd", "native"],
+        default=argparse.SUPPRESS,
+        help="override candidate RMS accumulation order for grouped_qkv cases",
+    )
     p.add_argument("--seed", type=int, default=17)
     p.add_argument("--iterations", type=int, default=1)
     p.add_argument("--seconds", type=int, default=5)

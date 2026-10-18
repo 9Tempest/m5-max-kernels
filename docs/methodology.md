@@ -8,6 +8,10 @@ Inputs are resident and reused (warm-cache microbenchmarks). Random generation, 
 
 A baseline is installed MLX's `matmul` / fused SDPA / compiled elementwise expression. The candidate is a direct custom MPP TensorOps shader or fused Metal RMSNorm. Report installed framework versions. The FP8 API can execute without proving that hardware has a higher FP8 peak.
 
+The matched [grouped QKV experiment](grouped-qkv-native.md) instead uses a common Objective-C Metal driver for both the unchanged pinned h3.c shader and the candidate. Each invocation commits one command buffer and waits for completion. Native result handles do not download or convert outputs inside timing. Both libraries use explicit Metal 4.1 and safe math; the Python executable's default Metal language version did not expose TensorOps and that compilation failure is retained. This driver reproduces the native default dispatch policy; it does not measure the full h3.c runtime's scheduling. The online scope includes native activation quantization/padding, Q/K/V projection, Q/K RMS/RoPE and all three final head-major outputs; offline weight preparation is measured separately.
+
+Grouped references cover complete sampled Q/K/V heads and full K; each stream must independently pass implementation and quality gates. Full-output paired metrics and finite checks include V. Correctness-only invocations poison each output before each implementation, so missing stores cannot inherit another implementation's valid data. Tiny and tail tests cover epsilon sensitivity and direct head-major addressing. Paired BF16 bit mismatch counts are reported separately from the numerical gate because SIMD RMS changes reduction order while preserving rounding boundaries.
+
 `effective_tops = operation_count / synchronized_wall_seconds / 1e12`, counting a multiply-add as two operations. It is an effective rate, not a hardware counter. For GEMM the count is 2MNK. Dense attention uses 4BHS²D (even for causal cases; do not compare its nominal rate to dense full attention without noting masked work). Byte estimates are lower bounds, not measured traffic or roofline bandwidth.
 
 ## Correctness and precision
