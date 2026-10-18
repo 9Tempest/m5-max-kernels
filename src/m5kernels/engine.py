@@ -376,6 +376,12 @@ def prepare_elementwise(c, backend, precision, seed, distribution, tile):
     )
 
 
+def prepare_norm_hadamard_gemm(c, backend, precision, seed, distribution, tile):
+    from .norm_hadamard_gemm import prepare
+
+    return prepare(c, backend, precision, seed, distribution, tile)
+
+
 def run_case(
     c, backend, precision, seed=17, distribution="normal", warmup=3, repeat=10, tile=(64, 64, 4, 1)
 ):
@@ -391,7 +397,7 @@ def run_case(
     )
     try:
         # Conservative budget includes references and temporary activation buffers.
-        if c["op"] == "gemm":
+        if c["op"] in {"gemm", "norm_hadamard_gemm"}:
             est = (c["m"] * c["k"] + c["n"] * c["k"] + c["m"] * c["n"]) * 24
         elif c["op"] == "attention":
             est = c["batch"] * c["heads"] * c["seq"] * c["head_dim"] * 64
@@ -399,9 +405,11 @@ def run_case(
             est = c["m"] * c["n"] * 48
         if est > 32 * 1024**3:
             raise NotImplementedError("estimated experiment working set >32 GiB; split workload")
-        prepare = {"gemm": prepare_gemm, "attention": prepare_attention}.get(
-            c["op"], prepare_elementwise
-        )
+        prepare = {
+            "gemm": prepare_gemm,
+            "attention": prepare_attention,
+            "norm_hadamard_gemm": prepare_norm_hadamard_gemm,
+        }.get(c["op"], prepare_elementwise)
         fn, check, expected, original, stages, meta = prepare(
             c, backend, precision, seed, distribution, tile
         )

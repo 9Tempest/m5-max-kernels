@@ -64,3 +64,24 @@ save(
     c,
     description="H3 text encoder / Qwen3-VL-32B projection shapes; supports decode and prefill studies.",
 )
+save(
+    "h3-norm-hadamard",
+    [
+        dict(
+            id=f"h3.norm_{name}.m{m}",
+            op="norm_hadamard_gemm",
+            m=m,
+            n=n,
+            k=5376,
+            fusion=dict(norm="rms", block_size=256, round_output="input"),
+            shape_origin="official H3 widths; scenario token count recorded explicitly",
+        )
+        for m in [128, 4096, 9914]
+        for name, n in [("q", 7168), ("ffn_up", 14336)]
+    ],
+    description=(
+        "RMSNorm/AdaLN + H256 + INT8 + projection; shared modulation vector, native BF16 "
+        "rounding boundary. 128/4096 synthetic; 9914 is the integration task's 512x512 "
+        "124-frame request (9472 video + 414 audio + 28 text), still synthetic tensor values."
+    ),
+)

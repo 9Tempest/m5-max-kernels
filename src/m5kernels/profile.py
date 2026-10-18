@@ -14,6 +14,7 @@ from .engine import (
     prepare_gemm,
     prepare_attention,
     prepare_elementwise,
+    prepare_norm_hadamard_gemm,
     write_result,
 )
 from .locking import gpu_lock
@@ -28,9 +29,11 @@ def workload(args):
     if len(cases) != 1:
         raise ValueError("select one exact case id")
     case = _with_hadamard(cases[0], args) if args.backend == "mpp-hadamard" else cases[0]
-    prepare = {"gemm": prepare_gemm, "attention": prepare_attention}.get(
-        case["op"], prepare_elementwise
-    )
+    prepare = {
+        "gemm": prepare_gemm,
+        "attention": prepare_attention,
+        "norm_hadamard_gemm": prepare_norm_hadamard_gemm,
+    }.get(case["op"], prepare_elementwise)
     fn, check, expected, original, stages, meta = prepare(
         case, args.backend, args.precision, args.seed, "normal", tuple(args.tile)
     )
