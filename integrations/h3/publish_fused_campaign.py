@@ -22,6 +22,8 @@ def read_public(path):
 
 
 def collect(directory):
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", directory.name):
+        raise ValueError("campaign directory must have a plain publication identifier")
     campaign = read_public(directory / "campaign.json")
     request = read_public(directory / "request.json")
     expected_patch = dict(source_sha256=fused.SOURCE_SHA256, patch_sha256=fused.PATCH_SHA256)
@@ -82,12 +84,21 @@ def collect(directory):
                 numerical_counters={key: report[key] for key in fused.COUNTERS},
                 independent_reference=report["independent_reference"],
                 timing=summary,
+                timing_recipe={
+                    key: report["timing"][key]
+                    for key in (
+                        "warmups_per_variant",
+                        "repeats_per_variant",
+                        "paired_order",
+                        "first_measured_variant",
+                    )
+                },
                 driver_report_sha256=case["driver_report_sha256"],
                 case_report_sha256=base.sha256(directory / case_path),
             )
         )
     result = dict(
-        schema_version=1,
+        schema_version=2,
         status="completed",
         campaign_id=directory.name,
         source_campaign_sha256=base.sha256(directory / "campaign.json"),
@@ -96,10 +107,10 @@ def collect(directory):
         created_utc=base.utc_now(),
         scope="one campaign of real block-0 weights with synthetic activations; paired online operator paths",
         conclusions=dict(
-            independent_numerical_contract="passed all twelve cases",
-            independent_rerun="pending",
-            whole_model_parity="pending",
-            end_to_end_acceleration="not measured",
+            independent_numerical_contract=f"passed all {len(summaries)} cases",
+            independent_rerun="not assessed by this single-campaign export",
+            whole_model_parity="not assessed by this operator-only export",
+            end_to_end_acceleration="not measured by this operator-only export",
             default_enablement=False,
         ),
         timing_contract=dict(
@@ -140,7 +151,7 @@ def readme(result):
     lines = [
         f"# Native gate epilogue {result['campaign_id']}",
         "",
-        "All 12 cases pass independent full-K selected-row numerical checks, full-output finite/zero/tail checks, and exact paired hidden/codes/scales checks. This is one campaign using real block-0 weights and synthetic activations, including zero and sparse-outlier rows. Independent rerun, full-model trajectory parity and matched resident performance remain pending. Both flags remain off by default.",
+        f"All {len(result['cases'])} cases in this package pass independent full-K selected-row numerical checks, full-output finite/zero/tail checks, and exact paired hidden/codes/scales checks. This is one campaign using real block-0 weights and synthetic activations, including zero and sparse-outlier rows. This package does not assess independent reruns, full-model trajectory parity or matched resident performance; those require separate evidence. Neither flag is enabled by default by this experiment.",
         "",
         "[Summary and complete raw timing samples](summary.json). Every linked JSON in `raw/` is copied byte-for-byte, with checksums in the summary. No weights, activation arrays, executables or private logs are included.",
         "",
@@ -152,11 +163,28 @@ def readme(result):
         lines.append(
             f"| {case['policy']} | {case['rows']} / {case['padded_rows']} | {case['seed']} | {timing['native']['wall_median_seconds'] * 1000:.4f} | {timing['fused']['wall_median_seconds'] * 1000:.4f} | {timing['observed_native_over_fused_wall_ratio']:.5f} |"
         )
+    lines += ["", "Observed ratio ranges within this campaign (native / fused):", ""]
+    for policy in sorted({case["policy"] for case in result["cases"]}):
+        ratios = [
+            case["timing"]["observed_native_over_fused_wall_ratio"]
+            for case in result["cases"]
+            if case["policy"] == policy
+        ]
+        lines.append(
+            f"- `{policy}`: {min(ratios):.5f}–{max(ratios):.5f}; fused median lower in {sum(ratio > 1 for ratio in ratios)}/{len(ratios)} cases, higher in {sum(ratio < 1 for ratio in ratios)}/{len(ratios)}, exactly equal in {sum(ratio == 1 for ratio in ratios)}/{len(ratios)}."
+        )
+    first_variants = sorted(
+        {
+            (case["seed"], case["timing_recipe"]["first_measured_variant"])
+            for case in result["cases"]
+        }
+    )
+    ordering = "; ".join(f"seed {seed}: {variant} first" for seed, variant in first_variants)
     lines += [
         "",
         "These are operator-path observations from one campaign, not an end-to-end speedup or a selected backend. Raw samples retain timing variation; independent reruns and complete model checks are needed before adoption.",
         "",
-        f"Each variant has {result['warmups_per_variant']} warmups and {result['repeats_per_variant']} alternating-order measured repetitions; seed 29 reverses the starting order. Wall, CPU encode, submit/wait and supplemental command-buffer GPU intervals are retained separately. CPU residual restoration is outside timing. Both paths contain three GPU dispatches: activation quantization/rotation, projection, and next AdaLN/quantization. The native backend already fuses gate/AdaLN/quantization, so moving the gate to GEMM does not remove a dispatch in this measured chain.",
+        f"Each variant has {result['warmups_per_variant']} warmups and {result['repeats_per_variant']} alternating-order measured repetitions. First measured variants from the driver records: {ordering}. Wall, CPU encode, submit/wait and supplemental command-buffer GPU intervals are retained separately. CPU residual restoration is outside timing. Both paths contain three GPU dispatches: activation quantization/rotation, projection, and next AdaLN/quantization. The native backend already fuses gate/AdaLN/quantization, so moving the gate to GEMM does not remove a dispatch in this measured chain.",
         "",
         "The independent reference uses all K terms and all 5,376 channels for rows 0/middle/last. Quantization drift from original BF16 operands is separate from decoded-operand implementation error. Full-output exact paired checks cover all rows, but this does not validate all 50 blocks, real timestep maps, both flags together or the final block endpoint. See the [integration contract](../../../../integrations/h3/fused.md).",
         "",

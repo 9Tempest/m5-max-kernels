@@ -291,8 +291,8 @@ loaded and zero runtime weight rotation/quantization. This is loader replay
 parity for one request, not a quality approval. The first
 [native fusion campaign](../results/published/h3-native-eval/fused-campaign-001-v1/README.md)
 passes all 12 operator numerical cases; independent timing repetition and
-whole-model fusion parity/E2E remain pending, as do the additional
-five-/fifteen-second pairs. The original BF16
+whole-model fusion parity/E2E remain pending, as do the three additional
+five-second prompt pairs. The fifteen-second first-frame pair is complete below. The original BF16
 and completed derived checkpoint are retained locally. The separate
 [resident H256 measurement](../results/published/h3-native-eval/performance/hadamard-resident-seed42-001.json)
 has one warmup plus three timed same-seed requests and byte-identical videos;
@@ -368,6 +368,54 @@ pins, original model identity through the derived-manifest snapshot, and all
 RGB/PCM evaluator and binds the exact videos by hash. The original five-second
 evaluators and published two-seed records keep their contracts. The new CPU
 fixture tests validate rejection behavior, not GPU output or model quality.
+
+The seed83 BF16/prepared-H256 pair has now completed. The
+[public package](../results/published/h3-native-eval/whale-maid-15s-v1/README.md)
+contains both 512×288 widescreen videos, a
+[playable gallery](../results/published/h3-native-eval/whale-maid-15s-v1/gallery.html),
+and byte-identical copies of the
+[latent report](../results/published/h3-native-eval/whale-maid-15s-v1/evaluations/whale-maid-15s-eval-001-long-evaluation.json)
+and [strict media report](../results/published/h3-native-eval/whale-maid-15s-v1/evaluations/media-evaluation.json).
+The original reference image, raw latents and weights stay local. Each mode
+has 42 finite captured tensors (31,872,960 scalar values), and both decoded
+clips have 360 aligned frames and 480,000 audio samples per stereo channel.
+The dynamic capture shapes above were confirmed by runtime metadata and raw
+tensor byte counts. H256 imported all 200 prepared projections with zero
+runtime weight rotation/quantization.
+
+| H256 difference from matched BF16 | SNR dB | Relative L2 | RMSE |
+| --- | ---: | ---: | ---: |
+| Final video latent | 13.475312 | 0.211950 | 0.192404 |
+| Final audio latent | 10.008056 | 0.315935 | 0.166640 |
+| Decoded RGB | 15.693166 | 0.164188 | 25.796028 |
+| Decoded stereo PCM | 0.439247 | 0.950687 | 0.153866 |
+
+RGB PSNR is 19.899747 dB with range255 and planar-RGB FFmpeg SSIM is
+0.818705. PCM PSNR is 22.277743 dB with range2. The low PCM SNR and large
+relative L2 expose substantial aligned waveform drift; they do not determine
+audio preference or semantic correctness. No listening score, LPIPS, VBench,
+FVD or perceptual quality pass is assigned. This pair has no matched unrotated
+native-INT8 run, so it does not measure H256's quality benefit over native INT8.
+
+The single diagnostic generation processes took 506.275859 s for BF16 and
+364.855037 s for prepared H256, a descriptive ratio of 1.387608×. Their
+denoise phase walls were 443.527 and 293.568 s (1.510815×); video decoding
+was 43.918 and 43.951 s. These include diagnostic latent capture/readback and
+have different loader/precision paths, warmed preflight caches and no
+independent repeated timing campaign. They do not establish stable production
+speedup, compilation-free end-to-end latency, or a promotion decision.
+
+Independent sparse-frame reviews at 0/3/6/9/12/14.791667 s retain recognizable
+character and scene identity in both modes. Both show a happy spoon stage at
+12 s and a return to chin-support at the final sampled instant. Hand/spoon
+poses differ at 9 and 12 s. The happy stage is later than the prompt's 4–10 s
+eating interval; exact timing, the half-second caught freeze, continuous tail
+wagging and a held final two-second pose cannot be established from six frames.
+The rice grain and persistent puffed cheeks are not reliably resolved in the
+contact sheets. These observations are limited to static samples, with no
+claim about complete motion or audio adherence. Local review evidence:
+[BF16](../results/local/h3/whale-maid-15s-bf16-review-002/README.md),
+[H256](../results/local/h3/whale-maid-15s-hadamard-review-001/README.md).
 
 ## Promotion requirements
 

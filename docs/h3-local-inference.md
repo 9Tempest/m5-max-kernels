@@ -72,6 +72,64 @@ now includes all six BF16/native INT8/H256 fox videos at seeds 42/43, a
 [playable gallery](../results/published/h3-native-eval/fox-two-seeds-v1/gallery.html)
 and immutable per-step latent/media evaluation JSON with source/checksum links.
 
+## Completed 15-second first-frame pair
+
+The whale-maid request completed in both BF16 and the persisted INT8/H256
+checkpoint: seed83, 512×288 (16:9), 24 fps, 20 Euler passes and all 50 blocks.
+The full 2233-byte Chinese prompt round-trips through the native tokenizer
+without truncation: 545 prompt tokens and 697 presentation tokens after image
+prefix/vision/boundary tokens. Both runs use the same original reference-image
+bytes and upstream stretch-to-canvas preprocessing. The runtime produces
+362 frames; a separate export retains 360 frames for exactly 15 seconds with
+32 kHz stereo audio. [Playable pair and immutable evaluations](../results/published/h3-native-eval/whale-maid-15s-v1/README.md).
+
+| Captured request measurement | BF16 | Prepared INT8/H256 |
+| --- | ---: | ---: |
+| Generation subprocess wall, seconds | 506.275859 | 364.855037 |
+| DiT Euler denoise wall, seconds | 443.527 | 293.568 |
+| DiT load phase, seconds | 7.825 | 15.719 |
+| Video VAE decoder wall, seconds | 43.918 | 43.951 |
+| DiT tracked Metal tensor peak, GiB | 38.199 | 20.967 |
+
+The process ratio is **1.387608×**, and the denoise ratio is **1.510815×** for
+this pair. These are single-seed diagnostic observations, not stable resident
+speedup estimates. Both runs capture all 20 Euler states plus final video/audio
+VAE inputs, adding synchronization, readback and file writes. Generation time
+includes runtime context/shader setup, component loading, conditioning,
+denoising, both decoders and the original 362-frame AV export. It excludes
+model verification/build/tokenizer preflight, GPU queue wait, offline checkpoint
+export, later validation and exact-duration trimming (0.335590/0.333519 s).
+Full preflight hashing warms the file cache; BF16 ran before H without
+interleaved repetitions. The memory figure counts tracked DiT Metal tensors,
+not RSS, all unified memory or MPS internal scratch. DiT total/load/denoise
+scopes overlap and must not be summed. The
+[sanitized performance summary](../results/published/h3-native-eval/performance/whale-maid-15s-diagnostic-v1.json)
+preserves the original run-record SHA256s, timings and source/config identities;
+it is a selected-field derivative, not a byte-identical raw-record copy.
+
+The source digests intentionally differ: BF16 uses the capture-capable
+`83307697…` source with all INT8/H flags disabled; H uses the `054ec73e…`
+prepared loader. All recorded harness file hashes match, despite the checkout
+being rebased between runs. The candidate loads 200 persisted projections,
+with a 12.411358 s verified-payload load marker and zero runtime weight
+rotation/quantization. That marker is part of its 15.719 s DiT load phase,
+not an extra cost to add. QKV/output/FC1 use native INT8 and FC2 uses H256;
+this compares the complete precision/checkpoint policies, not Hadamard alone.
+Both retain the same BF16 attention and original encoder/VAE precision.
+
+Runtime capture verifies final video `[24,107,18,32]` and audio `[32,2,603]`,
+with per-step target rows `[15408,96]` and `[1206,32]`; the 144 conditioning
+video rows are excluded from those target dumps. The total 17455 packed rows
+remains a tokenizer/source-derived count, not a per-operation trace. Against
+BF16, final video/audio relative L2 is 0.21195048/0.31593459; decoded RGB SSIM
+is 0.81870478 and RGB SNR is 15.69317 dB. PCM SNR is only 0.439247 dB
+(relative L2 0.950687), so substantial waveform drift remains explicit.
+These are drift metrics, not perceptual acceptance. Review so far covers
+limited sampled still frames; full motion/prompt timing and audio listening
+remain unevaluated. The original BF16 checkpoint remains retained alongside
+the derived checkpoint. The three extra person/rain/water pairs and full-model
+fusion parity/performance are still pending.
+
 ## Contracts that affect interpretation
 
 - The M5 runtime defaults to INT8 QKV, MLP and attention-output projections.
@@ -97,9 +155,12 @@ and immutable per-step latent/media evaluation JSON with source/checksum links.
   boundaries. Do not use the stale upstream wall field for cached denoise.
 - Root-command GPU timing may not cover MPSGraph child buffers. Tracked Metal
   tensor peak excludes MPS internal allocations and CPU media buffers.
-- Denoising's `encode=167.986s` includes host API work and does not establish a
-  CPU bottleneck. Its `root-gpu=0.104s` is not total GPU time. Attribute device
-  work with a trace before selecting a host-overhead or kernel optimization.
+- Denoising's `encode=167.986s` is elapsed wall time between beginning a command
+  buffer and the harness's commit, not CPU-active time. It includes API work
+  and any waiting inside those calls. The final `wait=37.304s` measures the
+  remaining commit-to-fence interval; it is not all GPU work. The
+  `root-gpu=0.104s` counter is also not total GPU time. These definitions follow
+  the pinned [begin/continue/submit accounting](https://github.com/antirez/h3.c/blob/8974cc055ea9c02fcd14cc27dfda3e1027c05153/h3_gpu.m#L874).
 
 A later [target-process Metal trace summary](../results/local/h3/native-capture-seed42-001-trace-summary.json)
 contains 1665 compute intervals in a partial diagnostic DiT window. Their
@@ -108,7 +169,99 @@ that observed span). The capture requested 15 seconds, but this ratio is not
 utilization over that full requested window. It includes capture/profiling
 overhead and has no QKV/SDPA/MLP labels. It supports the warning that root-GPU
 counters omit substantial work; it does not establish a compute bottleneck
-or rank operators. Raw traces/XML with process identifiers stay local.
+or rank operators. This is an **INT8 projection run**, so its 99.1096% observed
+active fraction cannot be transferred to the BF16 MPSGraph path. Raw traces/XML
+with process identifiers stay local.
+
+## BF16 source audit and diagnostic experiments
+
+The original BF16 denoise reports 4000 MPS-linear operations, 1000 MPS-SDPA
+operations and 3180 direct dispatches; native INT8 reports zero MPS-linear
+operations, 1000 MPS-SDPA operations and 8200 direct dispatches. Each has 20
+explicit submissions. At 50 blocks × 20 steps, the BF16 linear count represents
+QKV, attention output and both MLP matrix products. It is not 4000 independent
+graph encodes: the fused MLP encodes one graph and increments the linear count
+by two. See the [BF16 record](../results/local/h3/bf16-seed42-001/run.json),
+[INT8 record](../results/local/h3/int8-seed42-001/run.json),
+[block dispatch](https://github.com/antirez/h3.c/blob/8974cc055ea9c02fcd14cc27dfda3e1027c05153/h3_dit.c#L1875)
+and [MLP dispatch accounting](https://github.com/antirez/h3.c/blob/8974cc055ea9c02fcd14cc27dfda3e1027c05153/h3_gpu.m#L2596).
+
+With the recorded `H3_NAX=qkv-attn`, all four large BF16 projections use
+MPSGraph at 9914 rows. The specialized grouped-QKV path stops at 2048 rows;
+the general BF16 linear path automatically splits only 2049–3072 rows in this
+mode. The BF16 NAX MLP requires the separate `mlp` mode, which the comparison
+does not select. This is an explicit dispatch policy, not a TensorOps compile
+failure. The relevant guards are
+[grouped QKV](https://github.com/antirez/h3.c/blob/8974cc055ea9c02fcd14cc27dfda3e1027c05153/h3_gpu.m#L3780),
+[linear shape selection](https://github.com/antirez/h3.c/blob/8974cc055ea9c02fcd14cc27dfda3e1027c05153/h3_gpu.m#L2430)
+and [MLP capability selection](https://github.com/antirez/h3.c/blob/8974cc055ea9c02fcd14cc27dfda3e1027c05153/h3_gpu.m#L537).
+
+The runtime already caches each [linear graph by shape, bias and dtype](https://github.com/antirez/h3.c/blob/8974cc055ea9c02fcd14cc27dfda3e1027c05153/h3_gpu.m#L2351),
+the [MLP graph by its dimensions](https://github.com/antirez/h3.c/blob/8974cc055ea9c02fcd14cc27dfda3e1027c05153/h3_gpu.m#L2546)
+and the [SDPA graph by geometry/layout/type](https://github.com/antirez/h3.c/blob/8974cc055ea9c02fcd14cc27dfda3e1027c05153/h3_gpu.m#L1448).
+The fixed full-token block loop therefore reuses two large linear graphs and
+one MLP graph across layers and steps; it does not reconstruct them per layer.
+[Immutable weight bindings are cached](https://github.com/antirez/h3.c/blob/8974cc055ea9c02fcd14cc27dfda3e1027c05153/h3_gpu.m#L137)
+as well. Activation/output tensor-data wrappers and feed/result dictionaries
+remain transient, and every call invokes `encodeToCommandBuffer` with a nil
+execution descriptor. The code has no explicit `MPSGraphExecutable` cache, but
+that does not prove the framework recompiles a cached graph on every call.
+The current source also sets [MPS command-wrapper reuse on](https://github.com/antirez/h3.c/blob/8974cc055ea9c02fcd14cc27dfda3e1027c05153/h3_gpu.m#L337)
+by default; caching that wrapper is not an unimplemented optimization.
+
+The local Xcode SDK's `MPSGraph.h` documents that graph encoding may call
+`commitAndContinue`; upstream consequently refreshes `gpu.command` from
+`command.rootCommandBuffer` after encoding. The [profile documentation](https://github.com/antirez/h3.c/blob/8974cc055ea9c02fcd14cc27dfda3e1027c05153/README.md#L690)
+also explicitly excludes internal child buffers from complete root-GPU
+coverage. There is no explicit per-projection `waitUntilCompleted` in H3's
+linear/MLP functions. Graph compilation, framework scheduling/back-pressure,
+allocation and metadata work are possible contributors inside the 167.986s
+interval; only a BF16 CPU/GPU timeline can separate them. The almost complete
+shift from encode time to final wait time in INT8 is evidence that the API
+paths behave differently, not evidence that 168 seconds of removable CPU work
+has been found.
+
+The following matrix keeps the original BF16 and current 15-second reference
+runs unchanged. Variant environment controls belong in a new isolated,
+source-pinned diagnostic harness: the frozen benchmark runners deliberately
+pin their runtime environment and must not be bypassed. Use the same 512×512
+fox request, 9914 rows, all 50 blocks, 20 steps, reuse1 and seeds42/43; hold the
+shared GPU lock for every full run. First record a cold-in-context invocation,
+then one warmup and at least three measured resident repetitions with ABBA
+ordering and an independent rerun. Trace runs are separate diagnostics.
+
+| Experiment | Controlled change | Evidence needed before promotion |
+| --- | --- | --- |
+| Locate BF16 API cost | Existing diagnostic patch samples QKV, SDPA, output and MLP at steps0/10/19 × blocks0/24/49; separately attach Time Profiler and Metal System Trace to the BF16 process | Host API elapsed distributions, sampled active CPU stacks versus blocked intervals, and target-process GPU timeline; distinguish first use from repeated same-shape calls |
+| Cache diagnosis | Count graph-cache misses and binding-cache hits in a new diagnostic clone; time graph lookup, binding creation and graph encode separately; compare an explicit precompiled executable only after locating compilation cost | Separate compile/setup time from steady-state encode and synchronized block time; absence of an application executable cache alone is insufficient |
+| Native BF16 QKV/output at full sequence | Keep `H3_NAX=qkv-attn`; explicitly set `H3_NAX_SPLIT_ROWS=2048`, giving four full chunks plus a1722-row tail; separately compare broader `H3_NAX=1` | Include every split launch, row-major QKV/RoPE conversion and attention boundary. `H3_NAX=1` does not enable the separate fused NAX MLP |
+| Native BF16 MLP | Select `H3_NAX=mlp`, with `H3_DISABLE_NAX_MLP=1` as a same-context MPS-MLP control | Real-weight full-K reference, BF16 activation/branch boundaries, all-step latent comparison and whole-block/runtime latency; fused arithmetic may differ from MPSGraph |
+| Command scheduling | Fix sampler window1 and vary `H3_DIT_COMMAND_BLOCKS=0,10,25,30,50`; retain the current no-explicit-split run as baseline | Count explicit and internal submissions, host/GPU overlap, memory pressure and byte-exact latent parity; more encoding ahead is not assumed faster |
+| Wrapper negative controls | `H3_DISABLE_GRAPH_DATA_CACHE=1` and `H3_REUSE_MPS_COMMAND=0` separately disable existing caches | Establish whether those caches matter on this OS/device; do not advertise re-enabling the current default as a new gain |
+
+Both Time Profiler and Metal System Trace templates are available in the
+installed Xcode. A reproducible observer command is
+`xcrun xctrace record --template 'Time Profiler' --attach TARGET_H3_PID --time-limit 30s --output NEW.trace`;
+repeat separately with `'Metal System Trace'`, recording the owned process,
+source/run digest and exact observed denoising span. Do not compare traced wall
+times to untraced performance runs or report generic compute intervals as
+named operator percentages. If finer attribution is needed, add CPU signposts
+and API-level wall/process/thread CPU clocks in another isolated source pin,
+without inserting per-operation GPU fences into the production path.
+
+Native BF16 dispatch is the candidate with the broadest direct effect on this
+MPS-linear-heavy path, but its benefit is unmeasured here. The pinned upstream
+[NAX notes](https://github.com/antirez/h3.c/blob/8974cc055ea9c02fcd14cc27dfda3e1027c05153/README.md#L571)
+report that earlier microbenchmark gains sometimes reversed in complete
+forwards on different OS versions. Neither a faster tile nor less host API
+elapsed time guarantees lower end-to-end latency. Explicit graph preparation
+is worthwhile only if compilation contributes materially after warmup;
+wrapper/split tuning is a smaller-priority hypothesis because caching and
+bounded submission already exist. SDPA and the measured 30.218s video VAE
+remain separate profiling targets, not inferred beneficiaries of this BF16
+audit. These tests offer a better chance of finding a substantial bottleneck
+than further tuning a gate epilogue whose H256 native campaign showed no
+stable speed gain, while making no percentage-speedup promise.
 
 ## Source-derived candidates for profiling
 
@@ -177,8 +330,8 @@ GPU waits. It was not enabled for the original BF16 run. The later separate
 FC2 capture patch now supplies actual fox shapes and finite checks for all
 20 post-Euler video/audio states and final VAE inputs across seeds 42/43.
 Its captured BF16/native seed42 exports match the original MP4 hashes exactly.
-The diagnostic patch's per-operation `host_api_ms` is
-CPU enqueue time, not GPU time.
+The diagnostic patch's per-operation `host_api_ms` is host API elapsed time,
+which can include framework waiting; it is neither CPU-active nor GPU time.
 Post-Euler latents cannot substitute for FC2 activation calibration. Use a
 separate Instruments capture for device-time attribution, then promote only
 after matched quality checks, another seed and an independent same-hardware run.
@@ -206,11 +359,13 @@ preflight and payload verification are additional costs. The completed
 loads all 200 projections with zero runtime weight rotation/quantization.
 All 42 captured latent tensors and both original/exact-duration MP4s are
 byte-identical to the on-load H256 reference. This establishes replay parity
-for that request, not official-pipeline or perceptual quality. The first
-[native fusion campaign](../results/published/h3-native-eval/fused-campaign-001-v1/README.md)
-passes all 12 operator numerical cases. H256 FC2 has no stable speed gain;
-independent timing repetition, whole-model fusion parity/E2E and the additional
-five-/fifteen-second prompt pairs remain pending.
+for that request, not official-pipeline or perceptual quality. Two
+[native fusion campaigns](../results/published/h3-native-eval/fused-comparison-001-002-v1/README.md)
+pass all 24 operator numerical cases. H256 FC2 has no cross-seed stable speed
+gain; attention output at M9914 has lower paired medians in both seeds and
+rounds, without a statistical-significance or model-speedup claim. Whole-model
+fusion parity/E2E and the three additional five-second prompt pairs remain
+pending; the fifteen-second first-frame pair is completed above.
 
 ## Integration plans after profiling
 

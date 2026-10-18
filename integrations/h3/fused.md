@@ -2,11 +2,11 @@
 
 The experiment adds two opt-in native dispatches to pinned `antirez/h3.c`
 `8974cc055ea9c02fcd14cc27dfda3e1027c05153`, on top of the frozen H256 FC2
-experiment. Both flags default to off. The first twelve-case native GPU
-campaign passes its independent implementation and paired-output contracts.
-H256 FC2 shows no stable timing benefit; attention-output and group1024 FC2
-show small positive operator-path ratios in this one campaign. Independent
-rerun, full-model parity and end-to-end acceleration remain **pending**.
+experiment. Both flags default to off. Two independent twelve-case native GPU
+campaigns pass their implementation and paired-output contracts. H256 FC2
+shows no consistent timing benefit across seeds. Attention-output at M9914
+has lower medians in both seeds and both campaigns; M2049 includes a reversal.
+Full-model parity and end-to-end acceleration remain **pending**.
 
 | Flag | Changed projection | Existing downstream operation |
 |---|---|---|
@@ -176,9 +176,9 @@ that fusion changes model precision or quality.
 
 These medians summarize three warmups and ten alternating-order samples per
 variant, with starting order reversed for seed 29. H256 FC2's range straddles
-parity and offers no useful demonstrated gain. The attention and group1024
-differences need an independent campaign because the timing variation is
-material relative to the smaller effects. They are not model throughput.
+parity and offers no useful demonstrated gain. Timing variation is material
+relative to the smaller effects; the independent rerun below tests the observed
+directions. These intervals are not model throughput.
 
 Both paths report **three timed GPU dispatches**: activation packing/rotation,
 GEMM, and next AdaLN/packing. The original native path already fuses gate into
@@ -191,6 +191,48 @@ The package can be regenerated into a new output directory using the CPU-only
 `publish_fused_campaign.py --campaign-dir ... --output-dir ...` exporter. It
 revalidates all twelve raw numerical/timing records, source identities and
 driver digests before copying them; existing output directories are rejected.
+
+## Independent second campaign and resident candidate
+
+The [second raw campaign](../../results/published/h3-native-eval/fused-campaign-002-v1/README.md)
+also passes all twelve numerical cases. The
+[two-campaign comparison](../../results/published/h3-native-eval/fused-comparison-001-002-v1/README.md)
+revalidates all 24 raw case/driver records and recomputes the medians from raw
+samples. Source/model/wrapper/environment and the linked executable hashes
+match. Library archive hashes differ and are preserved separately. Campaign
+intervals do not overlap. Every case's independent numerical reference metrics
+are identical across the two runs; this does not assert unrecorded tensor
+hash equality between separate processes.
+
+| Policy | Rows | Seeds with lower fused median in both campaigns | Native / fused range over both seeds and campaigns |
+|---|---:|---:|---:|
+| H256 FC2 | 2049 | 0 / 2 | 0.99541–1.01949 |
+| H256 FC2 | 9914 | 1 / 2 | 0.99252–1.00229 |
+| Attention output | 2049 | 1 / 2 | 0.99482–1.02063 |
+| Attention output | 9914 | 2 / 2 | 1.00788–1.06680 |
+| Group1024 FC2 | 2049 | 2 / 2 | 1.00967–1.12034 |
+| Group1024 FC2 | 9914 | 2 / 2 | 1.00580–1.02875 |
+
+These are descriptive median directions, not significance tests. H256 FC2
+does not support enabling its gate epilogue: at M9914, seed17's reductions
+are only about 0.05%/0.23%, while seed29 is slower in both campaigns.
+Attention-output M9914 is the best next resident candidate under the fixed
+H256 checkpoint policy, conditional on whole-model exact parity. Its observed
+wall reductions span about 0.78–6.26%; the magnitude is not stable enough to
+predict a full-generation change. M2049 seed29 reverses in the second campaign.
+
+Group1024 FC2 has repeated positive directions, but its small-shape magnitude
+changes substantially across campaigns. It is a different FC2 quantization
+policy and cannot be substituted for H256 or used to justify the H256 flag.
+Prioritize matched fused-source `none` versus `attention` resident requests
+after all Euler/final tensors and media agree. Test `both` for complete-model
+correctness, while keeping FC2 off for the primary performance comparison.
+No default enablement follows from these operator measurements.
+
+The CPU-only `compare_fused_campaigns.py` creates a new comparison directory
+from two source campaign directories, rejects reused/overlapping records or
+mismatched executable/environment identities, and retains all raw timings and
+source hashes without modifying either original campaign.
 
 ## Full-model trajectory checks
 

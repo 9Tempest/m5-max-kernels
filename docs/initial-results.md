@@ -24,9 +24,46 @@ See the [deployment report](h3-local-inference.md), [raw run](../results/local/h
 
 The subsequent [native FC2-H256 integration](h3-hadamard-native.md) improves final video latent relative L2 against BF16 from 0.372733 to 0.335791 at seed42 and 0.221757 to 0.203205 at seed43; final audio latent relative L2 also improves in both. RGB SSIM changes 0.690501→0.704100 and 0.833956→0.848317 respectively, under the same decoded-RGB FFmpeg contract. Some intermediate steps and sampled tails regress. The user-authorized decision now considers aggregate error and tail risk together with multi-seed video/audio quality; a failed historical every-row gate is retained as evidence, not treated as the current adoption veto. These paired drift results do not establish perceptual quality or an H256 end-to-end speedup. [Complete metrics and protocol](h3-evaluation.md), [six playable public samples and immutable evidence](../results/published/h3-native-eval/README.md).
 
-The completed quality captures use on-load H256 preparation. The separate 200-projection offline export and derived-checkpoint assembly have completed. The [prepared seed42 replay](../results/local/h3/prepared-replay-seed42-001/run.json) loads 200 projections with zero runtime weight rotation/quantization and matches all 42 latent tensors and both MP4 files byte-for-byte. This is loader parity for one request; native fusion now passes 12 operator-path GPU correctness cases, with no stable H256 FC2 gain and small attention/group1024 observations pending independent repetition. Full-model fusion/E2E and the additional person/rain/water and fifteen-second first-frame pairs remain pending. [Raw fusion evidence](../results/published/h3-native-eval/fused-campaign-001-v1/README.md). The original BF16 and derived INT8/H256 checkpoints are retained locally. Offline projection preparation took 7.366674 s, separately from loading (1.365344 s), original tensor hashing (45.582728 s), and readback/hash/write (12.995065 s); these omit separate full-model preflight and payload verification costs.
+The completed fox quality captures use on-load H256 preparation. The separate 200-projection offline export and derived-checkpoint assembly have completed. The [prepared seed42 replay](../results/local/h3/prepared-replay-seed42-001/run.json) loads 200 projections with zero runtime weight rotation/quantization and matches all 42 latent tensors and both MP4 files byte-for-byte. This is loader parity for one request. Two native fusion campaigns now pass all 24 operator-path numerical cases, with no stable H256 FC2 gain across seeds; attention-output M9914 medians are lower in both seeds and rounds, without a significance or whole-model claim. Full-model fusion/E2E and the additional person/rain/water pairs remain pending. [Repeated fusion comparison](../results/published/h3-native-eval/fused-comparison-001-002-v1/README.md). The original BF16 and derived INT8/H256 checkpoints are retained locally. Offline projection preparation took 7.366674 s, separately from loading (1.365344 s), original tensor hashing (45.582728 s), and readback/hash/write (12.995065 s); these omit separate full-model preflight and payload verification costs.
 
 A [resident H256 session](../results/published/h3-native-eval/performance/hadamard-resident-seed42-001.json) completed one warmup plus three timed same-seed requests: cached generation 153.602430/153.325268/153.235321 s and synchronized denoise callback 123.723213/123.509807/123.386680 s. All four original 124-frame videos are byte-identical. The generation median is 153.325268 s, including decode/export; the denoise median is 123.509807 s. Audio VAE setup/compilation APIs and loading still repeat, so this is not compilation-free end-to-end latency. The upstream cached DiT wall mark spans intervening requests and is unsuitable for this comparison; use the independent synchronized callbacks. Three same-seed samples do not establish a cross-mode performance win or independent hardware repeat.
+
+## Completed 15-second conditioned diagnostic
+
+The full Chinese whale-maid prompt and the same first-frame image now have a
+completed BF16/prepared-H256 pair: seed83, 512×288, 24 fps, 20 steps, 50 blocks,
+362 native frames and verified 360-frame/15 s exports. The prompt is not
+truncated. [Videos and latent/media evaluations](../results/published/h3-native-eval/whale-maid-15s-v1/README.md),
+[sanitized timing/provenance record](../results/published/h3-native-eval/performance/whale-maid-15s-diagnostic-v1.json).
+
+| Diagnostic measurement | BF16 | Prepared INT8/H256 |
+| --- | ---: | ---: |
+| Generation process wall, s | 506.275859 | 364.855037 |
+| DiT denoise wall, s | 443.527 | 293.568 |
+| DiT load phase, s | 7.825 | 15.719 |
+| Video VAE decoder, s | 43.918 | 43.951 |
+| Tracked DiT tensor peak, GiB | 38.199 | 20.967 |
+
+This pair's process/denoise ratios are 1.387608×/1.510815×. Generation includes
+loading, encoders/decoders, original AV export and all-step latent readbacks;
+preflight/build, offline export and exact-duration trimming are excluded.
+Both are single-seed diagnostic captures with extra synchronization, not
+resident repetitions or stable promotion evidence. BF16 ran first after
+hashing warmed file caches. The expected source difference is BF16 capture
+source versus the prepared INT8/H256 loader; all harness file hashes match.
+The comparison combines precision and checkpoint policy, not Hadamard alone.
+The H loader verifies/loads 200 projections without re-rotation/quantization;
+its 12.411358 s payload-load marker is inside the 15.719 s DiT load phase.
+Memory is tracked Metal tensor peak, excluding RSS and MPS internal scratch.
+
+All 42 latent tensors per run are finite, including final video
+`[24,107,18,32]` and audio `[32,2,603]`. BF16-relative final video/audio L2 is
+0.21195048/0.31593459, RGB SSIM is 0.81870478, and RGB SNR is 15.69317 dB.
+PCM SNR is 0.439247 dB with relative L2 0.950687, a substantial waveform
+difference. These metrics do not establish perceptual acceptance. Only limited
+sampled stills have been reviewed; complete motion/prompt timing and listening
+remain unevaluated. The three extra 5s prompt pairs and whole-model fusion
+parity/performance are still pending.
 
 ## Independently repeated candidates
 

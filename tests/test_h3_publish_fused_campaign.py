@@ -24,8 +24,8 @@ def publisher(monkeypatch):
     return module
 
 
-def fixture(tmp_path, publisher):
-    root = tmp_path / "input"
+def fixture(tmp_path, publisher, *, name="input", warmups=3, repeats=3, fused_multiplier=1):
+    root = tmp_path / name
     root.mkdir()
     fused = publisher.fused
     record = dict(
@@ -46,7 +46,15 @@ def fixture(tmp_path, publisher):
     for seed, rows, policy in fused.CASES:
         name = f"{policy}-m{rows}-seed{seed}"
         (root / name).mkdir()
-        report = valid_report(fused, seed, rows, policy)
+        report = valid_report(fused, seed, rows, policy, warmups, repeats)
+        for sample in report["timing"]["fused"]:
+            for key in (
+                "wall_seconds",
+                "cpu_encode_seconds",
+                "submit_wait_seconds",
+                "supplemental_gpu_seconds",
+            ):
+                sample[key] *= fused_multiplier
         (root / name / "driver.json").write_text(json.dumps(report))
         case = dict(
             seed=seed,
@@ -55,13 +63,13 @@ def fixture(tmp_path, publisher):
             status="completed",
             process=dict(returncode=0, fallback_detected=False),
             driver_report_sha256=fused.base.sha256(root / name / "driver.json"),
-            summary=fused.validate_case(report, seed, rows, policy, 3, 3),
+            summary=fused.validate_case(report, seed, rows, policy, warmups, repeats),
         )
         (root / name / "case.json").write_text(json.dumps(case))
         record["cases"].append(case | dict(directory=name))
     (root / "campaign.json").write_text(json.dumps(record))
     (root / "request.json").write_text(
-        json.dumps(record | dict(cases_requested=fused.CASES, warmups=3, repeats=3))
+        json.dumps(record | dict(cases_requested=fused.CASES, warmups=warmups, repeats=repeats))
     )
     return root, record
 
@@ -76,7 +84,10 @@ def test_raw_json_and_samples_copied_exactly(tmp_path, publisher):
         assert (output / entry["file"]).read_bytes() == (
             source / Path(entry["file"]).relative_to("raw")
         ).read_bytes()
-    assert result["conclusions"]["end_to_end_acceleration"] == "not measured"
+    assert (
+        result["conclusions"]["end_to_end_acceleration"]
+        == "not measured by this operator-only export"
+    )
     assert "CPU residual restoration is outside timing" in (output / "README.md").read_text()
     with pytest.raises(FileExistsError):
         publisher.execute(source, output)
@@ -118,4 +129,39 @@ def test_missing_case_rejected(tmp_path, publisher):
     record["cases"].pop()
     (source / "campaign.json").write_text(json.dumps(record))
     with pytest.raises(ValueError, match="missing"):
+        publisher.collect(source)
+
+
+@pytest.mark.parametrize(
+    "multiplier,ratio,lower,higher",
+    [(2, "0.50000", 0, 4), (0.5, "2.00000", 4, 0), (1, "1.00000", 0, 0)],
+)
+def test_readme_uses_actual_campaign_values(tmp_path, publisher, multiplier, ratio, lower, higher):
+    source, _ = fixture(
+        tmp_path,
+        publisher,
+        name="fused-campaign-002",
+        warmups=4,
+        repeats=5,
+        fused_multiplier=multiplier,
+    )
+    result, _ = publisher.collect(source)
+    page = publisher.readme(result)
+    assert page.startswith("# Native gate epilogue fused-campaign-002\n")
+    assert "campaign-001" not in page
+    assert "4 warmups and 5 alternating-order measured repetitions" in page
+    assert (
+        f"`h256`: {ratio}–{ratio}; fused median lower in {lower}/4 cases, higher in {higher}/4"
+        in page
+    )
+    assert "seed 17: native first; seed 29: fused first" in page
+    assert "remain pending" not in page
+    assert (
+        result["conclusions"]["independent_rerun"] == "not assessed by this single-campaign export"
+    )
+
+
+def test_campaign_identifier_cannot_inject_markdown(tmp_path, publisher):
+    source, _ = fixture(tmp_path, publisher, name="bad\n# title")
+    with pytest.raises(ValueError, match="plain publication identifier"):
         publisher.collect(source)

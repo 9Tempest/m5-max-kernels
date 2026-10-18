@@ -1,0 +1,3368 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "quality_decision": "not_evaluated",
+  "evaluator_sha256": "d0d8332b5732d6f086e6ecb1386cb8f3404bea91b6b779caf067b8bfb8c6eb38",
+  "metric_sha256": "e54704bba58a6c85bf2bddd6825f7ecbb39b4a50440f6a350708fdd3e5e62f8a",
+  "prepared_validator_sha256": "aff868c5cb065c20181b4dd98cf8b6165d0c43f520e326764481e0a7d66138a5",
+  "latent_helper_sha256": "1a72a05b4667e5e9889762efff8c9fb0ab96d9218fdd2913e7c72240c9515f95",
+  "scope": "paired 15s first-frame-conditioned captured latents",
+  "data_range": 1.0,
+  "data_range_note": "latent PSNR convention only; emphasize SNR and relative L2",
+  "recipe": {
+    "width": 512,
+    "height": 288,
+    "seconds": 15,
+    "fps": 24,
+    "seed": 83,
+    "steps": 20,
+    "source_frames": 362,
+    "exact_frames": 360,
+    "active_dit_blocks": 50,
+    "reuse": 1,
+    "core_reuse": 1,
+    "reference_rope": true
+  },
+  "conditioning": {
+    "mode": "first-frame",
+    "sha256": "b1b4c9330f8e27fd95c770e610210b366ad30933a651f71d1e39401bf63cf24d",
+    "bytes": 208682,
+    "original_width": 1280,
+    "original_height": 720,
+    "preprocessing": "upstream_first_frame_stretch_to_render_canvas",
+    "target_canvas": [
+      512,
+      288
+    ]
+  },
+  "shapes": {
+    "final_video_shape": [
+      24,
+      107,
+      18,
+      32
+    ],
+    "final_audio_shape": [
+      32,
+      2,
+      603
+    ],
+    "per_step_video_shape": [
+      15408,
+      96
+    ],
+    "per_step_audio_shape": [
+      1206,
+      32
+    ]
+  },
+  "catalog": {
+    "width": 512,
+    "height": 288,
+    "seconds": 15,
+    "fps": 24,
+    "steps": 20,
+    "source_frames": 362,
+    "exact_frames": 360,
+    "active_dit_blocks": 50,
+    "reuse": 1,
+    "core_reuse": 1,
+    "reference_rope": true,
+    "id": "deepseek-whale-maid-15s-v1",
+    "seed": 83,
+    "prompt_file": "prompts/deepseek-whale-maid-15s-zh.txt",
+    "prompt_sha256": "fccc21a2e05295b2920af3b6a3a58e720d7d8f5f15f2e057986faecd4f95f0cc",
+    "prompt_bytes": 2233,
+    "prompt_tokens": 545,
+    "image_prefix_tokens": 6,
+    "image_sha256": "b1b4c9330f8e27fd95c770e610210b366ad30933a651f71d1e39401bf63cf24d",
+    "image_bytes": 208682,
+    "image_width": 1280,
+    "image_height": 720,
+    "checks": {
+      "temporal": "Single fixed medium shot; spoon-to-mouth, noticing camera, and tail timing across all 15 seconds.",
+      "texture": "Character identity from the first frame, blue hair, fin ears, maid clothing, rice and hand/spoon integrity.",
+      "audio": "No dialogue requested; inspect generated audio for artifacts without treating silence as required."
+    },
+    "prompt": "15\u79d2\uff0c16:9\u6a2a\u5c4f\uff0c\u7cbe\u81f4\u7684\u4e8c\u7ef4\u52a8\u6f2b\u77ed\u7247\uff0c\u6e29\u6696\u3001\u53ef\u7231\u3001\u6709\u660e\u786e\u7684\u559c\u5267\u8282\u594f\u3002\u4e00\u4e2a\u8fde\u7eed\u955c\u5934\uff0c\u56fa\u5b9a\u673a\u4f4d\uff0c\u4e2d\u666f\uff0c\u59cb\u7ec8\u80fd\u770b\u6e05\u9cb8\u9c7c\u5a18\u7684\u8138\u3001\u53cc\u624b\u3001\u684c\u4e0a\u7684\u996d\u7897\u548c\u8eab\u540e\u7684\u9cb8\u9c7c\u5c3e\u5df4\u3002\n\n\u4e3b\u89d2\u662fDeepSeek\u9cb8\u9c7c\u5a18\uff1a\u6df1\u84dd\u8272\u6e10\u53d8\u81f3\u6d45\u84dd\u8272\u7684\u84ec\u677e\u957f\u53d1\uff0c\u5934\u9876\u4e00\u6839\u5f2f\u66f2\u5446\u6bdb\uff0c\u84dd\u8272\u5927\u773c\u775b\uff0c\u9cb8\u9ccd\u5f62\u72b6\u7684\u8033\u6735\uff0c\u84dd\u8272\u5c0f\u8774\u8776\u7ed3\uff0c\u767d\u8272\u8377\u53f6\u8fb9\u53d1\u7b8d\uff0c\u6df1\u84dd\u4e0e\u767d\u8272\u7684\u957f\u8896\u5973\u4ec6\u88d9\uff0c\u8eab\u540e\u4e00\u6761\u5bbd\u5927\u84dd\u8272\u9cb8\u9c7c\u5c3e\u5df4\u3002\u5706\u6da6\u53ef\u7231\u7684Q\u7248\u6bd4\u4f8b\uff0c\u8868\u60c5\u751f\u52a8\u3002\u4fdd\u6301\u540c\u4e00\u4e2a\u89d2\u8272\u7684\u8138\u3001\u53d1\u578b\u3001\u670d\u88c5\u548c\u5c3e\u5df4\u9020\u578b\u4e0d\u53d8\u3002\n\n\u573a\u666f\u662f\u5348\u540e\u9633\u5149\u7167\u8fdb\u6765\u7684\u6e29\u99a8\u4e66\u623f\u3002\u9cb8\u9c7c\u5a18\u5750\u5728\u6728\u684c\u524d\uff0c\u753b\u9762\u5de6\u4fa7\u662f\u4e00\u53f0\u6253\u5f00\u7684\u94f6\u8272\u7b14\u8bb0\u672c\u7535\u8111\uff0c\u53f3\u4fa7\u662f\u4e00\u7897\u5192\u7740\u6de1\u6de1\u70ed\u6c14\u7684\u767d\u7c73\u996d\uff0c\u996d\u7897\u65c1\u8fb9\u653e\u7740\u4e00\u628a\u5c0f\u52fa\u5b50\u3002\u80cc\u666f\u4e66\u67b6\u67d4\u548c\u865a\u5316\u3002\n\n0\u20144\u79d2\uff1a\n\u9cb8\u9c7c\u5a18\u6258\u7740\u4e0b\u5df4\uff0c\u76b1\u7740\u5c0f\u7709\u5934\u76ef\u7740\u7535\u8111\uff0c\u8868\u60c5\u5f02\u5e38\u8ba4\u771f\uff0c\u4eff\u4f5b\u6b63\u5728\u601d\u8003\u4e00\u9053\u4e16\u754c\u7ea7\u96be\u9898\u3002\u5979\u7f13\u6162\u7728\u773c\uff0c\u5934\u9876\u5446\u6bdb\u8f7b\u8f7b\u6643\u52a8\uff0c\u5c3e\u5df4\u61d2\u6d0b\u6d0b\u5730\u5782\u5728\u8eab\u540e\u3002\u7c73\u996d\u7684\u70ed\u6c14\u7f13\u7f13\u5347\u8d77\u3002\n\n4\u201410\u79d2\uff1a\n\u5979\u7684\u5c0f\u9f3b\u5b50\u8f7b\u8f7b\u52a8\u4e86\u4e24\u4e0b\uff0c\u89c6\u7ebf\u6084\u6084\u4ece\u7535\u8111\u79fb\u5411\u7c73\u996d\u3002\u770b\u5230\u7c73\u996d\u7684\u77ac\u95f4\uff0c\u773c\u775b\u660e\u663e\u4eae\u8d77\u6765\uff0c\u5446\u6bdb\u7ad6\u8d77\uff0c\u4e25\u8083\u8868\u60c5\u7acb\u523b\u53d8\u6210\u85cf\u4e0d\u4f4f\u7684\u5f00\u5fc3\u3002\u5979\u8fc5\u901f\u62ff\u8d77\u5c0f\u52fa\uff0c\u8200\u8d77\u4e00\u5927\u53e3\u7c73\u996d\u9001\u8fdb\u5634\u91cc\uff0c\u6ee1\u8db3\u5730\u772f\u8d77\u773c\u775b\uff0c\u4e24\u8fb9\u8138\u988a\u9f13\u8d77\u6765\uff0c\u8eab\u540e\u7684\u9cb8\u9c7c\u5c3e\u5df4\u5f00\u59cb\u6b22\u5feb\u5730\u5de6\u53f3\u6446\u52a8\u3002\u4e00\u7c92\u767d\u7c73\u996d\u7c98\u5728\u5979\u7684\u5634\u89d2\u3002\n\n10\u201415\u79d2\uff1a\n\u5979\u7a81\u7136\u53d1\u73b0\u955c\u5934\u6b63\u5728\u770b\u7740\u81ea\u5df1\uff0c\u62ff\u7740\u52fa\u5b50\u7684\u624b\u505c\u5728\u534a\u7a7a\uff0c\u7741\u5706\u773c\u775b\uff0c\u50f5\u4f4f\u534a\u79d2\u3002\u968f\u540e\u82e5\u65e0\u5176\u4e8b\u5730\u628a\u52fa\u5b50\u653e\u56de\u996d\u7897\u65c1\uff0c\u91cd\u65b0\u6258\u4f4f\u4e0b\u5df4\uff0c\u8f6c\u56de\u7535\u8111\uff0c\u52aa\u529b\u6062\u590d\u4e00\u672c\u6b63\u7ecf\u7684\u601d\u8003\u8868\u60c5\u3002\u4f46\u5634\u89d2\u7684\u996d\u7c92\u8fd8\u5728\uff0c\u8138\u988a\u4ecd\u7136\u9f13\u9f13\u7684\uff0c\u8eab\u540e\u7684\u5927\u5c3e\u5df4\u4e5f\u5b8c\u5168\u505c\u4e0d\u4e0b\u6765\uff0c\u7ee7\u7eed\u5f00\u5fc3\u5730\u6446\u52a8\u3002\u6700\u540e\u4e24\u79d2\u4fdd\u7559\u8fd9\u4e2a\u201c\u88c5\u5f97\u5f88\u8ba4\u771f\uff0c\u5c3e\u5df4\u5374\u51fa\u5356\u4e86\u5979\u201d\u7684\u753b\u9762\u3002\n\n\u52a8\u4f5c\u6709\u6e05\u695a\u7684\u5148\u540e\u987a\u5e8f\u548c\u81ea\u7136\u505c\u987f\uff0c\u8868\u60c5\u53d8\u5316\u7ec6\u817b\uff0c\u624b\u4e0e\u52fa\u5b50\u63a5\u89e6\u51c6\u786e\uff0c\u996d\u7897\u548c\u7535\u8111\u7684\u4f4d\u7f6e\u8fde\u7eed\u4e00\u81f4\u3002\u5934\u53d1\u3001\u8863\u670d\u548c\u5c3e\u5df4\u968f\u8eab\u4f53\u52a8\u4f5c\u8f7b\u5fae\u81ea\u7136\u6446\u52a8\u3002\u5149\u7ebf\u7a33\u5b9a\uff0c\u7ebf\u6761\u6e05\u6670\uff0c\u8272\u5f69\u67d4\u548c\u3002\u5168\u7a0b\u65e0\u5bf9\u767d\u3001\u65e0\u5b57\u5e55\u3001\u65e0\u6587\u5b57\u6c14\u6ce1\u3001\u65e0\u6c34\u5370\u3001\u65e0\u5207\u955c\u3002\n",
+    "catalog_sha256": "ee6fb7632e4b65858c9f0ec2944f5ae2a95eb85ae0e3219e308fb6fd1295e21a",
+    "catalog_suite": "h3-first-frame-15s-v1"
+  },
+  "sources": {
+    "bf16": {
+      "run_sha256": "ada46b0a3401083e1370b9c50287a26a2c2a6522dfab5d577cba42544ca5f921",
+      "model": {
+        "repository": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+      },
+      "patch": {
+        "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+      },
+      "metadata": {
+        "schema": 1,
+        "scope": "diagnostic_CPU_readback_after_completed_GPU_Euler",
+        "dtype": "float32_little_endian",
+        "seed": 83,
+        "seed_source": "caller_declared_H3_CAPTURE_SEED_verify_against_request_manifest",
+        "completed_steps": 20,
+        "time_unix_seconds": 1792367039.009638,
+        "time_monotonic_seconds": 16428.528071,
+        "final_video_shape": [
+          24,
+          107,
+          18,
+          32
+        ],
+        "final_audio_shape": [
+          32,
+          2,
+          603
+        ],
+        "final_layout": "unpacked_contiguous_VAE_input_before_decoder",
+        "per_step_video_shape": [
+          15408,
+          96
+        ],
+        "per_step_audio_shape": [
+          1206,
+          32
+        ],
+        "per_step_layout": "packed_model_rows_after_Euler_before_unpack",
+        "final_video_sigma": 0,
+        "final_audio_sigma": 0,
+        "int8_mlp": 0,
+        "int8_qkv": 0,
+        "int8_attention_out": 0,
+        "hadamard_fc2": 0,
+        "finite": true
+      },
+      "metadata_sha256": "0592d43d51d3a582259c13c76b6001fef9bc04ef0a1b6aeb4562420045391f4b",
+      "tensors": [
+        {
+          "file": "euler-step00-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "e29d89441ccf7b19752211ca9e8a8d3d9b1892c7a1988336c495fffd7cdbc391",
+          "finite": true
+        },
+        {
+          "file": "euler-step00-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "da4dc5072cd7d3062f4c687c3a64042c9400c04919864412a997cf34aa3b620b",
+          "finite": true
+        },
+        {
+          "file": "euler-step01-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "48162a2d38743373b7778865082f6cc3f1ae234008579f486e4450661921ee92",
+          "finite": true
+        },
+        {
+          "file": "euler-step01-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "bbebd2c3762af1ef45a9961f332c7a98c388e9b7731436d2cf11f536d41a4fdc",
+          "finite": true
+        },
+        {
+          "file": "euler-step02-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "edfdc919439206ab282950884fc7bc7190e058ee2394d45f282f27db98273991",
+          "finite": true
+        },
+        {
+          "file": "euler-step02-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "762d0af78a9eb4919dc12fd0e429eeac8b5f34275f7225969d15f2e4e2cad34f",
+          "finite": true
+        },
+        {
+          "file": "euler-step03-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "3c38f04517c9ebebc29f7dd8cbbae1aeb5b635e906b9efef9c075d9e85c251ac",
+          "finite": true
+        },
+        {
+          "file": "euler-step03-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "b4fe5f19048bd7fdbeb995075506bd2717ddaffcac81beda7c5ee5d88671e7f1",
+          "finite": true
+        },
+        {
+          "file": "euler-step04-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "cfb14451a2dd63057d948d5a5ccaf9d12e7a04100e8c89b0f6033effe19e1129",
+          "finite": true
+        },
+        {
+          "file": "euler-step04-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "bbccd39650e36d55ae190b1471879224373b796e3b02c0cc6333bb7bf9efdb76",
+          "finite": true
+        },
+        {
+          "file": "euler-step05-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "d0ecf09829f3d324bb650d9a0e1d564c6a10947842bf577310797ee02a5cd669",
+          "finite": true
+        },
+        {
+          "file": "euler-step05-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "bb53408d727a73eb4d647d1f6f759f35dae1cb7866044dc585aca5c3b75596bf",
+          "finite": true
+        },
+        {
+          "file": "euler-step06-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "b0bb8742b4067d8a602f109ebb6e717ad6a3a7d75a64bdff414f91dcf3827359",
+          "finite": true
+        },
+        {
+          "file": "euler-step06-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "d19bff8accbcd38e0ce7f80de681a9e2f764d2cccc3557727df5ca1484ea121a",
+          "finite": true
+        },
+        {
+          "file": "euler-step07-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "e364b0afd6be2b642e57fd61b9541a7482ee7ca0c4c237cbc1f58d75649fd940",
+          "finite": true
+        },
+        {
+          "file": "euler-step07-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "e0808e9970b0386c1c4c9f85fcafe262adb8896cb528f9db545e53b2908c7654",
+          "finite": true
+        },
+        {
+          "file": "euler-step08-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "7f174d10bb0d755ebe65dded29736e5761a1837caa12fbb663bf6bec58c44fac",
+          "finite": true
+        },
+        {
+          "file": "euler-step08-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "d5b37c32417ae61972073399daf99d3232fa983ce77c57b69b68b9e267a87920",
+          "finite": true
+        },
+        {
+          "file": "euler-step09-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "9ab3abebd70c73ae465fae26089b454fc2ce27701de6d3af8a5160bcf456a5d3",
+          "finite": true
+        },
+        {
+          "file": "euler-step09-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "395de8909b721de4f6c13030358550c467aebaa9286155b0821d1dc2d2b2b542",
+          "finite": true
+        },
+        {
+          "file": "euler-step10-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "f1f4dcee812a68131d7a0ccf0ea9de1472e7c00b7196b88edae1679e723eafec",
+          "finite": true
+        },
+        {
+          "file": "euler-step10-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "e46c7366a5f4779f29fd23e72b85505f86e11f1938533f5e0c3de7949d8ac97c",
+          "finite": true
+        },
+        {
+          "file": "euler-step11-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "6f5738031e89cccfaff55e3996ddc534f394095ccc83bd7ec443b815bf98e9c1",
+          "finite": true
+        },
+        {
+          "file": "euler-step11-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "13880d3ed3229d2ab921a2f48b2eaf6d72c6532aadbb9f2ab57dbce6f26866ad",
+          "finite": true
+        },
+        {
+          "file": "euler-step12-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "b20182a1654458c221b427c04996fdd145b9874aae3aecfb98964422cef35582",
+          "finite": true
+        },
+        {
+          "file": "euler-step12-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "73f13c2164ba2c56e548fdd19d272803e53bcb61b889498d492c2e00ceaae360",
+          "finite": true
+        },
+        {
+          "file": "euler-step13-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "4c2cbaf0b2264660cf4814dae7f50d41079fbd0f002f4ce9f145a2679722a622",
+          "finite": true
+        },
+        {
+          "file": "euler-step13-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "ac87e24e13b66a6322d9a44288d88afde1f058a8c80da839490fed4a72e59d65",
+          "finite": true
+        },
+        {
+          "file": "euler-step14-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "22f147c7a1dfbbcd7ce2016e2ba666a12453fd01797757e9e651697358cf03da",
+          "finite": true
+        },
+        {
+          "file": "euler-step14-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "9e7f39cecf036d85bb252de9261af3a7a9b3ab4c87326dca12922e67d52ce2a3",
+          "finite": true
+        },
+        {
+          "file": "euler-step15-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "b5e3c3ad8cb92a88bff118d31c717e9d75360324bfce5cfefd5b4e6f311c6f17",
+          "finite": true
+        },
+        {
+          "file": "euler-step15-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "af4dcc88ca251a0d2e5d94bbfe3543d7a77e34727af6349618c2d6eede0545c5",
+          "finite": true
+        },
+        {
+          "file": "euler-step16-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "0fc0d6a51b89dcedf54fe4d11531c4b134bbb7ac47fa73ef51daf58d2903d5e1",
+          "finite": true
+        },
+        {
+          "file": "euler-step16-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "59c85d7621f9959647c850cea847a14ab3b3ac62887b197d5f3e68453af81ad6",
+          "finite": true
+        },
+        {
+          "file": "euler-step17-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "01d8143c5a6166ba4c0d8c967d91478f510b1f9736fbf31387490532edbc8f30",
+          "finite": true
+        },
+        {
+          "file": "euler-step17-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "510d43d6834e6b1c6791a4d2e965ff85d62c60bd7fe80ac72b959627b077ee6c",
+          "finite": true
+        },
+        {
+          "file": "euler-step18-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "40f6c989e43e407da8477345f673ce76d5076076aea1ec6d98acd0d0a8adddbc",
+          "finite": true
+        },
+        {
+          "file": "euler-step18-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "97c5a5fab0b32676ea5ef12bd96aedc02a269bbcf08c9be11fcd74438d84c6b4",
+          "finite": true
+        },
+        {
+          "file": "euler-step19-video.f32",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "2167d1f5c3ba7495cad74c664a2ccb01668163202c12a210f0c63d1266065688",
+          "finite": true
+        },
+        {
+          "file": "euler-step19-audio.f32",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "504f82d8ef83589e32609fab248c7358d90ce8e3666faed3814f3ac658d14b57",
+          "finite": true
+        },
+        {
+          "file": "final-video.f32",
+          "shape": [
+            24,
+            107,
+            18,
+            32
+          ],
+          "sha256": "155285334ee72de1cbbee1dc14d81ce86b02de806a83e9f0f156e208b7e41e89",
+          "finite": true
+        },
+        {
+          "file": "final-audio.f32",
+          "shape": [
+            32,
+            2,
+            603
+          ],
+          "sha256": "b993da920fc9ae29976d75bacccc870445affbdf5ea70443c75bc0450a2b692a",
+          "finite": true
+        }
+      ],
+      "npz_sha256": "7df100918277257bc9b0a21eb44549eabca9767eb8a0d67bf7343695be09d9fe"
+    },
+    "hadamard": {
+      "run_sha256": "f3db9931b2300c797a780860b9ffe2b04ae159a0dc5a62dc7734431beae8ee43",
+      "model": {
+        "repository": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "model_manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+      },
+      "loader_patch": {
+        "source_sha256": "054ec73eb454e44dc75d71bf83fa53a7129e5bd1e30fb304236f545f92f9cd7e",
+        "patch_sha256": "1cad08a5bddc2dfa37c29d2c00551fe467a032d358d1287072f93bfd9dc74c67"
+      },
+      "derived_manifest_sha256": "6840c91f6e5b9fcb4e8fe25292a1b1e2209d2f7f9c02e3427cfbbcbc71da4cda",
+      "prepared_manifest_sha256": "a2b3bb2d64954fb48bccaea138558183c09d721417147615e49cbebfc2888f1b",
+      "metadata_sha256": "26d0b8f53ef529cb229156b35957ae8c372a6f957046c084e1e665007b424308",
+      "metadata": {
+        "schema": 1,
+        "scope": "diagnostic_CPU_readback_after_completed_GPU_Euler",
+        "dtype": "float32_little_endian",
+        "seed": 83,
+        "seed_source": "caller_declared_H3_CAPTURE_SEED_verify_against_request_manifest",
+        "completed_steps": 20,
+        "time_unix_seconds": 1792367455.567068,
+        "time_monotonic_seconds": 16845.085501,
+        "final_video_shape": [
+          24,
+          107,
+          18,
+          32
+        ],
+        "final_audio_shape": [
+          32,
+          2,
+          603
+        ],
+        "final_layout": "unpacked_contiguous_VAE_input_before_decoder",
+        "per_step_video_shape": [
+          15408,
+          96
+        ],
+        "per_step_audio_shape": [
+          1206,
+          32
+        ],
+        "per_step_layout": "packed_model_rows_after_Euler_before_unpack",
+        "final_video_sigma": 0,
+        "final_audio_sigma": 0,
+        "int8_mlp": 1,
+        "int8_qkv": 1,
+        "int8_attention_out": 1,
+        "hadamard_fc2": 1,
+        "finite": true
+      },
+      "tensors": [
+        {
+          "file": "euler-step00-video.f32",
+          "key": "euler_step00_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "aad8fc1f85ad74089a9a9760461de4f319619b6e49cf5df88f6393b8202a716f",
+          "finite": true
+        },
+        {
+          "file": "euler-step00-audio.f32",
+          "key": "euler_step00_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "f9c5ef1ebd5d098c239e52942fc729011b36732136b41c90c7467064220bdcb5",
+          "finite": true
+        },
+        {
+          "file": "euler-step01-video.f32",
+          "key": "euler_step01_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "79372fb9ebf13ce142acd67919f3295592dd0d4a50b790b78d955d3878ac8b24",
+          "finite": true
+        },
+        {
+          "file": "euler-step01-audio.f32",
+          "key": "euler_step01_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "6fbd40e380c602e20f75cdcaabb311e9a084cbf3f334308341668659b4865840",
+          "finite": true
+        },
+        {
+          "file": "euler-step02-video.f32",
+          "key": "euler_step02_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "498247bc2b6645b7081adae58471d29229e94af8e4bd474d87e9963fc2df00c5",
+          "finite": true
+        },
+        {
+          "file": "euler-step02-audio.f32",
+          "key": "euler_step02_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "63365479e97a4147267a9246bf1f1e67c91323b6bf6be6022248cc118adea70f",
+          "finite": true
+        },
+        {
+          "file": "euler-step03-video.f32",
+          "key": "euler_step03_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "16877e832f7984ca3a896bd32c2c4fd9cd1c4756478c05f0e8024cc135d36042",
+          "finite": true
+        },
+        {
+          "file": "euler-step03-audio.f32",
+          "key": "euler_step03_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "e2dc0eb2b97d98487c3e35581e90a1e0bfdec4838190262a8b3314fa018526d8",
+          "finite": true
+        },
+        {
+          "file": "euler-step04-video.f32",
+          "key": "euler_step04_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "0c63324ef893e5538c6831975367f923f2eaab9dba55e083ccd31b6daf314c99",
+          "finite": true
+        },
+        {
+          "file": "euler-step04-audio.f32",
+          "key": "euler_step04_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "8717a1097c6555c9c4f4f174548fcc6895b1711bef071048122c5c4165660f69",
+          "finite": true
+        },
+        {
+          "file": "euler-step05-video.f32",
+          "key": "euler_step05_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "908ec1830ee65112cf6761262fb23830027866a3f881d91d380c7f0321abea27",
+          "finite": true
+        },
+        {
+          "file": "euler-step05-audio.f32",
+          "key": "euler_step05_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "00836416e4bae93455779e6f29cc3e1162c4b989298264bee0f56597cb80be00",
+          "finite": true
+        },
+        {
+          "file": "euler-step06-video.f32",
+          "key": "euler_step06_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "2b9f35496dfd3ae07904417c5e75c242a03ded64ba2275046221ec16ad1326be",
+          "finite": true
+        },
+        {
+          "file": "euler-step06-audio.f32",
+          "key": "euler_step06_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "6794a74be9fa76a663fc13caf5c536bee35770bf4bc2126a2dc6f75fae0e7389",
+          "finite": true
+        },
+        {
+          "file": "euler-step07-video.f32",
+          "key": "euler_step07_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "4c0e1980f63f0bdd6d71ceccbe134da4c01d962e23f69d4df51c141e54bee0dc",
+          "finite": true
+        },
+        {
+          "file": "euler-step07-audio.f32",
+          "key": "euler_step07_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "df323c921c3b07c93be90915bb060772391799f2cedd968823f12f3970946dff",
+          "finite": true
+        },
+        {
+          "file": "euler-step08-video.f32",
+          "key": "euler_step08_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "0ab658309bee009e286efa923e3ffccf0e3f7790bea81fc9ce2e7e3e45cf6b09",
+          "finite": true
+        },
+        {
+          "file": "euler-step08-audio.f32",
+          "key": "euler_step08_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "22c21eb5f925b9233450d3828e38a19d0007938e8e28c451882cc4d20e429f41",
+          "finite": true
+        },
+        {
+          "file": "euler-step09-video.f32",
+          "key": "euler_step09_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "8248bdb43ac483d596aaa53ca0e0238eb0d285ee52513382d5e0ff954e0383d7",
+          "finite": true
+        },
+        {
+          "file": "euler-step09-audio.f32",
+          "key": "euler_step09_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "75d6e5c57246ff1ade6b659415bf7986a10dbd5df3348a6f95c3ac3f1e7be4c8",
+          "finite": true
+        },
+        {
+          "file": "euler-step10-video.f32",
+          "key": "euler_step10_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "e020490c0e219fafe088836a5357afb985c61b01a893474adbc3a6b33cd5daed",
+          "finite": true
+        },
+        {
+          "file": "euler-step10-audio.f32",
+          "key": "euler_step10_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "13093b00d6e39a47394712841c6730dee1d5278867dabfda85a8a4fc157ab96d",
+          "finite": true
+        },
+        {
+          "file": "euler-step11-video.f32",
+          "key": "euler_step11_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "009e2235ed1b493d420fdd463b7684627efb4f23415045ae130e6776be8845c2",
+          "finite": true
+        },
+        {
+          "file": "euler-step11-audio.f32",
+          "key": "euler_step11_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "cbe7b86af4e4adfdc7f8a20c3d372a29f5622388de8c976cd46a9de5f72d780f",
+          "finite": true
+        },
+        {
+          "file": "euler-step12-video.f32",
+          "key": "euler_step12_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "d9f4514cf72b6a2dfcef5c57bf8e2c7766c60bda65b64e7c4e9b90f72c256ba6",
+          "finite": true
+        },
+        {
+          "file": "euler-step12-audio.f32",
+          "key": "euler_step12_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "a9f1c152ffbd8d7d053be36b9d7a47d5290d063ae66c17d86346772e590c4f1f",
+          "finite": true
+        },
+        {
+          "file": "euler-step13-video.f32",
+          "key": "euler_step13_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "0cd7ca5aaac178a5f77a7dd9ce06ea90d6d76f9d1e34748685111c1b3e0c58c7",
+          "finite": true
+        },
+        {
+          "file": "euler-step13-audio.f32",
+          "key": "euler_step13_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "ca18fde723b60b7060387c869324a4e7d34f3fbb75b20e48bfcf2e515fe804e4",
+          "finite": true
+        },
+        {
+          "file": "euler-step14-video.f32",
+          "key": "euler_step14_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "b580fa66d9fb2be27f3c57b8e3d29470dca5b8c9f38b3dd581c773452eb963bf",
+          "finite": true
+        },
+        {
+          "file": "euler-step14-audio.f32",
+          "key": "euler_step14_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "d43863619bd49b32328578a60d3e7674755a8172bcba99da06d57a0670119c80",
+          "finite": true
+        },
+        {
+          "file": "euler-step15-video.f32",
+          "key": "euler_step15_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "72b81c1d738f7fb7cbefd241cdbc47d157d554c049ddc0432b02092a0af458f8",
+          "finite": true
+        },
+        {
+          "file": "euler-step15-audio.f32",
+          "key": "euler_step15_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "4e3260eb2bca3438c4675ad8c0b8e0d902138c4a54369362e68f1d712011b8cf",
+          "finite": true
+        },
+        {
+          "file": "euler-step16-video.f32",
+          "key": "euler_step16_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "7c45de1e217934f9cdb84b30485ca40740570ba308327a2f73668e46b0c6306c",
+          "finite": true
+        },
+        {
+          "file": "euler-step16-audio.f32",
+          "key": "euler_step16_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "83ca1459f613016472cfbc3805caf8c60425dac6eb446c53bed84ae7f1a8f7b4",
+          "finite": true
+        },
+        {
+          "file": "euler-step17-video.f32",
+          "key": "euler_step17_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "fde94baa2280d7d4b0056d9e7d2e5baa1131197bd7aa86737e4197c8a9a2f682",
+          "finite": true
+        },
+        {
+          "file": "euler-step17-audio.f32",
+          "key": "euler_step17_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "c8c9688383e0f8f278bf6f3426a8ffd4425177da95de07ab243ad750e8aade82",
+          "finite": true
+        },
+        {
+          "file": "euler-step18-video.f32",
+          "key": "euler_step18_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "f81777e628759d8d43455dc786743a31b25f2701bc121b86022143d883af93a2",
+          "finite": true
+        },
+        {
+          "file": "euler-step18-audio.f32",
+          "key": "euler_step18_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "3f851c49d2804be9e139018d48fec3693fb2256f21c1783515c3350a3803f4a1",
+          "finite": true
+        },
+        {
+          "file": "euler-step19-video.f32",
+          "key": "euler_step19_video",
+          "shape": [
+            15408,
+            96
+          ],
+          "sha256": "7c0b071dbe31ff56dae5493464e8c08089bd34ac131d7cec973de880e6a33bf4",
+          "finite": true
+        },
+        {
+          "file": "euler-step19-audio.f32",
+          "key": "euler_step19_audio",
+          "shape": [
+            1206,
+            32
+          ],
+          "sha256": "51e77d5206d609004fb409520ad09dbd7981169f398d82578ce0f8595488b640",
+          "finite": true
+        },
+        {
+          "file": "final-video.f32",
+          "key": "final_video",
+          "shape": [
+            24,
+            107,
+            18,
+            32
+          ],
+          "sha256": "ea1c07622eeb1bfc32b6f7dd08d283614f559b48957f14800af16c756e4465ee",
+          "finite": true
+        },
+        {
+          "file": "final-audio.f32",
+          "key": "final_audio",
+          "shape": [
+            32,
+            2,
+            603
+          ],
+          "sha256": "ab9b3e6c61d452b13c164ed3f31c72e87355c524450c2715d38e9077bce514ad",
+          "finite": true
+        }
+      ],
+      "npz_sha256": "f9abdae7cf5a31a6c625914260c340b0cbe06e79653d61817814a974270d2b49"
+    }
+  },
+  "latents": {
+    "euler_step00_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.668128967285156,
+        4.759470462799072
+      ],
+      "candidate_min_max": [
+        -4.668401718139648,
+        4.76035737991333
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.004946798086166382
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.00038618660098853764
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 68.26405596885847
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 68.23712821057192
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.0003873857039145435
+        }
+      }
+    },
+    "euler_step00_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.39355993270874,
+        4.63174295425415
+      ],
+      "candidate_min_max": [
+        -4.39355993270874,
+        4.631204128265381
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.003771543502807617
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.0009734452093263071
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 60.23376975718601
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 60.13113497268125
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.000985015923783257
+        }
+      }
+    },
+    "euler_step01_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.632973670959473,
+        4.746399879455566
+      ],
+      "candidate_min_max": [
+        -4.633397102355957,
+        4.74713659286499
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.0093458890914917
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.0006103182013493261
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 64.28887356014377
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 64.22033335901457
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.0006151532630591175
+        }
+      }
+    },
+    "euler_step01_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.311008930206299,
+        4.556696891784668
+      ],
+      "candidate_min_max": [
+        -4.311586380004883,
+        4.5555806159973145
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.007819727063179016
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.001534948879185909
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 56.278121678747894
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 56.01263035344205
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.001582590237331713
+        }
+      }
+    },
+    "euler_step02_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.595911502838135,
+        4.730527877807617
+      ],
+      "candidate_min_max": [
+        -4.596500873565674,
+        4.7317633628845215
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.016614913940429688
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.0008595632178026586
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 61.314443539905895
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 61.19983208507568
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.0008709804275173455
+        }
+      }
+    },
+    "euler_step02_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.222343444824219,
+        4.4754719734191895
+      ],
+      "candidate_min_max": [
+        -4.224161148071289,
+        4.474355697631836
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.015254706144332886
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.002688050224526962
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 51.41125242046587
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 50.96972250736007
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.0028282244643641013
+        }
+      }
+    },
+    "euler_step03_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.556351661682129,
+        4.713150978088379
+      ],
+      "candidate_min_max": [
+        -4.556941032409668,
+        4.714478969573975
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.01899576187133789
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.001084935782816935
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 59.291919337573724
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 59.12606996026255
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.00110585071223217
+        }
+      }
+    },
+    "euler_step03_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.127525329589844,
+        4.382657051086426
+      ],
+      "candidate_min_max": [
+        -4.130678176879883,
+        4.378869533538818
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.020162969827651978
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.0034848638779768418
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 49.15628362361837
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 48.52344541356048
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.003748242919901757
+        }
+      }
+    },
+    "euler_step04_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.511881351470947,
+        4.694432258605957
+      ],
+      "candidate_min_max": [
+        -4.512677192687988,
+        4.695863246917725
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.028905034065246582
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.0014531325020618801
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 56.753895665992
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 56.5306681407926
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.0014909620624355697
+        }
+      }
+    },
+    "euler_step04_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.024399757385254,
+        4.277368068695068
+      ],
+      "candidate_min_max": [
+        -4.027552604675293,
+        4.272138595581055
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.02143275737762451
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.003953623649827831
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 48.06009348133786
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 47.21732751853077
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.004356458929436256
+        }
+      }
+    },
+    "euler_step05_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.461089134216309,
+        4.673346519470215
+      ],
+      "candidate_min_max": [
+        -4.461651802062988,
+        4.6744279861450195
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.03255736827850342
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.001970565599878419
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 54.1081820589922
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 53.82034225098064
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.002036961813513744
+        }
+      }
+    },
+    "euler_step05_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -3.9126808643341064,
+        4.162524223327637
+      ],
+      "candidate_min_max": [
+        -3.9166150093078613,
+        4.156513214111328
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.029625773429870605
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.004920641000390849
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 46.15956638042633
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 45.085678961368885
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.0055682157182529515
+        }
+      }
+    },
+    "euler_step06_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.402160167694092,
+        4.649547100067139
+      ],
+      "candidate_min_max": [
+        -4.402682304382324,
+        4.650363922119141
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.06714892387390137
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.0029469455310443754
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 50.61255782447062
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 50.2513242256523
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.0030720889677502187
+        }
+      }
+    },
+    "euler_step06_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -3.791247606277466,
+        4.035146713256836
+      ],
+      "candidate_min_max": [
+        -3.7960309982299805,
+        4.029135704040527
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.03848910331726074
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.006032698351992291
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 44.389767796143026
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 43.06048049610854
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.00703033427590249
+        }
+      }
+    },
+    "euler_step07_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.355542182922363,
+        4.621394634246826
+      ],
+      "candidate_min_max": [
+        -4.355309009552002,
+        4.622665882110596
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.1181325912475586
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.004179194865292359
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 47.57814756660754
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 47.132893362218546
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.004399013875961046
+        }
+      }
+    },
+    "euler_step07_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -3.6587748527526855,
+        3.897115707397461
+      ],
+      "candidate_min_max": [
+        -3.6626319885253906,
+        3.8901782035827637
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.048158228397369385
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.0071793009423821805
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 42.87835683004612
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 41.26496304992428
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.008644738239946945
+        }
+      }
+    },
+    "euler_step08_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.311853408813477,
+        4.589025020599365
+      ],
+      "candidate_min_max": [
+        -4.311983108520508,
+        4.590471267700195
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.17097389698028564
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.005767979850645797
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 44.779525308243514
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 44.23704319559188
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.006139709743321434
+        }
+      }
+    },
+    "euler_step08_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -3.513685941696167,
+        3.7479684352874756
+      ],
+      "candidate_min_max": [
+        -3.517543077468872,
+        3.7410309314727783
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.07634860277175903
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.00903217841266885
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 40.88414984754239
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 38.95439619123032
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.011279249161488095
+        }
+      }
+    },
+    "euler_step09_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.272778034210205,
+        4.5509724617004395
+      ],
+      "candidate_min_max": [
+        -4.272703170776367,
+        4.553032398223877
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.22426766157150269
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.0076858208807680265
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 42.286194821062075
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 41.63021644378232
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.008288752612637274
+        }
+      }
+    },
+    "euler_step09_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -3.3540873527526855,
+        3.585021495819092
+      ],
+      "candidate_min_max": [
+        -3.356828212738037,
+        3.5780839920043945
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.12144500017166138
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.011999281387901838
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 38.416895243403935
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 36.13240816711671
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.015609162131944881
+        }
+      }
+    },
+    "euler_step10_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.226478576660156,
+        4.505885124206543
+      ],
+      "candidate_min_max": [
+        -4.226161479949951,
+        4.507702350616455
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.28008151054382324
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.010084848753801109
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 39.9266122135402
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 39.13644642577026
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.011045304133487827
+        }
+      }
+    },
+    "euler_step10_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -3.17768931388855,
+        3.40368914604187
+      ],
+      "candidate_min_max": [
+        -3.1804301738739014,
+        3.399218797683716
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.17498892545700073
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.016243639913140623
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 35.786332929157574
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 33.10296715442411
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.022123388316742973
+        }
+      }
+    },
+    "euler_step11_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.171040058135986,
+        4.451613426208496
+      ],
+      "candidate_min_max": [
+        -4.170431137084961,
+        4.453430652618408
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.33271023631095886
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.013033623614871547
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 37.698696494404764
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 36.7474222905357
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.014542158888898286
+        }
+      }
+    },
+    "euler_step11_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -2.980320930480957,
+        3.200838327407837
+      ],
+      "candidate_min_max": [
+        -2.9844322204589844,
+        3.1963679790496826
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.23765923082828522
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.021677820489178337
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 33.279687687234855
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 30.146200990113858
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.031094956277797715
+        }
+      }
+    },
+    "euler_step12_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.1033854484558105,
+        4.38682222366333
+      ],
+      "candidate_min_max": [
+        -4.102060317993164,
+        4.387565612792969
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.40140657871961594
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.01665579230005434
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 35.56869407019468
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 34.42094550102094
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.019008713496373675
+        }
+      }
+    },
+    "euler_step12_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -2.7627968788146973,
+        2.9756548404693604
+      ],
+      "candidate_min_max": [
+        -2.7669081687927246,
+        2.9696526527404785
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.31103818118572235
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.028336582587374554
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 30.9530505432656
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 27.315312886490414
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.04307589956284271
+        }
+      }
+    },
+    "euler_step13_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -4.020221710205078,
+        4.304108142852783
+      ],
+      "candidate_min_max": [
+        -4.017997741699219,
+        4.303952693939209
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.4891315698623657
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.021158938684037287
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 33.49012239930202
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 32.0989751929383
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.02483426095717261
+        }
+      }
+    },
+    "euler_step13_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -2.5180816650390625,
+        2.724046230316162
+      ],
+      "candidate_min_max": [
+        -2.523916244506836,
+        2.7180440425872803
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.3942682147026062
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.036666647155888805
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 28.71457601309715
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 24.515227268587985
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.05946188006047545
+        }
+      }
+    },
+    "euler_step14_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -3.912663698196411,
+        4.196549892425537
+      ],
+      "candidate_min_max": [
+        -3.9075326919555664,
+        4.194068908691406
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.6408756524324417
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.02714509267581873
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 31.32617342569708
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 29.62752537888067
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.03300834357108723
+        }
+      }
+    },
+    "euler_step14_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -2.292912006378174,
+        2.4551706314086914
+      ],
+      "candidate_min_max": [
+        -2.3165719509124756,
+        2.4457907676696777
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.5375837087631226
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.04751578234958252
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 26.46324231322847
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 21.647755466397328
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.0827203239765482
+        }
+      }
+    },
+    "euler_step15_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -3.7657885551452637,
+        4.0512375831604
+      ],
+      "candidate_min_max": [
+        -3.7583138942718506,
+        4.047194004058838
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.8369694538414478
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.03556518874135179
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 28.97949764394227
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 26.88601993644725
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.045258379856621574
+        }
+      }
+    },
+    "euler_step15_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -2.1154565811157227,
+        2.248697280883789
+      ],
+      "candidate_min_max": [
+        -2.1346521377563477,
+        2.2348532676696777
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.7118304241448641
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.061569404244847394
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 24.212700973785793
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 18.752537552980115
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.11544446683535563
+        }
+      }
+    },
+    "euler_step16_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -3.5579466819763184,
+        3.842290163040161
+      ],
+      "candidate_min_max": [
+        -3.553788661956787,
+        3.832718849182129
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 1.1182961463928223
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.048138419534370244
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 26.350163448967734
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 23.754904711912637
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.06490150449775452
+        }
+      }
+    },
+    "euler_step16_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -1.9210025072097778,
+        2.0130343437194824
+      ],
+      "candidate_min_max": [
+        -1.9363347291946411,
+        1.995327115058899
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 0.9066063910722733
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.07941439280594521
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 22.002015606436117
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 15.940695707152129
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.15957513284271335
+        }
+      }
+    },
+    "euler_step17_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -3.246289014816284,
+        3.5534896850585938
+      ],
+      "candidate_min_max": [
+        -3.242130994796753,
+        3.522197723388672
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 1.5411397814750671
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.06848236127328612
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 23.288425471793644
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 20.12517430640973
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.09856921200623064
+        }
+      }
+    },
+    "euler_step17_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -1.729546308517456,
+        1.9235297441482544
+      ],
+      "candidate_min_max": [
+        -1.7154816389083862,
+        1.7173826694488525
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 1.1447371244430542
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.10217639792392381
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 19.812988235724852
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 13.35919238761946
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.2148030188287523
+        }
+      }
+    },
+    "euler_step18_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -3.049837589263916,
+        3.608067274093628
+      ],
+      "candidate_min_max": [
+        -3.0724031925201416,
+        3.585263967514038
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 2.2554253339767456
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.10565799286101997
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 19.521952873485645
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 16.19745737218399
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.15492700716771307
+        }
+      }
+    },
+    "euler_step18_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -1.6222608089447021,
+        1.8329757452011108
+      ],
+      "candidate_min_max": [
+        -1.6995359659194946,
+        1.6219642162322998
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 1.4408131837844849
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.1308905783143438
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 17.661832268886087
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 11.289559286601863
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.2725976048732131
+        }
+      }
+    },
+    "euler_step19_video": {
+      "status": "completed",
+      "shape": [
+        15408,
+        96
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -3.5098681449890137,
+        4.5766143798828125
+      ],
+      "candidate_min_max": [
+        -3.591688632965088,
+        4.551883697509766
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 3.770546555519104
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.19240354089498418
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 14.315738793884885
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 13.475312054539499
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.2119504765006355
+        }
+      }
+    },
+    "euler_step19_audio": {
+      "status": "completed",
+      "shape": [
+        1206,
+        32
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -1.8369042873382568,
+        1.7775779962539673
+      ],
+      "candidate_min_max": [
+        -1.8614678382873535,
+        1.831836462020874
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 1.7961044907569885
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.16664037990253075
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 15.564395059311742
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 10.008056403669197
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.3159345919732146
+        }
+      }
+    },
+    "final_video": {
+      "status": "completed",
+      "shape": [
+        24,
+        107,
+        18,
+        32
+      ],
+      "elements": 1479168,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -3.5098681449890137,
+        4.5766143798828125
+      ],
+      "candidate_min_max": [
+        -3.591688632965088,
+        4.551883697509766
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 3.770546555519104
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.19240354089498418
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 14.315738793884885
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 13.475312054539499
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.2119504765006355
+        }
+      }
+    },
+    "final_audio": {
+      "status": "completed",
+      "shape": [
+        32,
+        2,
+        603
+      ],
+      "elements": 38592,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 1.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -1.8369042873382568,
+        1.7775779962539673
+      ],
+      "candidate_min_max": [
+        -1.8614678382873535,
+        1.831836462020874
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 1.7961044907569885
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.16664037990253075
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 15.564395059311742
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 10.008056403669197
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.3159345919732146
+        }
+      }
+    }
+  },
+  "media": {
+    "evaluation_sha256": "1f360cacecf35dd37696046f0d31bc7a2c5b7309cf579a30ce68fab291ee96d9",
+    "video_rgb": {
+      "status": "completed",
+      "shape": [
+        360,
+        288,
+        512,
+        3
+      ],
+      "elements": 159252480,
+      "reference_dtype": "uint8",
+      "candidate_dtype": "uint8",
+      "data_range": 255.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        0.0,
+        255.0
+      ],
+      "candidate_min_max": [
+        0.0,
+        255.0
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 255.0
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 25.796028261338122
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 19.899746727373262
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 15.693165651280255
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.16418811521338533
+        }
+      }
+    },
+    "audio_pcm32k_stereo": {
+      "status": "completed",
+      "shape": [
+        480000,
+        2
+      ],
+      "elements": 960000,
+      "reference_dtype": "float32",
+      "candidate_dtype": "float32",
+      "data_range": 2.0,
+      "accumulation_dtype": "float64",
+      "reference_nonfinite": 0,
+      "candidate_nonfinite": 0,
+      "exactly_equal": false,
+      "reference_min_max": [
+        -0.9476303458213806,
+        0.8932414650917053
+      ],
+      "candidate_min_max": [
+        -0.9897799491882324,
+        0.9463369846343994
+      ],
+      "metrics": {
+        "maximum_absolute_error": {
+          "status": "finite",
+          "value": 1.6446389555931091
+        },
+        "rmse": {
+          "status": "finite",
+          "value": 0.15386606757313484
+        },
+        "psnr_db": {
+          "status": "finite",
+          "value": 22.27774282406792
+        },
+        "snr_db": {
+          "status": "finite",
+          "value": 0.43924713348293565
+        },
+        "relative_l2": {
+          "status": "finite",
+          "value": 0.9506871927618703
+        }
+      }
+    },
+    "ssim": {
+      "status": "completed",
+      "backend": "ffmpeg ssim, planar RGB gbrp",
+      "mean": {
+        "status": "finite",
+        "value": 0.8187047777777776
+      },
+      "per_frame": [
+        0.952025,
+        0.950649,
+        0.946379,
+        0.939125,
+        0.926381,
+        0.921671,
+        0.918375,
+        0.917335,
+        0.91453,
+        0.918666,
+        0.919467,
+        0.915387,
+        0.890966,
+        0.872088,
+        0.855332,
+        0.848568,
+        0.835621,
+        0.823857,
+        0.813691,
+        0.810959,
+        0.806211,
+        0.807023,
+        0.804326,
+        0.806965,
+        0.808671,
+        0.811647,
+        0.834264,
+        0.837601,
+        0.83836,
+        0.839883,
+        0.849352,
+        0.851667,
+        0.852811,
+        0.854847,
+        0.865857,
+        0.877256,
+        0.883365,
+        0.889419,
+        0.889755,
+        0.893243,
+        0.890433,
+        0.891673,
+        0.891157,
+        0.892772,
+        0.890042,
+        0.888844,
+        0.884125,
+        0.881881,
+        0.876219,
+        0.87546,
+        0.868549,
+        0.866765,
+        0.863569,
+        0.864374,
+        0.863594,
+        0.865354,
+        0.863889,
+        0.865294,
+        0.870244,
+        0.871999,
+        0.883764,
+        0.888509,
+        0.894738,
+        0.898046,
+        0.899735,
+        0.906405,
+        0.912869,
+        0.912979,
+        0.906037,
+        0.909781,
+        0.913602,
+        0.912747,
+        0.913407,
+        0.90518,
+        0.897432,
+        0.892627,
+        0.891693,
+        0.886766,
+        0.886222,
+        0.883478,
+        0.883005,
+        0.883283,
+        0.88548,
+        0.885849,
+        0.889212,
+        0.887483,
+        0.887772,
+        0.88501,
+        0.878486,
+        0.8766,
+        0.866331,
+        0.865965,
+        0.862616,
+        0.862188,
+        0.856515,
+        0.85557,
+        0.85072,
+        0.850085,
+        0.847129,
+        0.847172,
+        0.845274,
+        0.844114,
+        0.839644,
+        0.839086,
+        0.839966,
+        0.836635,
+        0.835286,
+        0.830522,
+        0.831354,
+        0.830694,
+        0.830654,
+        0.829404,
+        0.831517,
+        0.831071,
+        0.832305,
+        0.831626,
+        0.832275,
+        0.831554,
+        0.833407,
+        0.836229,
+        0.843995,
+        0.846157,
+        0.864357,
+        0.864897,
+        0.828263,
+        0.840356,
+        0.851611,
+        0.862544,
+        0.856575,
+        0.860092,
+        0.852843,
+        0.854861,
+        0.849858,
+        0.853486,
+        0.857255,
+        0.859514,
+        0.863346,
+        0.866868,
+        0.87704,
+        0.877182,
+        0.878404,
+        0.880968,
+        0.885252,
+        0.880042,
+        0.875476,
+        0.871084,
+        0.862131,
+        0.85832,
+        0.856426,
+        0.854268,
+        0.85314,
+        0.850589,
+        0.850752,
+        0.850431,
+        0.853424,
+        0.85638,
+        0.856678,
+        0.858547,
+        0.864904,
+        0.866876,
+        0.87219,
+        0.875101,
+        0.873254,
+        0.874213,
+        0.873212,
+        0.872042,
+        0.868094,
+        0.869482,
+        0.86782,
+        0.868873,
+        0.872716,
+        0.874175,
+        0.878192,
+        0.881156,
+        0.884969,
+        0.879037,
+        0.871664,
+        0.843142,
+        0.845026,
+        0.820431,
+        0.829843,
+        0.824774,
+        0.803894,
+        0.768726,
+        0.759583,
+        0.70159,
+        0.680474,
+        0.669248,
+        0.672226,
+        0.665918,
+        0.665172,
+        0.661129,
+        0.652257,
+        0.650611,
+        0.68095,
+        0.683353,
+        0.702209,
+        0.694219,
+        0.669196,
+        0.663625,
+        0.662229,
+        0.669349,
+        0.682149,
+        0.69221,
+        0.695755,
+        0.6996,
+        0.717292,
+        0.720701,
+        0.731336,
+        0.737111,
+        0.738757,
+        0.738042,
+        0.739286,
+        0.73877,
+        0.737542,
+        0.735892,
+        0.73775,
+        0.739109,
+        0.742629,
+        0.742158,
+        0.749677,
+        0.75196,
+        0.75394,
+        0.734187,
+        0.740449,
+        0.721051,
+        0.71157,
+        0.703575,
+        0.70656,
+        0.70385,
+        0.70777,
+        0.703972,
+        0.713361,
+        0.699526,
+        0.66662,
+        0.642475,
+        0.645797,
+        0.643877,
+        0.650631,
+        0.617343,
+        0.621607,
+        0.616072,
+        0.682737,
+        0.670596,
+        0.653093,
+        0.641554,
+        0.661857,
+        0.651765,
+        0.658367,
+        0.668284,
+        0.697049,
+        0.722359,
+        0.72217,
+        0.717588,
+        0.761326,
+        0.76538,
+        0.765987,
+        0.780996,
+        0.783641,
+        0.785752,
+        0.783114,
+        0.782729,
+        0.782081,
+        0.782034,
+        0.780484,
+        0.779703,
+        0.782181,
+        0.779991,
+        0.783839,
+        0.785769,
+        0.785264,
+        0.783339,
+        0.782712,
+        0.780822,
+        0.773854,
+        0.7778,
+        0.781083,
+        0.77739,
+        0.778544,
+        0.777092,
+        0.78145,
+        0.781271,
+        0.783486,
+        0.782874,
+        0.783863,
+        0.785164,
+        0.786996,
+        0.786591,
+        0.786329,
+        0.786496,
+        0.779325,
+        0.780651,
+        0.7806,
+        0.7829,
+        0.76229,
+        0.759428,
+        0.753809,
+        0.749648,
+        0.735283,
+        0.743502,
+        0.740216,
+        0.752125,
+        0.77172,
+        0.788115,
+        0.772701,
+        0.789044,
+        0.7945,
+        0.799299,
+        0.801476,
+        0.802892,
+        0.804322,
+        0.805717,
+        0.806294,
+        0.805266,
+        0.806889,
+        0.805764,
+        0.802955,
+        0.80192,
+        0.806469,
+        0.80721,
+        0.808295,
+        0.787469,
+        0.819149,
+        0.799168,
+        0.784298,
+        0.781322,
+        0.76512,
+        0.755663,
+        0.801623,
+        0.816829,
+        0.836382,
+        0.852796,
+        0.866441,
+        0.883794,
+        0.893109,
+        0.903864,
+        0.912874,
+        0.911679,
+        0.905459,
+        0.904604,
+        0.902182,
+        0.901503,
+        0.899217,
+        0.898653,
+        0.900215,
+        0.903838,
+        0.908715,
+        0.909433,
+        0.910239,
+        0.911595,
+        0.917685,
+        0.917041,
+        0.932727,
+        0.937281,
+        0.940005,
+        0.937154,
+        0.936657,
+        0.925761,
+        0.920444,
+        0.908809
+      ],
+      "note": "FFmpeg SSIM implementation; not interchangeable with other SSIM variants"
+    }
+  }
+}
