@@ -2,6 +2,8 @@
 
 Apple M5 Max (40 GPU cores, 128 GiB), macOS 27.0.1, Xcode 27.1, MLX 0.32.4. Synthetic normal inputs; resident weights and activations. All timings below are synchronized host wall medians, not GPU counter durations.
 
+RMS/affine follow-up: folding inverse RMS into INT8 scales reduces synchronization but does not show a stable full-path improvement after paired seeds, scheduling changes and 256/512-thread trials. Moving AdaLN shift into a projected GEMM bias is implemented as an explicit alternate precision policy; its shared-P1 conditioning-inclusive path remains slower. Native BF16-to-FP32 projection reduces condition preparation, and building 60 synthetic Q bias rows costs 0.38–0.40 ms in isolation. This is a setup microbenchmark, not measured whole-model acceleration. See [RMS scale folding](rms-scale-folding.md) and [shift splitting](affine-shift-splitting.md), including quality rejections and negative results.
+
 ## Independently repeated candidates
 
 Each pair below was rerun with seed 29, 5 warmups and 20 timed repetitions after the 8-tile search (seed 17) and its holdout (seed 18). Baseline and candidate runs are interleaved. **Candidate latency includes online activation quantization and the GEMM**, with offline weight quantization excluded; all outputs are BF16.
@@ -35,6 +37,8 @@ The harness retains this rejected result and does not produce a speedup recommen
 The [Hadamard experiment](hadamard.md) keeps weight rotation/quantization offline and includes activation rotation in online latency. At seed29, plain block256 reduces FFN-down outlier relative L2 from 8.84% to **1.22%**; the independently validated complete path takes **8.701 ms** versus **12.707 ms** BF16 (1.46×). Q and FFN-up error fall to 0.70%/0.72% at 3.789/6.895 ms. These pass the same unchanged synthetic gate; real H3 activation and output-quality validation remains pending. The active comparison is INT8 + Hadamard versus unrotated FP8; FP8 + Hadamard is outside scope.
 
 The subsequent [AdaLN/Hadamard/INT8 fusion](norm-hadamard-fusion.md) preserves the native-style BF16 AdaLN boundary and fuses three preparation stages into one dispatch. For Q4096, seed29 preparation is 0.807 → 0.440 ms and the complete projection is 3.973 → 3.634 ms; seed43 repeats 3.981 → 3.663 ms. Q9914 repeats approximately 1.10× total-path acceleration. These compare the same staged and fused INT8 policy, with full online preparation timed. The selected preparation shader reports 48 temporary registers and zero spills; this is not an end-to-end H3 inference result.
+
+The [gated residual extension](gated-residual-fusion.md) compares standalone gate-add plus that existing fused preparation with a single fused gated preparation. Both write and retain BF16 R_next; online timing includes this output. Normal Q4096 repeats 3.942 → 3.698 ms at seed29 and 3.875 → 3.713 ms at seed43, about 4–6% lower latency. FFN-up and Q9914 gains vary, and Q9914 outliers are slightly slower in both repeats. The initial sweep's 6.507 → approximately 3.71 ms difference was not reproduced and is retained as a timing anomaly, not promoted as a stable gain. All 36 independent records pass the unchanged implementation and synthetic quality gates; full-model quality remains unmeasured.
 
 ## Trace findings
 

@@ -1,0 +1,352 @@
+{
+  "schema_version": 1,
+  "trace_basename": "rms-direct-001.gputrace",
+  "workload": {
+    "schema_version": 1,
+    "environment": {
+      "timestamp_utc": "2026-10-18T21:50:12.697791+00:00",
+      "os": "macOS-27.0.1-arm64-arm-64bit",
+      "machine": "arm64",
+      "python": "3.12.15",
+      "numpy": "2.4.4",
+      "git_commit": "84b33acb85bdce9130e9213bf722bfc2932ab652",
+      "git_dirty": true,
+      "source_sha256": "ddc84d7ae02fdf3af87c0e3f8fa729a479e8a8cd8abbdc2e637330b3cc5403f6",
+      "xcode": "Xcode 27.1\nBuild version 27A9275",
+      "metal_compiler": "Apple metal version 32023.921 (metalfe-32023.921.6)\nTarget: air64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.266.1.bHU6GW/Metal.xctoolchain/usr/metal/current/bin",
+      "thread_settings": {
+        "OMP_NUM_THREADS": null,
+        "OPENBLAS_NUM_THREADS": null,
+        "VECLIB_MAXIMUM_THREADS": null
+      },
+      "mlx": "0.32.4",
+      "device": {
+        "device_name": "Apple M5 Max",
+        "max_recommended_working_set_size": 115448725504,
+        "memory_size": 137438953472,
+        "architecture": "applegpu_g17s",
+        "max_buffer_length": 86586540032,
+        "resource_limit": 499000
+      }
+    },
+    "capture": {
+      "case": {
+        "id": "rms.weighted_h256.m4096",
+        "op": "rms_quant_gemm",
+        "m": 4096,
+        "n": 7168,
+        "k": 5376,
+        "rms_quant": {
+          "block_size": 256,
+          "gamma": "random",
+          "threads": 256,
+          "epsilon": 1e-05
+        },
+        "shape_origin": "H3 Q widths; synthetic zero-shift RMS inputs, alternate FP32 contract"
+      },
+      "backend": "rms-direct",
+      "precision": "int8",
+      "tile": [
+        128,
+        64,
+        4,
+        8
+      ],
+      "online": true,
+      "implementation_error": {
+        "finite": true,
+        "relative_l2": 0.00165768680100821,
+        "max_abs": 0.49862854456094396,
+        "rmse": 0.12249921152849862,
+        "cosine": 0.9999986263996279
+      },
+      "quality_error": {
+        "finite": true,
+        "relative_l2": 0.012508712651105003,
+        "max_abs": 2.8832708261997766,
+        "rmse": 0.924216498076067,
+        "cosine": 0.9999217979293757
+      },
+      "compute_path": "rms-direct",
+      "input_dtype": "mlx.core.bfloat16",
+      "output_dtype": "mlx.core.bfloat16",
+      "preparation_dtype": "mlx.core.float32",
+      "mac_operations": 315680096256,
+      "reference": "NumPy float64 RMS/gamma/rotation/dots; sampled rows/columns, full K",
+      "sample_rows": [
+        0,
+        132,
+        264,
+        396,
+        528,
+        660,
+        792,
+        924,
+        1056,
+        1188,
+        1320,
+        1453,
+        1585,
+        1717,
+        1849,
+        1981,
+        2113,
+        2245,
+        2377,
+        2509,
+        2641,
+        2774,
+        2906,
+        3038,
+        3170,
+        3302,
+        3434,
+        3566,
+        3698,
+        3830,
+        3962,
+        4095
+      ],
+      "sample_cols": [
+        0,
+        231,
+        462,
+        693,
+        924,
+        1155,
+        1387,
+        1618,
+        1849,
+        2080,
+        2311,
+        2543,
+        2774,
+        3005,
+        3236,
+        3467,
+        3699,
+        3930,
+        4161,
+        4392,
+        4623,
+        4855,
+        5086,
+        5317,
+        5548,
+        5779,
+        6011,
+        6242,
+        6473,
+        6704,
+        6935,
+        7167
+      ],
+      "norm": "rms",
+      "epsilon": 1e-05,
+      "gamma": "random",
+      "gamma_sha256": "0c46d44894efb3eca02b7caf719d5f8ffb23728af67b9d266032338e87b101ee",
+      "fold_scale": false,
+      "additive_shift": false,
+      "normalization_rounding": "fp32",
+      "rounding_contract": "FP32 RMS and gamma/rotation; no BF16 intermediate; BF16 GEMM output",
+      "quantization": "symmetric_per_token_rotated_A_per_output_channel_rotated_W",
+      "weight_preparation_in_online": false,
+      "weight_preparation_timed": true,
+      "weight_preparation_timing_stage": "offline_weight_prepare",
+      "weight_preparation_timing_scope": "combined offline weight transform and INT8 packing only",
+      "all_preparation_values_finite": true,
+      "transform_pass": true,
+      "activation_implementation_error": {
+        "finite": true,
+        "relative_l2": 6.325906191019344e-08,
+        "max_abs": 4.965229947195837e-07,
+        "rmse": 6.468773449085453e-08,
+        "cosine": 0.9999999999999979
+      },
+      "activation_scale_error": {
+        "finite": true,
+        "relative_l2": 6.338522617326373e-08,
+        "max_abs": 3.90962988025545e-09,
+        "rmse": 1.94840890301704e-09,
+        "cosine": 0.9999999999999979
+      },
+      "activation_max_code_difference": 0.0,
+      "activation_implementation_relative_l2_limit": 0.008,
+      "activation_scale_relative_l2_limit": 1e-05,
+      "activation_max_code_difference_limit": 1,
+      "weight_rotation_error": {
+        "finite": true,
+        "relative_l2": 8.756005515647004e-09,
+        "max_abs": 1.6391277313232422e-07,
+        "rmse": 8.759817849570936e-09,
+        "cosine": 1.0
+      },
+      "weight_implementation_error": {
+        "finite": true,
+        "relative_l2": 7.064713988238415e-05,
+        "max_abs": 0.029315724030254398,
+        "rmse": 7.067991676962422e-05,
+        "cosine": 0.9999999975044906
+      },
+      "weight_scale_error": {
+        "finite": true,
+        "relative_l2": 2.4044347078326654e-08,
+        "max_abs": 1.7893126633139467e-09,
+        "rmse": 7.215801129334595e-10,
+        "cosine": 0.9999999999999996
+      },
+      "weight_max_code_difference": 1.0,
+      "activation_preparation_total_error": {
+        "finite": true,
+        "relative_l2": 0.0086758188705788,
+        "max_abs": 0.018843495429682888,
+        "rmse": 0.008871220689094302,
+        "cosine": 0.9999623691924172
+      },
+      "ideal_activation_quantization_error": {
+        "finite": true,
+        "relative_l2": 0.008675819268799756,
+        "max_abs": 0.018843475969543,
+        "rmse": 0.00887122109628422,
+        "cosine": 0.9999623691897876
+      },
+      "decoded_preparation_total_error": {
+        "finite": true,
+        "relative_l2": 0.01240924655822461,
+        "max_abs": 3.0564264262425525,
+        "rmse": 0.916867364188088,
+        "cosine": 0.9999230305415562
+      },
+      "ideal_decoded_quantization_error": {
+        "finite": true,
+        "relative_l2": 0.012409157506159906,
+        "max_abs": 3.0564005036418394,
+        "rmse": 0.9168607845032171,
+        "cosine": 0.9999230315296911
+      },
+      "bf16_intermediate_diagnostic": {
+        "diagnostic_only": true,
+        "contract": "hypothetical BF16 round after RMS*gamma, before D*H; not executed",
+        "normalization_error": {
+          "finite": true,
+          "relative_l2": 0.0016573047861864888,
+          "max_abs": 0.01554193088546807,
+          "rmse": 0.0016946315646596405,
+          "cosine": 0.999998626716204
+        },
+        "rotated_error": {
+          "finite": true,
+          "relative_l2": 0.0016573047861864888,
+          "max_abs": 0.007487348446801545,
+          "rmse": 0.0016946315646596407,
+          "cosine": 0.9999986267162042
+        },
+        "gemm_difference": {
+          "finite": true,
+          "relative_l2": 0.0016846855229833125,
+          "max_abs": 0.3913271424389251,
+          "rmse": 0.12447437221075984,
+          "cosine": 0.9999985845559903
+        }
+      },
+      "transform": {
+        "kind": "normalized_block_sylvester_hadamard",
+        "block_size": 256,
+        "implementation": "rms-direct",
+        "sign_seed": null,
+        "sign_rng": "all +1",
+        "sign_sha256": "c800fc588c7f5d05ee0e1d6a3d0b182465e4a6ff28c85c20b188e3437d1e4630",
+        "ordering": "RMS(X)*gamma*D*H, W*D*H; identical D and H, zero additive shift",
+        "padding": 0,
+        "threads": 256,
+        "float64_dot_preservation_error": {
+          "finite": true,
+          "relative_l2": 3.6248430180902295e-15,
+          "max_abs": 1.5063505998114124e-12,
+          "rmse": 2.6782450070582496e-13,
+          "cosine": 1.0000000000000002
+        }
+      }
+    },
+    "kind": "gpu",
+    "profiling_overhead": true,
+    "not_a_benchmark_result": true,
+    "iterations": 1
+  },
+  "device": "Apple M5 Max",
+  "capture_summary": "4 command buffers, 1 encoders, 0 draw calls, 2 dispatches",
+  "profiling_overhead": true,
+  "timing_scope": "serial GPU replay, default GPU state; not benchmark wall latency",
+  "timeline": {
+    "Commands": "2",
+    "Consistent state": "yes",
+    "Cores": "40 sampled / 40 total",
+    "Encoders": "1",
+    "Frame begin": "0 ns",
+    "Frame duration": "5.2642 ms",
+    "Frame end": "5264208 ns",
+    "GPU time": "5.2642 ms",
+    "Overlap": "yes",
+    "Profiled state": "default"
+  },
+  "shaders": [
+    {
+      "function": "custom_kernel_gemm_int8_128_64_4_8__bfloat16_t_int8_t_int8_t_float_float_bfloat16_t",
+      "counters": {
+        "ALU": "396",
+        "Branch": "25",
+        "Cost": "90.34%",
+        "Device atomics": "0",
+        "Device loads": "112",
+        "Device stores": "8",
+        "FP16": "0",
+        "FP32": "31",
+        "Instructions": "760",
+        "INT16": "69",
+        "INT32": "123",
+        "Invocations": "1",
+        "SIMD groups": "14376",
+        "Spilled bytes": "272",
+        "Stage": "compute",
+        "Temp registers": "112",
+        "Texture reads": "0",
+        "Texture writes": "0",
+        "Threadgroup atomics": "0",
+        "Threadgroup loads": "0",
+        "Threadgroup memory (bytes)": "0",
+        "Threadgroup stores": "0",
+        "Uniform registers": "48",
+        "Wait": "0"
+      }
+    },
+    {
+      "function": "custom_kernel_rms_quant_5376_256_256_0_rms_online_bfloat16_t_float_int8_t_int8_t_float",
+      "counters": {
+        "ALU": "2104",
+        "Branch": "61",
+        "Cost": "9.66%",
+        "Device atomics": "0",
+        "Device loads": "72",
+        "Device stores": "25",
+        "FP16": "0",
+        "FP32": "568",
+        "Instructions": "2406",
+        "INT16": "95",
+        "INT32": "740",
+        "Invocations": "1",
+        "SIMD groups": "32808",
+        "Spilled bytes": "0",
+        "Stage": "compute",
+        "Temp registers": "72",
+        "Texture reads": "0",
+        "Texture writes": "0",
+        "Threadgroup atomics": "0",
+        "Threadgroup loads": "2",
+        "Threadgroup memory (bytes)": "0",
+        "Threadgroup stores": "2",
+        "Uniform registers": "28",
+        "Wait": "0"
+      }
+    }
+  ]
+}

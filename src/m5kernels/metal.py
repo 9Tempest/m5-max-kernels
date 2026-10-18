@@ -45,7 +45,11 @@ def quantize(x, mode, tag="packed"):
 
 
 @lru_cache(None)
-def _gemm_kernel(mode, tm, tn, groups, swizzle):
+def _gemm_kernel(mode, tm, tn, groups, swizzle, bias_kind="none"):
+    if bias_kind not in {"none", "vector", "table"}:
+        raise ValueError("unknown GEMM bias kind")
+    if bias_kind != "none" and mode != "int8":
+        raise NotImplementedError("optional GEMM bias currently supports INT8 only")
     dtype = {
         "fp16": "half",
         "bf16": "bfloat",
@@ -95,6 +99,12 @@ def _gemm_kernel(mode, tm, tn, groups, swizzle):
             if(row<M && col<N) C[row*N+col]=O(float(acc[i]));
         }
         """
+    if bias_kind != "none":
+        bias_index = "col" if bias_kind == "vector" else "BiasRowMap[row]*N+col"
+        epilogue = epilogue.replace(
+            "O(float(acc[i])*AS[row]*BS[col])",
+            f"O(float(acc[i])*AS[row]*BS[col]+Bias[{bias_index}])",
+        )
     for key, value in {
         "$DECL": declarations,
         "$TM": str(tm),
@@ -105,17 +115,40 @@ def _gemm_kernel(mode, tm, tn, groups, swizzle):
         "$STORE": epilogue,
     }.items():
         src = src.replace(key, value)
+    input_names = ["A", "B", "AS", "BS"] if quant else ["A", "B"]
+    if bias_kind != "none":
+        input_names += ["Bias"] + (["BiasRowMap"] if bias_kind == "table" else [])
+    name = f"gemm_{mode}_{tm}_{tn}_{groups}_{swizzle}"
+    if bias_kind != "none":
+        name += f"_bias_{bias_kind}"
     return mx.fast.metal_kernel(
-        name=f"gemm_{mode}_{tm}_{tn}_{groups}_{swizzle}",
-        input_names=["A", "B", "AS", "BS"] if quant else ["A", "B"],
+        name=name,
+        input_names=input_names,
         output_names=["C"],
         source=src,
         header=HEADER,
     )
 
 
-def gemm(a, b, mode="bf16", tile=(64, 64, 4, 1), a_scales=None, b_scales=None, output_dtype=None):
-    """A[M,K] @ B[N,K].T -> FP32, with float or int32 accumulation."""
+def gemm(
+    a,
+    b,
+    mode="bf16",
+    tile=(64, 64, 4, 1),
+    a_scales=None,
+    b_scales=None,
+    output_dtype=None,
+    bias=None,
+    bias_row_map=None,
+):
+    """A[M,K] @ B[N,K].T -> FP32, with float or int32 accumulation.
+
+    INT8 optionally adds FP32 bias after row-scale dequantization and before
+    the output cast. Bias is a shared vector [N], or a table [P,N] selected
+    by int32 bias_row_map[M]. Table indices must lie in [0,P); finite values
+    and map bounds are caller preconditions checked outside timed execution.
+    No input, bias table or map is mutated.
+    """
     m, k = a.shape
     n, kb = b.shape
     if k != kb:
@@ -126,13 +159,34 @@ def gemm(a, b, mode="bf16", tile=(64, 64, 4, 1), a_scales=None, b_scales=None, o
         )
     if mode == "int8" and k > 133144:
         raise NotImplementedError("INT32 worst-case overflow bound exceeded")
+    bias_kind = "none"
+    if bias is None:
+        if bias_row_map is not None:
+            raise ValueError("bias_row_map requires a bias table")
+    else:
+        if mode != "int8":
+            raise NotImplementedError("optional GEMM bias currently supports INT8 only")
+        if bias.dtype != mx.float32:
+            raise ValueError("bias must have float32 dtype")
+        if bias_row_map is None:
+            if bias.shape != (n,):
+                raise ValueError("bias must have shape [N] without bias_row_map")
+            bias_kind = "vector"
+        else:
+            if len(bias.shape) != 2 or not all(bias.shape) or bias.shape[1] != n:
+                raise ValueError("mapped bias must have nonempty shape [P,N]")
+            if bias_row_map.shape != (m,) or bias_row_map.dtype != mx.int32:
+                raise ValueError("bias_row_map must be an int32 vector of length M")
+            bias_kind = "table"
     tm, tn, groups, swizzle = tile
     inputs = [a, b]
     if mode in {"int8", "fp8", "mxint8"}:
         if a_scales is None or b_scales is None:
             raise ValueError("scales required")
         inputs += [a_scales, b_scales]
-    return _gemm_kernel(mode, tm, tn, groups, swizzle)(
+    if bias is not None:
+        inputs += [bias] + ([bias_row_map] if bias_row_map is not None else [])
+    return _gemm_kernel(mode, tm, tn, groups, swizzle, bias_kind)(
         inputs=inputs,
         grid=(((m + tm - 1) // tm) * ((n + tn - 1) // tn) * groups * 32, 1, 1),
         threadgroup=(groups * 32, 1, 1),

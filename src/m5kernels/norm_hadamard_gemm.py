@@ -16,12 +16,23 @@ def prepare(c, backend, precision, seed, distribution, tile):
     from .metal import gemm, quantize
     from .norm_hadamard import fused_norm_hadamard_quantize, unfused_norm
 
-    if (backend, precision) not in {
-        ("norm-staged", "int8"),
-        ("norm-fused", "int8"),
-        ("mlx", "bf16"),
-    }:
-        raise NotImplementedError("use norm-staged/norm-fused INT8 or mlx BF16")
+    gated = c["op"] == "gated_norm_hadamard_gemm"
+    allowed = (
+        {
+            ("residual-separate", "int8"),
+            ("residual-fused", "int8"),
+            ("mlx", "bf16"),
+        }
+        if gated
+        else {
+            ("norm-staged", "int8"),
+            ("norm-fused", "int8"),
+            ("norm-shift-split", "int8"),
+            ("mlx", "bf16"),
+        }
+    )
+    if (backend, precision) not in allowed:
+        raise NotImplementedError(f"supported backend/precision pairs: {sorted(allowed)}")
     m, n, k = c["m"], c["n"], c["k"]
     cfg = c.get("fusion", {})
     norm = cfg.get("norm", "rms")
@@ -31,6 +42,14 @@ def prepare(c, backend, precision, seed, distribution, tile):
     passes = cfg.get("passes", "one_read")
     rounding = cfg.get("round_output", "input")
     sign_seed = cfg.get("sign_seed")
+    split_shift = backend == "norm-shift-split"
+    bias_backend = cfg.get("bias_backend", "mlx-fp32-convert")
+    if split_shift and (norm != "rms" or rounding != "fp32"):
+        raise NotImplementedError("shift splitting requires RMS and round_output=fp32")
+    if split_shift and passes != "one_read":
+        raise NotImplementedError("shift splitting supports only passes=one_read")
+    if split_shift and bias_backend not in {"mlx-fp32-convert", "mpp-bf16-to-fp32"}:
+        raise NotImplementedError("unsupported bias preparation backend")
     rng = np.random.default_rng(seed)
     x = mx.array(rng.standard_normal((m, k), dtype=np.float32)).astype(mx.bfloat16)
     w = mx.array(rng.standard_normal((n, k), dtype=np.float32)).astype(mx.bfloat16)
@@ -50,8 +69,32 @@ def prepare(c, backend, precision, seed, distribution, tile):
     def np32(a):
         return np.asarray(a.astype(mx.float32))
 
+    if gated:
+        from .gated_residual_reference import gated_residual_reference
+        from .norm_hadamard import (
+            fused_gated_residual_norm_hadamard_quantize,
+            gated_residual_add,
+        )
+
+        branch = mx.array(rng.standard_normal((m, k), dtype=np.float32)).astype(mx.bfloat16)
+        gate = mx.array(0.2 * rng.standard_normal(k).astype(np.float32)).astype(mx.bfloat16)
+        if distribution == "zeros":
+            branch = mx.zeros_like(branch)
+        elif distribution == "outliers":
+            branch = (branch * mx.where(mx.arange(k) % 137 == 0, 20, 1)).astype(mx.bfloat16)
+        mx.eval(branch, gate)
+        ref_residual_ideal = gated_residual_reference(
+            np32(x[mx.array(ri)]), np32(branch[mx.array(ri)]), np32(gate)
+        )
+        ref_residual = np32(mx.array(ref_residual_ideal.astype(np.float32)).astype(mx.bfloat16))
+    else:
+        ref_residual = np32(x[mx.array(ri)])
+
+    def residual_only():
+        return gated_residual_add(x, branch, gate, threads=threads) if gated else x
+
     ref_norm = norm_modulate_reference(
-        np32(x[mx.array(ri)]), np32(gamma), np32(scale), np32(shift), norm=norm, eps=eps
+        ref_residual, np32(gamma), np32(scale), np32(shift), norm=norm, eps=eps
     )
     # Explicit native-Metal boundary: completed AdaLN is rounded to BF16 once.
     rounded_ref = mx.array(ref_norm.astype(np.float32))
@@ -59,18 +102,42 @@ def prepare(c, backend, precision, seed, distribution, tile):
         rounded_ref = rounded_ref.astype(mx.bfloat16)
     rounded_ref = np32(rounded_ref).astype(np.float64)
     ref_w = np32(w[mx.array(ci)]).astype(np.float64)
-    original = rounded_ref @ ref_w.T
+    # The split policy is defined before any intermediate dtype round. Its
+    # algebraic dot-preservation check must use that same float64 expression.
+    original = (ref_norm if split_shift else rounded_ref) @ ref_w.T
 
     def norm_only():
         return unfused_norm(
-            x, gamma, scale, shift, norm=norm, epsilon=eps, round_output=rounding, threads=threads
+            residual_only(),
+            gamma,
+            scale,
+            shift,
+            norm=norm,
+            epsilon=eps,
+            round_output=rounding,
+            threads=threads,
         )
 
     def check(y):
+        if gated:
+            y, updated = y
+            actual_residual = np32(updated[mx.array(ri)])
+            if not np.array_equal(actual_residual, ref_residual):
+                from .engine import NumericalMismatch
+
+                raise NumericalMismatch(
+                    "updated residual differs from independently rounded BF16 reference",
+                    residual_update_error=metrics(actual_residual, ref_residual),
+                    residual_update_exact_match=False,
+                )
         return np32(y[mx.array(ri)[:, None], mx.array(ci)[None, :]])
 
     meta = dict(
-        compute_path="metal_norm_mlx_bf16_gemm" if backend == "mlx" else backend,
+        compute_path=(
+            ("metal_gate_norm_mlx_bf16_gemm" if gated else "metal_norm_mlx_bf16_gemm")
+            if backend == "mlx"
+            else backend
+        ),
         input_dtype="mlx.core.bfloat16",
         output_dtype="mlx.core.bfloat16",
         mac_operations=2 * m * n * k,
@@ -90,27 +157,100 @@ def prepare(c, backend, precision, seed, distribution, tile):
         weight_rotation_timed=False,
         weight_quantization_timed=False,
     )
+    if gated:
+        meta.update(
+            gated_residual=True,
+            residual_contract="BF16(float32(R) + float32(branch)*float32(gate)); no BF16 product round",
+            residual_output_timed_stages=["activation_prepare", "online_activation_plus_gemm"],
+            prequantized_timing_reuses_resident_residual=True,
+            residual_output_dtype="mlx.core.bfloat16",
+            residual_input_mutated=False,
+            gate="per-channel signed gate shared by rows; independent of upcoming modulation",
+            ideal_residual_rounding_error=metrics(ref_residual, ref_residual_ideal),
+        )
     if backend == "mlx":
-        normalized = norm_only()
-        mx.eval(normalized)
+        updated = residual_only()
+        normalized = unfused_norm(
+            updated,
+            gamma,
+            scale,
+            shift,
+            norm=norm,
+            epsilon=eps,
+            round_output=rounding,
+            threads=threads,
+        )
+        mx.eval(normalized, updated)
 
         def fn():
-            return (normalized @ w.T).astype(mx.bfloat16)
+            y = (normalized @ w.T).astype(mx.bfloat16)
+            return (y, updated) if gated else y
 
         def online():
-            return (norm_only() @ w.T).astype(mx.bfloat16)
+            updated_now = residual_only()
+            normalized_now = unfused_norm(
+                updated_now,
+                gamma,
+                scale,
+                shift,
+                norm=norm,
+                epsilon=eps,
+                round_output=rounding,
+                threads=threads,
+            )
+            y = (normalized_now @ w.T).astype(mx.bfloat16)
+            return (y, updated_now) if gated else y
+
+        def prepare_baseline():
+            updated_now = residual_only()
+            normalized_now = unfused_norm(
+                updated_now,
+                gamma,
+                scale,
+                shift,
+                norm=norm,
+                epsilon=eps,
+                round_output=rounding,
+                threads=threads,
+            )
+            return (normalized_now, updated_now) if gated else normalized_now
 
         return (
             fn,
             check,
             original,
             original,
-            {"activation_prepare": norm_only, "online_activation_plus_gemm": online},
+            {"activation_prepare": prepare_baseline, "online_activation_plus_gemm": online},
             meta,
         )
 
     def staged():
         return quantize(rotate(norm_only(), block, signs), "int8", tag="norm_staged")
+
+    def bias_prepare():
+        # Per-condition work, not static offline weight preparation. The policy
+        # deliberately uses original BF16 W, retaining its higher-precision shift.
+        if bias_backend == "mpp-bf16-to-fp32":
+            return gemm(shift[None, :], w, "bf16", (32, 64, 4, 1), output_dtype=mx.float32)[0]
+        return (shift.astype(mx.float32)[None, :] @ w.astype(mx.float32).T)[0]
+
+    if split_shift:
+        from .rms_quant import rms_quantize
+
+        combined_gamma = gamma.astype(mx.float32) * (1 + scale.astype(mx.float32))
+        projected_bias = bias_prepare()
+        mx.eval(combined_gamma, projected_bias)
+
+    def split_activation():
+        return rms_quantize(
+            x,
+            combined_gamma,
+            signs,
+            block_size=block,
+            epsilon=eps,
+            threads=threads,
+            fold_scale=True,
+        )
 
     def fused():
         return fused_norm_hadamard_quantize(
@@ -127,8 +267,58 @@ def prepare(c, backend, precision, seed, distribution, tile):
             passes=passes,
         )
 
-    activation = fused if backend == "norm-fused" else staged
-    aq, sa = activation()
+    def residual_separate():
+        updated = residual_only()
+        q, s = fused_norm_hadamard_quantize(
+            updated,
+            gamma,
+            scale,
+            shift,
+            signs,
+            block_size=block,
+            norm=norm,
+            epsilon=eps,
+            round_output=rounding,
+            threads=threads,
+            passes=passes,
+        )
+        return q, s, updated
+
+    def residual_fused():
+        return fused_gated_residual_norm_hadamard_quantize(
+            x,
+            branch,
+            gate,
+            gamma,
+            scale,
+            shift,
+            signs,
+            block_size=block,
+            norm=norm,
+            epsilon=eps,
+            round_output=rounding,
+            threads=threads,
+            passes=passes,
+        )
+
+    activation = (
+        (residual_fused if backend == "residual-fused" else residual_separate)
+        if gated
+        else (fused if backend == "norm-fused" else staged)
+    )
+    if split_shift:
+        activation = split_activation
+    prepared = activation()
+    aq, sa = prepared[:2]
+    mx.eval(prepared)
+    residual_pass = True
+    if gated:
+        actual_residual = np32(prepared[2][mx.array(ri)])
+        residual_pass = np.array_equal(actual_residual, ref_residual) and bool(
+            mx.all(mx.isfinite(prepared[2])).item()
+        )
+        meta["residual_update_error"] = metrics(actual_residual, ref_residual)
+        meta["residual_update_exact_match"] = bool(residual_pass)
     rotated_w = rotate(w, block, signs)
     bq, sb = quantize(rotated_w, "int8", tag="norm_offline_weight")
     mx.eval(aq, sa, bq, sb, rotated_w)
@@ -138,7 +328,8 @@ def prepare(c, backend, precision, seed, distribution, tile):
     actual_w = (
         np.asarray(bq[mx.array(ci)]).astype(np.float64) * np.asarray(sb[mx.array(ci)])[:, None]
     )
-    ref_rotated = block_hadamard_reference(rounded_ref, block, signs_np)
+    activation_ref = ref_norm - np32(shift) if split_shift else rounded_ref
+    ref_rotated = block_hadamard_reference(activation_ref, block, signs_np)
     ref_rotated_w = block_hadamard_reference(ref_w, block, signs_np)
     ref_scale = np.max(np.abs(ref_rotated), axis=-1) / 127
     ref_scale = np.where(ref_scale == 0, 1, ref_scale)
@@ -156,7 +347,8 @@ def prepare(c, backend, precision, seed, distribution, tile):
     )
     activation_error = metrics(actual_a, ref_decoded)
     scale_error = metrics(np.asarray(sa[mx.array(ri)]), ref_scale)
-    dot_error = metrics(ref_rotated @ ref_rotated_w.T, original)
+    reference_bias = np32(shift).astype(np.float64) @ ref_w.T if split_shift else 0
+    dot_error = metrics(ref_rotated @ ref_rotated_w.T + reference_bias, original)
     max_code_error = float(np.max(np.abs(np.asarray(aq[mx.array(ri)]).astype(float) - ref_q)))
     finite = bool(
         mx.all(mx.isfinite(sa)).item()
@@ -166,14 +358,36 @@ def prepare(c, backend, precision, seed, distribution, tile):
         and mx.all(mx.isfinite(rotated_w)).item()
     )
     expected = actual_a @ actual_w.T
+    if split_shift:
+        actual_bias = np32(projected_bias[mx.array(ci)]).astype(np.float64)
+        bias_error = metrics(actual_bias, reference_bias)
+        finite = finite and bool(mx.all(mx.isfinite(projected_bias)).item())
+        finite = finite and bias_error["finite"] and bias_error["relative_l2"] <= 1e-5
+        expected += actual_bias
+        from .rms_quant_gemm import _bf16_round
+
+        meta.update(
+            shift_split=True,
+            shift_projection_policy="original BF16 weights, FP32 bias; main GEMM uses INT8 weights",
+            shift_projection_error=bias_error,
+            condition_rows=1,
+            bias_preparation_backend=bias_backend,
+            condition_prepare_timed=True,
+            condition_prepare_in_online_activation_plus_gemm=False,
+            conditioning_inclusive_stage="online_with_conditioning",
+            retained_original_bf16_weights_for_bias=True,
+            native_bf16_boundary_diagnostic=metrics(_bf16_round(ref_norm) @ ref_w.T, original),
+        )
+    activation_scale_limit = 1e-5 if split_shift else 0.008
     meta.update(
         quantization="symmetric_per_token_rotated_A_per_output_channel_rotated_W",
         transform_pass=(
             finite
+            and residual_pass
             and activation_error["finite"]
             and activation_error["relative_l2"] <= 0.008
             and scale_error["finite"]
-            and scale_error["relative_l2"] <= 0.008
+            and scale_error["relative_l2"] <= activation_scale_limit
             and max_code_error <= 1
             and weight_rotation_error["finite"]
             and weight_rotation_error["relative_l2"] <= 1e-5
@@ -187,6 +401,7 @@ def prepare(c, backend, precision, seed, distribution, tile):
         ),
         activation_implementation_error=activation_error,
         activation_scale_error=scale_error,
+        activation_scale_relative_l2_limit=activation_scale_limit,
         activation_max_code_difference=max_code_error,
         activation_implementation_relative_l2_limit=0.008,
         activation_max_code_difference_limit=1,
@@ -197,7 +412,9 @@ def prepare(c, backend, precision, seed, distribution, tile):
         activation_preparation_total_error=metrics(actual_a, ref_rotated),
         decoded_preparation_total_error=metrics(expected, original),
         ideal_activation_quantization_error=metrics(ref_decoded, ref_rotated),
-        ideal_decoded_quantization_error=metrics(ref_decoded @ ref_w_decoded.T, original),
+        ideal_decoded_quantization_error=metrics(
+            ref_decoded @ ref_w_decoded.T + reference_bias, original
+        ),
         transform=dict(
             kind="normalized_block_sylvester_hadamard",
             block_size=block,
@@ -211,13 +428,58 @@ def prepare(c, backend, precision, seed, distribution, tile):
     )
 
     def compute(q, s):
-        return gemm(q, bq, "int8", tile, a_scales=s, b_scales=sb, output_dtype=mx.bfloat16)
+        return gemm(
+            q,
+            bq,
+            "int8",
+            tile,
+            a_scales=s,
+            b_scales=sb,
+            output_dtype=mx.bfloat16,
+            **({"bias": projected_bias} if split_shift else {}),
+        )
 
     def fn():
-        return compute(aq, sa)
+        y = compute(aq, sa)
+        return (y, prepared[2]) if gated else y
 
     def online():
-        return compute(*activation())
+        packed = activation()
+        y = compute(*packed[:2])
+        return (y, packed[2]) if gated else y
 
     stages = {"activation_prepare": activation, "online_activation_plus_gemm": online}
+    if split_shift:
+
+        def condition_prepare():
+            return gamma.astype(mx.float32) * (1 + scale.astype(mx.float32)), bias_prepare()
+
+        def online_with_conditioning():
+            combined, bias = condition_prepare()
+            q, s = rms_quantize(
+                x,
+                combined,
+                signs,
+                block_size=block,
+                epsilon=eps,
+                threads=threads,
+                fold_scale=True,
+            )
+            return gemm(
+                q, bq, "int8", tile, a_scales=s, b_scales=sb, output_dtype=mx.bfloat16, bias=bias
+            )
+
+        complete = online_with_conditioning()
+        mx.eval(complete)
+        complete_error = metrics(check(complete), expected)
+        meta["conditioning_inclusive_implementation_error"] = complete_error
+        meta["transform_pass"] = bool(
+            meta["transform_pass"]
+            and complete_error["finite"]
+            and complete_error["relative_l2"] <= 0.008
+            and mx.all(mx.isfinite(complete)).item()
+        )
+        stages.update(
+            condition_prepare=condition_prepare, online_with_conditioning=online_with_conditioning
+        )
     return fn, check, expected, original, stages, meta

@@ -17,6 +17,14 @@ from .numerics import dequantize, metrics, sample_indices
 from .workloads import ROOT
 
 
+class NumericalMismatch(ValueError):
+    """A checked output failed correctness, with serializable diagnostics."""
+
+    def __init__(self, message, **diagnostics):
+        super().__init__(message)
+        self.diagnostics = diagnostics
+
+
 def command(args):
     try:
         return subprocess.check_output(args, text=True, stderr=subprocess.DEVNULL).strip()
@@ -88,6 +96,15 @@ def _np(x):
     import mlx.core as mx
 
     return np.asarray(x.astype(mx.float32))
+
+
+def all_finite(outputs):
+    """Check every materialized output, including an updated residual side output."""
+    import mlx.core as mx
+
+    if isinstance(outputs, (tuple, list)):
+        return all(all_finite(output) for output in outputs)
+    return bool(mx.all(mx.isfinite(outputs)).item())
 
 
 def _dequant_mlx(q, s, mode):
@@ -382,6 +399,12 @@ def prepare_norm_hadamard_gemm(c, backend, precision, seed, distribution, tile):
     return prepare(c, backend, precision, seed, distribution, tile)
 
 
+def prepare_rms_quant_gemm(c, backend, precision, seed, distribution, tile):
+    from .rms_quant_gemm import prepare
+
+    return prepare(c, backend, precision, seed, distribution, tile)
+
+
 def run_case(
     c, backend, precision, seed=17, distribution="normal", warmup=3, repeat=10, tile=(64, 64, 4, 1)
 ):
@@ -395,10 +418,13 @@ def run_case(
         distribution=distribution,
         tile=list(tile),
     )
+    meta = {}
     try:
         # Conservative budget includes references and temporary activation buffers.
-        if c["op"] in {"gemm", "norm_hadamard_gemm"}:
+        if c["op"] in {"gemm", "norm_hadamard_gemm", "gated_norm_hadamard_gemm", "rms_quant_gemm"}:
             est = (c["m"] * c["k"] + c["n"] * c["k"] + c["m"] * c["n"]) * 24
+            if c["op"] == "gated_norm_hadamard_gemm":
+                est += c["m"] * c["k"] * 16
         elif c["op"] == "attention":
             est = c["batch"] * c["heads"] * c["seq"] * c["head_dim"] * 64
         else:
@@ -409,13 +435,15 @@ def run_case(
             "gemm": prepare_gemm,
             "attention": prepare_attention,
             "norm_hadamard_gemm": prepare_norm_hadamard_gemm,
+            "gated_norm_hadamard_gemm": prepare_norm_hadamard_gemm,
+            "rms_quant_gemm": prepare_rms_quant_gemm,
         }.get(c["op"], prepare_elementwise)
         fn, check, expected, original, stages, meta = prepare(
             c, backend, precision, seed, distribution, tile
         )
         y = fn()
         mx.eval(y)
-        output_finite = bool(mx.all(mx.isfinite(y)).item())
+        output_finite = all_finite(y)
         actual = check(y)
         impl = metrics(actual, expected)
         quality = metrics(actual, original)
@@ -450,7 +478,7 @@ def run_case(
             online_y = stages["online_activation_plus_gemm"]()
             mx.eval(online_y)
             online_error = metrics(check(online_y), expected)
-            online_finite = bool(mx.all(mx.isfinite(online_y)).item())
+            online_finite = all_finite(online_y)
             result["online_implementation_error"] = online_error
             result["online_output_finite"] = online_finite
             passed = (
@@ -470,6 +498,9 @@ def run_case(
                     result["timing"]["median_ms"] * 1e9
                 )
         del y, fn, stages
+    except NumericalMismatch as e:
+        result.update(meta)
+        result.update(status="incorrect", reason=str(e), **e.diagnostics)
     except NotImplementedError as e:
         result.update(status="unsupported", reason=str(e))
     except Exception as e:

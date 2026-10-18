@@ -8,6 +8,7 @@ uint tid=thread_position_in_threadgroup.x;
 uint lane=thread_index_in_simdgroup, sg=simdgroup_index_in_threadgroup;
 uint row=threadgroup_position_in_grid.x;
 uint modulation_offset=$MOD_OFFSET;
+$GATE_OFFSET
 threadgroup float partials[groups];
 float values[slots][registers];
 float first=0.0f;
@@ -20,7 +21,8 @@ for(uint slot=0;slot<slots;++slot) {
     #pragma unroll
     for(uint reg=0;reg<registers;++reg) {
         uint j=b*block+reg*32+lane;
-        float v=b<blocks ? float(X[row*width+j]) : 0.0f;
+        float v=b<blocks ? $LOAD_X : 0.0f;
+        $WRITE_RESIDUAL
         if(!two_read) values[slot][reg]=v;
         first+=layer ? v : v*v;
     }
@@ -42,7 +44,7 @@ if(layer) {
         #pragma unroll
         for(uint reg=0;reg<registers;++reg) {
             uint j=b*block+reg*32+lane;
-            float v=two_read ? (b<blocks ? float(X[row*width+j]) : 0.0f)
+            float v=two_read ? (b<blocks ? $LOAD_X : 0.0f)
                              : values[slot][reg];
             values[slot][reg]=v;
             float centered=b<blocks ? v-mean : 0.0f;
@@ -65,7 +67,7 @@ for(uint slot=0;slot<slots;++slot) {
         uint j=b*block+reg*32+lane;
         float v=0.0f;
         if(b<blocks) {
-            float x=(two_read&&!layer) ? float(X[row*width+j]) : values[slot][reg];
+            float x=(two_read&&!layer) ? $LOAD_X : values[slot][reg];
             float normalized=(x-mean)*inv*float(Gamma[j]);
             float modulated=normalized*(1.0f+float(Scale[modulation_offset+j]))
                             +float(Shift[modulation_offset+j]);

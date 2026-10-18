@@ -12,7 +12,10 @@ from m5kernels.workloads import load
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--cases", default="h3.norm_q.m4096,h3.norm_ffn_up.m4096")
+    p.add_argument("--cases")
+    p.add_argument(
+        "--gated", action="store_true", help="include gated add and updated residual output"
+    )
     p.add_argument("--norms", default="rms")
     p.add_argument("--threads", default="128,256")
     p.add_argument("--passes", default="one_read,two_read")
@@ -21,26 +24,33 @@ def main():
     p.add_argument("--repeat", type=int, default=20)
     p.add_argument("--output", required=True)
     args = p.parse_args()
+    if args.cases is None:
+        prefix = "gated" if args.gated else "norm"
+        args.cases = f"h3.{prefix}_q.m4096,h3.{prefix}_ffn_up.m4096"
     if args.repeat < 3:
         p.error("repeat >= 3 required")
     if Path(args.output).exists():
         raise FileExistsError(args.output)
-    cases = {c["id"]: c for c in load("h3-norm-hadamard")["cases"]}
+    suite = "h3-gated-norm-hadamard" if args.gated else "h3-norm-hadamard"
+    cases = {c["id"]: c for c in load(suite)["cases"]}
     with gpu_lock():
         doc = dict(
             schema_version=1,
             environment=environment(),
             results=[],
             experiment="native-style AdaLN BF16 boundary; H256; offline rotated W; paired inputs",
+            gated_residual=args.gated,
             campaign_script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         )
         for name in args.cases.split(","):
             for norm in args.norms.split(","):
                 for distribution in args.distributions.split(","):
                     base = cases[name]
-                    configs = [("mlx", "bf16", {}), ("norm-staged", "int8", {})]
+                    separate = "residual-separate" if args.gated else "norm-staged"
+                    fused = "residual-fused" if args.gated else "norm-fused"
+                    configs = [("mlx", "bf16", {}), (separate, "int8", {})]
                     configs += [
-                        ("norm-fused", "int8", dict(threads=t, passes=passes))
+                        (fused, "int8", dict(threads=t, passes=passes))
                         for t in map(int, args.threads.split(","))
                         for passes in args.passes.split(",")
                     ]

@@ -12,6 +12,8 @@ def validate(c):
     fields = {
         "gemm": ("m", "n", "k"),
         "norm_hadamard_gemm": ("m", "n", "k"),
+        "gated_norm_hadamard_gemm": ("m", "n", "k"),
+        "rms_quant_gemm": ("m", "n", "k"),
         "attention": ("batch", "heads", "seq", "head_dim"),
         "rms_modulate": ("m", "n"),
         "swiglu": ("m", "n"),

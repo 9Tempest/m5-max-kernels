@@ -12,7 +12,11 @@ Follow-up: **Hadamard before INT8 reduces FFN-down outlier error from 8.84% to 1
 
 Further fusion combines **AdaLN + Hadamard + dynamic INT8 quantization** in one Metal dispatch. Q-projection preparation at M=4096 falls from 0.81 to 0.44 ms; the complete projection improves about 9% over the staged INT8 path in two independent seeds. [Fusion experiment and trace](docs/norm-hadamard-fusion.md).
 
+Adding the preceding **gated residual update** to that fused preparation lowers Q4096 online latency by another 4–6% versus a separate gate-add dispatch, while preserving the updated BF16 residual output. The benefit varies by shape; Q9914 outliers show no improvement. [Repeated gated-fusion results](docs/gated-residual-fusion.md).
+
 The repository contains raw baseline/precision/tuning/holdout results, real before/after GPU counter reports and a target-filtered Instruments trace summary. See [results and limitations](docs/initial-results.md).
+
+RMS factors can be folded into INT8 dequant scales, including after Hadamard. The [scale-folding experiment](docs/rms-scale-folding.md) reduces synchronization but finds no stable overall speedup here. [Moving AdaLN shift into a projected output bias](docs/affine-shift-splitting.md) is also implemented as an alternate precision policy, with conditioning costs and negative results retained.
 
 ## Run
 
@@ -45,7 +49,10 @@ Output paths are exclusive: choose a new filename for each experiment. Performan
 | Attention | MLX fused SDPA; INT8/FP8/MXINT8 QDQ sensitivity experiment | QDQ runs BF16 SDPA; its timing is **not quantized attention throughput** |
 | RMSNorm + modulation | Compiled MLX; custom fused Metal | FP32 reduction, BF16/FP16/FP32 output |
 | AdaLN + Hadamard + INT8 packing | One Metal dispatch; staged comparison | RMS/LayerNorm, explicit post-modulation rounding, whole-row scales, optional modulation row map |
+| Gated residual + AdaLN + Hadamard + INT8 | Fused preparation versus separate gate + prior fused preparation | Preserves and outputs BF16 residual before next norm; independent gate/modulation maps; online output cost included |
 | SwiGLU | Compiled MLX | Baseline for fusion experiments |
+| RMS + INT8 scale folding | Direct/folded Metal, optional H, 128/256/512 threads | Zero shift, FP32 intermediate; norm factor enters row scale |
+| Projected AdaLN shift | FP32 bias in INT8 GEMM epilogue | Shared vector or mapped table; explicit rounding-policy change and conditioning cost |
 
 Native scaled INT8→FP32 TensorOps is not working in the tested stack. FP8 execution support alone does not establish a dedicated FP8 hardware speedup. FP32 TensorOps may use reduced-mantissa multiplication: the strict FP32 correctness gate must pass before promotion.
 

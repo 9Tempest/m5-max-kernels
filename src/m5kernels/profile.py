@@ -15,6 +15,8 @@ from .engine import (
     prepare_attention,
     prepare_elementwise,
     prepare_norm_hadamard_gemm,
+    prepare_rms_quant_gemm,
+    all_finite,
     write_result,
 )
 from .locking import gpu_lock
@@ -33,6 +35,8 @@ def workload(args):
         "gemm": prepare_gemm,
         "attention": prepare_attention,
         "norm_hadamard_gemm": prepare_norm_hadamard_gemm,
+        "gated_norm_hadamard_gemm": prepare_norm_hadamard_gemm,
+        "rms_quant_gemm": prepare_rms_quant_gemm,
     }.get(case["op"], prepare_elementwise)
     fn, check, expected, original, stages, meta = prepare(
         case, args.backend, args.precision, args.seed, "normal", tuple(args.tile)
@@ -51,7 +55,7 @@ def workload(args):
         or not error["finite"]
         or error["relative_l2"]
         > (0.0001 if args.precision == "fp32" else 0.001 if args.precision == "fp16" else 0.008)
-        or not mx.all(mx.isfinite(y)).item()
+        or not all_finite(y)
     ):
         raise ValueError("refusing to profile an incorrect kernel")
     return fn, dict(
