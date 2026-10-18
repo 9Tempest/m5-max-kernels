@@ -40,7 +40,32 @@ H(g*v + shift) = g*H(v) + H(shift)
 
 The resulting integer codes depend on g. The retained BF16 rounding also prevents general exact cancellation. Likewise, channelwise modulation cannot simply commute through Hadamard. The implemented fusion preserves the operation order.
 
-## Reproduce
+## Measured results — 2026-10-18
+
+The fixed selected configuration is H256, 256 threads, `one_read`, with a BF16 boundary after modulation and the existing INT8 GEMM tile `(128,64,4,8)`. An initial seed17 sweep compared 128/256 threads and one/two input reads. Seed29 and an independent seed43 rerun then compared the staged and fixed fused paths on the same M5 Max. Each result uses five warmups and 30 synchronized timed repetitions. The BF16 comparison is **Metal AdaLN + MLX BF16 GEMM**, not an entirely MLX pipeline.
+
+Normal synthetic inputs, seed29:
+
+| Projection | Staged preparation ms | Fused preparation ms | Preparation speedup | Staged online ms | Fused online ms | Online speedup |
+|---|---:|---:|---:|---:|---:|---:|
+| Q, M=128 | 0.1667 | 0.1451 | 1.15× | 0.3010 | 0.2766 | 1.09× |
+| Q, M=4096 | 0.8071 | 0.4396 | 1.84× | 3.9734 | 3.6338 | 1.09× |
+| FFN-up, M=4096 | 0.8506 | 0.5163 | 1.65× | 7.2478 | 6.7800 | 1.07× |
+| Q, M=9914 | 1.7982 | 0.9168 | 1.96× | 9.4527 | 8.5475 | 1.11× |
+
+Seed43 independently repeats the Q4096 improvement at 3.9812 → 3.6626 ms (1.087×) and Q9914 at 9.3878 → 8.5381 ms (1.100×). FFN-up's full online gain varies from 1.026× to 1.069× across these reruns; M128 also varies from 1.026× to 1.088× and is sensitive to host overhead. The preparation result should not be presented as the projection or model speedup.
+
+In seed29 synthetic outliers, fused Q4096 / FFN-up4096 / Q9914 total relative L2 is 0.592% / 0.792% / 0.910%; normal-input errors are approximately 1.2–1.4%. These include quantization and BF16 GEMM output rounding. Ideal quantization, actual preparation, and GEMM implementation errors are recorded separately. Staged/fused results need not be bit-identical because reduction ordering can change rounding at thresholds. The gates are unchanged and all published candidates pass. These errors are against this AdaLN expression and its synthetic values, so they are not interchangeable with the earlier raw-activation Hadamard experiment.
+
+M9914 follows the integration task's 512×512, 124-frame request (9472 video + 414 audio + 28 text tokens); these records still use synthetic activation/weight/modulation values. LayerNorm and mapped modulation have GPU correctness coverage; the performance table measures shared-vector RMSNorm/AdaLN only.
+
+Evidence: [configuration sweep](../results/published/2026-10-18-norm-hadamard-sweep.json), [seed29 validation](../results/published/2026-10-18-norm-hadamard-independent.json), [independent seed43 rerun](../results/published/2026-10-18-norm-hadamard-rerun.json).
+
+The [staged capture](../results/published/2026-10-18-norm-hadamard-staged-profile.json) contains four dispatches: AdaLN, Hadamard, quantization and GEMM. The [fused capture](../results/published/2026-10-18-norm-hadamard-fused-profile.json) confirms two: fused preparation and GEMM, each invoked once. The selected preparation shader has **48 temporary registers and zero spilled bytes**, and accounts for 8.72% of this serial replay's shader cost. GEMM accounts for 91.28%; its reported spills are separate from the preparation shader. These are profiling counters, not synchronized-wall timing or proof of a specific bottleneck.
+
+The slower [128-thread single-read variant](../results/published/2026-10-18-norm-hadamard-128-profile.json) reports 64 temporary registers and **208 spilled bytes**, versus zero spills at 256 threads. Its seed17 normal-input preparation is 0.647 ms versus 0.447 ms for the selected 256-thread variant; reloading X with 128 threads gives 0.453 ms. The counter difference supports register pressure as a cause worth investigating, but does not isolate it from instruction count and occupancy. Raw captures stay under ignored `results/local/norm-hadamard-{staged,fused,128}-001.gputrace`.
+
+## Reproduction commands
 
 ```sh
 uv sync --locked

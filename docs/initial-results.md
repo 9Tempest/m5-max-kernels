@@ -34,6 +34,8 @@ The harness retains this rejected result and does not produce a speedup recommen
 
 The [Hadamard experiment](hadamard.md) keeps weight rotation/quantization offline and includes activation rotation in online latency. At seed29, plain block256 reduces FFN-down outlier relative L2 from 8.84% to **1.22%**; the independently validated complete path takes **8.701 ms** versus **12.707 ms** BF16 (1.46×). Q and FFN-up error fall to 0.70%/0.72% at 3.789/6.895 ms. These pass the same unchanged synthetic gate; real H3 activation and output-quality validation remains pending. The active comparison is INT8 + Hadamard versus unrotated FP8; FP8 + Hadamard is outside scope.
 
+The subsequent [AdaLN/Hadamard/INT8 fusion](norm-hadamard-fusion.md) preserves the native-style BF16 AdaLN boundary and fuses three preparation stages into one dispatch. For Q4096, seed29 preparation is 0.807 → 0.440 ms and the complete projection is 3.973 → 3.634 ms; seed43 repeats 3.981 → 3.663 ms. Q9914 repeats approximately 1.10× total-path acceleration. These compare the same staged and fused INT8 policy, with full online preparation timed. The selected preparation shader reports 48 temporary registers and zero spills; this is not an end-to-end H3 inference result.
+
 ## Trace findings
 
 Both FFN-down GPU captures contain **one activation-quantization dispatch and one GEMM dispatch**, verified from shader invocation counts. The standalone records are [before](../results/published/2026-10-18-ffn-int8-before-profile.json) and [tuned](../results/published/2026-10-18-ffn-int8-tuned-profile.json).

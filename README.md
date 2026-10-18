@@ -10,6 +10,8 @@ At M=4096, tuned W8A8 projections take **3.49 ms Q**, **6.58 ms FFN-up**, and **
 
 Follow-up: **Hadamard before INT8 reduces FFN-down outlier error from 8.84% to 1.22%**, with 8.70 ms total online latency versus 12.71 ms BF16 (1.46×). Weights are rotated offline; activation rotation is included. See the [Hadamard experiment](docs/hadamard.md).
 
+Further fusion combines **AdaLN + Hadamard + dynamic INT8 quantization** in one Metal dispatch. Q-projection preparation at M=4096 falls from 0.81 to 0.44 ms; the complete projection improves about 9% over the staged INT8 path in two independent seeds. [Fusion experiment and trace](docs/norm-hadamard-fusion.md).
+
 The repository contains raw baseline/precision/tuning/holdout results, real before/after GPU counter reports and a target-filtered Instruments trace summary. See [results and limitations](docs/initial-results.md).
 
 ## Run
@@ -42,6 +44,7 @@ Output paths are exclusive: choose a new filename for each experiment. Performan
 | MXINT8 | 32-element quantizer + explicit software dequantization | S1.6 factor folded into E8M0 scale; **not native MX acceleration** |
 | Attention | MLX fused SDPA; INT8/FP8/MXINT8 QDQ sensitivity experiment | QDQ runs BF16 SDPA; its timing is **not quantized attention throughput** |
 | RMSNorm + modulation | Compiled MLX; custom fused Metal | FP32 reduction, BF16/FP16/FP32 output |
+| AdaLN + Hadamard + INT8 packing | One Metal dispatch; staged comparison | RMS/LayerNorm, explicit post-modulation rounding, whole-row scales, optional modulation row map |
 | SwiGLU | Compiled MLX | Baseline for fusion experiments |
 
 Native scaled INT8→FP32 TensorOps is not working in the tested stack. FP8 execution support alone does not establish a dedicated FP8 hardware speedup. FP32 TensorOps may use reduced-mantissa multiplication: the strict FP32 correctness gate must pass before promotion.

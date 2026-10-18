@@ -41,3 +41,16 @@ The local full captures corresponding to the two GPU reports are `results/local/
 | [2026-10-18-hadamard-large-blocks.json](2026-10-18-hadamard-large-blocks.json) | 12 ok; 1 quality rejections |
 | [2026-10-18-hadamard-q-tune.json](2026-10-18-hadamard-q-tune.json) | 8 ok |
 | [2026-10-18-hadamard-up-tune.json](2026-10-18-hadamard-up-tune.json) | 8 ok |
+
+## AdaLN + Hadamard + INT8 fusion
+
+See the [fusion report](../../docs/norm-hadamard-fusion.md) for timing scopes, rounding boundaries and measured coverage.
+
+| Record | Contents |
+|---|---|
+| [2026-10-18-norm-hadamard-sweep.json](2026-10-18-norm-hadamard-sweep.json) | Seed17, 128/256 threads and one/two input reads, 12 ok |
+| [2026-10-18-norm-hadamard-independent.json](2026-10-18-norm-hadamard-independent.json) | Seed29, normal/outliers, Q M128/4096/9914 and FFN-up M4096, 24 ok |
+| [2026-10-18-norm-hadamard-rerun.json](2026-10-18-norm-hadamard-rerun.json) | Independent seed43 normal-input rerun, 12 ok |
+| [2026-10-18-norm-hadamard-fused-profile.json](2026-10-18-norm-hadamard-fused-profile.json) | One fused preparation + one GEMM dispatch; register/spill counters |
+| [2026-10-18-norm-hadamard-staged-profile.json](2026-10-18-norm-hadamard-staged-profile.json) | AdaLN + Hadamard + quantization + GEMM: four dispatches |
+| [2026-10-18-norm-hadamard-128-profile.json](2026-10-18-norm-hadamard-128-profile.json) | Slower 128-thread buffered variant: 208 spilled bytes in preparation |
