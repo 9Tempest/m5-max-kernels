@@ -123,11 +123,14 @@ def _tune(args):
 
 def _report(args):
     docs = [json.loads(Path(p).read_text()) for p in args.inputs]
-    print("| Case | Backend | Precision | Median ms | Effective TOPS | Relative L2 | Status |")
-    print("|---|---|---|---:|---:|---:|---|")
+    print(
+        "| Case | Backend | Precision | Compute ms | Online ms | Compute TOPS | Relative L2 | Status |"
+    )
+    print("|---|---|---|---:|---:|---:|---:|---|")
     for doc in docs:
         for r in doc["results"]:
             ms = r.get("timing", {}).get("median_ms")
+            online = r.get("stages", {}).get("online_activation_plus_gemm", {}).get("median_ms")
             tops = r.get("effective_tops")
             err = r.get("quality_error", {}).get("relative_l2")
             cells = [
@@ -135,6 +138,7 @@ def _report(args):
                 r["backend"],
                 r["precision"],
                 f"{ms:.4f}" if ms is not None else "—",
+                f"{online:.4f}" if online is not None else "—",
                 f"{tops:.2f}" if tops is not None else "—",
                 f"{err:.5f}" if err is not None else "—",
                 r["status"],

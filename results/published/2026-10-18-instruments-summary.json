@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "source": "xctrace Metal System Trace / metal-gpu-intervals",
+  "scope": "target process, entire launch including setup/warmup; duplicate/nested intervals unioned",
+  "profiling_overhead": true,
+  "interval_count": 1581,
+  "observed_span_ms": 5185.008083,
+  "gpu_active_union_ms": 4886.871206,
+  "observed_busy_fraction": 0.942500209791862,
+  "channels": {
+    "Compute": {
+      "interval_count": 1581,
+      "gpu_active_union_ms": 4886.871206
+    }
+  },
+  "warning": "Not a per-kernel latency or hot-loop-only utilization measurement"
+}
