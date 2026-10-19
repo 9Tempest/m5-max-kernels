@@ -1,0 +1,749 @@
+{
+  "schema": "h3_kernel_resident_comparison_v1",
+  "status": "completed",
+  "stable_promotion": "not_evaluated",
+  "evaluator_sha256": "07c05cf25fbaec6da5310dcfa3ab08d9d634f50aba1d2ca15ee12480af76190f",
+  "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+  "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+  "model": {
+    "repository": "MiniMaxAI/MiniMax-H3",
+    "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+    "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+  },
+  "environment": {
+    "system": "Darwin",
+    "release": "27.0.0",
+    "machine": "arm64",
+    "python": "3.12.15",
+    "numpy": "2.4.4",
+    "chip": "Apple M5 Max",
+    "memory_bytes": 137438953472,
+    "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+    "xcode": "Xcode 27.1\nBuild version 27A9275",
+    "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+    "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+  },
+  "arms": [
+    {
+      "run_sha256": "65c15fa1b86be9518a2ff482f35805d840249c8f525e1a3213977b2d51eaa38a",
+      "policy": "baseline",
+      "seed": 42,
+      "producer": {
+        "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+        "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+        "model": {
+          "repository": "MiniMaxAI/MiniMax-H3",
+          "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+          "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+        },
+        "harness": {
+          "run_kernel_integration.py": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+          "kernel_integration.py": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+          "kernel_session.c": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+          "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+          "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+          "run_session.py": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+          "model-files.json": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+          "UPSTREAM-LICENSE": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+          "locking.py": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4"
+        },
+        "driver": {
+          "file": "kernel-session",
+          "binary_sha256": "673cb7640810d828290b5ae14d4258e1c986614a15cae0505fd65e26121cde90",
+          "library_sha256": "28ad81fd934d6dda5aae7fb4843b07c27a0257749850099390c2326036efca35"
+        }
+      },
+      "environment": {
+        "system": "Darwin",
+        "release": "27.0.0",
+        "machine": "arm64",
+        "python": "3.12.15",
+        "numpy": "2.4.4",
+        "chip": "Apple M5 Max",
+        "memory_bytes": 137438953472,
+        "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+        "xcode": "Xcode 27.1\nBuild version 27A9275",
+        "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+        "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+      },
+      "compilation": {
+        "make": [
+          "make",
+          "-B",
+          "-j8"
+        ],
+        "driver": [
+          "clang",
+          "-std=c11",
+          "-O2",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-D_DARWIN_C_SOURCE",
+          "-DH3_SESSION_EXPERIMENT=1",
+          "-I",
+          "<source>",
+          "<run>/harness-snapshot/kernel_session.c",
+          "<source>/libh3.a",
+          "-framework",
+          "Foundation",
+          "-framework",
+          "Metal",
+          "-framework",
+          "MetalPerformanceShaders",
+          "-framework",
+          "MetalPerformanceShadersGraph",
+          "-framework",
+          "Accelerate",
+          "-licucore",
+          "-lm",
+          "-o",
+          "<run>/kernel-session"
+        ]
+      },
+      "process": {
+        "started_utc": "2026-10-19T04:54:08.608180+00:00",
+        "finished_utc": "2026-10-19T05:04:26.450389+00:00",
+        "wall_seconds": 617.8381679580052,
+        "log_sha256": "de25cc0f1ccf90124eb598c14c730fa4757a9a113065de661ba78d5dd96580de"
+      },
+      "video_sha256": [
+        "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+        "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+        "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+        "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a"
+      ],
+      "timing": {
+        "cached_generation": {
+          "raw_seconds": [
+            149.21622,
+            147.646479,
+            147.659017
+          ],
+          "count": 3,
+          "median_seconds": 147.659017,
+          "p10_seconds": 147.6489866,
+          "p90_seconds": 148.9047794,
+          "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+        },
+        "cached_denoise_callback": {
+          "raw_seconds": [
+            120.058543,
+            118.455572,
+            118.525176
+          ],
+          "count": 3,
+          "median_seconds": 118.525176,
+          "p10_seconds": 118.4694928,
+          "p90_seconds": 119.7518696,
+          "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+        }
+      },
+      "timing_contract": {
+        "capture": "diagnostic extra waits/readbacks; not a performance sample",
+        "resident": "one full warmup then three same-seed complete requests in one process",
+        "denoise": "fresh synchronized native callbacks including online preparation and final copy/unpack; not stale cached profile wall",
+        "generation": "includes decode and original 124-frame AV export; excludes preflight/build and exact-duration trim",
+        "compilation_free_e2e": "not claimed: audio VAE setup repeats",
+        "weight_preparation": "outside timed resident requests, included in warmup"
+      },
+      "shape": {
+        "fps": 24,
+        "requested_seconds": 5,
+        "requested_frames": 120,
+        "aligned_frames": 124,
+        "aligned_seconds": 5.166666666666667,
+        "video_latent_t": 37,
+        "audio_latent_t": 207,
+        "video_tokens": 9472,
+        "stereo_audio_tokens": 414,
+        "text_tokens": 28,
+        "packed_sequence_tokens": 9914,
+        "shape_evidence": "text tokens derived from observed public cache bytes and pinned h3_cache_get_info formula; video/audio/layout from h3_host.c; INT8 arena allocation rounding from h3_dit.c; not a per-op tensor trace",
+        "int8_activation_arena_rows": 9984
+      },
+      "warmup_seconds": 172.564942
+    },
+    {
+      "run_sha256": "8b15f8e9842da6812b7d56afc0c2231a473e45f92008a8396c2b903d2e6e1263",
+      "policy": "combined",
+      "seed": 42,
+      "producer": {
+        "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+        "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+        "model": {
+          "repository": "MiniMaxAI/MiniMax-H3",
+          "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+          "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+        },
+        "harness": {
+          "run_kernel_integration.py": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+          "kernel_integration.py": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+          "kernel_session.c": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+          "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+          "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+          "run_session.py": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+          "model-files.json": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+          "UPSTREAM-LICENSE": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+          "locking.py": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4"
+        },
+        "driver": {
+          "file": "kernel-session",
+          "binary_sha256": "673cb7640810d828290b5ae14d4258e1c986614a15cae0505fd65e26121cde90",
+          "library_sha256": "1f92302b1c484601c64a8a0f6774e846bc471b5fd5e7014f5f17e6c7fbf432bb"
+        }
+      },
+      "environment": {
+        "system": "Darwin",
+        "release": "27.0.0",
+        "machine": "arm64",
+        "python": "3.12.15",
+        "numpy": "2.4.4",
+        "chip": "Apple M5 Max",
+        "memory_bytes": 137438953472,
+        "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+        "xcode": "Xcode 27.1\nBuild version 27A9275",
+        "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+        "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+      },
+      "compilation": {
+        "make": [
+          "make",
+          "-B",
+          "-j8"
+        ],
+        "driver": [
+          "clang",
+          "-std=c11",
+          "-O2",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-D_DARWIN_C_SOURCE",
+          "-DH3_SESSION_EXPERIMENT=1",
+          "-I",
+          "<source>",
+          "<run>/harness-snapshot/kernel_session.c",
+          "<source>/libh3.a",
+          "-framework",
+          "Foundation",
+          "-framework",
+          "Metal",
+          "-framework",
+          "MetalPerformanceShaders",
+          "-framework",
+          "MetalPerformanceShadersGraph",
+          "-framework",
+          "Accelerate",
+          "-licucore",
+          "-lm",
+          "-o",
+          "<run>/kernel-session"
+        ]
+      },
+      "process": {
+        "started_utc": "2026-10-19T05:05:19.299064+00:00",
+        "finished_utc": "2026-10-19T05:15:41.967490+00:00",
+        "wall_seconds": 622.6643486660032,
+        "log_sha256": "ff96b234ba76c5a5c09dba73b25104af65ee35a7d30e57d10aab6d7064e40419"
+      },
+      "video_sha256": [
+        "6d88e533b5c2870c73c8d5cf2089f6620e0212111306745fcf2bf0d9eacb55ae",
+        "6d88e533b5c2870c73c8d5cf2089f6620e0212111306745fcf2bf0d9eacb55ae",
+        "6d88e533b5c2870c73c8d5cf2089f6620e0212111306745fcf2bf0d9eacb55ae",
+        "6d88e533b5c2870c73c8d5cf2089f6620e0212111306745fcf2bf0d9eacb55ae"
+      ],
+      "timing": {
+        "cached_generation": {
+          "raw_seconds": [
+            149.428955,
+            149.36416,
+            149.317661
+          ],
+          "count": 3,
+          "median_seconds": 149.36416,
+          "p10_seconds": 149.3269608,
+          "p90_seconds": 149.415996,
+          "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+        },
+        "cached_denoise_callback": {
+          "raw_seconds": [
+            120.443899,
+            120.390033,
+            120.381656
+          ],
+          "count": 3,
+          "median_seconds": 120.390033,
+          "p10_seconds": 120.3833314,
+          "p90_seconds": 120.4331258,
+          "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+        }
+      },
+      "timing_contract": {
+        "capture": "diagnostic extra waits/readbacks; not a performance sample",
+        "resident": "one full warmup then three same-seed complete requests in one process",
+        "denoise": "fresh synchronized native callbacks including online preparation and final copy/unpack; not stale cached profile wall",
+        "generation": "includes decode and original 124-frame AV export; excludes preflight/build and exact-duration trim",
+        "compilation_free_e2e": "not claimed: audio VAE setup repeats",
+        "weight_preparation": "outside timed resident requests, included in warmup"
+      },
+      "shape": {
+        "fps": 24,
+        "requested_seconds": 5,
+        "requested_frames": 120,
+        "aligned_frames": 124,
+        "aligned_seconds": 5.166666666666667,
+        "video_latent_t": 37,
+        "audio_latent_t": 207,
+        "video_tokens": 9472,
+        "stereo_audio_tokens": 414,
+        "text_tokens": 28,
+        "packed_sequence_tokens": 9914,
+        "shape_evidence": "text tokens derived from observed public cache bytes and pinned h3_cache_get_info formula; video/audio/layout from h3_host.c; INT8 arena allocation rounding from h3_dit.c; not a per-op tensor trace",
+        "int8_activation_arena_rows": 9984
+      },
+      "warmup_seconds": 173.82121
+    },
+    {
+      "run_sha256": "9cfbc166d516b58729759e0b31a35fe9970fe832c0247820031cae43b8066e57",
+      "policy": "combined",
+      "seed": 43,
+      "producer": {
+        "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+        "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+        "model": {
+          "repository": "MiniMaxAI/MiniMax-H3",
+          "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+          "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+        },
+        "harness": {
+          "run_kernel_integration.py": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+          "kernel_integration.py": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+          "kernel_session.c": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+          "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+          "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+          "run_session.py": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+          "model-files.json": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+          "UPSTREAM-LICENSE": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+          "locking.py": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4"
+        },
+        "driver": {
+          "file": "kernel-session",
+          "binary_sha256": "673cb7640810d828290b5ae14d4258e1c986614a15cae0505fd65e26121cde90",
+          "library_sha256": "2c88c74ad34c2617225aac5ed0aec915bfd20fd9030dadc73e660911f5e0e2e9"
+        }
+      },
+      "environment": {
+        "system": "Darwin",
+        "release": "27.0.0",
+        "machine": "arm64",
+        "python": "3.12.15",
+        "numpy": "2.4.4",
+        "chip": "Apple M5 Max",
+        "memory_bytes": 137438953472,
+        "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+        "xcode": "Xcode 27.1\nBuild version 27A9275",
+        "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+        "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+      },
+      "compilation": {
+        "make": [
+          "make",
+          "-B",
+          "-j8"
+        ],
+        "driver": [
+          "clang",
+          "-std=c11",
+          "-O2",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-D_DARWIN_C_SOURCE",
+          "-DH3_SESSION_EXPERIMENT=1",
+          "-I",
+          "<source>",
+          "<run>/harness-snapshot/kernel_session.c",
+          "<source>/libh3.a",
+          "-framework",
+          "Foundation",
+          "-framework",
+          "Metal",
+          "-framework",
+          "MetalPerformanceShaders",
+          "-framework",
+          "MetalPerformanceShadersGraph",
+          "-framework",
+          "Accelerate",
+          "-licucore",
+          "-lm",
+          "-o",
+          "<run>/kernel-session"
+        ]
+      },
+      "process": {
+        "started_utc": "2026-10-19T05:16:34.758806+00:00",
+        "finished_utc": "2026-10-19T05:26:58.641145+00:00",
+        "wall_seconds": 623.8824654170021,
+        "log_sha256": "47fd10876d23d91f906fcdc08089cabb6c309b67024376e2d369e3cb62ae60b7"
+      },
+      "video_sha256": [
+        "7befa39c59b484ff5b6254b79422ba05b840721fbd14206cf409986dc5b1d595",
+        "7befa39c59b484ff5b6254b79422ba05b840721fbd14206cf409986dc5b1d595",
+        "7befa39c59b484ff5b6254b79422ba05b840721fbd14206cf409986dc5b1d595",
+        "7befa39c59b484ff5b6254b79422ba05b840721fbd14206cf409986dc5b1d595"
+      ],
+      "timing": {
+        "cached_generation": {
+          "raw_seconds": [
+            149.98371,
+            149.768661,
+            149.755262
+          ],
+          "count": 3,
+          "median_seconds": 149.768661,
+          "p10_seconds": 149.7579418,
+          "p90_seconds": 149.9407002,
+          "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+        },
+        "cached_denoise_callback": {
+          "raw_seconds": [
+            120.794514,
+            120.575822,
+            120.554058
+          ],
+          "count": 3,
+          "median_seconds": 120.575822,
+          "p10_seconds": 120.5584108,
+          "p90_seconds": 120.75077560000001,
+          "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+        }
+      },
+      "timing_contract": {
+        "capture": "diagnostic extra waits/readbacks; not a performance sample",
+        "resident": "one full warmup then three same-seed complete requests in one process",
+        "denoise": "fresh synchronized native callbacks including online preparation and final copy/unpack; not stale cached profile wall",
+        "generation": "includes decode and original 124-frame AV export; excludes preflight/build and exact-duration trim",
+        "compilation_free_e2e": "not claimed: audio VAE setup repeats",
+        "weight_preparation": "outside timed resident requests, included in warmup"
+      },
+      "shape": {
+        "fps": 24,
+        "requested_seconds": 5,
+        "requested_frames": 120,
+        "aligned_frames": 124,
+        "aligned_seconds": 5.166666666666667,
+        "video_latent_t": 37,
+        "audio_latent_t": 207,
+        "video_tokens": 9472,
+        "stereo_audio_tokens": 414,
+        "text_tokens": 28,
+        "packed_sequence_tokens": 9914,
+        "shape_evidence": "text tokens derived from observed public cache bytes and pinned h3_cache_get_info formula; video/audio/layout from h3_host.c; INT8 arena allocation rounding from h3_dit.c; not a per-op tensor trace",
+        "int8_activation_arena_rows": 9984
+      },
+      "warmup_seconds": 173.656967
+    },
+    {
+      "run_sha256": "2b6c13a52757ff3ab7e2acc6054f0f1ff5e0661a104c7c7693b647b129523f9f",
+      "policy": "baseline",
+      "seed": 43,
+      "producer": {
+        "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+        "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+        "model": {
+          "repository": "MiniMaxAI/MiniMax-H3",
+          "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+          "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+        },
+        "harness": {
+          "run_kernel_integration.py": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+          "kernel_integration.py": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+          "kernel_session.c": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+          "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+          "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+          "run_session.py": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+          "model-files.json": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+          "UPSTREAM-LICENSE": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+          "locking.py": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4"
+        },
+        "driver": {
+          "file": "kernel-session",
+          "binary_sha256": "673cb7640810d828290b5ae14d4258e1c986614a15cae0505fd65e26121cde90",
+          "library_sha256": "190f7247e89396d8b111edccab472818fbcc3230a35b3b1850c831ad1ea6e63f"
+        }
+      },
+      "environment": {
+        "system": "Darwin",
+        "release": "27.0.0",
+        "machine": "arm64",
+        "python": "3.12.15",
+        "numpy": "2.4.4",
+        "chip": "Apple M5 Max",
+        "memory_bytes": 137438953472,
+        "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+        "xcode": "Xcode 27.1\nBuild version 27A9275",
+        "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+        "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+      },
+      "compilation": {
+        "make": [
+          "make",
+          "-B",
+          "-j8"
+        ],
+        "driver": [
+          "clang",
+          "-std=c11",
+          "-O2",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-D_DARWIN_C_SOURCE",
+          "-DH3_SESSION_EXPERIMENT=1",
+          "-I",
+          "<source>",
+          "<run>/harness-snapshot/kernel_session.c",
+          "<source>/libh3.a",
+          "-framework",
+          "Foundation",
+          "-framework",
+          "Metal",
+          "-framework",
+          "MetalPerformanceShaders",
+          "-framework",
+          "MetalPerformanceShadersGraph",
+          "-framework",
+          "Accelerate",
+          "-licucore",
+          "-lm",
+          "-o",
+          "<run>/kernel-session"
+        ]
+      },
+      "process": {
+        "started_utc": "2026-10-19T05:27:51.206832+00:00",
+        "finished_utc": "2026-10-19T05:38:06.712171+00:00",
+        "wall_seconds": 615.502147459003,
+        "log_sha256": "5325878c3318fcfc9e72a274aef9942fb3cdd2f72e8f99a8143dfa6a6c147067"
+      },
+      "video_sha256": [
+        "7dbaecb9b953d0fead4fcbdeaa9fa80946bcd38df6fed92ae4743812bd2fec1b",
+        "7dbaecb9b953d0fead4fcbdeaa9fa80946bcd38df6fed92ae4743812bd2fec1b",
+        "7dbaecb9b953d0fead4fcbdeaa9fa80946bcd38df6fed92ae4743812bd2fec1b",
+        "7dbaecb9b953d0fead4fcbdeaa9fa80946bcd38df6fed92ae4743812bd2fec1b"
+      ],
+      "timing": {
+        "cached_generation": {
+          "raw_seconds": [
+            147.824244,
+            147.807164,
+            147.701214
+          ],
+          "count": 3,
+          "median_seconds": 147.807164,
+          "p10_seconds": 147.72240399999998,
+          "p90_seconds": 147.820828,
+          "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+        },
+        "cached_denoise_callback": {
+          "raw_seconds": [
+            118.640971,
+            118.655992,
+            118.59365
+          ],
+          "count": 3,
+          "median_seconds": 118.640971,
+          "p10_seconds": 118.6031142,
+          "p90_seconds": 118.65298779999999,
+          "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+        }
+      },
+      "timing_contract": {
+        "capture": "diagnostic extra waits/readbacks; not a performance sample",
+        "resident": "one full warmup then three same-seed complete requests in one process",
+        "denoise": "fresh synchronized native callbacks including online preparation and final copy/unpack; not stale cached profile wall",
+        "generation": "includes decode and original 124-frame AV export; excludes preflight/build and exact-duration trim",
+        "compilation_free_e2e": "not claimed: audio VAE setup repeats",
+        "weight_preparation": "outside timed resident requests, included in warmup"
+      },
+      "shape": {
+        "fps": 24,
+        "requested_seconds": 5,
+        "requested_frames": 120,
+        "aligned_frames": 124,
+        "aligned_seconds": 5.166666666666667,
+        "video_latent_t": 37,
+        "audio_latent_t": 207,
+        "video_tokens": 9472,
+        "stereo_audio_tokens": 414,
+        "text_tokens": 28,
+        "packed_sequence_tokens": 9914,
+        "shape_evidence": "text tokens derived from observed public cache bytes and pinned h3_cache_get_info formula; video/audio/layout from h3_host.c; INT8 arena allocation rounding from h3_dit.c; not a per-op tensor trace",
+        "int8_activation_arena_rows": 9984
+      },
+      "warmup_seconds": 171.46086
+    }
+  ],
+  "comparisons": {
+    "baseline__combined": {
+      "42": {
+        "cached_generation": {
+          "baseline": {
+            "raw_seconds": [
+              149.21622,
+              147.646479,
+              147.659017
+            ],
+            "count": 3,
+            "median_seconds": 147.659017,
+            "min_seconds": 147.646479,
+            "max_seconds": 149.21622,
+            "range_seconds": 1.5697409999999934
+          },
+          "candidate": {
+            "raw_seconds": [
+              149.428955,
+              149.36416,
+              149.317661
+            ],
+            "count": 3,
+            "median_seconds": 149.36416,
+            "min_seconds": 149.317661,
+            "max_seconds": 149.428955,
+            "range_seconds": 0.1112940000000151
+          },
+          "baseline_median_divided_by_candidate": 0.9885839882874179,
+          "median_seconds_saved": -1.7051429999999925,
+          "median_reduction_percent": -1.154784201224901,
+          "interpretation": "ratio/difference of separate three-sample medians; not paired per-repetition ratios, confidence intervals or statistical significance"
+        },
+        "cached_denoise_callback": {
+          "baseline": {
+            "raw_seconds": [
+              120.058543,
+              118.455572,
+              118.525176
+            ],
+            "count": 3,
+            "median_seconds": 118.525176,
+            "min_seconds": 118.455572,
+            "max_seconds": 120.058543,
+            "range_seconds": 1.6029709999999966
+          },
+          "candidate": {
+            "raw_seconds": [
+              120.443899,
+              120.390033,
+              120.381656
+            ],
+            "count": 3,
+            "median_seconds": 120.390033,
+            "min_seconds": 120.381656,
+            "max_seconds": 120.443899,
+            "range_seconds": 0.06224299999999516
+          },
+          "baseline_median_divided_by_candidate": 0.9845098721752157,
+          "median_seconds_saved": -1.8648570000000007,
+          "median_reduction_percent": -1.5733847127972211,
+          "interpretation": "ratio/difference of separate three-sample medians; not paired per-repetition ratios, confidence intervals or statistical significance"
+        },
+        "same_seed_outputs_byte_identical": false
+      },
+      "43": {
+        "cached_generation": {
+          "baseline": {
+            "raw_seconds": [
+              147.824244,
+              147.807164,
+              147.701214
+            ],
+            "count": 3,
+            "median_seconds": 147.807164,
+            "min_seconds": 147.701214,
+            "max_seconds": 147.824244,
+            "range_seconds": 0.12302999999999997
+          },
+          "candidate": {
+            "raw_seconds": [
+              149.98371,
+              149.768661,
+              149.755262
+            ],
+            "count": 3,
+            "median_seconds": 149.768661,
+            "min_seconds": 149.755262,
+            "max_seconds": 149.98371,
+            "range_seconds": 0.22844800000001442
+          },
+          "baseline_median_divided_by_candidate": 0.9869031545925352,
+          "median_seconds_saved": -1.9614970000000085,
+          "median_reduction_percent": -1.327064904648334,
+          "interpretation": "ratio/difference of separate three-sample medians; not paired per-repetition ratios, confidence intervals or statistical significance"
+        },
+        "cached_denoise_callback": {
+          "baseline": {
+            "raw_seconds": [
+              118.640971,
+              118.655992,
+              118.59365
+            ],
+            "count": 3,
+            "median_seconds": 118.640971,
+            "min_seconds": 118.59365,
+            "max_seconds": 118.655992,
+            "range_seconds": 0.06234200000000101
+          },
+          "candidate": {
+            "raw_seconds": [
+              120.794514,
+              120.575822,
+              120.554058
+            ],
+            "count": 3,
+            "median_seconds": 120.575822,
+            "min_seconds": 120.554058,
+            "max_seconds": 120.794514,
+            "range_seconds": 0.24045600000000888
+          },
+          "baseline_median_divided_by_candidate": 0.9839532423009315,
+          "median_seconds_saved": -1.934851000000009,
+          "median_reduction_percent": -1.6308455533459831,
+          "interpretation": "ratio/difference of separate three-sample medians; not paired per-repetition ratios, confidence intervals or statistical significance"
+        },
+        "same_seed_outputs_byte_identical": false
+      },
+      "both_seeds_complete_request_benefit": false,
+      "neither_seed_denoise_regresses": false
+    }
+  },
+  "compared_policies": [
+    "baseline",
+    "combined"
+  ],
+  "execution_order": [
+    {
+      "seed": 42,
+      "policy": "baseline"
+    },
+    {
+      "seed": 42,
+      "policy": "combined"
+    },
+    {
+      "seed": 43,
+      "policy": "combined"
+    },
+    {
+      "seed": 43,
+      "policy": "baseline"
+    }
+  ],
+  "limitations": [
+    "Two separate seeds/processes, one warmup and three timed requests per policy; descriptive medians, not confidence intervals.",
+    "Complete requests include decode/export and repeated audio VAE setup; not compilation-free end-to-end.",
+    "Nonoverlap and shared lock do not rule out unrelated external device load.",
+    "Cross-policy byte identity is descriptive only; SIMD RMS may legitimately change BF16 rounding.",
+    "Performance alone never promotes a default; independent numerical gates and explicit aggregate/tail quality review remain required."
+  ]
+}

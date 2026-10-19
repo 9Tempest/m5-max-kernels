@@ -1,0 +1,3375 @@
+{
+  "schema": "h3_kernel_integration_run_v1",
+  "status": "completed",
+  "kind": "capture",
+  "policy": "adaln-h-only",
+  "implementation": "fused",
+  "seed": 43,
+  "started_utc": "2026-10-19T04:41:35.453724+00:00",
+  "prompt": "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+  "mode": "hadamard-fc2",
+  "width": 512,
+  "height": 512,
+  "seconds": 5,
+  "fps": 24,
+  "steps": 20,
+  "source_frames": 124,
+  "active_dit_blocks": 50,
+  "reuse": 1,
+  "core_reuse": 1,
+  "reference_rope": true,
+  "measurements": {
+    "build": {
+      "command": [
+        "make",
+        "-B",
+        "-j8"
+      ],
+      "cwd": ".cache/h3.c-kernel-integration",
+      "returncode": 0,
+      "started_utc": "2026-10-19T04:42:27.544654+00:00",
+      "finished_utc": "2026-10-19T04:42:28.597498+00:00",
+      "wall_seconds": 1.0528325000050245,
+      "log": "build.log",
+      "log_sha256": "cb7d59203de639556c8c110cb2dd9e288db4a412f32460a727c4188cfd5458e1",
+      "fallback_detected": false
+    },
+    "generation": {
+      "command": [
+        "results/local/h3/kernel-adaln-h-capture-seed43-001/native-cli",
+        "--profile",
+        "--info",
+        "-d",
+        "../../checkpoints/MiniMax-H3/42ed227ee7df40d41602854ae760620d6eb651fe",
+        "-p",
+        "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+        "--width",
+        "512",
+        "--height",
+        "512",
+        "--seconds",
+        "5",
+        "--steps",
+        "20",
+        "--layers",
+        "50",
+        "--reuse",
+        "1",
+        "--core-reuse",
+        "1",
+        "--use-reference-rope",
+        "--seed",
+        "43",
+        "-o",
+        "../../results/local/h3/kernel-adaln-h-capture-seed43-001/original.mp4"
+      ],
+      "cwd": ".cache/h3.c-kernel-integration",
+      "returncode": 0,
+      "started_utc": "2026-10-19T04:42:28.632034+00:00",
+      "finished_utc": "2026-10-19T04:45:22.701313+00:00",
+      "wall_seconds": 174.06814399999712,
+      "log": "generation.log",
+      "log_sha256": "9e54ce40d691c74ba6e08a49b7f16295694288fd931f7a2004f9d8c6f62114ed",
+      "fallback_detected": false
+    },
+    "original_probe": {
+      "command": [
+        "ffprobe",
+        "-v",
+        "error",
+        "-count_frames",
+        "-show_streams",
+        "-show_format",
+        "-of",
+        "json",
+        "../../results/local/h3/kernel-adaln-h-capture-seed43-001/original.mp4"
+      ],
+      "cwd": ".cache/h3.c-kernel-integration",
+      "returncode": 0,
+      "started_utc": "2026-10-19T04:45:22.768847+00:00",
+      "finished_utc": "2026-10-19T04:45:22.887660+00:00",
+      "wall_seconds": 0.11880845900304848,
+      "log": "original-probe.log",
+      "log_sha256": "359012e9b2a49559e515a93ffda42077beae3355999dd9dd820c679dc475d6fb",
+      "fallback_detected": false
+    },
+    "trim": {
+      "command": [
+        "ffmpeg",
+        "-nostdin",
+        "-n",
+        "-i",
+        "../../results/local/h3/kernel-adaln-h-capture-seed43-001/original.mp4",
+        "-map",
+        "0:v:0",
+        "-map",
+        "0:a?",
+        "-frames:v",
+        "120",
+        "-t",
+        "5",
+        "-c:v",
+        "libx264",
+        "-preset",
+        "medium",
+        "-crf",
+        "18",
+        "-pix_fmt",
+        "yuv420p",
+        "-c:a",
+        "aac",
+        "-movflags",
+        "+faststart",
+        "../../results/local/h3/kernel-adaln-h-capture-seed43-001/video-5s.mp4"
+      ],
+      "cwd": ".cache/h3.c-kernel-integration",
+      "returncode": 0,
+      "started_utc": "2026-10-19T04:45:22.888495+00:00",
+      "finished_utc": "2026-10-19T04:45:23.076005+00:00",
+      "wall_seconds": 0.18750666600681143,
+      "log": "trim.log",
+      "log_sha256": "d2c515f7849a409d1bdcb10ba9389851b76e54ab5f46d1e21b45949fa68eece1",
+      "fallback_detected": false
+    },
+    "exact_probe": {
+      "command": [
+        "ffprobe",
+        "-v",
+        "error",
+        "-count_frames",
+        "-show_streams",
+        "-show_format",
+        "-of",
+        "json",
+        "../../results/local/h3/kernel-adaln-h-capture-seed43-001/video-5s.mp4"
+      ],
+      "cwd": ".cache/h3.c-kernel-integration",
+      "returncode": 0,
+      "started_utc": "2026-10-19T04:45:23.076206+00:00",
+      "finished_utc": "2026-10-19T04:45:23.178511+00:00",
+      "wall_seconds": 0.10230400000000373,
+      "log": "exact-probe.log",
+      "log_sha256": "02b89977b44ce4075bb07a3a1fd4994cc47499295a3c930029c4b43e04b04731",
+      "fallback_detected": false
+    }
+  },
+  "capture_latents": true,
+  "capture_adaln": true,
+  "diagnostic": true,
+  "prepared_checkpoint": false,
+  "quality_decision": "not_evaluated",
+  "timing_contract": {
+    "capture": "diagnostic extra waits/readbacks; not a performance sample",
+    "resident": "one full warmup then three same-seed complete requests in one process",
+    "denoise": "fresh synchronized native callbacks including online preparation and final copy/unpack; not stale cached profile wall",
+    "generation": "includes decode and original 124-frame AV export; excludes preflight/build and exact-duration trim",
+    "compilation_free_e2e": "not claimed: audio VAE setup repeats",
+    "weight_preparation": "outside timed resident requests, included in warmup"
+  },
+  "source_pin": {
+    "file": "source-pin/manifest.json",
+    "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+    "manifest": {
+      "schema": "h3_kernel_integration_source_v1",
+      "status": "frozen",
+      "upstream_revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+      "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+      "changed_files": [
+        "h3_dit.c",
+        "h3_gpu.h",
+        "h3_gpu.m",
+        "h3_shaders.metal"
+      ],
+      "patches": [
+        {
+          "file": "kernel-integration.patch",
+          "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c"
+        }
+      ],
+      "note": "Combined source for explicit QKV kernel and QKV/FC1 Hadamard preparation experiments; no performance or promotion claim."
+    }
+  },
+  "requested_runtime_flags": {
+    "H3_M5_QKV_ROPE": "0",
+    "H3_HADAMARD_QKV": "1",
+    "H3_HADAMARD_FC1": "1",
+    "H3_HADAMARD_FC2": "1",
+    "H3_FUSE_FC2_GATE": "0",
+    "H3_FUSE_ATTN_OUT_GATE": "0",
+    "H3_HADAMARD_PREP_STAGED": "0"
+  },
+  "harness_snapshot": {
+    "run_kernel_integration.py": {
+      "file": "harness-snapshot/run_kernel_integration.py",
+      "original": "integrations/h3/run_kernel_integration.py",
+      "sha256": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd"
+    },
+    "kernel_integration.py": {
+      "file": "harness-snapshot/kernel_integration.py",
+      "original": "integrations/h3/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6"
+    },
+    "kernel_session.c": {
+      "file": "harness-snapshot/kernel_session.c",
+      "original": "integrations/h3/kernel_session.c",
+      "sha256": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d"
+    },
+    "run.py": {
+      "file": "harness-snapshot/run.py",
+      "original": "integrations/h3/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7"
+    },
+    "run_fc2_experiment.py": {
+      "file": "harness-snapshot/run_fc2_experiment.py",
+      "original": "integrations/h3/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562"
+    },
+    "run_session.py": {
+      "file": "harness-snapshot/run_session.py",
+      "original": "integrations/h3/run_session.py",
+      "sha256": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b"
+    },
+    "model-files.json": {
+      "file": "harness-snapshot/model-files.json",
+      "original": "integrations/h3/model-files.json",
+      "sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+    },
+    "UPSTREAM-LICENSE": {
+      "file": "harness-snapshot/UPSTREAM-LICENSE",
+      "original": "integrations/h3/UPSTREAM-LICENSE",
+      "sha256": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc"
+    },
+    "locking.py": {
+      "file": "harness-snapshot/locking.py",
+      "original": "src/m5kernels/locking.py",
+      "sha256": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4"
+    },
+    "adaln_capture.py": {
+      "file": "harness-snapshot/adaln_capture.py",
+      "original": "integrations/h3/adaln_capture.py",
+      "sha256": "8f5f4a781ba51d07d86baa4023791f83dd418e803a9ab971c90e133d87ab6504"
+    },
+    "fc2_analyze.py": {
+      "file": "harness-snapshot/fc2_analyze.py",
+      "original": "integrations/h3/fc2_analyze.py",
+      "sha256": "5798d1fca3785823a92d58c931911c22aac71514444cd3ec01fc9841c66627f3"
+    }
+  },
+  "gpu_queue_wait_seconds": 0.00041775000136112794,
+  "harness": {
+    "revision": "c102992b0ce859c728e4df9cf365121fe064e03d",
+    "dirty": true,
+    "status": "M README.md\n M docs/h3-coverage.md\n M docs/initial-results.md\n M integrations/h3/README.md\n?? integrations/h3/adaln-hadamard-overlay.patch\n?? integrations/h3/adaln-hadamard.md\n?? integrations/h3/adaln-hadamard.patch\n?? integrations/h3/adaln_capture.py\n?? integrations/h3/compare_kernel_resident.py\n?? integrations/h3/decide_kernel_defaults.py\n?? integrations/h3/evaluate_kernel_integration.py\n?? integrations/h3/kernel-integration-source.json\n?? integrations/h3/kernel-integration.md\n?? integrations/h3/kernel-integration.patch\n?? integrations/h3/kernel_evidence.py\n?? integrations/h3/kernel_integration.py\n?? integrations/h3/kernel_session.c\n?? integrations/h3/prep_validate.c\n?? integrations/h3/publish_kernel_integration.py\n?? integrations/h3/qkv-candidate-overlay.patch\n?? integrations/h3/qkv-candidate.md\n?? integrations/h3/qkv-candidate.patch\n?? integrations/h3/qkv_candidate.metal\n?? integrations/h3/qkv_reference.h\n?? integrations/h3/qkv_validate.c\n?? integrations/h3/run_kernel_integration.py\n?? integrations/h3/run_prep_campaign.py\n?? integrations/h3/run_qkv_campaign.py\n?? integrations/h3/summarize_kernel_resident.py\n?? integrations/h3/validate_qkv_report.py\n?? tests/test_h3_adaln_capture.py\n?? tests/test_h3_kernel_default_validation.py\n?? tests/test_h3_kernel_defaults.py\n?? tests/test_h3_kernel_evaluation.py\n?? tests/test_h3_kernel_integration.py\n?? tests/test_h3_kernel_resident.py\n?? tests/test_h3_prep_campaign.py\n?? tests/test_h3_publish_kernel_integration.py\n?? tests/test_h3_qkv_reference.py\n?? tests/test_h3_qkv_report.py",
+    "source_sha256": "eab8b51fdbb605dde493139b9f50068fd232292ab07d15980c8fcecef3ad012b"
+  },
+  "upstream": {
+    "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+    "dirty": true,
+    "status": "M h3_dit.c\n M h3_gpu.h\n M h3_gpu.m\n M h3_shaders.metal",
+    "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0"
+  },
+  "environment": {
+    "system": "Darwin",
+    "release": "27.0.0",
+    "machine": "arm64",
+    "python": "3.12.15",
+    "numpy": "2.4.4",
+    "chip": "Apple M5 Max",
+    "memory_bytes": 137438953472,
+    "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+    "xcode": "Xcode 27.1\nBuild version 27A9275",
+    "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+    "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+  },
+  "model": {
+    "repository": "MiniMaxAI/MiniMax-H3",
+    "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+    "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+    "files": [
+      {
+        "path": "FL2VA/audio_vae/config.json",
+        "bytes": 1973,
+        "sha256": "d8f3bcc62e23c7e9806970fa63cca6139c06faa3797cf9c94034f60db8512771",
+        "expected": {
+          "type": "file",
+          "oid": "bc2a8dc3bfe9037e1f0e82e97f309019b6a398e6",
+          "size": 1973,
+          "path": "FL2VA/audio_vae/config.json"
+        }
+      },
+      {
+        "path": "FL2VA/audio_vae/model.safetensors",
+        "bytes": 605429308,
+        "sha256": "37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2",
+        "expected": {
+          "type": "file",
+          "oid": "122a6864b663b50ddc7e48c06cf35fbff1233012",
+          "size": 605429308,
+          "lfs": {
+            "oid": "37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2",
+            "size": 605429308,
+            "pointerSize": 134
+          },
+          "xetHash": "9ab8b2109d2971edc2071078523992a0f6c19ec2d22d3f1e5b8b6271519a8e99",
+          "path": "FL2VA/audio_vae/model.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00001-of-00014.safetensors",
+        "bytes": 4932328944,
+        "sha256": "6b9dfbc930e505402ae9d7e5091a9d7d656cda5f34614f01cfe70bfb0cca27cb",
+        "expected": {
+          "type": "file",
+          "oid": "614247ef75d01ea40af9ef31e07103221340214d",
+          "size": 4932328944,
+          "lfs": {
+            "oid": "6b9dfbc930e505402ae9d7e5091a9d7d656cda5f34614f01cfe70bfb0cca27cb",
+            "size": 4932328944,
+            "pointerSize": 135
+          },
+          "xetHash": "be105368592efd8d8041c652acf7a152562f3cb015fa872252247174ce4df95b",
+          "path": "FL2VA/text_encoder/model-00001-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00002-of-00014.safetensors",
+        "bytes": 4875990528,
+        "sha256": "d8bb44b4ff303fe76fe9e894022fb3dc71b15a2e716592790fe0e3c3e60478fa",
+        "expected": {
+          "type": "file",
+          "oid": "0ee7c24d1c85e72bc46fd07821a1cfb4af8efd76",
+          "size": 4875990528,
+          "lfs": {
+            "oid": "d8bb44b4ff303fe76fe9e894022fb3dc71b15a2e716592790fe0e3c3e60478fa",
+            "size": 4875990528,
+            "pointerSize": 135
+          },
+          "xetHash": "8a641ec7bff8bec3efcc440ed4d199d472e70986f93539c09f1e764ce448e3ba",
+          "path": "FL2VA/text_encoder/model-00002-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00003-of-00014.safetensors",
+        "bytes": 4875990552,
+        "sha256": "54f22e8b3168f8dc962fac0d313607ebf52a12b433d4cf3098a0d82d9f042940",
+        "expected": {
+          "type": "file",
+          "oid": "cabcc450fe74db21934f8d99d1bc103942f721ba",
+          "size": 4875990552,
+          "lfs": {
+            "oid": "54f22e8b3168f8dc962fac0d313607ebf52a12b433d4cf3098a0d82d9f042940",
+            "size": 4875990552,
+            "pointerSize": 135
+          },
+          "xetHash": "965e5608ba13ca091d1f3f5c913ac785149d8694b3860c8593e93133af8b3aa5",
+          "path": "FL2VA/text_encoder/model-00003-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00004-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "ad09c74d3c13ee29b5d0d84548fd8a3424a651564eaccd519946c296e59c557f",
+        "expected": {
+          "type": "file",
+          "oid": "da3ca77f0ee7d9bdbe0696750c094f0dc6ad3c68",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "ad09c74d3c13ee29b5d0d84548fd8a3424a651564eaccd519946c296e59c557f",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "4f552be5b7390fb92b0a5edb16460ad022b0083db8cd39d7e2dd532657ba5122",
+          "path": "FL2VA/text_encoder/model-00004-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00005-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "fc993c8a0e2a5b0570f383e1a95dc3a1281d1b224b6f3ee908f4827941e1dfc2",
+        "expected": {
+          "type": "file",
+          "oid": "abb15edfb6d8c352e87914ce6a0d96a98e927e04",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "fc993c8a0e2a5b0570f383e1a95dc3a1281d1b224b6f3ee908f4827941e1dfc2",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "af142eae5e441bcb4ab63f48aabb12845670e403fdea51f6c1961ca72e3a3d43",
+          "path": "FL2VA/text_encoder/model-00005-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00006-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "82f05620d1f718a90c362b221d6a184ff1a0f53301d706882d3df49695fa1974",
+        "expected": {
+          "type": "file",
+          "oid": "66ace514a9c58011ac2bd4c796c21654b49443b2",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "82f05620d1f718a90c362b221d6a184ff1a0f53301d706882d3df49695fa1974",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "b965cefca4793d6a4c228adacce72226b77272a35a34231d2e81baff902ed119",
+          "path": "FL2VA/text_encoder/model-00006-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00007-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "fb91da8cb01ff4de3eef0eab1c3e769a734b3a1aafc61734068638a0d6c86934",
+        "expected": {
+          "type": "file",
+          "oid": "71e871eb7cda8e711788e283e0fb512998a952be",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "fb91da8cb01ff4de3eef0eab1c3e769a734b3a1aafc61734068638a0d6c86934",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "68886b3463718c2a4bb6509aaec1126820284c5079480da588adf11da43bea46",
+          "path": "FL2VA/text_encoder/model-00007-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00008-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "431ca56535c8781944ce3801f5eb61c45531e853ecc5846d936ebaf4761b764f",
+        "expected": {
+          "type": "file",
+          "oid": "bf1d7c575e6d7cb1117cb8fe06c102193ced09a8",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "431ca56535c8781944ce3801f5eb61c45531e853ecc5846d936ebaf4761b764f",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "0f6e93da798541751e9e59142bd6458af0418ff2c80b7d6d9038425d2ce365ad",
+          "path": "FL2VA/text_encoder/model-00008-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00009-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "3825e3f4302f4d2f7d76aa7430d2ce0864fde6b9e540a5806bf0d8e38e4d9f47",
+        "expected": {
+          "type": "file",
+          "oid": "9dfb35899c209de09e18aa4bf8346efed8269d76",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "3825e3f4302f4d2f7d76aa7430d2ce0864fde6b9e540a5806bf0d8e38e4d9f47",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "005b3f45596a95f9c183872a0b00027445e23c9ee73451abfd493e6eb47fb5c5",
+          "path": "FL2VA/text_encoder/model-00009-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00010-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "aded5a4d1d5e22dbd8b6f79266b6eb88c840411b09527c53917a1419ace22e2f",
+        "expected": {
+          "type": "file",
+          "oid": "4d94038272e1f5c0368639babad1f7b595a3690b",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "aded5a4d1d5e22dbd8b6f79266b6eb88c840411b09527c53917a1419ace22e2f",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "6227236eefaf57a532d917fe8cdfa715b99c8686230bb6d2f5bfc7835e89c761",
+          "path": "FL2VA/text_encoder/model-00010-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00011-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "3820ffe8d8d6477f6fe8d614ef3c87abb264ee39accebf43a1507b970d80946f",
+        "expected": {
+          "type": "file",
+          "oid": "826ba879b38cc6566b5aea1c3c04741a3087ba20",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "3820ffe8d8d6477f6fe8d614ef3c87abb264ee39accebf43a1507b970d80946f",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "053d6b1cabae82059daecde3a09a86daa905d161b0d417a530356a4dc3bece8d",
+          "path": "FL2VA/text_encoder/model-00011-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00012-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "05ad2d08ce71963121c9b03f1d9ec5d7641052f4b23c6c12b80d71065eb8e98e",
+        "expected": {
+          "type": "file",
+          "oid": "c19df94cbd35798336f17365b1115200f1eec91f",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "05ad2d08ce71963121c9b03f1d9ec5d7641052f4b23c6c12b80d71065eb8e98e",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "76905091eb0bd80cdb8db051cadfbacaf460ced61f8114b09ad8fc6d84216c5b",
+          "path": "FL2VA/text_encoder/model-00012-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00013-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "b64f2289871261fdd1abbd3b78bcd66011b341de3dc8eeb2ed1a473ee7c8d95c",
+        "expected": {
+          "type": "file",
+          "oid": "39fab9be2b33a5527cbb5131e13c387544a695a9",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "b64f2289871261fdd1abbd3b78bcd66011b341de3dc8eeb2ed1a473ee7c8d95c",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "7d7822f73c131065130129315c4c16d907af08d2249a19cee59dde0ac256ab23",
+          "path": "FL2VA/text_encoder/model-00013-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00014-of-00014.safetensors",
+        "bytes": 3270697008,
+        "sha256": "e45b6c9998c77ee5a6577f9f47bc76416c1d4d387169e50c4c9d3134ea51b13b",
+        "expected": {
+          "type": "file",
+          "oid": "055162e6edd9914d2652ccf99f2371c000b613fe",
+          "size": 3270697008,
+          "lfs": {
+            "oid": "e45b6c9998c77ee5a6577f9f47bc76416c1d4d387169e50c4c9d3134ea51b13b",
+            "size": 3270697008,
+            "pointerSize": 135
+          },
+          "xetHash": "90671bb802e6409ab1974672aff35dc8d5e3c9accd035cb64c4417e30b2b7eb2",
+          "path": "FL2VA/text_encoder/model-00014-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/tokenizer/tokenizer.json",
+        "bytes": 7032403,
+        "sha256": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+        "expected": {
+          "type": "file",
+          "oid": "c6cc1014128b19d1fc46b1d30a23e3b1d35db421",
+          "size": 7032403,
+          "path": "FL2VA/tokenizer/tokenizer.json"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/config.json",
+        "bytes": 604,
+        "sha256": "f619093a231fcfbcc3d035bec26c50ad864e7331a500d5c519f5045dc1e50458",
+        "expected": {
+          "type": "file",
+          "oid": "94cc6ca1254d9d04b3f7cc06a8c9fc05d0ded065",
+          "size": 604,
+          "path": "FL2VA/transformer/config.json"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00001-of-00013.safetensors",
+        "bytes": 5227812968,
+        "sha256": "0b3386565e476bfdea287e9ea9f269d036e5c649ed14bb9b4afac1dc4661bd2a",
+        "expected": {
+          "type": "file",
+          "oid": "513241f2b5fc05ae4c1ba19d4fd84abe4c6013cc",
+          "size": 5227812968,
+          "lfs": {
+            "oid": "0b3386565e476bfdea287e9ea9f269d036e5c649ed14bb9b4afac1dc4661bd2a",
+            "size": 5227812968,
+            "pointerSize": 135
+          },
+          "xetHash": "cbbc0fcc44c0a604f1a606469cb5ef01ed70a8b727807ae04fc0bb49b9ae3320",
+          "path": "FL2VA/transformer/model-00001-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00002-of-00013.safetensors",
+        "bytes": 5164578856,
+        "sha256": "9c98fd4579c9bc96d1b1bbf65c1243f9256df60bccd229570cecc61897773003",
+        "expected": {
+          "type": "file",
+          "oid": "7793de07ceb51b49bdb3884967310d3fe1678ee3",
+          "size": 5164578856,
+          "lfs": {
+            "oid": "9c98fd4579c9bc96d1b1bbf65c1243f9256df60bccd229570cecc61897773003",
+            "size": 5164578856,
+            "pointerSize": 135
+          },
+          "xetHash": "d65de74d03e75faa961010180c7da0e7b5f83042113e5898fb7b18b88cb9db02",
+          "path": "FL2VA/transformer/model-00002-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00003-of-00013.safetensors",
+        "bytes": 5164578872,
+        "sha256": "fa484c940d4170199fb69f5016739df2daf6ecd1150631b12a297e06e3964730",
+        "expected": {
+          "type": "file",
+          "oid": "62aecfbe9a858299e61ce00c11f9c708fff708a6",
+          "size": 5164578872,
+          "lfs": {
+            "oid": "fa484c940d4170199fb69f5016739df2daf6ecd1150631b12a297e06e3964730",
+            "size": 5164578872,
+            "pointerSize": 135
+          },
+          "xetHash": "3d8334be5eb27ac07ee30461a6bdab39cf634ae2dc0b041c9bf6326ce8808072",
+          "path": "FL2VA/transformer/model-00003-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00004-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "4a851df37cce2d14b39cb58df41def7b591b1f11b8520a32b421a5fa3e997c9f",
+        "expected": {
+          "type": "file",
+          "oid": "f59e9950d10f7d4b8ba1efa8d98272071604461d",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "4a851df37cce2d14b39cb58df41def7b591b1f11b8520a32b421a5fa3e997c9f",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "6e09734c11c49dc455436c81fe77d3fa01162c2e3999775cda2dc570405ef0ca",
+          "path": "FL2VA/transformer/model-00004-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00005-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "3fe6ff94dc9d3107c6776a25277d2b72b5443f88cf0f4ed835fd5b65a94ea5d4",
+        "expected": {
+          "type": "file",
+          "oid": "4f6952c0c7c973eabc4bdf20ae18fc5f6db68351",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "3fe6ff94dc9d3107c6776a25277d2b72b5443f88cf0f4ed835fd5b65a94ea5d4",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "da6cd0bb654a9f4db20fe8cd69fef832b0692f581492115a65c0aec17eb485fd",
+          "path": "FL2VA/transformer/model-00005-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00006-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "79b47e1b9ff03a2c6f06dd15a28972acf32c0867172ee34e5aa6e96b99494127",
+        "expected": {
+          "type": "file",
+          "oid": "d71684218adddaa38121a7f18675d084bc7c0ac0",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "79b47e1b9ff03a2c6f06dd15a28972acf32c0867172ee34e5aa6e96b99494127",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "59bc6a1275ae02f2616d9428b22d22c151851e177188f0d5aa168e4f75fc5a55",
+          "path": "FL2VA/transformer/model-00006-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00007-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "6ac4d6ce639786b722a8dd99843ed56dcab48a0d174a4b0f9b8cdcbe5160fb0f",
+        "expected": {
+          "type": "file",
+          "oid": "003c8d5d3c99fb9ee5adfe3397518515debf9adf",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "6ac4d6ce639786b722a8dd99843ed56dcab48a0d174a4b0f9b8cdcbe5160fb0f",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "ee96f16f4130ceec06cd452a2312b9791eedf6b54e0cdce7017ccc14f48c3f11",
+          "path": "FL2VA/transformer/model-00007-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00008-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "03531812243fb0a333e01efa7e3d39750580bca8cbf2ba0529da419278eab736",
+        "expected": {
+          "type": "file",
+          "oid": "8475056b4301fefe0e2ccb3161cb576d94883965",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "03531812243fb0a333e01efa7e3d39750580bca8cbf2ba0529da419278eab736",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "6643920f11a8e702c94f63023057cc17df3d99e9900c72c5e93a142a97b6e7c0",
+          "path": "FL2VA/transformer/model-00008-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00009-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "7e82a80b0d0d267026eb841b81523069cc7b956c1ebd8a18c07e462ffb262487",
+        "expected": {
+          "type": "file",
+          "oid": "645a8b2038cfc60d43b7ba5417463ca3812072bc",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "7e82a80b0d0d267026eb841b81523069cc7b956c1ebd8a18c07e462ffb262487",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "044b0f4b21449c0ea81a4c4c71572eb73bbb63060f0b23903857463ac1f90cee",
+          "path": "FL2VA/transformer/model-00009-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00010-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "ef0a1f6b65145232543dd2232d58d91a4d31f44b0da5084acf22cea123255481",
+        "expected": {
+          "type": "file",
+          "oid": "01919aedf83ef64923df3fc7aff5f1c8079fd3af",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "ef0a1f6b65145232543dd2232d58d91a4d31f44b0da5084acf22cea123255481",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "58714c547e4216315c86fcb5cd9cac1eeb654d54921ee9e6d1642bbf14b965f3",
+          "path": "FL2VA/transformer/model-00010-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00011-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "bf885b8f2f078c5499b75fded21094a26bfe0e6e00bee276e499443ecd2f298d",
+        "expected": {
+          "type": "file",
+          "oid": "cff9ae71bdbe60801777f8e5d7d9c0c4e08cf65e",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "bf885b8f2f078c5499b75fded21094a26bfe0e6e00bee276e499443ecd2f298d",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "88511a63760fa42d1718c24cbafb663a5a92edc05554dfcc6a433ecc30f906c6",
+          "path": "FL2VA/transformer/model-00011-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00012-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "dc717572d014ebf8527e35af815d10eb2f5a6bc87253b8a7d2f456965192db69",
+        "expected": {
+          "type": "file",
+          "oid": "57843db09194e8b1465ba54cd3d33f2c8927edb4",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "dc717572d014ebf8527e35af815d10eb2f5a6bc87253b8a7d2f456965192db69",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "66f8613d2b557f6dbf1148f5c2aaa685bdc9085178372ceb2a20b0f9cc0eae1f",
+          "path": "FL2VA/transformer/model-00012-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00013-of-00013.safetensors",
+        "bytes": 4242305176,
+        "sha256": "8bfd852d5817e9836de1d3ec8dbac1c5446b167568b717371f08282b22291aa2",
+        "expected": {
+          "type": "file",
+          "oid": "ad8450684951494e4f6b1f8e7392bcb8d95bdfc0",
+          "size": 4242305176,
+          "lfs": {
+            "oid": "8bfd852d5817e9836de1d3ec8dbac1c5446b167568b717371f08282b22291aa2",
+            "size": 4242305176,
+            "pointerSize": 135
+          },
+          "xetHash": "355259263b601415d6b9cb2ca96259540b964b941cfec0ed12d3ae75ba1f5d78",
+          "path": "FL2VA/transformer/model-00013-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/video_vae/config.json",
+        "bytes": 1807,
+        "sha256": "3edd2cdd1ebc823c868be55ef917e1b3b8a398fde4d3150dae44a3bf05d9f627",
+        "expected": {
+          "type": "file",
+          "oid": "20f91e40ea9bc24c21a0e757715f93acf49eb841",
+          "size": 1807,
+          "path": "FL2VA/video_vae/config.json"
+        }
+      },
+      {
+        "path": "FL2VA/video_vae/source/model.safetensors",
+        "bytes": 10415548320,
+        "sha256": "5f0c2e161d895a9fee7645ca32d4a7e3a22b90cacfcbeba62ec999cdbbefe0d3",
+        "expected": {
+          "type": "file",
+          "oid": "cc1fe048902a2d790834962551620c2c6dbb2b31",
+          "size": 10415548320,
+          "lfs": {
+            "oid": "5f0c2e161d895a9fee7645ca32d4a7e3a22b90cacfcbeba62ec999cdbbefe0d3",
+            "size": 10415548320,
+            "pointerSize": 136
+          },
+          "xetHash": "ca9cf07a7184fdf23229f0147819b0fcb494905f95bafb2dfbbdf9fa0f526b00",
+          "path": "FL2VA/video_vae/source/model.safetensors"
+        }
+      }
+    ],
+    "verification": "full file digest versus pinned API manifest; performed before process timing",
+    "cache_note": "digest verification reads weights and may warm the filesystem cache"
+  },
+  "driver": {
+    "file": "native-cli",
+    "binary_sha256": "da10fe3d0e7c51a34867d56b3d9a8210993e1545f0fff0005c7e2b036ac99daa",
+    "library_sha256": "5acb4c0637d06ab7c9205c3bf720563b7f93e17ebefb9a05c51b835c079898c7"
+  },
+  "preflight_seconds": 53.1735706249965,
+  "runtime_overrides": {
+    "H3_NAX": "qkv-attn",
+    "H3_NAX_DIAGNOSTIC": "1",
+    "H3_M5_QKV_ROPE": "0",
+    "H3_HADAMARD_QKV": "1",
+    "H3_HADAMARD_FC1": "1",
+    "H3_HADAMARD_FC2": "1",
+    "H3_FUSE_FC2_GATE": "0",
+    "H3_FUSE_ATTN_OUT_GATE": "0",
+    "H3_HADAMARD_PREP_STAGED": "0",
+    "H3_PROFILE": "1",
+    "H3_LATENT_CAPTURE_DIR": "results/local/h3/kernel-adaln-h-capture-seed43-001/latents",
+    "H3_CAPTURE_SEED": "43",
+    "H3_GPU_SAMPLER": "1",
+    "H3_GPU_SAMPLER_WINDOW": "1",
+    "H3_ADALN_CAPTURE_DIR": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln"
+  },
+  "policy_evidence": {
+    "policy": "adaln-h-only",
+    "implementation": "fused",
+    "initialization": true
+  },
+  "profile": [
+    {
+      "component": "Qwen text encoder",
+      "phase": "total",
+      "raw": "h3 profile: Qwen text encoder        total          wall=   4.794s encode=  0.003s wait=   2.645s root-gpu=  0.946s peak=  3.638GiB alloc= 46.865GiB submissions=51 direct=801 linear=0 conv=0 attention=0",
+      "wall_s": 4.794,
+      "encode_s": 0.003,
+      "wait_s": 2.645,
+      "root_gpu_s": 0.946,
+      "peak_GiB": 3.638,
+      "alloc_GiB": 46.865,
+      "submissions": 51,
+      "direct": 801,
+      "linear": 0,
+      "conv": 0,
+      "attention": 0
+    },
+    {
+      "component": "H3 DiT",
+      "phase": "load",
+      "raw": "h3 profile: H3 DiT                   load           wall=  18.845s encode=  0.053s wait=  16.721s root-gpu=  0.951s peak= 19.812GiB alloc= 81.549GiB submissions=205 direct=231 linear=53 conv=0 attention=2",
+      "wall_s": 18.845,
+      "encode_s": 0.053,
+      "wait_s": 16.721,
+      "root_gpu_s": 0.951,
+      "peak_GiB": 19.812,
+      "alloc_GiB": 81.549,
+      "submissions": 205,
+      "direct": 231,
+      "linear": 53,
+      "conv": 0,
+      "attention": 2
+    },
+    {
+      "component": "H3 DiT",
+      "phase": "GPU Euler denoise",
+      "raw": "h3 profile: H3 DiT                   GPU Euler denoise wall= 119.480s encode=  0.054s wait= 119.364s root-gpu=  1.429s peak= 19.812GiB alloc=  0.000GiB submissions=56 direct=8180 linear=0 conv=0 attention=1000",
+      "wall_s": 119.48,
+      "encode_s": 0.054,
+      "wait_s": 119.364,
+      "root_gpu_s": 1.429,
+      "peak_GiB": 19.812,
+      "alloc_GiB": 0.0,
+      "submissions": 56,
+      "direct": 8180,
+      "linear": 0,
+      "conv": 0,
+      "attention": 1000
+    },
+    {
+      "component": "H3 DiT",
+      "phase": "total",
+      "raw": "h3 profile: H3 DiT                   total          wall= 138.558s encode=  0.107s wait= 136.085s root-gpu=  2.380s peak= 19.812GiB alloc= 81.549GiB submissions=261 direct=8411 linear=53 conv=0 attention=1002",
+      "wall_s": 138.558,
+      "encode_s": 0.107,
+      "wait_s": 136.085,
+      "root_gpu_s": 2.38,
+      "peak_GiB": 19.812,
+      "alloc_GiB": 81.549,
+      "submissions": 261,
+      "direct": 8411,
+      "linear": 53,
+      "conv": 0,
+      "attention": 1002
+    },
+    {
+      "component": "audio VAE decoder",
+      "phase": "total",
+      "raw": "h3 profile: audio VAE decoder        total          wall=   0.476s encode=  0.213s wait=   0.190s root-gpu=  0.170s peak=  0.283GiB alloc=  0.815GiB submissions=16 direct=340 linear=0 conv=136 attention=0",
+      "wall_s": 0.476,
+      "encode_s": 0.213,
+      "wait_s": 0.19,
+      "root_gpu_s": 0.17,
+      "peak_GiB": 0.283,
+      "alloc_GiB": 0.815,
+      "submissions": 16,
+      "direct": 340,
+      "linear": 0,
+      "conv": 136,
+      "attention": 0
+    },
+    {
+      "component": "video VAE decoder",
+      "phase": "total",
+      "raw": "h3 profile: video VAE decoder        total          wall=  29.569s encode=  0.135s wait=  28.143s root-gpu=  0.228s peak=  9.454GiB alloc=  9.460GiB submissions=28 direct=6132 linear=4060 conv=0 attention=1008",
+      "wall_s": 29.569,
+      "encode_s": 0.135,
+      "wait_s": 28.143,
+      "root_gpu_s": 0.228,
+      "peak_GiB": 9.454,
+      "alloc_GiB": 9.46,
+      "submissions": 28,
+      "direct": 6132,
+      "linear": 4060,
+      "conv": 0,
+      "attention": 1008
+    }
+  ],
+  "latent_validation": {
+    "metadata": {
+      "schema": 1,
+      "scope": "diagnostic_CPU_readback_after_completed_GPU_Euler",
+      "dtype": "float32_little_endian",
+      "seed": 43,
+      "seed_source": "caller_declared_H3_CAPTURE_SEED_verify_against_request_manifest",
+      "completed_steps": 20,
+      "time_unix_seconds": 1792385092.037842,
+      "time_monotonic_seconds": 34481.556275,
+      "final_video_shape": [
+        24,
+        37,
+        32,
+        32
+      ],
+      "final_audio_shape": [
+        32,
+        2,
+        207
+      ],
+      "final_layout": "unpacked_contiguous_VAE_input_before_decoder",
+      "per_step_video_shape": [
+        9472,
+        96
+      ],
+      "per_step_audio_shape": [
+        414,
+        32
+      ],
+      "per_step_layout": "packed_model_rows_after_Euler_before_unpack",
+      "final_video_sigma": 0,
+      "final_audio_sigma": 0,
+      "int8_mlp": 1,
+      "int8_qkv": 1,
+      "int8_attention_out": 1,
+      "hadamard_fc2": 1,
+      "hadamard_qkv": 1,
+      "hadamard_fc1": 1,
+      "hadamard_prep_staged": 0,
+      "m5_qkv_rope": 0,
+      "finite": true
+    },
+    "metadata_sha256": "4f53a1d22d0f48fdcd4d1077d0a0be4136d52b16c69175c7f995a94fe3588a6b",
+    "tensors": [
+      {
+        "file": "euler-step00-audio.f32",
+        "elements": 13248,
+        "sha256": "124af434aefa948bd2a2408a2f65439d0a175f6b740483eb69546a5df27fa6b0",
+        "finite": true
+      },
+      {
+        "file": "euler-step00-video.f32",
+        "elements": 909312,
+        "sha256": "ed73f21de37b4b1f0fb2da24c6f7c795f192b01a216722eae03667421e4293f7",
+        "finite": true
+      },
+      {
+        "file": "euler-step01-audio.f32",
+        "elements": 13248,
+        "sha256": "883fa42c8eeb597660b52753982a325561b60ceaaf4a7c19eedb8297f4585c79",
+        "finite": true
+      },
+      {
+        "file": "euler-step01-video.f32",
+        "elements": 909312,
+        "sha256": "588ba991a383d702fdd86484dfd88d193923f7087663c3c38bf9981b46e8ddbe",
+        "finite": true
+      },
+      {
+        "file": "euler-step02-audio.f32",
+        "elements": 13248,
+        "sha256": "c43270ea53dcef65d812dbf33fb0585505c2eaa1441e2ca0b64e95701c41bbd3",
+        "finite": true
+      },
+      {
+        "file": "euler-step02-video.f32",
+        "elements": 909312,
+        "sha256": "72c0cec6c77d0bfda88055777e7a8e90127f6ce68b1ad727d772c60bb5a718e5",
+        "finite": true
+      },
+      {
+        "file": "euler-step03-audio.f32",
+        "elements": 13248,
+        "sha256": "f2f2fc477967a31fe1c1cab050539fefc4b1b8772911bea7ceb753d482cd1712",
+        "finite": true
+      },
+      {
+        "file": "euler-step03-video.f32",
+        "elements": 909312,
+        "sha256": "3d30d9c67b7e4144d4de5917bc59258ee1911ff92788edcbf1a3732dd066727c",
+        "finite": true
+      },
+      {
+        "file": "euler-step04-audio.f32",
+        "elements": 13248,
+        "sha256": "851a657d43ea7966ea153f050ef90fce891f5f1aa372eda5b484a8956b017d81",
+        "finite": true
+      },
+      {
+        "file": "euler-step04-video.f32",
+        "elements": 909312,
+        "sha256": "549352ad91665e25e2ffe6a38735e1207a7aa7f29c84e8f82759df541298f51c",
+        "finite": true
+      },
+      {
+        "file": "euler-step05-audio.f32",
+        "elements": 13248,
+        "sha256": "416d774e3a86e2dddcc8f44c7cea08ff9e7295cc67d1ce1fa917c7e635102637",
+        "finite": true
+      },
+      {
+        "file": "euler-step05-video.f32",
+        "elements": 909312,
+        "sha256": "60dd88d182d7b29148d12250329d77c8134332a4a2a8ae6a69f216ea8afbc1a0",
+        "finite": true
+      },
+      {
+        "file": "euler-step06-audio.f32",
+        "elements": 13248,
+        "sha256": "ec9756fc808b0b943942deb2c196379c9e1b78e6becec7fd2fa6a9aa3e8876e8",
+        "finite": true
+      },
+      {
+        "file": "euler-step06-video.f32",
+        "elements": 909312,
+        "sha256": "a8b60f062f33962f4d10abaec3a518964dc150f1aa692df87ba0990104303fd6",
+        "finite": true
+      },
+      {
+        "file": "euler-step07-audio.f32",
+        "elements": 13248,
+        "sha256": "0b7d8dfd01e5e9ed596eaa6db5728a95f180b3ff4334f11b4f15a737146585e2",
+        "finite": true
+      },
+      {
+        "file": "euler-step07-video.f32",
+        "elements": 909312,
+        "sha256": "0840d4965a6d6e38fb042c8bf319cd17743f7380d96d6c746194dc15b0ad2867",
+        "finite": true
+      },
+      {
+        "file": "euler-step08-audio.f32",
+        "elements": 13248,
+        "sha256": "6fc49452f1555442a040009a8e25cbb6d1f93d7add35fac14d99ee6ef7b74211",
+        "finite": true
+      },
+      {
+        "file": "euler-step08-video.f32",
+        "elements": 909312,
+        "sha256": "5df512c0c219ea3f7307ac24e1d0fdd36d9231699d25e952a2cec3f57f4eaebf",
+        "finite": true
+      },
+      {
+        "file": "euler-step09-audio.f32",
+        "elements": 13248,
+        "sha256": "97a60fb3a68ec7667eeb436c51f7fafcb3640259be6a944117652f5460a637fa",
+        "finite": true
+      },
+      {
+        "file": "euler-step09-video.f32",
+        "elements": 909312,
+        "sha256": "7b4695cbeab6f51cb48e9627b0c1389646fc502142e947eac7906cbbe7702204",
+        "finite": true
+      },
+      {
+        "file": "euler-step10-audio.f32",
+        "elements": 13248,
+        "sha256": "a6373639b30397b44e29406e742ec49644043fdbe52347bbc515231c60a15060",
+        "finite": true
+      },
+      {
+        "file": "euler-step10-video.f32",
+        "elements": 909312,
+        "sha256": "811cb73087e58bd7951312e48a1f34703336801c528af16c0cc161e3a5781fc8",
+        "finite": true
+      },
+      {
+        "file": "euler-step11-audio.f32",
+        "elements": 13248,
+        "sha256": "c7f166c6327fb54abbb8cc80df958411598362fda08a711e6d3352caeea2d160",
+        "finite": true
+      },
+      {
+        "file": "euler-step11-video.f32",
+        "elements": 909312,
+        "sha256": "86bbc31d60f3ca4ede5efcb2ac32d6ba73f3d464d877025d0c692a8f55b9846b",
+        "finite": true
+      },
+      {
+        "file": "euler-step12-audio.f32",
+        "elements": 13248,
+        "sha256": "050f6fdf1402e21c20826122c905c5169603bd45dcac9d4c365d4d30c480d54c",
+        "finite": true
+      },
+      {
+        "file": "euler-step12-video.f32",
+        "elements": 909312,
+        "sha256": "44c3bf9165ee22bff6a1e503bb9c4b2b5d8330e718d2254ca143a9b8f27fa454",
+        "finite": true
+      },
+      {
+        "file": "euler-step13-audio.f32",
+        "elements": 13248,
+        "sha256": "b48b536b2ea04614964580c18cddeaf877a5af2a7482755872a37745c948d062",
+        "finite": true
+      },
+      {
+        "file": "euler-step13-video.f32",
+        "elements": 909312,
+        "sha256": "a87a6d73e613e98513546fa413138032076c06465ba6471102292a75b6d28ff4",
+        "finite": true
+      },
+      {
+        "file": "euler-step14-audio.f32",
+        "elements": 13248,
+        "sha256": "ed05a5531f2d3e938d7480c2cf1953be732e4cdfb797499e7681ae236b761051",
+        "finite": true
+      },
+      {
+        "file": "euler-step14-video.f32",
+        "elements": 909312,
+        "sha256": "46e7cf84ca49b142d3687d42cee57cac87ab880bd8cf4b56e638736f404ed68b",
+        "finite": true
+      },
+      {
+        "file": "euler-step15-audio.f32",
+        "elements": 13248,
+        "sha256": "3929356ce775a6b460c8d6d64f5311dfe7b651e61065b2b3f4e2719b85a9a26e",
+        "finite": true
+      },
+      {
+        "file": "euler-step15-video.f32",
+        "elements": 909312,
+        "sha256": "dfe254160ce948629dfd9c674e0f461f338b94223c914bdf17269d2f3f185733",
+        "finite": true
+      },
+      {
+        "file": "euler-step16-audio.f32",
+        "elements": 13248,
+        "sha256": "0f8f2127b2148343cfc06714624e241257b95c80bcfe7c6a0c570c10a2128bd9",
+        "finite": true
+      },
+      {
+        "file": "euler-step16-video.f32",
+        "elements": 909312,
+        "sha256": "753c9c7ad3ab83ba7a0dad2b29be80fb503222db3995d17866a79fd18d6ed1a9",
+        "finite": true
+      },
+      {
+        "file": "euler-step17-audio.f32",
+        "elements": 13248,
+        "sha256": "778e9c752c4795220062eed62ed8b490a0f659fbb18b7ba0fdb108e08e85e940",
+        "finite": true
+      },
+      {
+        "file": "euler-step17-video.f32",
+        "elements": 909312,
+        "sha256": "67d5e6468491303831053b3857e8165a48ca314f28b00400acde1cb703e4e85d",
+        "finite": true
+      },
+      {
+        "file": "euler-step18-audio.f32",
+        "elements": 13248,
+        "sha256": "c240b70ab15dc47293ebf83ab9a5f4427f167a440dd790236e0612d7a8619a22",
+        "finite": true
+      },
+      {
+        "file": "euler-step18-video.f32",
+        "elements": 909312,
+        "sha256": "16bc85941d2d13bb032f4577f7423c64c8d28cb65b25d35b369245852fd2f288",
+        "finite": true
+      },
+      {
+        "file": "euler-step19-audio.f32",
+        "elements": 13248,
+        "sha256": "178b21890e7a9af14305c41ce2f88c34892018d3f6a3ef7713de236e474a453a",
+        "finite": true
+      },
+      {
+        "file": "euler-step19-video.f32",
+        "elements": 909312,
+        "sha256": "4b64fff0b8576e74b85ef5fdea718030b62fa9ba6792d7ec41ff795d98c6c0ec",
+        "finite": true
+      },
+      {
+        "file": "final-audio.f32",
+        "elements": 13248,
+        "sha256": "a3eb95bacfe20a59a5d24271815b60f93f25c36d6537172de0cf759fb1be5ca5",
+        "finite": true
+      },
+      {
+        "file": "final-video.f32",
+        "elements": 909312,
+        "sha256": "e7f5e62f23668893f58fd1454036231724e8e01936b63237c4767b8b6280dbc3",
+        "finite": true
+      }
+    ]
+  },
+  "adaln_validation": {
+    "schema": 1,
+    "scope": "16 selected real rows per step/block/family; full K; diagnostic waits",
+    "verifier_sha256": "8f5f4a781ba51d07d86baa4023791f83dd418e803a9ab971c90e133d87ab6504",
+    "reference_helper_sha256": "5798d1fca3785823a92d58c931911c22aac71514444cd3ec01fc9841c66627f3",
+    "cases": [
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "qkv",
+        "step": 0,
+        "block": 0,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 0,
+        "shift_slot": 0,
+        "scale_slot": 1,
+        "apply_gate": 0,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "qkv",
+        "step": 0,
+        "block": 24,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 5,
+        "shift_slot": 0,
+        "scale_slot": 1,
+        "apply_gate": 1,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "qkv",
+        "step": 0,
+        "block": 49,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 5,
+        "shift_slot": 0,
+        "scale_slot": 1,
+        "apply_gate": 1,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "qkv",
+        "step": 10,
+        "block": 0,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 0,
+        "shift_slot": 0,
+        "scale_slot": 1,
+        "apply_gate": 0,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "qkv",
+        "step": 10,
+        "block": 24,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 5,
+        "shift_slot": 0,
+        "scale_slot": 1,
+        "apply_gate": 1,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "qkv",
+        "step": 10,
+        "block": 49,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 5,
+        "shift_slot": 0,
+        "scale_slot": 1,
+        "apply_gate": 1,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "qkv",
+        "step": 19,
+        "block": 0,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 0,
+        "shift_slot": 0,
+        "scale_slot": 1,
+        "apply_gate": 0,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "qkv",
+        "step": 19,
+        "block": 24,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 5,
+        "shift_slot": 0,
+        "scale_slot": 1,
+        "apply_gate": 1,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "qkv",
+        "step": 19,
+        "block": 49,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 5,
+        "shift_slot": 0,
+        "scale_slot": 1,
+        "apply_gate": 1,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "fc1",
+        "step": 0,
+        "block": 0,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 2,
+        "shift_slot": 3,
+        "scale_slot": 4,
+        "apply_gate": 1,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "fc1",
+        "step": 0,
+        "block": 24,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 2,
+        "shift_slot": 3,
+        "scale_slot": 4,
+        "apply_gate": 1,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "fc1",
+        "step": 0,
+        "block": 49,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 2,
+        "shift_slot": 3,
+        "scale_slot": 4,
+        "apply_gate": 1,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "fc1",
+        "step": 10,
+        "block": 0,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 2,
+        "shift_slot": 3,
+        "scale_slot": 4,
+        "apply_gate": 1,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "fc1",
+        "step": 10,
+        "block": 24,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 2,
+        "shift_slot": 3,
+        "scale_slot": 4,
+        "apply_gate": 1,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "fc1",
+        "step": 10,
+        "block": 49,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 2,
+        "shift_slot": 3,
+        "scale_slot": 4,
+        "apply_gate": 1,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "fc1",
+        "step": 19,
+        "block": 0,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 2,
+        "shift_slot": 3,
+        "scale_slot": 4,
+        "apply_gate": 1,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "fc1",
+        "step": 19,
+        "block": 24,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 2,
+        "shift_slot": 3,
+        "scale_slot": 4,
+        "apply_gate": 1,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      },
+      {
+        "schema": 1,
+        "scope": "diagnostic_with_extra_gpu_waits",
+        "family": "fc1",
+        "step": 19,
+        "block": 49,
+        "packed_rows": 9914,
+        "sample_rows": 16,
+        "width": 5376,
+        "slots": 6,
+        "gate_slot": 2,
+        "shift_slot": 3,
+        "scale_slot": 4,
+        "apply_gate": 1,
+        "staged": 0,
+        "hadamard_qkv": 1,
+        "hadamard_fc1": 1,
+        "hadamard_fc2": 1,
+        "epsilon": 1e-05,
+        "row_ids": [
+          0,
+          14,
+          27,
+          28,
+          235,
+          441,
+          442,
+          5178,
+          9913,
+          619,
+          1239,
+          1858,
+          2478,
+          3097,
+          3717,
+          4336
+        ],
+        "segments": [
+          {
+            "kind": 0,
+            "start": 0,
+            "stop": 28
+          },
+          {
+            "kind": 4,
+            "start": 28,
+            "stop": 442
+          },
+          {
+            "kind": 5,
+            "start": 442,
+            "stop": 9914
+          }
+        ],
+        "input_layout": "selected_rows_full_K_BF16_little_endian",
+        "modulation_layout": "gate_shift_scale_gathered_per_sample_using_independent_maps",
+        "gamma_shape": [
+          5376
+        ],
+        "codes_layout": "selected_rows_full_K_signed_INT8",
+        "scales_layout": "one_FP32_little_endian_per_sample",
+        "zero_row_scale": 1,
+        "nonfinite": 0
+      }
+    ],
+    "case_count": 18,
+    "files": {
+      "qkv-step00-block00.json": {
+        "bytes": 770,
+        "sha256": "682549550f0896bb8c4ba5967a8aa84bb1accc67e07cfe743e328a4f3382fe92"
+      },
+      "qkv-step00-block00-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "7499a197ceb88cf7110abe44daaacfc3003ed1bc43b1fef9c7008b19c8ed4c22"
+      },
+      "qkv-step00-block00-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "2cbbeef1249170a43854962fa5b19fba628470c70beb9ce23e15a0f05cb891f2"
+      },
+      "qkv-step00-block00-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "2cbbeef1249170a43854962fa5b19fba628470c70beb9ce23e15a0f05cb891f2"
+      },
+      "qkv-step00-block00-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "9bd85f08f7487eb982064e27feb424212c1ed92445f39c8f9206f123754e97be"
+      },
+      "qkv-step00-block00-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "1962ea39bbb11ad585fcef9d991bfed440b37b0f958ca51b7f95bbfdbab049af"
+      },
+      "qkv-step00-block00-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "7499a197ceb88cf7110abe44daaacfc3003ed1bc43b1fef9c7008b19c8ed4c22"
+      },
+      "qkv-step00-block00-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "be25ff0d0f04f96161f0d24cc3075ad66d6b9460adfcbb0c7380ef4d5c7c7ff2"
+      },
+      "qkv-step00-block00-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "5e32e4d7379a9f9302755af395ed50b5b998352a221dc2c99204a85dd9f9b49f"
+      },
+      "qkv-step00-block00-codes.i8": {
+        "bytes": 86016,
+        "sha256": "22352ef7f751cf375409f9150402e4c7ad887e0223406dd42e491db4cabe1814"
+      },
+      "qkv-step00-block00-scales.f32": {
+        "bytes": 64,
+        "sha256": "4420130dffad9ca10b6528364b8af36d5953a2ddcc2673029dcc4a55e83d9be0"
+      },
+      "qkv-step00-block00-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b"
+      },
+      "qkv-step00-block00-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "9958c4710bca19ec2bae650d01b9adf7b85ea8cb184aa8fb76eea059f00e000d"
+      },
+      "qkv-step00-block24.json": {
+        "bytes": 771,
+        "sha256": "446abe1cd5d9457faa30be60a6cf18f8da87b0169c4820ac0dd1246aea797b4d"
+      },
+      "qkv-step00-block24-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "3c76ded1e9dccaa0480283ade1e59322549589ffb90f38baf93a6230b9b6b29e"
+      },
+      "qkv-step00-block24-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "b5789be81eadc132bac07b52d5ba4f0eeb42203a1ecc257934115ff552b771ec"
+      },
+      "qkv-step00-block24-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "6cc97192b2c8370a81f5dfac9cf3986fbc8817b89249c90b52d4c7d00991e357"
+      },
+      "qkv-step00-block24-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "7a3b629f29c883ab76c578193e07944ace3efeb101cf2286cf3461f4921e14f3"
+      },
+      "qkv-step00-block24-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "c0447565c8ef08ae3e832990591f043835a98856758838f6659dee58990425e9"
+      },
+      "qkv-step00-block24-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "000f46bbf60c7ce5071d0f7cff29098ebd720ac57e1499adeeeb7f73e7e967d4"
+      },
+      "qkv-step00-block24-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "9478e43192ec3aace6dad91a27d5c3dedbddc6ab552b8ea9795ee4a6338bdafd"
+      },
+      "qkv-step00-block24-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "d8408f0315a3bfe82a6db004578e1d6f01c365bd92c013d8f9b553d7588cdbdc"
+      },
+      "qkv-step00-block24-codes.i8": {
+        "bytes": 86016,
+        "sha256": "33fceb6afe3607f6c2cb5fff237b6d928f36d03ce9ef5adb16f2872dc5d7684c"
+      },
+      "qkv-step00-block24-scales.f32": {
+        "bytes": 64,
+        "sha256": "b1eaf975aea4884ae9950e8a5893797391bade917e7003341b0fded42402a287"
+      },
+      "qkv-step00-block24-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "9958c4710bca19ec2bae650d01b9adf7b85ea8cb184aa8fb76eea059f00e000d"
+      },
+      "qkv-step00-block24-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "9958c4710bca19ec2bae650d01b9adf7b85ea8cb184aa8fb76eea059f00e000d"
+      },
+      "qkv-step00-block49.json": {
+        "bytes": 771,
+        "sha256": "f7eff6be01a26b7f5ee96397e6b70ea1b9d59e069c5d4452abc37560423a1f6c"
+      },
+      "qkv-step00-block49-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "1cfa41374f0759bce253151ff5fdcdff99edcd6ab036568c4c7686314125a891"
+      },
+      "qkv-step00-block49-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "214bf39f35043eb22c5e76c623cbf6613c5184e0b70ddc5aa241f9a34dd8eaaf"
+      },
+      "qkv-step00-block49-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "b5efa4b96ec42465446a732c7f280937c9a75954272e299264b31256dac8572d"
+      },
+      "qkv-step00-block49-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "bacaca49a4c66f67b7d6b8ba85d08809d4a3b633789340eb25e331a728c31d42"
+      },
+      "qkv-step00-block49-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "95d19581fc48b9306622a87d9e697b866197c587e90a12bf5df6b318c4080fe9"
+      },
+      "qkv-step00-block49-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "40a2cc1aff373d265ceb1dea9dd80c1081a8b89e98a9c646a010c3dbb978bc18"
+      },
+      "qkv-step00-block49-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "ddf5d0ed991d191e9f019e7413fad3328b9fb616c3fd1872fad4441d355f245c"
+      },
+      "qkv-step00-block49-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "5b006f932a6cf7c0f7233d75c0371ebc689cffb857a5405eb26ab5f4321ff8ba"
+      },
+      "qkv-step00-block49-codes.i8": {
+        "bytes": 86016,
+        "sha256": "3d47a2232a710cbe8feed9f12de44d88d483fecb82a590397d1806508acd5d9c"
+      },
+      "qkv-step00-block49-scales.f32": {
+        "bytes": 64,
+        "sha256": "cca99989b45d636b2cb95d02095f28dc0f3bdb1cc657b91f1f541d7b7e704854"
+      },
+      "qkv-step00-block49-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "9958c4710bca19ec2bae650d01b9adf7b85ea8cb184aa8fb76eea059f00e000d"
+      },
+      "qkv-step00-block49-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "9958c4710bca19ec2bae650d01b9adf7b85ea8cb184aa8fb76eea059f00e000d"
+      },
+      "qkv-step10-block00.json": {
+        "bytes": 771,
+        "sha256": "732c7c0c8be65d8f504676416354a0005c577ff8c0db989a714c7210ac9bb73a"
+      },
+      "qkv-step10-block00-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "22b482068ac4375422dc36cb7a77d126c2d8a32f2062a26d3e0eba5cf4392872"
+      },
+      "qkv-step10-block00-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "2cbbeef1249170a43854962fa5b19fba628470c70beb9ce23e15a0f05cb891f2"
+      },
+      "qkv-step10-block00-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "2cbbeef1249170a43854962fa5b19fba628470c70beb9ce23e15a0f05cb891f2"
+      },
+      "qkv-step10-block00-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "846f30d55df456b90d94672e95f9c308accd0dc51209ebf6779c990f92cb588a"
+      },
+      "qkv-step10-block00-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "118e09c7a7f7bbe4ebb2a23194d9371fc304deaa5be2f5249c7d26c8283c9464"
+      },
+      "qkv-step10-block00-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "22b482068ac4375422dc36cb7a77d126c2d8a32f2062a26d3e0eba5cf4392872"
+      },
+      "qkv-step10-block00-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "ae21692734e8c7d909d3a07cf1b05b686092eabc1d42ef71c44cd335b6a87deb"
+      },
+      "qkv-step10-block00-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "5e32e4d7379a9f9302755af395ed50b5b998352a221dc2c99204a85dd9f9b49f"
+      },
+      "qkv-step10-block00-codes.i8": {
+        "bytes": 86016,
+        "sha256": "c20a8586c60e7c580bffa978cf2b993fd1e8062eb139895a95d325c8c18894e3"
+      },
+      "qkv-step10-block00-scales.f32": {
+        "bytes": 64,
+        "sha256": "b3439b19071f8ab6286d8f72b6854da8d782be56135b5cb4af1230b9701e7863"
+      },
+      "qkv-step10-block00-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b"
+      },
+      "qkv-step10-block00-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "c0ba92df085abcfc340035dc09d4976055db2846711ebe4c9d46b7714f82b642"
+      },
+      "qkv-step10-block24.json": {
+        "bytes": 772,
+        "sha256": "12b5d20540decb2811724f7c01d4aafa81b198dcee17a433b310a3aef155f708"
+      },
+      "qkv-step10-block24-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "e3262529101b2c4e48a27f2c016b7d8264f8cd27f3d90a6b6fa5d00776b85777"
+      },
+      "qkv-step10-block24-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "9c67cc2d672d0f3fd2fb04ab4403301373f74ce1d9b65f95c82eba8b6305bad6"
+      },
+      "qkv-step10-block24-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "df86dbf72ee1cfb25f67d231c7a8e8da16a72e7dd5f7f8f830c5daa1fbf6094c"
+      },
+      "qkv-step10-block24-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "525fb5d9c2d9863bc2489e0d9741e4c0f9c75cb12e447aa62927941e2598403c"
+      },
+      "qkv-step10-block24-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "1548b4f68b623d5d25fdfe05ffb8467af0f032dc5d77dd844aaca3db7f36af83"
+      },
+      "qkv-step10-block24-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "eb95f2233cc86c8427b5abe7c8547bdfdc33304898d8e267c8acb5c387d08ceb"
+      },
+      "qkv-step10-block24-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "8dd6a36ff79514db8be562e7caeea07ece768587e542e1f40cf5834d61edfaad"
+      },
+      "qkv-step10-block24-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "d8408f0315a3bfe82a6db004578e1d6f01c365bd92c013d8f9b553d7588cdbdc"
+      },
+      "qkv-step10-block24-codes.i8": {
+        "bytes": 86016,
+        "sha256": "9fd1004884730ef6086199bccf4a0de9ede8105817bffc91239e142a2a43083e"
+      },
+      "qkv-step10-block24-scales.f32": {
+        "bytes": 64,
+        "sha256": "f8bceb34af8e2cf1fd996834b32e2bc1aa90229e05c679be2123de0e52b150ef"
+      },
+      "qkv-step10-block24-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "c0ba92df085abcfc340035dc09d4976055db2846711ebe4c9d46b7714f82b642"
+      },
+      "qkv-step10-block24-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "c0ba92df085abcfc340035dc09d4976055db2846711ebe4c9d46b7714f82b642"
+      },
+      "qkv-step10-block49.json": {
+        "bytes": 772,
+        "sha256": "ead2f135040dde46009aa7dc884cf4c9fea76bfb3dc0aa03910bac202ac06ccb"
+      },
+      "qkv-step10-block49-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "3f31736b5a33f12afc5e35eb89779e8e31af70e705e79a00da2e7653843c867d"
+      },
+      "qkv-step10-block49-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "899d40d085645ccb83c8d3f3c07f1c3a33abeaa31f081e0aaaff37171eac64a7"
+      },
+      "qkv-step10-block49-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "afc4a2a38b505d22181398f6530e556f5bf6f935c0f2501dde531e859f48f7bc"
+      },
+      "qkv-step10-block49-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "e879c1f7674b78e3ee67086f477587a5c2bc7a6b67d65b47d40ce647269075b6"
+      },
+      "qkv-step10-block49-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "3e1a99f82216e25865d6abc7595f5331707a3e1820c810361e54ef9444589c26"
+      },
+      "qkv-step10-block49-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "bfd0d4c04b22ecbd81b9a5a348eff13386e2475a4c0df5337817cdfd6134ce88"
+      },
+      "qkv-step10-block49-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "65b2860d863384b3561726f70b5be8674b8efe5c8fabe8f6e3f6156ec2b55d9a"
+      },
+      "qkv-step10-block49-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "5b006f932a6cf7c0f7233d75c0371ebc689cffb857a5405eb26ab5f4321ff8ba"
+      },
+      "qkv-step10-block49-codes.i8": {
+        "bytes": 86016,
+        "sha256": "d7751f70261a4a46d8d4765cacb77b131f8a33ab37021f96928502e59aab454f"
+      },
+      "qkv-step10-block49-scales.f32": {
+        "bytes": 64,
+        "sha256": "90d971b623150be4845499cde0770d33420904592c5dd23771cab09eb2c87a4f"
+      },
+      "qkv-step10-block49-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "c0ba92df085abcfc340035dc09d4976055db2846711ebe4c9d46b7714f82b642"
+      },
+      "qkv-step10-block49-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "c0ba92df085abcfc340035dc09d4976055db2846711ebe4c9d46b7714f82b642"
+      },
+      "qkv-step19-block00.json": {
+        "bytes": 771,
+        "sha256": "6cb2a6227252e15a6aaab05e8e3e5cec858f83c65026770945f95bca806658fa"
+      },
+      "qkv-step19-block00-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "bebb62fde2bb4a3127c68a46b16198b73f368a750e8f1d6037f638ddf996fc81"
+      },
+      "qkv-step19-block00-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "2cbbeef1249170a43854962fa5b19fba628470c70beb9ce23e15a0f05cb891f2"
+      },
+      "qkv-step19-block00-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "2cbbeef1249170a43854962fa5b19fba628470c70beb9ce23e15a0f05cb891f2"
+      },
+      "qkv-step19-block00-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "f984fd79c908d23039bf474a38d8232407e9ebb5d9edeaea7bfe110871d68966"
+      },
+      "qkv-step19-block00-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "107cf2c5d8e17dfaf430fe20bd7db53ca935fee7bb0e1c21d1e4f7fa9230ab5e"
+      },
+      "qkv-step19-block00-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "bebb62fde2bb4a3127c68a46b16198b73f368a750e8f1d6037f638ddf996fc81"
+      },
+      "qkv-step19-block00-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "2e595610d2535db0bfb6a88e23b5fcc4286e236d632f32be570cc66199e1f059"
+      },
+      "qkv-step19-block00-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "5e32e4d7379a9f9302755af395ed50b5b998352a221dc2c99204a85dd9f9b49f"
+      },
+      "qkv-step19-block00-codes.i8": {
+        "bytes": 86016,
+        "sha256": "68986791aad59e3e9fd6596a9ed2fc1d04e88efe89132436e8a60085fd556a1c"
+      },
+      "qkv-step19-block00-scales.f32": {
+        "bytes": 64,
+        "sha256": "d67f67a109a04b096db98157d0187757e4489a00c59d71ec9f10de3676ed6560"
+      },
+      "qkv-step19-block00-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b"
+      },
+      "qkv-step19-block00-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "00e2738739a22dec2ae3dd74d9c7300aa81f6467dc6958f48f3ce47dd62a83cc"
+      },
+      "qkv-step19-block24.json": {
+        "bytes": 772,
+        "sha256": "d659d5649ed26df6397e4da8692f34a9fe398706efc291678479f2d7c91c175f"
+      },
+      "qkv-step19-block24-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "e6e8051967680227ec47de6d7e3fe1b674f0b7515b43635304e4d4db65450c54"
+      },
+      "qkv-step19-block24-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "63840f3e2ff1088233b3fcb1744c8b63cb2e0bd53adbfbff0039b9d24fd94568"
+      },
+      "qkv-step19-block24-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "84ddcaf152a4b189f184d1fc3d40f0f655f6448ae0745419fb9b38d2de4e17a6"
+      },
+      "qkv-step19-block24-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "e0d828c0f7fc1d8bb9260201c512328928085e98e92c49cb267713b866b280f8"
+      },
+      "qkv-step19-block24-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "dbcf3707ee3d6e3c55e5f0e13b7c52d3d76432d9f800d2930994e49fe934c54d"
+      },
+      "qkv-step19-block24-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "c98cedf24af2bafe08f9e2d716576140e9c392a2e3bc0fb2b04e417010402a65"
+      },
+      "qkv-step19-block24-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "52d3c2d0b617ec90049041ebbda0905c875ec2a6ca6a6bdaca3091dad14de1f7"
+      },
+      "qkv-step19-block24-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "d8408f0315a3bfe82a6db004578e1d6f01c365bd92c013d8f9b553d7588cdbdc"
+      },
+      "qkv-step19-block24-codes.i8": {
+        "bytes": 86016,
+        "sha256": "abe8e5f2709567754c6718ab4d30619be50a8f29237c2a849e61cff059bb9a00"
+      },
+      "qkv-step19-block24-scales.f32": {
+        "bytes": 64,
+        "sha256": "9fd0a12137a1ee36b4b5fd16f401eeb0e88fb5beac49a1a71a830067f2a57085"
+      },
+      "qkv-step19-block24-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "00e2738739a22dec2ae3dd74d9c7300aa81f6467dc6958f48f3ce47dd62a83cc"
+      },
+      "qkv-step19-block24-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "00e2738739a22dec2ae3dd74d9c7300aa81f6467dc6958f48f3ce47dd62a83cc"
+      },
+      "qkv-step19-block49.json": {
+        "bytes": 772,
+        "sha256": "4b78c618ce5ce14f47629825d6d2f6fee45fedc0a4216e832ac8e4c9b2d311ee"
+      },
+      "qkv-step19-block49-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "648ec20c1b9e2a52c41554486ac590d4dfa5e52c28e02cdad6ab703569a6b554"
+      },
+      "qkv-step19-block49-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "ae7e4d007e3670bbd90d27bd086cbc52fccb6c039ec08a767324ba5406580291"
+      },
+      "qkv-step19-block49-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "d5e0a16e206a79da2fad455b5ab2570a34ff2426dbc90742b39eb0d8dc1b04c1"
+      },
+      "qkv-step19-block49-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "18692af172bc73a8cc70d61acd43e6292224ff4c25ec7c994925931e53574330"
+      },
+      "qkv-step19-block49-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "92242c8ef04916ace8e4412b8728fe21bc1b066042097c2a2b58e3dd91f2a832"
+      },
+      "qkv-step19-block49-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "e9d0e0d5e553fff826a3da651744a748406eca80dc76450ea1f46ed469ef85d5"
+      },
+      "qkv-step19-block49-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "fd3f9418840bfd5e025636ceeb9f399fed85d3e8d1b539295c9630105e0f0898"
+      },
+      "qkv-step19-block49-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "5b006f932a6cf7c0f7233d75c0371ebc689cffb857a5405eb26ab5f4321ff8ba"
+      },
+      "qkv-step19-block49-codes.i8": {
+        "bytes": 86016,
+        "sha256": "4245e6207e652b290f32b7bd10af9972111dd95c837a2e1a1d7dca87a4e9c0c5"
+      },
+      "qkv-step19-block49-scales.f32": {
+        "bytes": 64,
+        "sha256": "87a1180c5e9b77f32fd51f67b2910fbb44a8afc27d81c6509e186b6b1d6058b4"
+      },
+      "qkv-step19-block49-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "00e2738739a22dec2ae3dd74d9c7300aa81f6467dc6958f48f3ce47dd62a83cc"
+      },
+      "qkv-step19-block49-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "00e2738739a22dec2ae3dd74d9c7300aa81f6467dc6958f48f3ce47dd62a83cc"
+      },
+      "fc1-step00-block00.json": {
+        "bytes": 770,
+        "sha256": "3faf721732332fea83084cd28e7f740925ead32be6985f5d3d0d7e6b54811668"
+      },
+      "fc1-step00-block00-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "7499a197ceb88cf7110abe44daaacfc3003ed1bc43b1fef9c7008b19c8ed4c22"
+      },
+      "fc1-step00-block00-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "f1c8028349a31c7791c968fa09d4153df817cbadc0927b25272b6a443538cf22"
+      },
+      "fc1-step00-block00-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "f8d081311b177fa0eb1dd40fedeeacf996103d7ebe11ad1864898bc075d6f1b0"
+      },
+      "fc1-step00-block00-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "3c2f397a5b3d80b2b78c212505be0b3df15ce9a612122b3b4ff9ef8cba1c88b8"
+      },
+      "fc1-step00-block00-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "2d3b6bd55a56b34f88ea77b0dc0ac8714f731789ff136228974eac1395f00b6d"
+      },
+      "fc1-step00-block00-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "ff23111cd901e0e562f306c1d37c9b9cd42a4a2ef5baa308b3b5c5090cc7acd0"
+      },
+      "fc1-step00-block00-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "b99ed8b8c13b3c97ef4469d7ae59a9c7c50b9dd408c914a1a1f2c59b8f542b3f"
+      },
+      "fc1-step00-block00-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "a2c513ec459414e211a3d37f77c1f556f11117f56516b22eb5912f8ff5f98872"
+      },
+      "fc1-step00-block00-codes.i8": {
+        "bytes": 86016,
+        "sha256": "bcba1af2a47a7c72e12c3f03238079f3f684b93cbc6d3ebaddbcfc513a7a6824"
+      },
+      "fc1-step00-block00-scales.f32": {
+        "bytes": 64,
+        "sha256": "02adb4143011965efcc67990007dfb83e6c254dd988bab2a3c17cd3f306ad385"
+      },
+      "fc1-step00-block00-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "9958c4710bca19ec2bae650d01b9adf7b85ea8cb184aa8fb76eea059f00e000d"
+      },
+      "fc1-step00-block00-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "9958c4710bca19ec2bae650d01b9adf7b85ea8cb184aa8fb76eea059f00e000d"
+      },
+      "fc1-step00-block24.json": {
+        "bytes": 771,
+        "sha256": "c06bd03adcc55a47bbdff037e48b5fbb9ada93e27a7aa19e47ea507fd0ebf729"
+      },
+      "fc1-step00-block24-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "000f46bbf60c7ce5071d0f7cff29098ebd720ac57e1499adeeeb7f73e7e967d4"
+      },
+      "fc1-step00-block24-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "ea6223ee6f0d63552429f9fea05645ab11e49a2bdc9c29da1e274b745a886141"
+      },
+      "fc1-step00-block24-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "bcb2dbf0ea3efa0cfcd28c434f4950cb62217d4f630795ddf25d81ab03b3d180"
+      },
+      "fc1-step00-block24-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "7f0a73a68df10eaabd4543db9fcea4f6fd09b402c193ba2f28eb2a0538282f11"
+      },
+      "fc1-step00-block24-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "a780289e589b3691ef74da60367ee2b4cf6a6247f31cafa7b4137c413cd922db"
+      },
+      "fc1-step00-block24-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "35aa8eaccb62faa93f9096e551f86d0137f03608ac13ee6049d159d9d49a3afa"
+      },
+      "fc1-step00-block24-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "337b4b707191723af0bd861de76fa816779a112dad50036e45093c7349448b83"
+      },
+      "fc1-step00-block24-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "77cc9db009430b0555535877df759e835d236632cbbcb3f9c4a6b769caeae93e"
+      },
+      "fc1-step00-block24-codes.i8": {
+        "bytes": 86016,
+        "sha256": "e6602a9e1dd0d43fe1e3b8cf325051b1d79fd337c0f58785c0aeb26cd6020688"
+      },
+      "fc1-step00-block24-scales.f32": {
+        "bytes": 64,
+        "sha256": "1500712ef2b58bb1564cbc657cd4a4dbe33e41c8923c24bbccd28028a40bed96"
+      },
+      "fc1-step00-block24-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "9958c4710bca19ec2bae650d01b9adf7b85ea8cb184aa8fb76eea059f00e000d"
+      },
+      "fc1-step00-block24-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "9958c4710bca19ec2bae650d01b9adf7b85ea8cb184aa8fb76eea059f00e000d"
+      },
+      "fc1-step00-block49.json": {
+        "bytes": 771,
+        "sha256": "6a5a9c64e8b9bc5483fcc9900b03915255ad262abb10866ebe85d7110e3babce"
+      },
+      "fc1-step00-block49-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "40a2cc1aff373d265ceb1dea9dd80c1081a8b89e98a9c646a010c3dbb978bc18"
+      },
+      "fc1-step00-block49-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "989121c133101d9b3f3cdab25fa347dec8d9d90d98036b7e5584b4526cfba833"
+      },
+      "fc1-step00-block49-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "5b538a1d69c7eb6685db44b7a4946452893d28d19c5a7c6c764df69e4e1a53f2"
+      },
+      "fc1-step00-block49-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "3c31d9734f8a52bcc083e1bb422e0544ee41ed47c63351f640a4074ac3c76ad6"
+      },
+      "fc1-step00-block49-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "af7d0a5807e58d89603cc01fd12caa6dc50d7d80319a8d386f10756f1199f0ac"
+      },
+      "fc1-step00-block49-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "6bac142cd3aab33b7266cda842af8f09766954c3d58a49effbae3b3f2018f6e8"
+      },
+      "fc1-step00-block49-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "e8380c49847da31fff8fdaf12bee78227803113cd8ff3b82a050043b684bc4e1"
+      },
+      "fc1-step00-block49-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "830b5f31ca8ba962cf05844318f1eef4278a6b03258500fa6bcc13f34e62f6df"
+      },
+      "fc1-step00-block49-codes.i8": {
+        "bytes": 86016,
+        "sha256": "e1d1abe7c95d61a1591ffaf5ccb8ae811d44d18099030c0118beea630a0f8d7c"
+      },
+      "fc1-step00-block49-scales.f32": {
+        "bytes": 64,
+        "sha256": "a1af2cbf4f94af2e9053a2697efec5c005602d87905fcaf1f523ec7b899ccea1"
+      },
+      "fc1-step00-block49-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "9958c4710bca19ec2bae650d01b9adf7b85ea8cb184aa8fb76eea059f00e000d"
+      },
+      "fc1-step00-block49-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "9958c4710bca19ec2bae650d01b9adf7b85ea8cb184aa8fb76eea059f00e000d"
+      },
+      "fc1-step10-block00.json": {
+        "bytes": 771,
+        "sha256": "1a8f19a3f2242382e21ad1a8da5da673ca41ff317dd6b470fbe31f103c8fd314"
+      },
+      "fc1-step10-block00-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "22b482068ac4375422dc36cb7a77d126c2d8a32f2062a26d3e0eba5cf4392872"
+      },
+      "fc1-step10-block00-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "b8a45e29235fb37fa81204f6015287dfdab89f8ed658058055295bfd4d6a0553"
+      },
+      "fc1-step10-block00-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "f534f4e57458499856ab1d21c74e190fb1a12bbc1b3b72b50e62a714d5b4942e"
+      },
+      "fc1-step10-block00-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "f1776764a93c61416560c90d56a4da2c73f35d7295d8fe0e02dac8e0ffaaccff"
+      },
+      "fc1-step10-block00-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "0fc45dfb6b89b6f45602b6052897c498ff82302d2e6c612bdc7c505e36dfa80a"
+      },
+      "fc1-step10-block00-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "224731f5d9cf91923f51aab685ed8c5e13f46416ccc5937ea416857028c32eaa"
+      },
+      "fc1-step10-block00-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "72cacb030afd198a875611e55c8b75080bdbbaae537b44f6a1ea890d6fdaea2f"
+      },
+      "fc1-step10-block00-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "a2c513ec459414e211a3d37f77c1f556f11117f56516b22eb5912f8ff5f98872"
+      },
+      "fc1-step10-block00-codes.i8": {
+        "bytes": 86016,
+        "sha256": "aa5c7130ef38b21631cb740edba16edccde443a265f6c8acb953a651e3e2b76f"
+      },
+      "fc1-step10-block00-scales.f32": {
+        "bytes": 64,
+        "sha256": "5165a9fb7cd45bebbd384416b6473a1bc6313afb1449c13faa9ebf508287c650"
+      },
+      "fc1-step10-block00-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "c0ba92df085abcfc340035dc09d4976055db2846711ebe4c9d46b7714f82b642"
+      },
+      "fc1-step10-block00-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "c0ba92df085abcfc340035dc09d4976055db2846711ebe4c9d46b7714f82b642"
+      },
+      "fc1-step10-block24.json": {
+        "bytes": 772,
+        "sha256": "8ed10dc7e0786d13acf2e0abcf00c313c2a9e0f8c607073720c5a90a4edccfd1"
+      },
+      "fc1-step10-block24-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "eb95f2233cc86c8427b5abe7c8547bdfdc33304898d8e267c8acb5c387d08ceb"
+      },
+      "fc1-step10-block24-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "15f991465a88f014a4f1a8ac85e997c246364e35599e93d848f00c5067be1ad3"
+      },
+      "fc1-step10-block24-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "d5eb36ccde019be55c0a028fe989c3bbc7a689af6672ee8c9e0eb425dec4c61a"
+      },
+      "fc1-step10-block24-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "36d92afd191c78cf6f90eea5744c143134bf6353c3ac8b4ec8f08ae374752048"
+      },
+      "fc1-step10-block24-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "84884e7337a7ea1f1ae31b673492a0b1a9fe03a807a6fd677164af6c89accf38"
+      },
+      "fc1-step10-block24-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "3108f1532087d56804160b66d2d528c65abdd0fb6a0e453f4c9f6dcfd3f9d8ef"
+      },
+      "fc1-step10-block24-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "a6705157711f87633a6eb7a406366cab02af01adf8d1c8ec34e899ed2d6c0f2b"
+      },
+      "fc1-step10-block24-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "77cc9db009430b0555535877df759e835d236632cbbcb3f9c4a6b769caeae93e"
+      },
+      "fc1-step10-block24-codes.i8": {
+        "bytes": 86016,
+        "sha256": "d4362b050fbe92f177edb9e3283f62e1595b2b2584210b51b8a3dc026d9ac416"
+      },
+      "fc1-step10-block24-scales.f32": {
+        "bytes": 64,
+        "sha256": "406e592b778548befa698b499af34d69810f7c7ebb5ca4e6f3defc2c41260810"
+      },
+      "fc1-step10-block24-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "c0ba92df085abcfc340035dc09d4976055db2846711ebe4c9d46b7714f82b642"
+      },
+      "fc1-step10-block24-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "c0ba92df085abcfc340035dc09d4976055db2846711ebe4c9d46b7714f82b642"
+      },
+      "fc1-step10-block49.json": {
+        "bytes": 772,
+        "sha256": "2c9f83df3f5614a26f5f0d24321075d5729fc26040c29ccbdb11922f07565755"
+      },
+      "fc1-step10-block49-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "bfd0d4c04b22ecbd81b9a5a348eff13386e2475a4c0df5337817cdfd6134ce88"
+      },
+      "fc1-step10-block49-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "ee76b69f7198e6e3f47623068f77a5940b29a5c5b0a00310ecb1b877d73de30d"
+      },
+      "fc1-step10-block49-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "f62f5a79828f6c8982a7e7bacbf444b0dbc28b56cc79c9463ded45dcc4b1f951"
+      },
+      "fc1-step10-block49-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "997c74ac87696e2ef183615908d4daffe7ffc4e39f652b234bbdd545419b0a12"
+      },
+      "fc1-step10-block49-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "470cea906a0feb858c9f1c6e670f2457a941445091bbda00ec46796c5fba3567"
+      },
+      "fc1-step10-block49-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "87253555bf4544ac71051e33bd31857c8fe2bb86c1f3b09dd1a574fd729c15b7"
+      },
+      "fc1-step10-block49-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "74c71404250d20d835c7f87620e70b96cfa07e15726a68d6e99298b0b3bdf0fa"
+      },
+      "fc1-step10-block49-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "830b5f31ca8ba962cf05844318f1eef4278a6b03258500fa6bcc13f34e62f6df"
+      },
+      "fc1-step10-block49-codes.i8": {
+        "bytes": 86016,
+        "sha256": "2e4cf8fe362373db5ffe12a105b4e3ebc33919e04f1c8ab6cba10d1a8751f4fa"
+      },
+      "fc1-step10-block49-scales.f32": {
+        "bytes": 64,
+        "sha256": "107b70de232c0d07f1b0f6e69c117db7ffdba07a248b6916d05aa8e64d84e7da"
+      },
+      "fc1-step10-block49-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "c0ba92df085abcfc340035dc09d4976055db2846711ebe4c9d46b7714f82b642"
+      },
+      "fc1-step10-block49-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "c0ba92df085abcfc340035dc09d4976055db2846711ebe4c9d46b7714f82b642"
+      },
+      "fc1-step19-block00.json": {
+        "bytes": 771,
+        "sha256": "685a883b0c1b1368f74a144437782dd758ca14b593ed53965bc33fac1a1597d4"
+      },
+      "fc1-step19-block00-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "bebb62fde2bb4a3127c68a46b16198b73f368a750e8f1d6037f638ddf996fc81"
+      },
+      "fc1-step19-block00-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "ba5e4e6e74b3234875c480968047ccb347cf5779cb7e55688d813ed89123ce77"
+      },
+      "fc1-step19-block00-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "5ee20f3ac3e9046cf30bbb6f8556fb8da95c61e58e985fc3bd9e325fabd37004"
+      },
+      "fc1-step19-block00-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "0db9975fb4e0892fae23e2049ea3e141731e32cd2e156616c97cf6bee52b4267"
+      },
+      "fc1-step19-block00-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "66f7d96d3169d53be3f25ade1da353de37c6c022725959fcb29798f46269993e"
+      },
+      "fc1-step19-block00-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "83cdb2fd83683283cccbaa8321b724826ea393b9d4bc9f1c64b06452ca5f957d"
+      },
+      "fc1-step19-block00-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "50c062d9c7ab3e89e7b2f475c37f30bd7c015bca5d58f82e5912a013af2fbb0f"
+      },
+      "fc1-step19-block00-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "a2c513ec459414e211a3d37f77c1f556f11117f56516b22eb5912f8ff5f98872"
+      },
+      "fc1-step19-block00-codes.i8": {
+        "bytes": 86016,
+        "sha256": "850fc17617a10077cef3d21f823d12dadb93f3c8f4196db3809e83cf2a643d39"
+      },
+      "fc1-step19-block00-scales.f32": {
+        "bytes": 64,
+        "sha256": "7288ccac9eeffac1592a38bab2d17d15570d6a7e1247b8cdb756881c8354fd5d"
+      },
+      "fc1-step19-block00-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "00e2738739a22dec2ae3dd74d9c7300aa81f6467dc6958f48f3ce47dd62a83cc"
+      },
+      "fc1-step19-block00-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "00e2738739a22dec2ae3dd74d9c7300aa81f6467dc6958f48f3ce47dd62a83cc"
+      },
+      "fc1-step19-block24.json": {
+        "bytes": 772,
+        "sha256": "174468f1835bfc7e9aaba5a944ad1f2125ebb535d24f82c2021feed9ab754d38"
+      },
+      "fc1-step19-block24-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "c98cedf24af2bafe08f9e2d716576140e9c392a2e3bc0fb2b04e417010402a65"
+      },
+      "fc1-step19-block24-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "9f768a08c40b09e8fc0c89aa40561e5822fb94e97063e00d6314ecf172e7742d"
+      },
+      "fc1-step19-block24-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "06aaf845f12aa3c92a955ef6de374acf19e83cb85a8ca9f8d66a3334ffa40cea"
+      },
+      "fc1-step19-block24-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "0d077bc171d955e03098d58ec1f43824014f4326afc4a39a1106ddfe41f2866e"
+      },
+      "fc1-step19-block24-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "f9e2961ed381e8abd5a1b580a8dbd03dcc06c40b4c536da041a82d82e1057c6e"
+      },
+      "fc1-step19-block24-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "c80a880d185918162832bbdc1a49a7abcbe689491be25a7ebcf44fce2730aaa5"
+      },
+      "fc1-step19-block24-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "04be3b04eaf9212b9f383bd334c275d50d73ceefc94ee75cb840ec0f0ba2ebcc"
+      },
+      "fc1-step19-block24-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "77cc9db009430b0555535877df759e835d236632cbbcb3f9c4a6b769caeae93e"
+      },
+      "fc1-step19-block24-codes.i8": {
+        "bytes": 86016,
+        "sha256": "fdbeb0ccc668817ba3f0c5b859f9b5b0e11b59ce0881f00ed9d1da9a9ae88946"
+      },
+      "fc1-step19-block24-scales.f32": {
+        "bytes": 64,
+        "sha256": "b0582ec0330d3e482d53ab4a8329b550ae558696499a83ba1c6921479bdc2ed3"
+      },
+      "fc1-step19-block24-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "00e2738739a22dec2ae3dd74d9c7300aa81f6467dc6958f48f3ce47dd62a83cc"
+      },
+      "fc1-step19-block24-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "00e2738739a22dec2ae3dd74d9c7300aa81f6467dc6958f48f3ce47dd62a83cc"
+      },
+      "fc1-step19-block49.json": {
+        "bytes": 772,
+        "sha256": "516f4b4970e9418b82505d715c838bdab5ea1715c9e8b64e2b6717a4ca8f7b2d"
+      },
+      "fc1-step19-block49-residual.bf16": {
+        "bytes": 172032,
+        "sha256": "e9d0e0d5e553fff826a3da651744a748406eca80dc76450ea1f46ed469ef85d5"
+      },
+      "fc1-step19-block49-branch.bf16": {
+        "bytes": 172032,
+        "sha256": "ab59b367f4675777f5dbc735d381690faf8c797b0bfb8b3458ee68167ee8eb0c"
+      },
+      "fc1-step19-block49-gate.bf16": {
+        "bytes": 172032,
+        "sha256": "44b27d5d49c808581fa680d71b7a335324214be1db71bea51696c63aed5429b1"
+      },
+      "fc1-step19-block49-shift.bf16": {
+        "bytes": 172032,
+        "sha256": "f96112eb166e20d45c79df1dda6cad39759b6a5d36ef2a6fa0bbe94c01573d59"
+      },
+      "fc1-step19-block49-scale.bf16": {
+        "bytes": 172032,
+        "sha256": "678dc8ae3759bcbde884665bd286e3b81e9baeec481783d7f2e40f5ff09f563f"
+      },
+      "fc1-step19-block49-gated.bf16": {
+        "bytes": 172032,
+        "sha256": "dc3bcd3d2e638bdf2b83975d386779d9cb96e3f3c6670b4a6d7867127b5f2f3e"
+      },
+      "fc1-step19-block49-adaln.bf16": {
+        "bytes": 172032,
+        "sha256": "09ecf4d59681d7350b6037c105922768394760b86ae27e65b1ceccc674b0f788"
+      },
+      "fc1-step19-block49-gamma.bf16": {
+        "bytes": 10752,
+        "sha256": "830b5f31ca8ba962cf05844318f1eef4278a6b03258500fa6bcc13f34e62f6df"
+      },
+      "fc1-step19-block49-codes.i8": {
+        "bytes": 86016,
+        "sha256": "3ae57a39174fd532c14c8f7a61f7c73364befbd403265d64b4debeaf93875ef3"
+      },
+      "fc1-step19-block49-scales.f32": {
+        "bytes": 64,
+        "sha256": "3a0dc13b595a4f5c42b322600f564cbca0a1743eb90b2145c5b82bd9ec567074"
+      },
+      "fc1-step19-block49-gate-map.u32": {
+        "bytes": 64,
+        "sha256": "00e2738739a22dec2ae3dd74d9c7300aa81f6467dc6958f48f3ce47dd62a83cc"
+      },
+      "fc1-step19-block49-norm-map.u32": {
+        "bytes": 64,
+        "sha256": "00e2738739a22dec2ae3dd74d9c7300aa81f6467dc6958f48f3ce47dd62a83cc"
+      }
+    },
+    "numerical_reference_evaluated": false
+  },
+  "original_video": {
+    "width": 512,
+    "height": 512,
+    "frames": 124,
+    "fps": 24,
+    "duration_seconds": 5.166667,
+    "file": "original.mp4",
+    "sha256": "f250b3cddf883b3647d4b7f0cfbc48b9e9a83edd32768a1f9715e2a1ed446d1c"
+  },
+  "exact_video": {
+    "width": 512,
+    "height": 512,
+    "frames": 120,
+    "fps": 24,
+    "duration_seconds": 5.0,
+    "file": "video-5s.mp4",
+    "sha256": "8874f3ad7e21f5d93c6b1aa5b36ac12718c839cd5ffc339ffda749e366862c9a"
+  },
+  "finished_utc": "2026-10-19T04:45:23.215877+00:00",
+  "harness_wall_seconds": 227.76067599999806
+}

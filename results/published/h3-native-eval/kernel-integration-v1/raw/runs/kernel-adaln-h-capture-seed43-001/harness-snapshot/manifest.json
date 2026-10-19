@@ -1,0 +1,57 @@
+{
+  "run_kernel_integration.py": {
+    "file": "harness-snapshot/run_kernel_integration.py",
+    "original": "integrations/h3/run_kernel_integration.py",
+    "sha256": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd"
+  },
+  "kernel_integration.py": {
+    "file": "harness-snapshot/kernel_integration.py",
+    "original": "integrations/h3/kernel_integration.py",
+    "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6"
+  },
+  "kernel_session.c": {
+    "file": "harness-snapshot/kernel_session.c",
+    "original": "integrations/h3/kernel_session.c",
+    "sha256": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d"
+  },
+  "run.py": {
+    "file": "harness-snapshot/run.py",
+    "original": "integrations/h3/run.py",
+    "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7"
+  },
+  "run_fc2_experiment.py": {
+    "file": "harness-snapshot/run_fc2_experiment.py",
+    "original": "integrations/h3/run_fc2_experiment.py",
+    "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562"
+  },
+  "run_session.py": {
+    "file": "harness-snapshot/run_session.py",
+    "original": "integrations/h3/run_session.py",
+    "sha256": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b"
+  },
+  "model-files.json": {
+    "file": "harness-snapshot/model-files.json",
+    "original": "integrations/h3/model-files.json",
+    "sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+  },
+  "UPSTREAM-LICENSE": {
+    "file": "harness-snapshot/UPSTREAM-LICENSE",
+    "original": "integrations/h3/UPSTREAM-LICENSE",
+    "sha256": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc"
+  },
+  "locking.py": {
+    "file": "harness-snapshot/locking.py",
+    "original": "src/m5kernels/locking.py",
+    "sha256": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4"
+  },
+  "adaln_capture.py": {
+    "file": "harness-snapshot/adaln_capture.py",
+    "original": "integrations/h3/adaln_capture.py",
+    "sha256": "8f5f4a781ba51d07d86baa4023791f83dd418e803a9ab971c90e133d87ab6504"
+  },
+  "fc2_analyze.py": {
+    "file": "harness-snapshot/fc2_analyze.py",
+    "original": "integrations/h3/fc2_analyze.py",
+    "sha256": "5798d1fca3785823a92d58c931911c22aac71514444cd3ec01fc9841c66627f3"
+  }
+}

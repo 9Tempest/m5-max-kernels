@@ -1,0 +1,1264 @@
+{
+  "schema": "h3_kernel_integration_run_v1",
+  "status": "completed",
+  "kind": "capture",
+  "policy": "qkv-only",
+  "implementation": "fused",
+  "seed": 42,
+  "started_utc": "2026-10-19T04:30:07.589566+00:00",
+  "prompt": "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+  "mode": "hadamard-fc2",
+  "width": 512,
+  "height": 512,
+  "seconds": 5,
+  "fps": 24,
+  "steps": 20,
+  "source_frames": 124,
+  "active_dit_blocks": 50,
+  "reuse": 1,
+  "core_reuse": 1,
+  "reference_rope": true,
+  "measurements": {
+    "build": {
+      "command": [
+        "make",
+        "-B",
+        "-j8"
+      ],
+      "cwd": ".cache/h3.c-kernel-integration",
+      "returncode": 0,
+      "started_utc": "2026-10-19T04:30:59.360441+00:00",
+      "finished_utc": "2026-10-19T04:31:00.399986+00:00",
+      "wall_seconds": 1.039530416001071,
+      "log": "build.log",
+      "log_sha256": "cb7d59203de639556c8c110cb2dd9e288db4a412f32460a727c4188cfd5458e1",
+      "fallback_detected": false
+    },
+    "generation": {
+      "command": [
+        "results/local/h3/kernel-qkv-capture-seed42-001/native-cli",
+        "--profile",
+        "--info",
+        "-d",
+        "../../checkpoints/MiniMax-H3/42ed227ee7df40d41602854ae760620d6eb651fe",
+        "-p",
+        "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+        "--width",
+        "512",
+        "--height",
+        "512",
+        "--seconds",
+        "5",
+        "--steps",
+        "20",
+        "--layers",
+        "50",
+        "--reuse",
+        "1",
+        "--core-reuse",
+        "1",
+        "--use-reference-rope",
+        "--seed",
+        "42",
+        "-o",
+        "../../results/local/h3/kernel-qkv-capture-seed42-001/original.mp4"
+      ],
+      "cwd": ".cache/h3.c-kernel-integration",
+      "returncode": 0,
+      "started_utc": "2026-10-19T04:31:00.435481+00:00",
+      "finished_utc": "2026-10-19T04:33:55.659260+00:00",
+      "wall_seconds": 175.22249437500068,
+      "log": "generation.log",
+      "log_sha256": "a49bc063013bef3a7db7856361a6fde8bb5b2edd52a975efde70558b54b4e3fe",
+      "fallback_detected": false
+    },
+    "original_probe": {
+      "command": [
+        "ffprobe",
+        "-v",
+        "error",
+        "-count_frames",
+        "-show_streams",
+        "-show_format",
+        "-of",
+        "json",
+        "../../results/local/h3/kernel-qkv-capture-seed42-001/original.mp4"
+      ],
+      "cwd": ".cache/h3.c-kernel-integration",
+      "returncode": 0,
+      "started_utc": "2026-10-19T04:33:55.706398+00:00",
+      "finished_utc": "2026-10-19T04:33:55.826348+00:00",
+      "wall_seconds": 0.11994112499814946,
+      "log": "original-probe.log",
+      "log_sha256": "0646d216c78871d0a5dde8600416bc1488d763881cdded0abb9ee7513d5fd34b",
+      "fallback_detected": false
+    },
+    "trim": {
+      "command": [
+        "ffmpeg",
+        "-nostdin",
+        "-n",
+        "-i",
+        "../../results/local/h3/kernel-qkv-capture-seed42-001/original.mp4",
+        "-map",
+        "0:v:0",
+        "-map",
+        "0:a?",
+        "-frames:v",
+        "120",
+        "-t",
+        "5",
+        "-c:v",
+        "libx264",
+        "-preset",
+        "medium",
+        "-crf",
+        "18",
+        "-pix_fmt",
+        "yuv420p",
+        "-c:a",
+        "aac",
+        "-movflags",
+        "+faststart",
+        "../../results/local/h3/kernel-qkv-capture-seed42-001/video-5s.mp4"
+      ],
+      "cwd": ".cache/h3.c-kernel-integration",
+      "returncode": 0,
+      "started_utc": "2026-10-19T04:33:55.827221+00:00",
+      "finished_utc": "2026-10-19T04:33:56.018523+00:00",
+      "wall_seconds": 0.1912999169981049,
+      "log": "trim.log",
+      "log_sha256": "4a57d04beff11f24071da281fde3ab7a842f41a4141c7740f1c0132f1c9df87d",
+      "fallback_detected": false
+    },
+    "exact_probe": {
+      "command": [
+        "ffprobe",
+        "-v",
+        "error",
+        "-count_frames",
+        "-show_streams",
+        "-show_format",
+        "-of",
+        "json",
+        "../../results/local/h3/kernel-qkv-capture-seed42-001/video-5s.mp4"
+      ],
+      "cwd": ".cache/h3.c-kernel-integration",
+      "returncode": 0,
+      "started_utc": "2026-10-19T04:33:56.018692+00:00",
+      "finished_utc": "2026-10-19T04:33:56.126521+00:00",
+      "wall_seconds": 0.10782854100034456,
+      "log": "exact-probe.log",
+      "log_sha256": "c17edfe13a0d41626f4e02145d9640702ef64ccac722b5da0bf55c2296c35928",
+      "fallback_detected": false
+    }
+  },
+  "capture_latents": true,
+  "capture_adaln": false,
+  "diagnostic": true,
+  "prepared_checkpoint": false,
+  "quality_decision": "not_evaluated",
+  "timing_contract": {
+    "capture": "diagnostic extra waits/readbacks; not a performance sample",
+    "resident": "one full warmup then three same-seed complete requests in one process",
+    "denoise": "fresh synchronized native callbacks including online preparation and final copy/unpack; not stale cached profile wall",
+    "generation": "includes decode and original 124-frame AV export; excludes preflight/build and exact-duration trim",
+    "compilation_free_e2e": "not claimed: audio VAE setup repeats",
+    "weight_preparation": "outside timed resident requests, included in warmup"
+  },
+  "source_pin": {
+    "file": "source-pin/manifest.json",
+    "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+    "manifest": {
+      "schema": "h3_kernel_integration_source_v1",
+      "status": "frozen",
+      "upstream_revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+      "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+      "changed_files": [
+        "h3_dit.c",
+        "h3_gpu.h",
+        "h3_gpu.m",
+        "h3_shaders.metal"
+      ],
+      "patches": [
+        {
+          "file": "kernel-integration.patch",
+          "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c"
+        }
+      ],
+      "note": "Combined source for explicit QKV kernel and QKV/FC1 Hadamard preparation experiments; no performance or promotion claim."
+    }
+  },
+  "requested_runtime_flags": {
+    "H3_M5_QKV_ROPE": "1",
+    "H3_HADAMARD_QKV": "0",
+    "H3_HADAMARD_FC1": "0",
+    "H3_HADAMARD_FC2": "1",
+    "H3_FUSE_FC2_GATE": "0",
+    "H3_FUSE_ATTN_OUT_GATE": "0",
+    "H3_HADAMARD_PREP_STAGED": "0"
+  },
+  "harness_snapshot": {
+    "run_kernel_integration.py": {
+      "file": "harness-snapshot/run_kernel_integration.py",
+      "original": "integrations/h3/run_kernel_integration.py",
+      "sha256": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd"
+    },
+    "kernel_integration.py": {
+      "file": "harness-snapshot/kernel_integration.py",
+      "original": "integrations/h3/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6"
+    },
+    "kernel_session.c": {
+      "file": "harness-snapshot/kernel_session.c",
+      "original": "integrations/h3/kernel_session.c",
+      "sha256": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d"
+    },
+    "run.py": {
+      "file": "harness-snapshot/run.py",
+      "original": "integrations/h3/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7"
+    },
+    "run_fc2_experiment.py": {
+      "file": "harness-snapshot/run_fc2_experiment.py",
+      "original": "integrations/h3/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562"
+    },
+    "run_session.py": {
+      "file": "harness-snapshot/run_session.py",
+      "original": "integrations/h3/run_session.py",
+      "sha256": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b"
+    },
+    "model-files.json": {
+      "file": "harness-snapshot/model-files.json",
+      "original": "integrations/h3/model-files.json",
+      "sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+    },
+    "UPSTREAM-LICENSE": {
+      "file": "harness-snapshot/UPSTREAM-LICENSE",
+      "original": "integrations/h3/UPSTREAM-LICENSE",
+      "sha256": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc"
+    },
+    "locking.py": {
+      "file": "harness-snapshot/locking.py",
+      "original": "src/m5kernels/locking.py",
+      "sha256": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4"
+    }
+  },
+  "gpu_queue_wait_seconds": 0.0005802909981866833,
+  "harness": {
+    "revision": "c102992b0ce859c728e4df9cf365121fe064e03d",
+    "dirty": true,
+    "status": "?? integrations/h3/adaln-hadamard-overlay.patch\n?? integrations/h3/adaln-hadamard.md\n?? integrations/h3/adaln-hadamard.patch\n?? integrations/h3/adaln_capture.py\n?? integrations/h3/compare_kernel_resident.py\n?? integrations/h3/decide_kernel_defaults.py\n?? integrations/h3/evaluate_kernel_integration.py\n?? integrations/h3/kernel-integration-source.json\n?? integrations/h3/kernel-integration.md\n?? integrations/h3/kernel-integration.patch\n?? integrations/h3/kernel_evidence.py\n?? integrations/h3/kernel_integration.py\n?? integrations/h3/kernel_session.c\n?? integrations/h3/prep_validate.c\n?? integrations/h3/qkv-candidate-overlay.patch\n?? integrations/h3/qkv-candidate.md\n?? integrations/h3/qkv-candidate.patch\n?? integrations/h3/qkv_candidate.metal\n?? integrations/h3/qkv_reference.h\n?? integrations/h3/qkv_validate.c\n?? integrations/h3/run_kernel_integration.py\n?? integrations/h3/run_prep_campaign.py\n?? integrations/h3/run_qkv_campaign.py\n?? integrations/h3/summarize_kernel_resident.py\n?? integrations/h3/validate_qkv_report.py\n?? tests/test_h3_adaln_capture.py\n?? tests/test_h3_kernel_defaults.py\n?? tests/test_h3_kernel_evaluation.py\n?? tests/test_h3_kernel_integration.py\n?? tests/test_h3_kernel_resident.py\n?? tests/test_h3_prep_campaign.py\n?? tests/test_h3_qkv_reference.py\n?? tests/test_h3_qkv_report.py",
+    "source_sha256": "1c8c25918780466a93216e9bdadd0b7e664b178ba75a1817d8a96c680689242d"
+  },
+  "upstream": {
+    "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+    "dirty": true,
+    "status": "M h3_dit.c\n M h3_gpu.h\n M h3_gpu.m\n M h3_shaders.metal",
+    "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0"
+  },
+  "environment": {
+    "system": "Darwin",
+    "release": "27.0.0",
+    "machine": "arm64",
+    "python": "3.12.15",
+    "numpy": "2.4.4",
+    "chip": "Apple M5 Max",
+    "memory_bytes": 137438953472,
+    "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+    "xcode": "Xcode 27.1\nBuild version 27A9275",
+    "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+    "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+  },
+  "model": {
+    "repository": "MiniMaxAI/MiniMax-H3",
+    "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+    "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+    "files": [
+      {
+        "path": "FL2VA/audio_vae/config.json",
+        "bytes": 1973,
+        "sha256": "d8f3bcc62e23c7e9806970fa63cca6139c06faa3797cf9c94034f60db8512771",
+        "expected": {
+          "type": "file",
+          "oid": "bc2a8dc3bfe9037e1f0e82e97f309019b6a398e6",
+          "size": 1973,
+          "path": "FL2VA/audio_vae/config.json"
+        }
+      },
+      {
+        "path": "FL2VA/audio_vae/model.safetensors",
+        "bytes": 605429308,
+        "sha256": "37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2",
+        "expected": {
+          "type": "file",
+          "oid": "122a6864b663b50ddc7e48c06cf35fbff1233012",
+          "size": 605429308,
+          "lfs": {
+            "oid": "37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2",
+            "size": 605429308,
+            "pointerSize": 134
+          },
+          "xetHash": "9ab8b2109d2971edc2071078523992a0f6c19ec2d22d3f1e5b8b6271519a8e99",
+          "path": "FL2VA/audio_vae/model.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00001-of-00014.safetensors",
+        "bytes": 4932328944,
+        "sha256": "6b9dfbc930e505402ae9d7e5091a9d7d656cda5f34614f01cfe70bfb0cca27cb",
+        "expected": {
+          "type": "file",
+          "oid": "614247ef75d01ea40af9ef31e07103221340214d",
+          "size": 4932328944,
+          "lfs": {
+            "oid": "6b9dfbc930e505402ae9d7e5091a9d7d656cda5f34614f01cfe70bfb0cca27cb",
+            "size": 4932328944,
+            "pointerSize": 135
+          },
+          "xetHash": "be105368592efd8d8041c652acf7a152562f3cb015fa872252247174ce4df95b",
+          "path": "FL2VA/text_encoder/model-00001-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00002-of-00014.safetensors",
+        "bytes": 4875990528,
+        "sha256": "d8bb44b4ff303fe76fe9e894022fb3dc71b15a2e716592790fe0e3c3e60478fa",
+        "expected": {
+          "type": "file",
+          "oid": "0ee7c24d1c85e72bc46fd07821a1cfb4af8efd76",
+          "size": 4875990528,
+          "lfs": {
+            "oid": "d8bb44b4ff303fe76fe9e894022fb3dc71b15a2e716592790fe0e3c3e60478fa",
+            "size": 4875990528,
+            "pointerSize": 135
+          },
+          "xetHash": "8a641ec7bff8bec3efcc440ed4d199d472e70986f93539c09f1e764ce448e3ba",
+          "path": "FL2VA/text_encoder/model-00002-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00003-of-00014.safetensors",
+        "bytes": 4875990552,
+        "sha256": "54f22e8b3168f8dc962fac0d313607ebf52a12b433d4cf3098a0d82d9f042940",
+        "expected": {
+          "type": "file",
+          "oid": "cabcc450fe74db21934f8d99d1bc103942f721ba",
+          "size": 4875990552,
+          "lfs": {
+            "oid": "54f22e8b3168f8dc962fac0d313607ebf52a12b433d4cf3098a0d82d9f042940",
+            "size": 4875990552,
+            "pointerSize": 135
+          },
+          "xetHash": "965e5608ba13ca091d1f3f5c913ac785149d8694b3860c8593e93133af8b3aa5",
+          "path": "FL2VA/text_encoder/model-00003-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00004-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "ad09c74d3c13ee29b5d0d84548fd8a3424a651564eaccd519946c296e59c557f",
+        "expected": {
+          "type": "file",
+          "oid": "da3ca77f0ee7d9bdbe0696750c094f0dc6ad3c68",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "ad09c74d3c13ee29b5d0d84548fd8a3424a651564eaccd519946c296e59c557f",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "4f552be5b7390fb92b0a5edb16460ad022b0083db8cd39d7e2dd532657ba5122",
+          "path": "FL2VA/text_encoder/model-00004-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00005-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "fc993c8a0e2a5b0570f383e1a95dc3a1281d1b224b6f3ee908f4827941e1dfc2",
+        "expected": {
+          "type": "file",
+          "oid": "abb15edfb6d8c352e87914ce6a0d96a98e927e04",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "fc993c8a0e2a5b0570f383e1a95dc3a1281d1b224b6f3ee908f4827941e1dfc2",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "af142eae5e441bcb4ab63f48aabb12845670e403fdea51f6c1961ca72e3a3d43",
+          "path": "FL2VA/text_encoder/model-00005-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00006-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "82f05620d1f718a90c362b221d6a184ff1a0f53301d706882d3df49695fa1974",
+        "expected": {
+          "type": "file",
+          "oid": "66ace514a9c58011ac2bd4c796c21654b49443b2",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "82f05620d1f718a90c362b221d6a184ff1a0f53301d706882d3df49695fa1974",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "b965cefca4793d6a4c228adacce72226b77272a35a34231d2e81baff902ed119",
+          "path": "FL2VA/text_encoder/model-00006-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00007-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "fb91da8cb01ff4de3eef0eab1c3e769a734b3a1aafc61734068638a0d6c86934",
+        "expected": {
+          "type": "file",
+          "oid": "71e871eb7cda8e711788e283e0fb512998a952be",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "fb91da8cb01ff4de3eef0eab1c3e769a734b3a1aafc61734068638a0d6c86934",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "68886b3463718c2a4bb6509aaec1126820284c5079480da588adf11da43bea46",
+          "path": "FL2VA/text_encoder/model-00007-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00008-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "431ca56535c8781944ce3801f5eb61c45531e853ecc5846d936ebaf4761b764f",
+        "expected": {
+          "type": "file",
+          "oid": "bf1d7c575e6d7cb1117cb8fe06c102193ced09a8",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "431ca56535c8781944ce3801f5eb61c45531e853ecc5846d936ebaf4761b764f",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "0f6e93da798541751e9e59142bd6458af0418ff2c80b7d6d9038425d2ce365ad",
+          "path": "FL2VA/text_encoder/model-00008-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00009-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "3825e3f4302f4d2f7d76aa7430d2ce0864fde6b9e540a5806bf0d8e38e4d9f47",
+        "expected": {
+          "type": "file",
+          "oid": "9dfb35899c209de09e18aa4bf8346efed8269d76",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "3825e3f4302f4d2f7d76aa7430d2ce0864fde6b9e540a5806bf0d8e38e4d9f47",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "005b3f45596a95f9c183872a0b00027445e23c9ee73451abfd493e6eb47fb5c5",
+          "path": "FL2VA/text_encoder/model-00009-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00010-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "aded5a4d1d5e22dbd8b6f79266b6eb88c840411b09527c53917a1419ace22e2f",
+        "expected": {
+          "type": "file",
+          "oid": "4d94038272e1f5c0368639babad1f7b595a3690b",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "aded5a4d1d5e22dbd8b6f79266b6eb88c840411b09527c53917a1419ace22e2f",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "6227236eefaf57a532d917fe8cdfa715b99c8686230bb6d2f5bfc7835e89c761",
+          "path": "FL2VA/text_encoder/model-00010-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00011-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "3820ffe8d8d6477f6fe8d614ef3c87abb264ee39accebf43a1507b970d80946f",
+        "expected": {
+          "type": "file",
+          "oid": "826ba879b38cc6566b5aea1c3c04741a3087ba20",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "3820ffe8d8d6477f6fe8d614ef3c87abb264ee39accebf43a1507b970d80946f",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "053d6b1cabae82059daecde3a09a86daa905d161b0d417a530356a4dc3bece8d",
+          "path": "FL2VA/text_encoder/model-00011-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00012-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "05ad2d08ce71963121c9b03f1d9ec5d7641052f4b23c6c12b80d71065eb8e98e",
+        "expected": {
+          "type": "file",
+          "oid": "c19df94cbd35798336f17365b1115200f1eec91f",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "05ad2d08ce71963121c9b03f1d9ec5d7641052f4b23c6c12b80d71065eb8e98e",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "76905091eb0bd80cdb8db051cadfbacaf460ced61f8114b09ad8fc6d84216c5b",
+          "path": "FL2VA/text_encoder/model-00012-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00013-of-00014.safetensors",
+        "bytes": 4875990584,
+        "sha256": "b64f2289871261fdd1abbd3b78bcd66011b341de3dc8eeb2ed1a473ee7c8d95c",
+        "expected": {
+          "type": "file",
+          "oid": "39fab9be2b33a5527cbb5131e13c387544a695a9",
+          "size": 4875990584,
+          "lfs": {
+            "oid": "b64f2289871261fdd1abbd3b78bcd66011b341de3dc8eeb2ed1a473ee7c8d95c",
+            "size": 4875990584,
+            "pointerSize": 135
+          },
+          "xetHash": "7d7822f73c131065130129315c4c16d907af08d2249a19cee59dde0ac256ab23",
+          "path": "FL2VA/text_encoder/model-00013-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/text_encoder/model-00014-of-00014.safetensors",
+        "bytes": 3270697008,
+        "sha256": "e45b6c9998c77ee5a6577f9f47bc76416c1d4d387169e50c4c9d3134ea51b13b",
+        "expected": {
+          "type": "file",
+          "oid": "055162e6edd9914d2652ccf99f2371c000b613fe",
+          "size": 3270697008,
+          "lfs": {
+            "oid": "e45b6c9998c77ee5a6577f9f47bc76416c1d4d387169e50c4c9d3134ea51b13b",
+            "size": 3270697008,
+            "pointerSize": 135
+          },
+          "xetHash": "90671bb802e6409ab1974672aff35dc8d5e3c9accd035cb64c4417e30b2b7eb2",
+          "path": "FL2VA/text_encoder/model-00014-of-00014.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/tokenizer/tokenizer.json",
+        "bytes": 7032403,
+        "sha256": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+        "expected": {
+          "type": "file",
+          "oid": "c6cc1014128b19d1fc46b1d30a23e3b1d35db421",
+          "size": 7032403,
+          "path": "FL2VA/tokenizer/tokenizer.json"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/config.json",
+        "bytes": 604,
+        "sha256": "f619093a231fcfbcc3d035bec26c50ad864e7331a500d5c519f5045dc1e50458",
+        "expected": {
+          "type": "file",
+          "oid": "94cc6ca1254d9d04b3f7cc06a8c9fc05d0ded065",
+          "size": 604,
+          "path": "FL2VA/transformer/config.json"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00001-of-00013.safetensors",
+        "bytes": 5227812968,
+        "sha256": "0b3386565e476bfdea287e9ea9f269d036e5c649ed14bb9b4afac1dc4661bd2a",
+        "expected": {
+          "type": "file",
+          "oid": "513241f2b5fc05ae4c1ba19d4fd84abe4c6013cc",
+          "size": 5227812968,
+          "lfs": {
+            "oid": "0b3386565e476bfdea287e9ea9f269d036e5c649ed14bb9b4afac1dc4661bd2a",
+            "size": 5227812968,
+            "pointerSize": 135
+          },
+          "xetHash": "cbbc0fcc44c0a604f1a606469cb5ef01ed70a8b727807ae04fc0bb49b9ae3320",
+          "path": "FL2VA/transformer/model-00001-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00002-of-00013.safetensors",
+        "bytes": 5164578856,
+        "sha256": "9c98fd4579c9bc96d1b1bbf65c1243f9256df60bccd229570cecc61897773003",
+        "expected": {
+          "type": "file",
+          "oid": "7793de07ceb51b49bdb3884967310d3fe1678ee3",
+          "size": 5164578856,
+          "lfs": {
+            "oid": "9c98fd4579c9bc96d1b1bbf65c1243f9256df60bccd229570cecc61897773003",
+            "size": 5164578856,
+            "pointerSize": 135
+          },
+          "xetHash": "d65de74d03e75faa961010180c7da0e7b5f83042113e5898fb7b18b88cb9db02",
+          "path": "FL2VA/transformer/model-00002-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00003-of-00013.safetensors",
+        "bytes": 5164578872,
+        "sha256": "fa484c940d4170199fb69f5016739df2daf6ecd1150631b12a297e06e3964730",
+        "expected": {
+          "type": "file",
+          "oid": "62aecfbe9a858299e61ce00c11f9c708fff708a6",
+          "size": 5164578872,
+          "lfs": {
+            "oid": "fa484c940d4170199fb69f5016739df2daf6ecd1150631b12a297e06e3964730",
+            "size": 5164578872,
+            "pointerSize": 135
+          },
+          "xetHash": "3d8334be5eb27ac07ee30461a6bdab39cf634ae2dc0b041c9bf6326ce8808072",
+          "path": "FL2VA/transformer/model-00003-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00004-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "4a851df37cce2d14b39cb58df41def7b591b1f11b8520a32b421a5fa3e997c9f",
+        "expected": {
+          "type": "file",
+          "oid": "f59e9950d10f7d4b8ba1efa8d98272071604461d",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "4a851df37cce2d14b39cb58df41def7b591b1f11b8520a32b421a5fa3e997c9f",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "6e09734c11c49dc455436c81fe77d3fa01162c2e3999775cda2dc570405ef0ca",
+          "path": "FL2VA/transformer/model-00004-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00005-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "3fe6ff94dc9d3107c6776a25277d2b72b5443f88cf0f4ed835fd5b65a94ea5d4",
+        "expected": {
+          "type": "file",
+          "oid": "4f6952c0c7c973eabc4bdf20ae18fc5f6db68351",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "3fe6ff94dc9d3107c6776a25277d2b72b5443f88cf0f4ed835fd5b65a94ea5d4",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "da6cd0bb654a9f4db20fe8cd69fef832b0692f581492115a65c0aec17eb485fd",
+          "path": "FL2VA/transformer/model-00005-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00006-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "79b47e1b9ff03a2c6f06dd15a28972acf32c0867172ee34e5aa6e96b99494127",
+        "expected": {
+          "type": "file",
+          "oid": "d71684218adddaa38121a7f18675d084bc7c0ac0",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "79b47e1b9ff03a2c6f06dd15a28972acf32c0867172ee34e5aa6e96b99494127",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "59bc6a1275ae02f2616d9428b22d22c151851e177188f0d5aa168e4f75fc5a55",
+          "path": "FL2VA/transformer/model-00006-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00007-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "6ac4d6ce639786b722a8dd99843ed56dcab48a0d174a4b0f9b8cdcbe5160fb0f",
+        "expected": {
+          "type": "file",
+          "oid": "003c8d5d3c99fb9ee5adfe3397518515debf9adf",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "6ac4d6ce639786b722a8dd99843ed56dcab48a0d174a4b0f9b8cdcbe5160fb0f",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "ee96f16f4130ceec06cd452a2312b9791eedf6b54e0cdce7017ccc14f48c3f11",
+          "path": "FL2VA/transformer/model-00007-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00008-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "03531812243fb0a333e01efa7e3d39750580bca8cbf2ba0529da419278eab736",
+        "expected": {
+          "type": "file",
+          "oid": "8475056b4301fefe0e2ccb3161cb576d94883965",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "03531812243fb0a333e01efa7e3d39750580bca8cbf2ba0529da419278eab736",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "6643920f11a8e702c94f63023057cc17df3d99e9900c72c5e93a142a97b6e7c0",
+          "path": "FL2VA/transformer/model-00008-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00009-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "7e82a80b0d0d267026eb841b81523069cc7b956c1ebd8a18c07e462ffb262487",
+        "expected": {
+          "type": "file",
+          "oid": "645a8b2038cfc60d43b7ba5417463ca3812072bc",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "7e82a80b0d0d267026eb841b81523069cc7b956c1ebd8a18c07e462ffb262487",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "044b0f4b21449c0ea81a4c4c71572eb73bbb63060f0b23903857463ac1f90cee",
+          "path": "FL2VA/transformer/model-00009-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00010-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "ef0a1f6b65145232543dd2232d58d91a4d31f44b0da5084acf22cea123255481",
+        "expected": {
+          "type": "file",
+          "oid": "01919aedf83ef64923df3fc7aff5f1c8079fd3af",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "ef0a1f6b65145232543dd2232d58d91a4d31f44b0da5084acf22cea123255481",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "58714c547e4216315c86fcb5cd9cac1eeb654d54921ee9e6d1642bbf14b965f3",
+          "path": "FL2VA/transformer/model-00010-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00011-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "bf885b8f2f078c5499b75fded21094a26bfe0e6e00bee276e499443ecd2f298d",
+        "expected": {
+          "type": "file",
+          "oid": "cff9ae71bdbe60801777f8e5d7d9c0c4e08cf65e",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "bf885b8f2f078c5499b75fded21094a26bfe0e6e00bee276e499443ecd2f298d",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "88511a63760fa42d1718c24cbafb663a5a92edc05554dfcc6a433ecc30f906c6",
+          "path": "FL2VA/transformer/model-00011-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00012-of-00013.safetensors",
+        "bytes": 5164578896,
+        "sha256": "dc717572d014ebf8527e35af815d10eb2f5a6bc87253b8a7d2f456965192db69",
+        "expected": {
+          "type": "file",
+          "oid": "57843db09194e8b1465ba54cd3d33f2c8927edb4",
+          "size": 5164578896,
+          "lfs": {
+            "oid": "dc717572d014ebf8527e35af815d10eb2f5a6bc87253b8a7d2f456965192db69",
+            "size": 5164578896,
+            "pointerSize": 135
+          },
+          "xetHash": "66f8613d2b557f6dbf1148f5c2aaa685bdc9085178372ceb2a20b0f9cc0eae1f",
+          "path": "FL2VA/transformer/model-00012-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/transformer/model-00013-of-00013.safetensors",
+        "bytes": 4242305176,
+        "sha256": "8bfd852d5817e9836de1d3ec8dbac1c5446b167568b717371f08282b22291aa2",
+        "expected": {
+          "type": "file",
+          "oid": "ad8450684951494e4f6b1f8e7392bcb8d95bdfc0",
+          "size": 4242305176,
+          "lfs": {
+            "oid": "8bfd852d5817e9836de1d3ec8dbac1c5446b167568b717371f08282b22291aa2",
+            "size": 4242305176,
+            "pointerSize": 135
+          },
+          "xetHash": "355259263b601415d6b9cb2ca96259540b964b941cfec0ed12d3ae75ba1f5d78",
+          "path": "FL2VA/transformer/model-00013-of-00013.safetensors"
+        }
+      },
+      {
+        "path": "FL2VA/video_vae/config.json",
+        "bytes": 1807,
+        "sha256": "3edd2cdd1ebc823c868be55ef917e1b3b8a398fde4d3150dae44a3bf05d9f627",
+        "expected": {
+          "type": "file",
+          "oid": "20f91e40ea9bc24c21a0e757715f93acf49eb841",
+          "size": 1807,
+          "path": "FL2VA/video_vae/config.json"
+        }
+      },
+      {
+        "path": "FL2VA/video_vae/source/model.safetensors",
+        "bytes": 10415548320,
+        "sha256": "5f0c2e161d895a9fee7645ca32d4a7e3a22b90cacfcbeba62ec999cdbbefe0d3",
+        "expected": {
+          "type": "file",
+          "oid": "cc1fe048902a2d790834962551620c2c6dbb2b31",
+          "size": 10415548320,
+          "lfs": {
+            "oid": "5f0c2e161d895a9fee7645ca32d4a7e3a22b90cacfcbeba62ec999cdbbefe0d3",
+            "size": 10415548320,
+            "pointerSize": 136
+          },
+          "xetHash": "ca9cf07a7184fdf23229f0147819b0fcb494905f95bafb2dfbbdf9fa0f526b00",
+          "path": "FL2VA/video_vae/source/model.safetensors"
+        }
+      }
+    ],
+    "verification": "full file digest versus pinned API manifest; performed before process timing",
+    "cache_note": "digest verification reads weights and may warm the filesystem cache"
+  },
+  "driver": {
+    "file": "native-cli",
+    "binary_sha256": "da10fe3d0e7c51a34867d56b3d9a8210993e1545f0fff0005c7e2b036ac99daa",
+    "library_sha256": "f781b8fd743573aad24305fd360352871e0ddc25c4c85b579d8c64f0c3e0fdee"
+  },
+  "preflight_seconds": 52.84086174999902,
+  "runtime_overrides": {
+    "H3_NAX": "qkv-attn",
+    "H3_NAX_DIAGNOSTIC": "1",
+    "H3_M5_QKV_ROPE": "1",
+    "H3_HADAMARD_QKV": "0",
+    "H3_HADAMARD_FC1": "0",
+    "H3_HADAMARD_FC2": "1",
+    "H3_FUSE_FC2_GATE": "0",
+    "H3_FUSE_ATTN_OUT_GATE": "0",
+    "H3_HADAMARD_PREP_STAGED": "0",
+    "H3_PROFILE": "1",
+    "H3_LATENT_CAPTURE_DIR": "results/local/h3/kernel-qkv-capture-seed42-001/latents",
+    "H3_CAPTURE_SEED": "42",
+    "H3_GPU_SAMPLER": "1",
+    "H3_GPU_SAMPLER_WINDOW": "1"
+  },
+  "policy_evidence": {
+    "policy": "qkv-only",
+    "implementation": "fused",
+    "initialization": true
+  },
+  "profile": [
+    {
+      "component": "Qwen text encoder",
+      "phase": "total",
+      "raw": "h3 profile: Qwen text encoder        total          wall=   4.998s encode=  0.003s wait=   2.965s root-gpu=  1.331s peak=  3.638GiB alloc= 46.865GiB submissions=51 direct=801 linear=0 conv=0 attention=0",
+      "wall_s": 4.998,
+      "encode_s": 0.003,
+      "wait_s": 2.965,
+      "root_gpu_s": 1.331,
+      "peak_GiB": 3.638,
+      "alloc_GiB": 46.865,
+      "submissions": 51,
+      "direct": 801,
+      "linear": 0,
+      "conv": 0,
+      "attention": 0
+    },
+    {
+      "component": "H3 DiT",
+      "phase": "load",
+      "raw": "h3 profile: H3 DiT                   load           wall=  17.777s encode=  0.053s wait=  15.843s root-gpu=  0.571s peak= 19.812GiB alloc= 81.549GiB submissions=205 direct=231 linear=53 conv=0 attention=2",
+      "wall_s": 17.777,
+      "encode_s": 0.053,
+      "wait_s": 15.843,
+      "root_gpu_s": 0.571,
+      "peak_GiB": 19.812,
+      "alloc_GiB": 81.549,
+      "submissions": 205,
+      "direct": 231,
+      "linear": 53,
+      "conv": 0,
+      "attention": 2
+    },
+    {
+      "component": "H3 DiT",
+      "phase": "GPU Euler denoise",
+      "raw": "h3 profile: H3 DiT                   GPU Euler denoise wall= 121.187s encode=  0.052s wait= 121.095s root-gpu=  1.055s peak= 19.812GiB alloc=  0.000GiB submissions=20 direct=8200 linear=0 conv=0 attention=1000",
+      "wall_s": 121.187,
+      "encode_s": 0.052,
+      "wait_s": 121.095,
+      "root_gpu_s": 1.055,
+      "peak_GiB": 19.812,
+      "alloc_GiB": 0.0,
+      "submissions": 20,
+      "direct": 8200,
+      "linear": 0,
+      "conv": 0,
+      "attention": 1000
+    },
+    {
+      "component": "H3 DiT",
+      "phase": "total",
+      "raw": "h3 profile: H3 DiT                   total          wall= 139.193s encode=  0.105s wait= 136.937s root-gpu=  1.626s peak= 19.812GiB alloc= 81.549GiB submissions=225 direct=8431 linear=53 conv=0 attention=1002",
+      "wall_s": 139.193,
+      "encode_s": 0.105,
+      "wait_s": 136.937,
+      "root_gpu_s": 1.626,
+      "peak_GiB": 19.812,
+      "alloc_GiB": 81.549,
+      "submissions": 225,
+      "direct": 8431,
+      "linear": 53,
+      "conv": 0,
+      "attention": 1002
+    },
+    {
+      "component": "audio VAE decoder",
+      "phase": "total",
+      "raw": "h3 profile: audio VAE decoder        total          wall=   0.482s encode=  0.232s wait=   0.174s root-gpu=  0.154s peak=  0.283GiB alloc=  0.815GiB submissions=16 direct=340 linear=0 conv=136 attention=0",
+      "wall_s": 0.482,
+      "encode_s": 0.232,
+      "wait_s": 0.174,
+      "root_gpu_s": 0.154,
+      "peak_GiB": 0.283,
+      "alloc_GiB": 0.815,
+      "submissions": 16,
+      "direct": 340,
+      "linear": 0,
+      "conv": 136,
+      "attention": 0
+    },
+    {
+      "component": "video VAE decoder",
+      "phase": "total",
+      "raw": "h3 profile: video VAE decoder        total          wall=  29.800s encode=  0.128s wait=  28.422s root-gpu=  0.228s peak=  9.454GiB alloc=  9.460GiB submissions=28 direct=6132 linear=4060 conv=0 attention=1008",
+      "wall_s": 29.8,
+      "encode_s": 0.128,
+      "wait_s": 28.422,
+      "root_gpu_s": 0.228,
+      "peak_GiB": 9.454,
+      "alloc_GiB": 9.46,
+      "submissions": 28,
+      "direct": 6132,
+      "linear": 4060,
+      "conv": 0,
+      "attention": 1008
+    }
+  ],
+  "latent_validation": {
+    "metadata": {
+      "schema": 1,
+      "scope": "diagnostic_CPU_readback_after_completed_GPU_Euler",
+      "dtype": "float32_little_endian",
+      "seed": 42,
+      "seed_source": "caller_declared_H3_CAPTURE_SEED_verify_against_request_manifest",
+      "completed_steps": 20,
+      "time_unix_seconds": 1792384404.768628,
+      "time_monotonic_seconds": 33794.287061,
+      "final_video_shape": [
+        24,
+        37,
+        32,
+        32
+      ],
+      "final_audio_shape": [
+        32,
+        2,
+        207
+      ],
+      "final_layout": "unpacked_contiguous_VAE_input_before_decoder",
+      "per_step_video_shape": [
+        9472,
+        96
+      ],
+      "per_step_audio_shape": [
+        414,
+        32
+      ],
+      "per_step_layout": "packed_model_rows_after_Euler_before_unpack",
+      "final_video_sigma": 0,
+      "final_audio_sigma": 0,
+      "int8_mlp": 1,
+      "int8_qkv": 1,
+      "int8_attention_out": 1,
+      "hadamard_fc2": 1,
+      "hadamard_qkv": 0,
+      "hadamard_fc1": 0,
+      "hadamard_prep_staged": 0,
+      "m5_qkv_rope": 1,
+      "finite": true
+    },
+    "metadata_sha256": "0f58c4c3e627bcb42c04dc55868622b2ce71844b403198c703de62455812c10b",
+    "tensors": [
+      {
+        "file": "euler-step00-audio.f32",
+        "elements": 13248,
+        "sha256": "49219a3074fcc70890dac5696cb5c158c846064dfc872405bda3c9c5be0bf6b0",
+        "finite": true
+      },
+      {
+        "file": "euler-step00-video.f32",
+        "elements": 909312,
+        "sha256": "ce193f08905b59a6c33c13a08dc90e5f0682ec572ad7d864ef8f4697a01d9a84",
+        "finite": true
+      },
+      {
+        "file": "euler-step01-audio.f32",
+        "elements": 13248,
+        "sha256": "93ec5f36f2f05c54cd65099be8a7f386994d53c0716642ee519eed4fceb62aae",
+        "finite": true
+      },
+      {
+        "file": "euler-step01-video.f32",
+        "elements": 909312,
+        "sha256": "0890ac6ea87a999bf7099a5f299d8abeb27cc854df8012b6b042e0bf78d9cdcc",
+        "finite": true
+      },
+      {
+        "file": "euler-step02-audio.f32",
+        "elements": 13248,
+        "sha256": "72c59e6aa36c0bd8881ca11ca22126feb05315e9a4394134bd0c6d3b2e54a7b4",
+        "finite": true
+      },
+      {
+        "file": "euler-step02-video.f32",
+        "elements": 909312,
+        "sha256": "32d00f28a33df0d2b35ce3b6b555e7613745baa247db8597eba41e4a3c9bd016",
+        "finite": true
+      },
+      {
+        "file": "euler-step03-audio.f32",
+        "elements": 13248,
+        "sha256": "4b0c6ed654546edbcf8e4a3be28b5faeacc1e0516be01ebc2576f5b225c67f83",
+        "finite": true
+      },
+      {
+        "file": "euler-step03-video.f32",
+        "elements": 909312,
+        "sha256": "1a373b3cc39cef02767580c3e13c88c017beb8c555538aae176c15adc67d2c80",
+        "finite": true
+      },
+      {
+        "file": "euler-step04-audio.f32",
+        "elements": 13248,
+        "sha256": "7ab926d01c62ba97f36db68ad8f1ccb672f25f161a987b94d3a9e08a758c3ab3",
+        "finite": true
+      },
+      {
+        "file": "euler-step04-video.f32",
+        "elements": 909312,
+        "sha256": "c14054513bdc42f7713f4a9598232aba72117a1150d01d47c3ee6ee054c8453c",
+        "finite": true
+      },
+      {
+        "file": "euler-step05-audio.f32",
+        "elements": 13248,
+        "sha256": "fef07d9fd4b170f26ad523a37d94b29587bf8ad2e2cc7d67028e21e0a1448d37",
+        "finite": true
+      },
+      {
+        "file": "euler-step05-video.f32",
+        "elements": 909312,
+        "sha256": "f17a6a7b60a602792a8e991deaadf798531e73f443f9b0eba75a832f8c3d4494",
+        "finite": true
+      },
+      {
+        "file": "euler-step06-audio.f32",
+        "elements": 13248,
+        "sha256": "875d8393a662da048cead7b044f0a24d52f61faeaf560a9f3fd3dda14d971a96",
+        "finite": true
+      },
+      {
+        "file": "euler-step06-video.f32",
+        "elements": 909312,
+        "sha256": "ba5555514fd1e91b4b0c1c1786c79329c9c97522ad3fc6a76b15e1a4fe229969",
+        "finite": true
+      },
+      {
+        "file": "euler-step07-audio.f32",
+        "elements": 13248,
+        "sha256": "d9705041f530e1c941952e96291e09cd88492fdb3c807dddd64738b3c0c5994a",
+        "finite": true
+      },
+      {
+        "file": "euler-step07-video.f32",
+        "elements": 909312,
+        "sha256": "64a9f48cbb28a3f4d6ec7f7f3175ce9b0efbbe4acd1eff84fb6c76c093ab0252",
+        "finite": true
+      },
+      {
+        "file": "euler-step08-audio.f32",
+        "elements": 13248,
+        "sha256": "63fd856fadf852ed79b9b7f6b7a50d8c610bf0b2ce9d5a5f19cd51cbb6ba87a2",
+        "finite": true
+      },
+      {
+        "file": "euler-step08-video.f32",
+        "elements": 909312,
+        "sha256": "ae1d0b0ae3f83b6aa4aa1880e033984f4d2b2045553a6c626d85a79191e6c982",
+        "finite": true
+      },
+      {
+        "file": "euler-step09-audio.f32",
+        "elements": 13248,
+        "sha256": "1e6e6c086b7272255b9ec85f3ea392151ec6adfe390afb4c9b6ef7ca6370ad7a",
+        "finite": true
+      },
+      {
+        "file": "euler-step09-video.f32",
+        "elements": 909312,
+        "sha256": "54d456da565ed7d0136397838360c75825beb121684b969829118e9eb9405e97",
+        "finite": true
+      },
+      {
+        "file": "euler-step10-audio.f32",
+        "elements": 13248,
+        "sha256": "863da1d89c06799aaa008d20a0c9b48c64372c779aa93fed0e16f2b79d238f55",
+        "finite": true
+      },
+      {
+        "file": "euler-step10-video.f32",
+        "elements": 909312,
+        "sha256": "bae5c0b7de783d6f03c702fe8991a9396a6b04d57ef71ca1f8ad4a90f9ffd0d0",
+        "finite": true
+      },
+      {
+        "file": "euler-step11-audio.f32",
+        "elements": 13248,
+        "sha256": "ab87eba2c4995c1a62443b77b80c7bf2b22fd68f95f96d87ebc6db1553693fde",
+        "finite": true
+      },
+      {
+        "file": "euler-step11-video.f32",
+        "elements": 909312,
+        "sha256": "fab82f2e3e11218aaeb0ca2dc481cadb640a313af77e051d742a11e313f523d3",
+        "finite": true
+      },
+      {
+        "file": "euler-step12-audio.f32",
+        "elements": 13248,
+        "sha256": "6400b1d8fb385bbb2f6a1fa23fd9369545c36e929d3dd5484d743f7f1fcbfcb2",
+        "finite": true
+      },
+      {
+        "file": "euler-step12-video.f32",
+        "elements": 909312,
+        "sha256": "755c91d3ecc711dc7fe34922ec2775fe2e574dcee7b79985297a43f2cceffb3c",
+        "finite": true
+      },
+      {
+        "file": "euler-step13-audio.f32",
+        "elements": 13248,
+        "sha256": "1dd89f883706159f27ced33617c20a1b1470e28c0309c386fb56d29f03ea0065",
+        "finite": true
+      },
+      {
+        "file": "euler-step13-video.f32",
+        "elements": 909312,
+        "sha256": "d5572797935ca6de02e46bcfaf9a73f27c0531401f2d9898b0cbd897a3ee2253",
+        "finite": true
+      },
+      {
+        "file": "euler-step14-audio.f32",
+        "elements": 13248,
+        "sha256": "021dffd50a47b0154323772a6a4de6f9cc5754d32bf0e2b9e0b9b315a4efd7fe",
+        "finite": true
+      },
+      {
+        "file": "euler-step14-video.f32",
+        "elements": 909312,
+        "sha256": "65f1cb8b030cb4c8250b53f5a5f9879fe0d6d6d23b868612e1de7e579cf70ea9",
+        "finite": true
+      },
+      {
+        "file": "euler-step15-audio.f32",
+        "elements": 13248,
+        "sha256": "e878670d16ba6bd9cd4aa86e2a92abc37dc6d5864a8ec7589f369c64977efca1",
+        "finite": true
+      },
+      {
+        "file": "euler-step15-video.f32",
+        "elements": 909312,
+        "sha256": "ce1fe48cbb1369c187ccbe88b324487b5004cdac3b0645c1568a467d2a81265a",
+        "finite": true
+      },
+      {
+        "file": "euler-step16-audio.f32",
+        "elements": 13248,
+        "sha256": "f3a7da66119c11289d8072f589dc8467fe16ec921d4350fcbcbbea7ac2a0199b",
+        "finite": true
+      },
+      {
+        "file": "euler-step16-video.f32",
+        "elements": 909312,
+        "sha256": "4452aab058aff3090a554b0b19bdb1865b331b2f0fd84494753f20e4371d9152",
+        "finite": true
+      },
+      {
+        "file": "euler-step17-audio.f32",
+        "elements": 13248,
+        "sha256": "58fe6cb9fef386cbdf021b4100248ca1a70f868f2cc5404adf8bee1ab4d5cd84",
+        "finite": true
+      },
+      {
+        "file": "euler-step17-video.f32",
+        "elements": 909312,
+        "sha256": "cd3347e433cc11c07953668410d705182e7997c7934b528d5c32f3aa7f7a816b",
+        "finite": true
+      },
+      {
+        "file": "euler-step18-audio.f32",
+        "elements": 13248,
+        "sha256": "1adf57a0bdf196aae0b31d2227903a76c7e88a160078beaf446e63daed78b812",
+        "finite": true
+      },
+      {
+        "file": "euler-step18-video.f32",
+        "elements": 909312,
+        "sha256": "00d43f70528297d5eeddb7d3bb9f54fdf3e45121e21daa12359a6a6f8227bfe2",
+        "finite": true
+      },
+      {
+        "file": "euler-step19-audio.f32",
+        "elements": 13248,
+        "sha256": "0301befed9e08ddf2bbb22e376c36ce2c49933dce22de0333698d487a93ef768",
+        "finite": true
+      },
+      {
+        "file": "euler-step19-video.f32",
+        "elements": 909312,
+        "sha256": "496a16993d76dce6bcb1b676db481e8869bcc056f19e34de492aebea28f923e4",
+        "finite": true
+      },
+      {
+        "file": "final-audio.f32",
+        "elements": 13248,
+        "sha256": "5492ca42537236078505dee7650e6e4253be8ba07dfb3d228aa8ed1286d70035",
+        "finite": true
+      },
+      {
+        "file": "final-video.f32",
+        "elements": 909312,
+        "sha256": "de64209e23bdbca63de7777a6387996f650db1271d3cd2c4caeca21260b6b2ad",
+        "finite": true
+      }
+    ]
+  },
+  "original_video": {
+    "width": 512,
+    "height": 512,
+    "frames": 124,
+    "fps": 24,
+    "duration_seconds": 5.166667,
+    "file": "original.mp4",
+    "sha256": "1afe5e18781e8e6ac36459a8b4f8e0ece1600b4c0980c4c1daef90bc313ab0ba"
+  },
+  "exact_video": {
+    "width": 512,
+    "height": 512,
+    "frames": 120,
+    "fps": 24,
+    "duration_seconds": 5.0,
+    "file": "video-5s.mp4",
+    "sha256": "7a21ea53ee23928db6689533d2fdaf4604d35edf4a00279bda86b1c8e7d4521f"
+  },
+  "finished_utc": "2026-10-19T04:33:56.167788+00:00",
+  "harness_wall_seconds": 228.57656133400087
+}

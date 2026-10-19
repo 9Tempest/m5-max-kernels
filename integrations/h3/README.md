@@ -9,6 +9,11 @@ MiniMax community license; they are downloaded locally, not redistributed.
 
 ## Install
 
+The later [QKV and AdaLN/H256 integration](kernel-integration.md) uses its own
+complete patch, source manifest, runner and evidence validators. It exposes
+the custom grouped projection and QKV/FC1 rotation as separate opt-in policies;
+the historical runners below retain their frozen contracts.
+
 From the repository root on an Apple M5 Mac with Xcode, Metal and FFmpeg:
 
 ```sh

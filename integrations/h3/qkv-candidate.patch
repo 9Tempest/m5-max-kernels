@@ -1,0 +1,1833 @@
+diff --git a/h3_dit.c b/h3_dit.c
+index 667e49b..0fa6d3c 100644
+--- a/h3_dit.c
++++ b/h3_dit.c
+@@ -4,6 +4,9 @@
+ #include "h3_weights.h"
+ 
+ #include <math.h>
++#include <fcntl.h>
++#include <unistd.h>
++#include <errno.h>
+ #include <pthread.h>
+ #include <stdarg.h>
+ #include <stdint.h>
+@@ -86,6 +89,10 @@ struct h3_dit {
+     int use_slower_dynamic_fc1_k;
+     int use_slower_grouped_quantizer;
+     int use_int8_row_fc2;
++    int use_hadamard_fc2;
++    int m5_qkv_rope;
++    int fuse_fc2_gate;
++    int fuse_attention_output_gate;
+     int ssd_streaming;
+     int keep_bf16_mlp;
+     int activation_aliases;
+@@ -703,9 +710,11 @@ static int quantize_block_mlp(h3_dit *dit, h3_dit_block *block,
+              h3_gpu_quantize_weight_int8(
+                  dit->gpu, block->fc1_int8, block->fc1_scales, block->fc1,
+                  FFN * 2, HIDDEN) &&
+-             h3_gpu_quantize_weight_int8(
++             (dit->use_hadamard_fc2 ? h3_gpu_quantize_h256_int8(
++                 dit->gpu, block->fc2_int8, block->fc2_scales, block->fc2,
++                 HIDDEN, HIDDEN, FFN) : h3_gpu_quantize_weight_int8(
+                  dit->gpu, block->fc2_int8, block->fc2_scales, block->fc2,
+-                 HIDDEN, FFN) &&
++                 HIDDEN, FFN)) &&
+              h3_gpu_submit(dit->gpu);
+     if (!ok) {
+         fail(error, error_size, "cannot quantize DiT MLP weights: %s",
+@@ -1658,6 +1667,75 @@ static h3_dit *load_dit(const char *weight_directory,
+          getenv("H3_BENCH_INT8_QKV_AB"));
+     dit->use_slower_grouped_quantizer = use_slower_grouped_quantizer;
+     dit->use_int8_row_fc2 = dit->int8_mlp && use_int8_row_fc2;
++    const char *m5_qkv = getenv("H3_M5_QKV_ROPE");
++    if (m5_qkv && strcmp(m5_qkv, "0") && strcmp(m5_qkv, "1")) {
++        fail(error,error_size,"H3_M5_QKV_ROPE must be exactly 0 or 1"); goto failed;
++    }
++    dit->m5_qkv_rope = m5_qkv && !strcmp(m5_qkv,"1");
++    if (dit->m5_qkv_rope && (!dit->int8_qkv || dit->use_slower_unfused_qkv_rope ||
++        dit->use_slower_scalar_qkv_rms || dit->use_slower_uncached_int8_scales ||
++        getenv("H3_DISABLE_INT8_QKV") || getenv("H3_DISABLE_FUSED_INT8_QKV_ROPE") ||
++        getenv("H3_DISABLE_QKV_FULL_K") || getenv("H3_DISABLE_QKV_LOCAL_SCALES") ||
++        getenv("H3_DISABLE_VECTOR_QKV_RMS") || getenv("H3_DISABLE_VECTOR_QKV_ROPE"))) {
++        fail(error,error_size,"M5 QKV candidate requires default INT8 QKV route; no fallback"); goto failed;
++    }
++    /* Hadamard flags are validated by the combined H256 loader overlay. */
++    fprintf(stderr,"h3 kernel integration: m5_qkv_rope=%d hadamard_qkv=%d hadamard_fc1=%d\n",
++        dit->m5_qkv_rope, getenv("H3_HADAMARD_QKV") && !strcmp(getenv("H3_HADAMARD_QKV"),"1"),
++        getenv("H3_HADAMARD_FC1") && !strcmp(getenv("H3_HADAMARD_FC1"),"1"));
++    const char *hadamard_fc2 = getenv("H3_HADAMARD_FC2");
++    if (hadamard_fc2 && strcmp(hadamard_fc2, "0") && strcmp(hadamard_fc2, "1")) {
++        fail(error, error_size, "H3_HADAMARD_FC2 must be exactly 0 or 1");
++        goto failed;
++    }
++    dit->use_hadamard_fc2 = hadamard_fc2 && !strcmp(hadamard_fc2, "1");
++    if (dit->use_hadamard_fc2 && (!dit->int8_mlp || use_int8_row_fc2 ||
++        getenv("H3_DISABLE_INT8_MLP") || getenv("H3_INT8_MLP_STAGE") ||
++        getenv("H3_INT8_ACTIVATION_CLIP"))) {
++        fail(error, error_size, "H256 FC2 requires native INT8 MLP and no row/stage/clip override; no fallback");
++        goto failed;
++    }
++    const char *capture_dir=getenv("H3_FC2_CAPTURE_DIR");
++    if (capture_dir && (!*capture_dir || !dit->int8_mlp ||
++        getenv("H3_DISABLE_INT8_MLP") || getenv("H3_INT8_MLP_STAGE") ||
++        dit->token_reduction)) {
++        fail(error,error_size,"FC2 capture needs nonempty directory, native INT8 MLP, full tokens, no stage override");
++        goto failed;
++    }
++    if (dit->use_hadamard_fc2)
++        fprintf(stderr, "h3 precision: FC2 plain normalized H256, FP32 transform, whole-row INT8, BF16 SwiGLU/output boundaries; experimental\n");
++    const char *fused_fc2_gate = getenv("H3_FUSE_FC2_GATE");
++    if (fused_fc2_gate && strcmp(fused_fc2_gate, "0") && strcmp(fused_fc2_gate, "1")) {
++        fail(error, error_size, "H3_FUSE_FC2_GATE must be exactly 0 or 1"); goto failed;
++    }
++    dit->fuse_fc2_gate = fused_fc2_gate && !strcmp(fused_fc2_gate, "1");
++    if (dit->fuse_fc2_gate && (!dit->int8_mlp || !dit->int8_qkv ||
++        dit->use_slower_unfused_int8_inputs || dit->token_reduction || dit->sequence <= 2048u ||
++        getenv("H3_DISABLE_INT8_MLP") ||
++        getenv("H3_INT8_MLP_STAGE") || getenv("H3_DISABLE_INT8_QKV") ||
++        getenv("H3_DISABLE_FUSED_INT8_QKV_INPUT") ||
++        getenv("H3_DISABLE_VECTOR_GATE_ADALN") ||
++        getenv("H3_INT8_GROUP_FC2_THREADGROUP") || getenv("H3_INT8_GROUP_FC2_LOCAL128"))) {
++        fail(error, error_size, "FC2 gate fusion requires default INT8 QKV/MLP and unreduced rows"); goto failed;
++    }
++    if (dit->fuse_fc2_gate)
++        fprintf(stderr, "h3 fusion: FC2 GEMM gate/residual epilogue, preserved BF16 rounds\n");
++    const char *fused_attention_gate = getenv("H3_FUSE_ATTN_OUT_GATE");
++    if (fused_attention_gate && strcmp(fused_attention_gate, "0") && strcmp(fused_attention_gate, "1")) {
++        fail(error, error_size, "H3_FUSE_ATTN_OUT_GATE must be exactly 0 or 1"); goto failed;
++    }
++    dit->fuse_attention_output_gate = fused_attention_gate && !strcmp(fused_attention_gate, "1");
++    if (dit->fuse_attention_output_gate && (!dit->int8_attention_out || !dit->int8_mlp ||
++        dit->sequence <= 2048u || dit->token_reduction || dit->use_slower_unfused_int8_inputs ||
++        dit->use_slower_row_major_attention_output || dit->use_slower_uncached_int8_scales ||
++        getenv("H3_DISABLE_INT8_ATTENTION_OUT") || getenv("H3_DISABLE_HEAD_MAJOR_ATTENTION_OUTPUT") ||
++        getenv("H3_DISABLE_INT8_MLP") || getenv("H3_INT8_MLP_STAGE") ||
++        getenv("H3_DISABLE_FUSED_INT8_MLP_INPUT") || getenv("H3_DISABLE_INT8_LOCAL_SCALES") ||
++        getenv("H3_DISABLE_VECTOR_GATE_ADALN"))) {
++        fail(error, error_size, "attention output gate fusion requires default large-row INT8 head-major path"); goto failed;
++    }
++    if (dit->fuse_attention_output_gate)
++        fprintf(stderr, "h3 fusion: attention output GEMM gate/residual epilogue, preserved BF16 rounds\n");
+     dit->keep_bf16_mlp = dit->int8_mlp &&
+         (getenv("H3_INT8_KEEP_BF16_MLP") ||
+          getenv("H3_BENCH_INT8_MLP_AB") ||
+@@ -1873,6 +1951,87 @@ static int leave_token_reduction_adaln(h3_dit *dit, unsigned block,
+     return 1;
+ }
+ 
++/* Explicit diagnostic-only capture. Adds a submit/wait and restart at nine
++ * sampled blocks. These runs must never be used as performance measurements.
++ * Full K rows preserve post-SwiGLU BF16 storage; source precision is recorded. */
++static int capture_fc2_rows(h3_dit *dit, unsigned block, int step,
++                            uint32_t rows, char *error, size_t error_size) {
++    const char *directory = getenv("H3_FC2_CAPTURE_DIR");
++    if (!directory || !*directory) return 1;
++    if ((step != 0 && step != dit->sigmas.steps / 2 && step != dit->sigmas.steps - 1) ||
++        (block != 0 && block != 24 && block != 49)) return 1;
++    if (dit->token_reduction_active || rows != dit->sequence || !dit->int8_mlp) {
++        fail(error, error_size, "FC2 capture requires full packed sequence and INT8 MLP");
++        return 0;
++    }
++    if (!h3_gpu_submit(dit->gpu)) {
++        fail(error, error_size, "FC2 capture submit failed: %s", h3_gpu_error(dit->gpu));
++        return 0;
++    }
++    uint32_t ids[64];
++    size_t count = 0;
++    for (size_t segment = 0; segment < dit->layout.segment_count; ++segment) {
++        size_t first = dit->layout.segments[segment].start;
++        size_t stop = dit->layout.segments[segment].stop;
++        if (stop <= first) continue;
++        size_t selected[] = {first, first + (stop-first)/2, stop-1};
++        for (size_t j=0; j<3; ++j) {
++            int seen=0;
++            for (size_t k=0; k<count; ++k) seen |= ids[k] == selected[j];
++            if (!seen) {
++                if (count >= 64) { fail(error,error_size,"too many FC2 sample rows"); return 0; }
++                ids[count++] = (uint32_t)selected[j];
++            }
++        }
++    }
++    /* Additional uniformly spread rows catch different temporal/video blocks. */
++    for (uint32_t j=1; j<8; ++j) {
++        uint32_t selected=(uint32_t)(((uint64_t)(rows-1)*j)/8u);
++        int seen=0;
++        for (size_t k=0;k<count;++k) seen |= ids[k] == selected;
++        if (!seen && count<64) ids[count++]=selected;
++    }
++    char binary_path[4096], json_path[4096];
++    int a=snprintf(binary_path,sizeof(binary_path),"%s/fc2-step%02d-block%02u.bf16",directory,step,block);
++    int b=snprintf(json_path,sizeof(json_path),"%s/fc2-step%02d-block%02u.json",directory,step,block);
++    if(a<0 || b<0 || (size_t)a>=sizeof(binary_path) || (size_t)b>=sizeof(json_path)) {
++        fail(error,error_size,"FC2 capture path too long"); return 0;
++    }
++    uint16_t *sample=malloc(count * FFN * sizeof(*sample));
++    if(!sample) { fail(error,error_size,"FC2 capture out of memory"); return 0; }
++    int ok=1;
++    size_t nonfinite=0;
++    for(size_t j=0;j<count && ok;++j) {
++        ok=h3_gpu_tensor_read_bf16_range(dit->activated,(size_t)ids[j]*FFN,sample+j*FFN,FFN);
++        for(size_t k=0;k<FFN && ok;++k) nonfinite += (sample[j*FFN+k]&0x7f80u)==0x7f80u;
++    }
++    if(!ok || nonfinite) {
++        free(sample); fail(error,error_size,"FC2 capture read failed or nonfinite values (%zu)",nonfinite); return 0;
++    }
++    int fd=open(binary_path,O_WRONLY|O_CREAT|O_EXCL,0600);
++    FILE *binary=fd<0?NULL:fdopen(fd,"wb");
++    if(!binary) { if(fd>=0) close(fd); free(sample); fail(error,error_size,"FC2 capture exclusive open failed: %s",strerror(errno)); return 0; }
++    ok=fwrite(sample,sizeof(*sample),count*FFN,binary)==count*FFN;
++    ok=fclose(binary)==0 && ok;
++    free(sample);
++    if(!ok) { fail(error,error_size,"FC2 capture write failed"); return 0; }
++    fd=open(json_path,O_WRONLY|O_CREAT|O_EXCL,0600);
++    FILE *json=fd<0?NULL:fdopen(fd,"w");
++    if(!json) { if(fd>=0) close(fd); fail(error,error_size,"FC2 metadata exclusive open failed"); return 0; }
++    fprintf(json,"{\"schema\":1,\"scope\":\"diagnostic_with_extra_gpu_waits\",\"input\":\"post_SwiGLU_BF16_on_native_INT8_FC1_trajectory\",\"step\":%d,\"block\":%u,\"packed_rows\":%u,\"sample_rows\":%zu,\"width\":%d,\"int8_qkv\":%d,\"int8_attention_out\":%d,\"hadamard_fc2\":%d,\"row_ids\":[",step,block,rows,count,FFN,dit->int8_qkv,dit->int8_attention_out,dit->use_hadamard_fc2);
++    for(size_t j=0;j<count;++j) fprintf(json,"%s%u",j?",":"",ids[j]);
++    fprintf(json,"],\"segments\":[");
++    for(size_t j=0;j<dit->layout.segment_count;++j) {
++        const h3_segment *s=&dit->layout.segments[j];
++        fprintf(json,"%s{\"kind\":%d,\"start\":%zu,\"stop\":%zu}",j?",":"",s->kind,s->start,s->stop);
++    }
++    fprintf(json,"],\"nonfinite\":0,\"dtype\":\"BF16 little endian\"}\n");
++    ok=!ferror(json); ok=fclose(json)==0 && ok;
++    if(!ok || !h3_gpu_begin(dit->gpu)) { fail(error,error_size,"FC2 capture metadata/restart failed"); return 0; }
++    fprintf(stderr,"h3 fc2 capture: step=%d block=%u rows=%zu K=%d (diagnostic extra wait)\n",step,block,count,FFN);
++    return 1;
++}
++
+ static int run_block(h3_dit *dit, unsigned index, int step,
+                      h3_dit_block *weight,
+                      int attention_adaln_ready,
+@@ -1899,7 +2058,15 @@ static int run_block(h3_dit *dit, unsigned index, int step,
+             weight->norm1, modulation, row_map, rows, HIDDEN, SLOTS,
+             0, 1, 1e-5f), "DiT attention AdaLN");
+     if (dit->int8_qkv && !getenv("H3_DISABLE_INT8_QKV")) {
+-        OP(h3_gpu_grouped_qkv_linear_rope_int8(
++        if (dit->m5_qkv_rope) {
++            OP(h3_gpu_m5_grouped_qkv_linear_rope_int8(
++                dit->gpu, dit->query, dit->key, dit->value,
++                dit->int8_activation, dit->int8_activation_scales,
++                dit->mod_attention, weight->qkv_int8, weight->qkv_scales,
++                weight->q_norm, weight->k_norm, rope_cos, rope_sin,
++                rows, HIDDEN, HEADS, HEAD_DIM, ROPE_HALF, 1e-5f,
++                attention_input_quantized), "DiT M5 custom int8 QKV/norm/RoPE");
++        } else OP(h3_gpu_grouped_qkv_linear_rope_int8(
+             dit->gpu, dit->query, dit->key, dit->value,
+             dit->int8_activation, dit->int8_activation_scales,
+             dit->mod_attention, weight->qkv_int8, weight->qkv_scales,
+@@ -1934,7 +2101,14 @@ static int run_block(h3_dit *dit, unsigned index, int step,
+             rows, HEADS, HEAD_DIM, 1.0f / sqrtf((float)HEAD_DIM)),
+            "DiT full attention");
+     if (int8_attention_output) {
+-        if (head_major_attention_output)
++        if (dit->fuse_attention_output_gate) {
++            OP(h3_gpu_linear_int8_head_major_gate_bf16(
++                dit->gpu, dit->hidden, dit->int8_activation,
++                dit->int8_activation_scales, dit->attention_heads,
++                weight->out_int8, weight->out_scales, rows, HEADS, HEAD_DIM,
++                HIDDEN, dit->hidden, modulation, row_map, SLOTS, 2),
++               "DiT attention output GEMM with fused gate/residual");
++        } else if (head_major_attention_output)
+             OP(h3_gpu_linear_int8_head_major_bf16(
+                 dit->gpu, dit->attention_output, dit->int8_activation,
+                 dit->int8_activation_scales, dit->attention_heads,
+@@ -1956,7 +2130,15 @@ static int run_block(h3_dit *dit, unsigned index, int step,
+         !dit->use_slower_unfused_int8_inputs &&
+         !getenv("H3_DISABLE_FUSED_INT8_MLP_INPUT") &&
+         !getenv("H3_INT8_MLP_STAGE");
+-    if (fused_int8_mlp_input) {
++    if (dit->fuse_attention_output_gate) {
++        if (!fused_int8_mlp_input) { fail(error, error_size, "fused attention gate requires fused INT8 MLP input"); return 0; }
++        uint32_t padded_rows = (rows + 127u) & ~127u;
++        OP(h3_gpu_adaln_quantize_int8_pre_gated(
++            dit->gpu, dit->int8_activation, dit->int8_activation_scales,
++            dit->hidden, weight->norm2, modulation, row_map,
++            rows, padded_rows, HIDDEN, SLOTS, 3, 4, 1e-5f),
++           "DiT pre-gated MLP AdaLN and INT8 quantization");
++    } else if (fused_int8_mlp_input) {
+         uint32_t padded_rows = (rows + 127u) & ~127u;
+         OP(h3_gpu_gate_adaln_quantize_int8(
+             dit->gpu, dit->hidden, dit->int8_activation,
+@@ -1985,6 +2167,18 @@ static int run_block(h3_dit *dit, unsigned index, int step,
+     if (dit->int8_mlp &&
+         (!getenv("H3_DISABLE_INT8_MLP") ||
+          !weight->fc1 || !weight->fc2)) {
++        if (dit->fuse_fc2_gate) {
++            OP(h3_gpu_mlp_int8_gate_bf16(
++                dit->gpu, dit->hidden, dit->activated, dit->int8_activation,
++                dit->int8_activation_scales, dit->mod_mlp,
++                weight->fc1_int8, weight->fc1_scales,
++                weight->fc2_int8, weight->fc2_scales, weight->fc1, weight->fc2,
++                rows, HIDDEN, FFN, HIDDEN, dit->use_slower_grouped_quantizer,
++                dit->use_slower_dynamic_fc1_k, dit->use_int8_row_fc2,
++                dit->use_hadamard_fc2, fused_int8_mlp_input,
++                dit->hidden, modulation, row_map, SLOTS, 5),
++               "DiT INT8 MLP with fused FC2 gate/residual");
++        } else {
+         OP(h3_gpu_mlp_int8_bf16(
+             dit->gpu, mlp_output, dit->activated, dit->int8_activation,
+             dit->int8_activation_scales, dit->mod_mlp,
+@@ -1994,8 +2188,9 @@ static int run_block(h3_dit *dit, unsigned index, int step,
+             rows, HIDDEN, FFN, HIDDEN,
+             dit->use_slower_grouped_quantizer,
+             dit->use_slower_dynamic_fc1_k, dit->use_int8_row_fc2,
+-            fused_int8_mlp_input),
++            dit->use_hadamard_fc2, fused_int8_mlp_input),
+            "DiT int8 fused MLP");
++        }
+     } else if (dit->nax_mlp && !getenv("H3_DISABLE_NAX_MLP")) {
+         OP(h3_gpu_mlp_nax_bf16(dit->gpu, mlp_output, dit->activated,
+             dit->mod_mlp, weight->fc1, weight->fc2, rows, HIDDEN, FFN,
+@@ -2012,6 +2207,7 @@ static int run_block(h3_dit *dit, unsigned index, int step,
+         OP(h3_gpu_linear_bf16(dit->gpu, mlp_output, dit->activated,
+             weight->fc2, NULL, rows, FFN, HIDDEN), "DiT MLP output");
+     }
++    if (!capture_fc2_rows(dit,index,step,rows,error,error_size)) return 0;
+     if (fuse_next_attention) {
+         h3_dit_block *next_weight = &dit->blocks[next_index];
+         const h3_gpu_tensor *next_modulation = h3_dit_schedule_block(
+@@ -2020,7 +2216,16 @@ static int run_block(h3_dit *dit, unsigned index, int step,
+             !dit->use_slower_unfused_int8_inputs &&
+             !getenv("H3_DISABLE_INT8_QKV") &&
+             !getenv("H3_DISABLE_FUSED_INT8_QKV_INPUT");
+-        if (fuse_int8_qkv_input) {
++        if (dit->fuse_fc2_gate) {
++            if (!fuse_int8_qkv_input) { fail(error, error_size, "fused FC2 gate requires next INT8 input fusion"); return 0; }
++            uint32_t padded_rows = (rows + 127u) & ~127u;
++            OP(h3_gpu_adaln_quantize_int8_pre_gated(
++                dit->gpu, dit->int8_activation, dit->int8_activation_scales,
++                dit->hidden, next_weight->norm1, next_modulation, row_map,
++                rows, padded_rows, HIDDEN, SLOTS, 0, 1, 1e-5f),
++               "DiT pre-gated next attention AdaLN and INT8 quantization");
++            *next_attention_input_quantized = 1;
++        } else if (fuse_int8_qkv_input) {
+             uint32_t padded_rows = (rows + 127u) & ~127u;
+             OP(h3_gpu_gate_adaln_quantize_int8(
+                 dit->gpu, dit->hidden, dit->int8_activation,
+@@ -2038,7 +2243,7 @@ static int run_block(h3_dit *dit, unsigned index, int step,
+             *next_attention_input_quantized = 0;
+         }
+         *next_attention_adaln_ready = 1;
+-    } else {
++    } else if (!dit->fuse_fc2_gate) {
+         OP(h3_gpu_gate_bf16(
+             dit->gpu, dit->hidden, dit->hidden, mlp_output,
+             modulation, row_map, rows, HIDDEN, SLOTS, 5), "DiT MLP gate");
+@@ -2610,6 +2815,76 @@ static int ensure_previous_velocities(h3_dit *dit, char *error,
+     return 0;
+ }
+ 
++/* GPU sampler state, in packed FP32 model coordinates after Euler. Reading
++ * happens only at existing completed windows, and never adds a GPU wait.
++ * A new file per step permits same-seed trajectory comparison before VAE. */
++static int capture_euler_latents(h3_dit *dit, int step,
++                                 size_t video_offset,size_t video_count,
++                                 size_t audio_offset,size_t audio_count,
++                                 char *error,size_t error_size) {
++    const char *directory=getenv("H3_LATENT_CAPTURE_DIR");
++    if(!directory) return 1;
++    const h3_gpu_tensor *tensor[2]={dit->video_input,dit->audio_input};
++    size_t offset[2]={video_offset,audio_offset}, count[2]={video_count,audio_count};
++    const char *kind[2]={"video","audio"};
++    for(unsigned stream=0;stream<2;++stream) {
++        float *values=malloc(count[stream]*sizeof(float));
++        if(!values || !h3_gpu_tensor_read_f32_range(tensor[stream],offset[stream],values,count[stream])) {
++            free(values); fail(error,error_size,"Euler latent readback failed"); return 0;
++        }
++        for(size_t i=0;i<count[stream];++i) if(!isfinite(values[i])) {
++            free(values); fail(error,error_size,"Euler latent nonfinite at step %d",step); return 0;
++        }
++        char path[4096];
++        int n=snprintf(path,sizeof(path),"%s/euler-step%02d-%s.f32",directory,step,kind[stream]);
++        if(n<0 || (size_t)n>=sizeof(path)) { free(values); fail(error,error_size,"Euler capture path too long"); return 0; }
++        int fd=open(path,O_WRONLY|O_CREAT|O_EXCL,0600);
++        FILE *f=fd<0?NULL:fdopen(fd,"wb");
++        if(!f) { if(fd>=0) close(fd); free(values); fail(error,error_size,"Euler capture exclusive open failed"); return 0; }
++        int ok=fwrite(values,sizeof(float),count[stream],f)==count[stream];
++        ok=fclose(f)==0 && ok; free(values);
++        if(!ok) { fail(error,error_size,"Euler latent write failed"); return 0; }
++    }
++    fprintf(stderr,"h3 latent capture: completed_step=%d video_f32=%zu audio_f32=%zu packed_order (diagnostic CPU readback)\n",step+1,video_count,audio_count);
++    return 1;
++}
++
++static int capture_final_latents(h3_dit *dit,const float *video,const float *audio,
++                                  char *error,size_t error_size) {
++    const char *directory=getenv("H3_LATENT_CAPTURE_DIR");
++    if(!directory) return 1;
++    const float *data[2]={video,audio};
++    size_t count[2]={h3_dit_video_elements(dit),h3_dit_audio_elements(dit)};
++    const char *kind[2]={"video","audio"};
++    for(unsigned stream=0;stream<2;++stream) {
++        for(size_t i=0;i<count[stream];++i) if(!isfinite(data[stream][i])) {
++            fail(error,error_size,"final latent has nonfinite values"); return 0;
++        }
++        char path[4096];
++        int n=snprintf(path,sizeof(path),"%s/final-%s.f32",directory,kind[stream]);
++        if(n<0 || (size_t)n>=sizeof(path)) { fail(error,error_size,"final latent path too long"); return 0; }
++        int fd=open(path,O_WRONLY|O_CREAT|O_EXCL,0600);
++        FILE *f=fd<0?NULL:fdopen(fd,"wb");
++        if(!f) { if(fd>=0)close(fd); fail(error,error_size,"final latent exclusive open failed"); return 0; }
++        int ok=fwrite(data[stream],sizeof(float),count[stream],f)==count[stream];
++        ok=fclose(f)==0 && ok;
++        if(!ok) { fail(error,error_size,"final latent write failed"); return 0; }
++    }
++    char path[4096];
++    int n=snprintf(path,sizeof(path),"%s/latent-metadata.json",directory);
++    if(n<0 || (size_t)n>=sizeof(path)) { fail(error,error_size,"latent metadata path too long"); return 0; }
++    int fd=open(path,O_WRONLY|O_CREAT|O_EXCL,0600);
++    FILE *f=fd<0?NULL:fdopen(fd,"w");
++    if(!f) { if(fd>=0)close(fd); fail(error,error_size,"latent metadata exclusive open failed"); return 0; }
++    struct timespec wall,mono;
++    clock_gettime(CLOCK_REALTIME,&wall); clock_gettime(CLOCK_MONOTONIC,&mono);
++    const char *seed=getenv("H3_CAPTURE_SEED");
++    fprintf(f,"{\"schema\":1,\"scope\":\"diagnostic_CPU_readback_after_completed_GPU_Euler\",\"dtype\":\"float32_little_endian\",\"seed\":%s,\"seed_source\":\"caller_declared_H3_CAPTURE_SEED_verify_against_request_manifest\",\"completed_steps\":%d,\"time_unix_seconds\":%.9f,\"time_monotonic_seconds\":%.9f,\"final_video_shape\":[%d,%d,%d,%d],\"final_audio_shape\":[%d,%d,%d],\"final_layout\":\"unpacked_contiguous_VAE_input_before_decoder\",\"per_step_video_shape\":[%u,%d],\"per_step_audio_shape\":[%u,%d],\"per_step_layout\":\"packed_model_rows_after_Euler_before_unpack\",\"final_video_sigma\":%.9g,\"final_audio_sigma\":%.9g,\"int8_mlp\":%d,\"int8_qkv\":%d,\"int8_attention_out\":%d,\"hadamard_fc2\":%d,\"m5_qkv_rope\":%d,\"finite\":true}\n",seed?seed:"null",dit->sigmas.steps,(double)wall.tv_sec+(double)wall.tv_nsec*1e-9,(double)mono.tv_sec+(double)mono.tv_nsec*1e-9,VIDEO_CHANNELS,dit->latent_t,dit->latent_h,dit->latent_w,AUDIO_CHANNELS,AUDIO_STREAMS,dit->audio_t,dit->video_rows,VIDEO_PATCH,dit->audio_rows,AUDIO_CHANNELS,dit->sigmas.video[dit->sigmas.steps],dit->sigmas.audio[dit->sigmas.steps],dit->int8_mlp,dit->int8_qkv,dit->int8_attention_out,dit->use_hadamard_fc2,dit->m5_qkv_rope);
++    int ok=!ferror(f); ok=fclose(f)==0 && ok;
++    if(!ok) fail(error,error_size,"final latent metadata write failed");
++    return ok;
++}
++
+ static int denoise_euler_gpu(h3_dit *dit, float *video_latent,
+                              float *audio_latent, int reuse_interval,
+                              h3_dit_progress progress, void *progress_opaque,
+@@ -2631,6 +2906,21 @@ static int denoise_euler_gpu(h3_dit *dit, float *video_latent,
+         fprintf(stderr, "h3: %s GPU reuse schedule has %d evaluations\n",
+                 custom_count > 0 ? "custom" : "selected", selected_count);
+     unsigned window = gpu_sampler_window();
++    const char *latent_capture=getenv("H3_LATENT_CAPTURE_DIR");
++    const char *capture_seed=getenv("H3_CAPTURE_SEED");
++    if(latent_capture && capture_seed) {
++        char *end=NULL;
++        errno=0;
++        (void)strtoll(capture_seed,&end,10);
++        if(errno || !*capture_seed || !end || *end || capture_seed[0]=='-') {
++            fail(error,error_size,"H3_CAPTURE_SEED must be a nonnegative signed-64 integer");
++            return 0;
++        }
++    }
++    if(latent_capture && (!*latent_capture || window != 1 || reuse_interval != 1)) {
++        fail(error,error_size,"Euler latent capture needs nonempty directory, GPU sampler window=1 and reuse=1");
++        return 0;
++    }
+     int disable_command_split = window == 1 &&
+                                 getenv("H3_DIT_COMMAND_BLOCKS") == NULL;
+     if (getenv("H3_PROFILE"))
+@@ -2737,6 +3027,8 @@ static int denoise_euler_gpu(h3_dit *dit, float *video_latent,
+             if (ok && finish) {
+                 command_active = 0;
+                 pending_evaluations = 0;
++                if(latent_capture) ok=capture_euler_latents(dit,step,
++                    video_offset,video_count,audio_offset,audio_count,error,error_size);
+             }
+         }
+         if (ok && preview) {
+@@ -2776,6 +3068,7 @@ static int denoise_euler_gpu(h3_dit *dit, float *video_latent,
+                                      h3_dit_audio_elements(dit));
+     if (!ok && (!error || !*error))
+         fail(error, error_size, "cannot unpack GPU Euler latents");
++    if(ok && latent_capture) ok=capture_final_latents(dit,video_latent,audio_latent,error,error_size);
+     free(video_rows);
+     free(audio_rows);
+     if (ok) report(progress, progress_opaque, "denoise", dit->sigmas.steps,
+diff --git a/h3_gpu.h b/h3_gpu.h
+index 3a47cc3..d5260a7 100644
+--- a/h3_gpu.h
++++ b/h3_gpu.h
+@@ -75,8 +75,20 @@ int h3_gpu_tensor_read_f32_range(const h3_gpu_tensor *tensor,
+                                  size_t elements);
+ int h3_gpu_tensor_read_bf16(const h3_gpu_tensor *tensor, uint16_t *values,
+                             size_t elements);
++/* Diagnostic readback; caller must submit/wait before reading. */
++int h3_gpu_tensor_read_i8(const h3_gpu_tensor *tensor, int8_t *values,
++                          size_t elements);
++int h3_gpu_tensor_read_bf16_range(const h3_gpu_tensor *tensor,
++                                  size_t source_offset, uint16_t *values,
++                                  size_t elements);
++int h3_gpu_tensor_read_i8_range(const h3_gpu_tensor *tensor,
++                                size_t source_offset, int8_t *values,
++                                size_t elements);
+ int h3_gpu_tensor_write_f32(h3_gpu_tensor *tensor, const float *values,
+                             size_t elements);
++/* Diagnostic poisoning/reset only; caller must first wait for GPU completion. */
++int h3_gpu_tensor_write_i8(h3_gpu_tensor *tensor, const int8_t *values,
++                           size_t elements);
+ int h3_gpu_tensor_write_f32_range(h3_gpu_tensor *tensor,
+                                   size_t destination_offset,
+                                   const float *values, size_t elements);
+@@ -334,6 +346,26 @@ int h3_gpu_linear_int8_head_major_bf16(
+                             const h3_gpu_tensor *weight_scales,
+                             uint32_t rows, uint32_t heads,
+                             uint32_t head_dim, uint32_t output_dim);
++/* Experimental FC2-only precision policy. Plain normalized H256 in FP32,
++ * followed by whole-row symmetric INT8. K=14336; no BF16 transformed round.
++ * This function serves both offline W rows and online activation rows. */
++int h3_gpu_quantize_h256_int8(h3_gpu *gpu, h3_gpu_tensor *output,
++                              h3_gpu_tensor *scales,
++                              const h3_gpu_tensor *input, uint32_t rows,
++                              uint32_t padded_rows, uint32_t columns);
++/* Complete FC2 online projection, preserving the BF16 input/output boundary.
++ * policy 0 = upstream group1024 activation, 1 = H256 whole-row activation,
++ * 2 = upstream plain whole-row activation. W must match the selected policy.
++ * The runtime and standalone numerical driver use this same dispatcher. */
++int h3_gpu_fc2_int8_bf16(h3_gpu *gpu, h3_gpu_tensor *output,
++                         h3_gpu_tensor *quantized_activation,
++                         h3_gpu_tensor *activation_scales,
++                         const h3_gpu_tensor *activated,
++                         const h3_gpu_tensor *weight,
++                         const h3_gpu_tensor *weight_scales,
++                         uint32_t rows, uint32_t hidden_dim,
++                         uint32_t output_dim, int policy,
++                         int use_slower_grouped_quantizer);
+ int h3_gpu_mlp_int8_bf16(h3_gpu *gpu, h3_gpu_tensor *output,
+                          h3_gpu_tensor *activated,
+                          h3_gpu_tensor *quantized_activation,
+@@ -350,6 +382,7 @@ int h3_gpu_mlp_int8_bf16(h3_gpu *gpu, h3_gpu_tensor *output,
+                          int use_slower_grouped_quantizer,
+                          int use_slower_dynamic_fc1_k,
+                          int use_int8_row_fc2,
++                         int use_hadamard_fc2,
+                          int input_is_quantized);
+ int h3_gpu_silu_bf16(h3_gpu *gpu, h3_gpu_tensor *output,
+                      const h3_gpu_tensor *input, uint32_t elements);
+@@ -490,6 +523,26 @@ int h3_gpu_grouped_qkv_linear_rope_int8(
+                                  int use_slower_unfused_qkv_rope,
+                                  int use_slower_scalar_qkv_rms,
+                                  int use_slower_uncached_int8_scales);
++/* Independent TM64 candidate; same codes/scales/layout as the native API.
++ * Packed inputs may come from native or H256 preparation; no reinterpretation. */
++int h3_gpu_m5_grouped_qkv_linear_rope_int8(
++                                 h3_gpu *gpu,
++                                 h3_gpu_tensor *query,
++                                 h3_gpu_tensor *key,
++                                 h3_gpu_tensor *value,
++                                 h3_gpu_tensor *quantized_input,
++                                 h3_gpu_tensor *input_scales,
++                                 const h3_gpu_tensor *input,
++                                 const h3_gpu_tensor *weight,
++                                 const h3_gpu_tensor *weight_scales,
++                                 const h3_gpu_tensor *q_norm,
++                                 const h3_gpu_tensor *k_norm,
++                                 const h3_gpu_tensor *rope_cos,
++                                 const h3_gpu_tensor *rope_sin,
++                                 uint32_t rows, uint32_t input_dim,
++                                 uint32_t heads, uint32_t head_dim,
++                                 uint32_t rope_half, float epsilon,
++                                 int input_is_quantized);
+ int h3_gpu_sdpa_bf16(h3_gpu *gpu, h3_gpu_tensor *output,
+                      const h3_gpu_tensor *query, const h3_gpu_tensor *key,
+                      const h3_gpu_tensor *value, uint32_t sequence,
+@@ -610,4 +663,64 @@ int h3_gpu_silu_mul_bf16(h3_gpu *gpu, h3_gpu_tensor *output,
+                          const h3_gpu_tensor *gate,
+                          const h3_gpu_tensor *up, uint32_t elements);
+ 
++/* Optional native projection gate epilogues; defaults remain unchanged. */
++int h3_gpu_fc2_int8_gate_bf16(h3_gpu *opaque, h3_gpu_tensor *output,
++                         h3_gpu_tensor *quantized_activation,
++                         h3_gpu_tensor *activation_scales,
++                         const h3_gpu_tensor *activated,
++                         const h3_gpu_tensor *weight,
++                         const h3_gpu_tensor *weight_scales,
++                         uint32_t rows, uint32_t hidden_dim,
++                         uint32_t output_dim, int policy,
++                         int use_slower_grouped_quantizer,
++                         const h3_gpu_tensor *gate_residual,
++                         const h3_gpu_tensor *gate_modulation,
++                         const h3_gpu_tensor *gate_row_map,
++                         uint32_t gate_slots, uint32_t gate_slot);
++
++int h3_gpu_mlp_int8_gate_bf16(h3_gpu *opaque, h3_gpu_tensor *output,
++                         h3_gpu_tensor *activated,
++                         h3_gpu_tensor *quantized_activation,
++                         h3_gpu_tensor *activation_scales,
++                         const h3_gpu_tensor *input,
++                         const h3_gpu_tensor *fc1_weight,
++                         const h3_gpu_tensor *fc1_scales,
++                         const h3_gpu_tensor *fc2_weight,
++                         const h3_gpu_tensor *fc2_scales,
++                         const h3_gpu_tensor *fc1_bf16,
++                         const h3_gpu_tensor *fc2_bf16, uint32_t rows,
++                         uint32_t input_dim, uint32_t hidden_dim,
++                         uint32_t output_dim,
++                         int use_slower_grouped_quantizer,
++                         int use_slower_dynamic_fc1_k,
++                         int use_int8_row_fc2,
++                         int use_hadamard_fc2,
++                         int input_is_quantized,
++                         const h3_gpu_tensor *gate_residual,
++                         const h3_gpu_tensor *gate_modulation,
++                         const h3_gpu_tensor *gate_row_map,
++                         uint32_t gate_slots, uint32_t gate_slot);
++
++int h3_gpu_adaln_quantize_int8_pre_gated(h3_gpu *opaque,
++                     h3_gpu_tensor *quantized_output, h3_gpu_tensor *quantized_scales,
++                     h3_gpu_tensor *hidden, const h3_gpu_tensor *norm_weight,
++                     const h3_gpu_tensor *modulation, const h3_gpu_tensor *row_map,
++                     uint32_t rows, uint32_t padded_rows, uint32_t width,
++                     uint32_t slots, uint32_t shift_slot, uint32_t scale_slot,
++                     float epsilon);
++
++int h3_gpu_linear_int8_head_major_gate_bf16(
++                            h3_gpu *opaque, h3_gpu_tensor *output,
++                            h3_gpu_tensor *quantized_input,
++                            h3_gpu_tensor *input_scales,
++                            const h3_gpu_tensor *input,
++                            const h3_gpu_tensor *weight,
++                            const h3_gpu_tensor *weight_scales,
++                            uint32_t rows, uint32_t heads,
++                            uint32_t head_dim, uint32_t output_dim,
++                            const h3_gpu_tensor *gate_residual,
++                            const h3_gpu_tensor *gate_modulation,
++                            const h3_gpu_tensor *gate_row_map,
++                            uint32_t gate_slots, uint32_t gate_slot);
++
+ #endif
+diff --git a/h3_gpu.m b/h3_gpu.m
+index c61d04c..2171686 100644
+--- a/h3_gpu.m
++++ b/h3_gpu.m
+@@ -435,6 +435,11 @@ h3_gpu *h3_gpu_create(const char *shader_source_path,
+             @"h3_vae_encoder_group_norm_silu_f32"
+         ] mutableCopy];
+         if (gpu.tensorOpsEnabled) {
++            [names addObject:@"h3_m5_qkv_rope_int8_r64_swizzle8"];
++            [names addObject:@"h3_linear_int8_nax_r128_full_k14336_gate"];
++            [names addObject:@"h3_linear_int8_grouped_local_nax_r128x64_gate"];
++            [names addObject:@"h3_linear_int8_local_scales_nax_r128_gate"];
++            [names addObject:@"h3_adaln_quantize_int8_pre_gated"];
+             [names addObject:@"h3_linear_bf16_nax_r128"];
+             [names addObject:@"h3_linear_bf16_nax_r128_morton"];
+             [names addObject:@"h3_linear_bf16_nax_r128_morton4"];
+@@ -444,6 +449,7 @@ h3_gpu *h3_gpu_create(const char *shader_source_path,
+             [names addObject:@"h3_fc1_swiglu_bf16_nax_r128"];
+             [names addObject:@"h3_fc1_swiglu_bf16_nax_r128_morton"];
+             [names addObject:@"h3_fc1_swiglu_bf16_nax_r128_morton4"];
++            [names addObject:@"h3_quantize_bf16_h256_int8_rows_k14336"];
+             [names addObject:@"h3_quantize_bf16_int8_rows"];
+             [names addObject:@"h3_quantize_bf16_int8_rows_scalar"];
+             [names addObject:
+@@ -837,11 +843,49 @@ int h3_gpu_tensor_read_bf16(const h3_gpu_tensor *tensor, uint16_t *values,
+     return 1;
+ }
+ 
++int h3_gpu_tensor_read_i8(const h3_gpu_tensor *tensor, int8_t *values,
++                          size_t elements) {
++    if (!tensor || !values || TENSOR(tensor).dtype != H3_GPU_I8 ||
++        elements > TENSOR(tensor).elements) return 0;
++    memcpy(values, TENSOR(tensor).buffer.contents, elements);
++    return 1;
++}
++
++int h3_gpu_tensor_read_bf16_range(const h3_gpu_tensor *tensor,
++                                  size_t source_offset, uint16_t *values,
++                                  size_t elements) {
++    if (!tensor || !values || TENSOR(tensor).dtype != H3_GPU_BF16 ||
++        source_offset > TENSOR(tensor).elements ||
++        elements > TENSOR(tensor).elements - source_offset) return 0;
++    const unsigned char *source = TENSOR(tensor).buffer.contents;
++    memcpy(values, source + source_offset * sizeof(uint16_t), elements * sizeof(uint16_t));
++    return 1;
++}
++
++int h3_gpu_tensor_read_i8_range(const h3_gpu_tensor *tensor,
++                                size_t source_offset, int8_t *values,
++                                size_t elements) {
++    if (!tensor || !values || TENSOR(tensor).dtype != H3_GPU_I8 ||
++        source_offset > TENSOR(tensor).elements ||
++        elements > TENSOR(tensor).elements - source_offset) return 0;
++    const unsigned char *source = TENSOR(tensor).buffer.contents;
++    memcpy(values, source + source_offset, elements);
++    return 1;
++}
++
+ int h3_gpu_tensor_write_f32(h3_gpu_tensor *tensor, const float *values,
+                             size_t elements) {
+     return h3_gpu_tensor_write_f32_range(tensor, 0, values, elements);
+ }
+ 
++int h3_gpu_tensor_write_i8(h3_gpu_tensor *tensor, const int8_t *values,
++                           size_t elements) {
++    if (!tensor || !values || TENSOR(tensor).dtype != H3_GPU_I8 ||
++        elements > TENSOR(tensor).elements) return 0;
++    memcpy(TENSOR(tensor).buffer.contents, values, elements);
++    return 1;
++}
++
+ int h3_gpu_tensor_write_f32_range(h3_gpu_tensor *tensor,
+                                   size_t destination_offset,
+                                   const float *values, size_t elements) {
+@@ -2938,6 +2982,173 @@ int h3_gpu_quantize_weight_int8(h3_gpu *opaque, h3_gpu_tensor *output,
+         1.0f, @"BF16 weight to quantize");
+ }
+ 
++int h3_gpu_quantize_h256_int8(h3_gpu *opaque, h3_gpu_tensor *output,
++                              h3_gpu_tensor *scales,
++                              const h3_gpu_tensor *input, uint32_t rows,
++                              uint32_t padded_rows, uint32_t columns) {
++    H3GPU *gpu = GPU(opaque);
++    if (!gpu.tensorOpsEnabled || !rows || padded_rows < rows ||
++        columns != 14336u) {
++        h3_gpu_set_error(gpu, @"H256 INT8 requires M5 TensorOps, nonzero rows and K=14336");
++        return 0;
++    }
++    if (!h3_gpu_require_bf16(gpu, input, (size_t)rows * columns, @"H256 input") ||
++        !h3_gpu_require_i8(gpu, output, (size_t)padded_rows * columns, @"H256 codes") ||
++        !h3_gpu_require_f32(gpu, scales, padded_rows, @"H256 scales") ||
++        !h3_gpu_require_command(gpu)) return 0;
++    id<MTLComputePipelineState> pipeline = h3_gpu_pipeline(
++        gpu, @"h3_quantize_bf16_h256_int8_rows_k14336");
++    if (!pipeline || pipeline.maxTotalThreadsPerThreadgroup < 256) {
++        h3_gpu_set_error(gpu, @"H256 INT8 pipeline unavailable; no fallback");
++        return 0;
++    }
++    int8_quant_args args = {rows, columns, 1.0f};
++    @autoreleasepool {
++        id<MTLComputeCommandEncoder> encoder = [gpu.command computeCommandEncoder];
++        [encoder setComputePipelineState:pipeline];
++        [encoder setBuffer:TENSOR(input).buffer offset:0 atIndex:0];
++        [encoder setBuffer:TENSOR(output).buffer offset:0 atIndex:1];
++        [encoder setBuffer:TENSOR(scales).buffer offset:0 atIndex:2];
++        [encoder setBytes:&args length:sizeof(args) atIndex:3];
++        [encoder dispatchThreadgroups:MTLSizeMake(padded_rows, 1, 1)
++                 threadsPerThreadgroup:MTLSizeMake(256, 1, 1)];
++        [encoder endEncoding];
++    }
++    h3_gpu_stats stats = gpu.stats;
++    stats.direct_dispatches++;
++    gpu.stats = stats;
++    return 1;
++}
++
++static int h3_gpu_fc2_int8_bf16_impl(h3_gpu *opaque, h3_gpu_tensor *output,
++                         h3_gpu_tensor *quantized_activation,
++                         h3_gpu_tensor *activation_scales,
++                         const h3_gpu_tensor *activated,
++                         const h3_gpu_tensor *weight,
++                         const h3_gpu_tensor *weight_scales,
++                         uint32_t rows, uint32_t hidden_dim,
++                         uint32_t output_dim, int policy,
++                         int use_slower_grouped_quantizer,
++                         const h3_gpu_tensor *gate_residual,
++                         const h3_gpu_tensor *gate_modulation,
++                         const h3_gpu_tensor *gate_row_map,
++                         uint32_t gate_slots, uint32_t gate_slot) {
++    H3GPU *gpu = GPU(opaque);
++    if (!gpu.tensorOpsEnabled || rows < 128u || rows > UINT32_MAX - 127u ||
++        !hidden_dim || hidden_dim % 1024u || !output_dim || output_dim % 128u ||
++        policy < 0 || policy > 2) {
++        h3_gpu_set_error(gpu, @"unsupported FC2 INT8 shape/policy; no fallback");
++        return 0;
++    }
++    BOOL fused_gate = gate_residual != NULL;
++    if (fused_gate && (rows <= 2048u || hidden_dim != 14336u || output_dim != 5376u ||
++        !gate_slots || gate_slot >= gate_slots ||
++        getenv("H3_INT8_GROUP_FC2_THREADGROUP") || getenv("H3_INT8_GROUP_FC2_LOCAL128") ||
++        !h3_gpu_require_bf16(gpu, gate_residual, (size_t)rows * output_dim, @"FC2 gate residual") ||
++        !h3_gpu_require_bf16(gpu, gate_modulation, 1, @"FC2 gate modulation") ||
++        !h3_gpu_require_elements(gpu, gate_row_map, rows, @"FC2 gate row map") ||
++        TENSOR(gate_row_map).dtype != H3_GPU_U32)) {
++        h3_gpu_set_error(gpu, @"fused FC2 gate requires default H3 large-row dispatch; no fallback");
++        return 0;
++    }
++    uint32_t padded_rows = (rows + 127u) & ~127u;
++    BOOL grouped = policy == 0;
++    BOOL hadamard = policy == 1;
++    BOOL n256 = !grouped && hidden_dim == 14336u && rows <= 2048u && output_dim % 256u == 0;
++    BOOL local = grouped && getenv("H3_INT8_GROUP_FC2_THREADGROUP") == NULL;
++    BOOL local128 = grouped && getenv("H3_INT8_GROUP_FC2_LOCAL128") != NULL;
++    if (!h3_gpu_require_i8(gpu, weight, (size_t)output_dim * hidden_dim, @"FC2 INT8 weight") ||
++        !h3_gpu_require_f32(gpu, weight_scales, output_dim, @"FC2 weight scales") ||
++        !h3_gpu_require_bf16(gpu, output, (size_t)rows * output_dim, @"FC2 BF16 output") ||
++        !h3_gpu_require_command(gpu)) return 0;
++    if (hadamard) {
++        if (!h3_gpu_quantize_h256_int8(opaque, quantized_activation,
++                activation_scales, activated, rows, padded_rows, hidden_dim)) return 0;
++    } else if (grouped) {
++        if (!h3_gpu_quantize_bf16_int8_groups(opaque, quantized_activation,
++                activation_scales, activated, rows, padded_rows, hidden_dim,
++                1024u, use_slower_grouped_quantizer)) return 0;
++    } else {
++        float clip = 1.0f;
++        const char *value = getenv("H3_INT8_ACTIVATION_CLIP");
++        if (value) { float p = strtof(value, NULL); if (p >= 0.1f && p <= 1.0f) clip = p; }
++        if (!h3_gpu_quantize_bf16_int8_rows(opaque, quantized_activation,
++                activation_scales, activated, rows, padded_rows, hidden_dim,
++                clip, @"int8 MLP FC2 input")) return 0;
++    }
++    NSString *name = local128 ? @"h3_linear_int8_grouped_local_nax_r128x128" :
++        local ? @"h3_linear_int8_grouped_local_nax_r128x64" :
++        grouped ? @"h3_linear_int8_grouped_nax_r128x64" :
++        n256 ? @"h3_linear_int8_nax_r128x256_full_k14336" :
++        hidden_dim == 14336u && output_dim == 5376u ?
++            @"h3_linear_int8_nax_r128_full_k14336" : @"h3_linear_int8_nax_r128";
++    if (fused_gate) name = [name stringByAppendingString:@"_gate"];
++    NSUInteger threads = n256 ? 512u : local || local128 ? 256u : grouped ? 128u : 256u;
++    id<MTLComputePipelineState> pipeline = h3_gpu_pipeline(gpu, name);
++    if (!pipeline || pipeline.maxTotalThreadsPerThreadgroup < threads) {
++        h3_gpu_set_error(gpu, @"FC2 INT8 pipeline unavailable; no fallback");
++        return 0;
++    }
++    linear_args args = {rows, hidden_dim, output_dim, 0};
++    gate_args gate = {rows, output_dim, gate_slots, gate_slot};
++    uint32_t tile = n256 ? 256u : grouped && !local128 ? 64u : 128u;
++    @autoreleasepool {
++        id<MTLComputeCommandEncoder> encoder = [gpu.command computeCommandEncoder];
++        [encoder setComputePipelineState:pipeline];
++        [encoder setBuffer:TENSOR(quantized_activation).buffer offset:0 atIndex:0];
++        [encoder setBuffer:TENSOR(weight).buffer offset:0 atIndex:1];
++        [encoder setBuffer:TENSOR(activation_scales).buffer offset:0 atIndex:2];
++        [encoder setBuffer:TENSOR(weight_scales).buffer offset:0 atIndex:3];
++        [encoder setBuffer:TENSOR(output).buffer offset:0 atIndex:4];
++        [encoder setBytes:&args length:sizeof(args) atIndex:5];
++        if (fused_gate) {
++            [encoder setBuffer:TENSOR(gate_residual).buffer offset:0 atIndex:6];
++            [encoder setBuffer:TENSOR(gate_modulation).buffer offset:0 atIndex:7];
++            [encoder setBuffer:TENSOR(gate_row_map).buffer offset:0 atIndex:8];
++            [encoder setBytes:&gate length:sizeof(gate) atIndex:9];
++        }
++        [encoder dispatchThreadgroups:MTLSizeMake((NSUInteger)(padded_rows / 128u) *
++            (output_dim / tile), 1, 1) threadsPerThreadgroup:MTLSizeMake(threads, 1, 1)];
++        [encoder endEncoding];
++    }
++    h3_gpu_stats stats = gpu.stats;
++    stats.direct_dispatches++;
++    gpu.stats = stats;
++    return 1;
++}
++
++int h3_gpu_fc2_int8_bf16(h3_gpu *opaque, h3_gpu_tensor *output,
++                         h3_gpu_tensor *quantized_activation,
++                         h3_gpu_tensor *activation_scales,
++                         const h3_gpu_tensor *activated,
++                         const h3_gpu_tensor *weight,
++                         const h3_gpu_tensor *weight_scales,
++                         uint32_t rows, uint32_t hidden_dim,
++                         uint32_t output_dim, int policy,
++                         int use_slower_grouped_quantizer) {
++    return h3_gpu_fc2_int8_bf16_impl(opaque, output, quantized_activation, activation_scales, activated, weight, weight_scales, rows, hidden_dim, output_dim, policy, use_slower_grouped_quantizer, NULL, NULL, NULL, 0, 0);
++}
++
++int h3_gpu_fc2_int8_gate_bf16(h3_gpu *opaque, h3_gpu_tensor *output,
++                         h3_gpu_tensor *quantized_activation,
++                         h3_gpu_tensor *activation_scales,
++                         const h3_gpu_tensor *activated,
++                         const h3_gpu_tensor *weight,
++                         const h3_gpu_tensor *weight_scales,
++                         uint32_t rows, uint32_t hidden_dim,
++                         uint32_t output_dim, int policy,
++                         int use_slower_grouped_quantizer,
++                         const h3_gpu_tensor *gate_residual,
++                         const h3_gpu_tensor *gate_modulation,
++                         const h3_gpu_tensor *gate_row_map,
++                         uint32_t gate_slots, uint32_t gate_slot) {
++    if (!gate_residual || !gate_modulation || !gate_row_map) {
++        h3_gpu_set_error(GPU(opaque), @"fused gate inputs must be non-null; no fallback");
++        return 0;
++    }
++    return h3_gpu_fc2_int8_bf16_impl(opaque, output, quantized_activation, activation_scales, activated, weight, weight_scales, rows, hidden_dim, output_dim, policy, use_slower_grouped_quantizer, gate_residual, gate_modulation, gate_row_map, gate_slots, gate_slot);
++}
++
+ static int h3_gpu_linear_int8_bf16_layout(
+                             h3_gpu *opaque, h3_gpu_tensor *output,
+                             h3_gpu_tensor *quantized_input,
+@@ -2949,8 +3160,22 @@ static int h3_gpu_linear_int8_bf16_layout(
+                             uint32_t output_dim,
+                             int use_slower_uncached_int8_scales,
+                             BOOL headMajorInput, uint32_t heads,
+-                            uint32_t headDim) {
++                            uint32_t headDim,
++                            const h3_gpu_tensor *gate_residual,
++                            const h3_gpu_tensor *gate_modulation,
++                            const h3_gpu_tensor *gate_row_map,
++                            uint32_t gate_slots, uint32_t gate_slot) {
+     H3GPU *gpu = GPU(opaque);
++    BOOL fused_gate = gate_residual != NULL;
++    if (fused_gate && (!headMajorInput || use_slower_uncached_int8_scales ||
++        rows <= 2048u || input_dim != 7168u || output_dim != 5376u ||
++        !gate_slots || gate_slot >= gate_slots || getenv("H3_DISABLE_INT8_LOCAL_SCALES") ||
++        !h3_gpu_require_bf16(gpu, gate_residual, (size_t)rows * output_dim, @"attention output gate residual") ||
++        !h3_gpu_require_bf16(gpu, gate_modulation, 1, @"attention output gate modulation") ||
++        !h3_gpu_require_elements(gpu, gate_row_map, rows, @"attention output gate row map") ||
++        TENSOR(gate_row_map).dtype != H3_GPU_U32)) {
++        h3_gpu_set_error(gpu, @"fused attention gate requires default large-row head-major output; no fallback"); return 0;
++    }
+     uint32_t padded_rows = (rows + 127u) & ~127u;
+     if (!gpu.tensorOpsEnabled || rows < 128 || input_dim % 128 ||
+         output_dim % 128 ||
+@@ -2976,7 +3201,7 @@ static int h3_gpu_linear_int8_bf16_layout(
+         output_dim == 5376 &&
+         getenv("H3_DISABLE_INT8_LINEAR_KNOWN") == NULL;
+     id<MTLComputePipelineState> pipeline = h3_gpu_pipeline(
+-        gpu, known_linear ? @"h3_linear_int8_local_scales_nax_r128_k7168" :
++        gpu, fused_gate ? @"h3_linear_int8_local_scales_nax_r128_gate" : known_linear ? @"h3_linear_int8_local_scales_nax_r128_k7168" :
+              local_scales ? @"h3_linear_int8_local_scales_nax_r128" :
+                             @"h3_linear_int8_nax_r128");
+     if (!pipeline || pipeline.maxTotalThreadsPerThreadgroup < 256) {
+@@ -2984,6 +3209,7 @@ static int h3_gpu_linear_int8_bf16_layout(
+         return 0;
+     }
+     linear_args args = {rows, input_dim, output_dim, 0};
++    gate_args gate = {rows, output_dim, gate_slots, gate_slot};
+     @autoreleasepool {
+         id<MTLComputeCommandEncoder> encoder =
+             [gpu.command computeCommandEncoder];
+@@ -2994,6 +3220,12 @@ static int h3_gpu_linear_int8_bf16_layout(
+         [encoder setBuffer:TENSOR(weight_scales).buffer offset:0 atIndex:3];
+         [encoder setBuffer:TENSOR(output).buffer offset:0 atIndex:4];
+         [encoder setBytes:&args length:sizeof(args) atIndex:5];
++        if (fused_gate) {
++            [encoder setBuffer:TENSOR(gate_residual).buffer offset:0 atIndex:6];
++            [encoder setBuffer:TENSOR(gate_modulation).buffer offset:0 atIndex:7];
++            [encoder setBuffer:TENSOR(gate_row_map).buffer offset:0 atIndex:8];
++            [encoder setBytes:&gate length:sizeof(gate) atIndex:9];
++        }
+         NSUInteger groups = (NSUInteger)(padded_rows / 128u) *
+                             (output_dim / 128u);
+         [encoder dispatchThreadgroups:MTLSizeMake(groups, 1, 1)
+@@ -3018,7 +3250,7 @@ int h3_gpu_linear_int8_bf16(h3_gpu *opaque, h3_gpu_tensor *output,
+     return h3_gpu_linear_int8_bf16_layout(
+         opaque, output, quantized_input, input_scales, input, weight,
+         weight_scales, rows, input_dim, output_dim,
+-        use_slower_uncached_int8_scales, NO, 0, 0);
++        use_slower_uncached_int8_scales, NO, 0, 0, NULL, NULL, NULL, 0, 0);
+ }
+ 
+ int h3_gpu_linear_int8_head_major_bf16(
+@@ -3033,10 +3265,33 @@ int h3_gpu_linear_int8_head_major_bf16(
+     return h3_gpu_linear_int8_bf16_layout(
+         opaque, output, quantized_input, input_scales, input, weight,
+         weight_scales, rows, heads * head_dim, output_dim, 0, YES, heads,
+-        head_dim);
++        head_dim, NULL, NULL, NULL, 0, 0);
+ }
+ 
+-int h3_gpu_mlp_int8_bf16(h3_gpu *opaque, h3_gpu_tensor *output,
++int h3_gpu_linear_int8_head_major_gate_bf16(
++                            h3_gpu *opaque, h3_gpu_tensor *output,
++                            h3_gpu_tensor *quantized_input,
++                            h3_gpu_tensor *input_scales,
++                            const h3_gpu_tensor *input,
++                            const h3_gpu_tensor *weight,
++                            const h3_gpu_tensor *weight_scales,
++                            uint32_t rows, uint32_t heads,
++                            uint32_t head_dim, uint32_t output_dim,
++                            const h3_gpu_tensor *gate_residual,
++                            const h3_gpu_tensor *gate_modulation,
++                            const h3_gpu_tensor *gate_row_map,
++                            uint32_t gate_slots, uint32_t gate_slot) {
++    if (!gate_residual || !gate_modulation || !gate_row_map) {
++        h3_gpu_set_error(GPU(opaque), @"fused gate inputs must be non-null; no fallback");
++        return 0;
++    }
++    return h3_gpu_linear_int8_bf16_layout(opaque, output, quantized_input,
++        input_scales, input, weight, weight_scales, rows, heads * head_dim,
++        output_dim, 0, YES, heads, head_dim, gate_residual, gate_modulation,
++        gate_row_map, gate_slots, gate_slot);
++}
++
++static int h3_gpu_mlp_int8_bf16_impl(h3_gpu *opaque, h3_gpu_tensor *output,
+                          h3_gpu_tensor *activated,
+                          h3_gpu_tensor *quantized_activation,
+                          h3_gpu_tensor *activation_scales,
+@@ -3052,7 +3307,12 @@ int h3_gpu_mlp_int8_bf16(h3_gpu *opaque, h3_gpu_tensor *output,
+                          int use_slower_grouped_quantizer,
+                          int use_slower_dynamic_fc1_k,
+                          int use_int8_row_fc2,
+-                         int input_is_quantized) {
++                         int use_hadamard_fc2,
++                         int input_is_quantized,
++                         const h3_gpu_tensor *gate_residual,
++                         const h3_gpu_tensor *gate_modulation,
++                         const h3_gpu_tensor *gate_row_map,
++                         uint32_t gate_slots, uint32_t gate_slot) {
+     H3GPU *gpu = GPU(opaque);
+     uint32_t padded_rows = (rows + 127u) & ~127u;
+     uint32_t fc2_scale_groups = hidden_dim / 1024u;
+@@ -3063,6 +3323,11 @@ int h3_gpu_mlp_int8_bf16(h3_gpu *opaque, h3_gpu_tensor *output,
+                                strcmp(stage, "bf16"));
+     BOOL int8_fc2 = !stage || (strcmp(stage, "fc1") &&
+                                strcmp(stage, "bf16"));
++    if (use_hadamard_fc2 && (!int8_fc2 || hidden_dim != 14336u ||
++        use_int8_row_fc2 || getenv("H3_INT8_ACTIVATION_CLIP"))) {
++        h3_gpu_set_error(gpu,@"H256 FC2 conflicts with stage/row/clip policy; no fallback");
++        return 0;
++    }
+     if (!gpu.tensorOpsEnabled || rows < 128 || rows > UINT32_MAX - 127u ||
+         (input_dim % 128) || (hidden_dim % 128) || (output_dim % 128) ||
+         !h3_gpu_require_i8(gpu, quantized_activation, activation_capacity,
+@@ -3140,12 +3405,6 @@ int h3_gpu_mlp_int8_bf16(h3_gpu *opaque, h3_gpu_tensor *output,
+         float parsed = strtof(clip_value, NULL);
+         if (parsed >= 0.1f && parsed <= 1.0f) activation_clip = parsed;
+     }
+-    BOOL grouped_fc2 = int8_fc2 && !use_int8_row_fc2;
+-    BOOL row_fc2_n256 = use_int8_row_fc2 && rows <= 2048;
+-    BOOL grouped_fc2_local = grouped_fc2 &&
+-        getenv("H3_INT8_GROUP_FC2_THREADGROUP") == NULL;
+-    BOOL grouped_fc2_local128 = grouped_fc2 &&
+-        getenv("H3_INT8_GROUP_FC2_LOCAL128") != NULL;
+     BOOL int8_fc1_local = int8_fc1 &&
+         getenv("H3_INT8_FC1_LOCAL") != NULL;
+     BOOL int8_fc1_known = int8_fc1 && input_dim == 5376 &&
+@@ -3197,57 +3456,73 @@ int h3_gpu_mlp_int8_bf16(h3_gpu *opaque, h3_gpu_tensor *output,
+         gpu.stats = stats;
+     }
+ 
+-    if (int8_fc2 && grouped_fc2 &&
+-        !h3_gpu_quantize_bf16_int8_groups(
+-            opaque, quantized_activation, activation_scales, activated, rows,
+-            padded_rows, hidden_dim, 1024,
+-            use_slower_grouped_quantizer)) return 0;
+-    if (int8_fc2 && !grouped_fc2 &&
+-        !h3_gpu_quantize_bf16_int8_rows(
+-            opaque, quantized_activation, activation_scales, activated, rows,
+-            padded_rows, hidden_dim, activation_clip,
+-            @"int8 MLP FC2 input")) return 0;
+-    if (int8_fc2) @autoreleasepool {
+-        linear_args fc2_args = {rows, hidden_dim, output_dim, 0};
+-        id<MTLComputeCommandEncoder> encoder =
+-            [gpu.command computeCommandEncoder];
+-        [encoder setComputePipelineState:grouped_fc2_local128 ?
+-            fc2_grouped_local128 : grouped_fc2_local ?
+-            fc2_grouped_local : grouped_fc2 ? fc2_grouped :
+-            row_fc2_n256 ? fc2_full_n256 :
+-            hidden_dim == 14336u && output_dim == 5376u ? fc2_full : fc2];
+-        [encoder setBuffer:TENSOR(quantized_activation).buffer
+-                         offset:0 atIndex:0];
+-        [encoder setBuffer:TENSOR(fc2_weight).buffer offset:0 atIndex:1];
+-        [encoder setBuffer:TENSOR(activation_scales).buffer
+-                         offset:0 atIndex:2];
+-        [encoder setBuffer:TENSOR(fc2_scales).buffer offset:0 atIndex:3];
+-        [encoder setBuffer:TENSOR(output).buffer offset:0 atIndex:4];
+-        [encoder setBytes:&fc2_args length:sizeof(fc2_args) atIndex:5];
+-        [encoder dispatchThreadgroups:
+-            MTLSizeMake((NSUInteger)row_tiles *
+-                        (output_dim /
+-                         (row_fc2_n256 ? 256u :
+-                          grouped_fc2 && !grouped_fc2_local128 ?
+-                          64u : 128u)), 1, 1)
+-                 threadsPerThreadgroup:
+-                    MTLSizeMake(row_fc2_n256 ? 512u :
+-                        grouped_fc2_local ? 256u :
+-                        grouped_fc2 ? 128u : 256u, 1, 1)];
+-        [encoder endEncoding];
+-    } else if (!h3_gpu_linear_bf16(
+-                   opaque, output, activated, fc2_bf16, NULL,
+-                   rows, hidden_dim, output_dim)) {
+-        return 0;
++    if (gate_residual && !int8_fc2) {
++        h3_gpu_set_error(gpu, @"fused FC2 gate requires INT8 FC2; no fallback"); return 0;
+     }
+     if (int8_fc2) {
+-        h3_gpu_stats stats = gpu.stats;
+-        stats.direct_dispatches++;
+-        gpu.stats = stats;
++        if (!h3_gpu_fc2_int8_bf16_impl(opaque, output, quantized_activation,
++                activation_scales, activated, fc2_weight, fc2_scales,
++                rows, hidden_dim, output_dim,
++                use_hadamard_fc2 ? 1 : use_int8_row_fc2 ? 2 : 0,
++                use_slower_grouped_quantizer, gate_residual, gate_modulation,
++                gate_row_map, gate_slots, gate_slot)) return 0;
++    } else if (!h3_gpu_linear_bf16(opaque, output, activated, fc2_bf16,
++                   NULL, rows, hidden_dim, output_dim)) {
++        return 0;
+     }
+     return 1;
+ }
+ 
++int h3_gpu_mlp_int8_bf16(h3_gpu *opaque, h3_gpu_tensor *output,
++                         h3_gpu_tensor *activated,
++                         h3_gpu_tensor *quantized_activation,
++                         h3_gpu_tensor *activation_scales,
++                         const h3_gpu_tensor *input,
++                         const h3_gpu_tensor *fc1_weight,
++                         const h3_gpu_tensor *fc1_scales,
++                         const h3_gpu_tensor *fc2_weight,
++                         const h3_gpu_tensor *fc2_scales,
++                         const h3_gpu_tensor *fc1_bf16,
++                         const h3_gpu_tensor *fc2_bf16, uint32_t rows,
++                         uint32_t input_dim, uint32_t hidden_dim,
++                         uint32_t output_dim,
++                         int use_slower_grouped_quantizer,
++                         int use_slower_dynamic_fc1_k,
++                         int use_int8_row_fc2,
++                         int use_hadamard_fc2,
++                         int input_is_quantized) {
++    return h3_gpu_mlp_int8_bf16_impl(opaque, output, activated, quantized_activation, activation_scales, input, fc1_weight, fc1_scales, fc2_weight, fc2_scales, fc1_bf16, fc2_bf16, rows, input_dim, hidden_dim, output_dim, use_slower_grouped_quantizer, use_slower_dynamic_fc1_k, use_int8_row_fc2, use_hadamard_fc2, input_is_quantized, NULL, NULL, NULL, 0, 0);
++}
++
++int h3_gpu_mlp_int8_gate_bf16(h3_gpu *opaque, h3_gpu_tensor *output,
++                         h3_gpu_tensor *activated,
++                         h3_gpu_tensor *quantized_activation,
++                         h3_gpu_tensor *activation_scales,
++                         const h3_gpu_tensor *input,
++                         const h3_gpu_tensor *fc1_weight,
++                         const h3_gpu_tensor *fc1_scales,
++                         const h3_gpu_tensor *fc2_weight,
++                         const h3_gpu_tensor *fc2_scales,
++                         const h3_gpu_tensor *fc1_bf16,
++                         const h3_gpu_tensor *fc2_bf16, uint32_t rows,
++                         uint32_t input_dim, uint32_t hidden_dim,
++                         uint32_t output_dim,
++                         int use_slower_grouped_quantizer,
++                         int use_slower_dynamic_fc1_k,
++                         int use_int8_row_fc2,
++                         int use_hadamard_fc2,
++                         int input_is_quantized,
++                         const h3_gpu_tensor *gate_residual,
++                         const h3_gpu_tensor *gate_modulation,
++                         const h3_gpu_tensor *gate_row_map,
++                         uint32_t gate_slots, uint32_t gate_slot) {
++    if (!gate_residual || !gate_modulation || !gate_row_map) {
++        h3_gpu_set_error(GPU(opaque), @"fused gate inputs must be non-null; no fallback");
++        return 0;
++    }
++    return h3_gpu_mlp_int8_bf16_impl(opaque, output, activated, quantized_activation, activation_scales, input, fc1_weight, fc1_scales, fc2_weight, fc2_scales, fc1_bf16, fc2_bf16, rows, input_dim, hidden_dim, output_dim, use_slower_grouped_quantizer, use_slower_dynamic_fc1_k, use_int8_row_fc2, use_hadamard_fc2, input_is_quantized, gate_residual, gate_modulation, gate_row_map, gate_slots, gate_slot);
++}
++
+ int h3_gpu_silu_bf16(h3_gpu *opaque, h3_gpu_tensor *output,
+                      const h3_gpu_tensor *input, uint32_t elements) {
+     H3GPU *gpu = GPU(opaque);
+@@ -3592,7 +3867,7 @@ int h3_gpu_gate_adaln_bf16(
+     return 1;
+ }
+ 
+-int h3_gpu_gate_adaln_quantize_int8(
++static int h3_gpu_gate_adaln_quantize_int8_impl(
+                      h3_gpu *opaque, h3_gpu_tensor *gated_residual,
+                      h3_gpu_tensor *quantized_output,
+                      h3_gpu_tensor *quantized_scales,
+@@ -3604,11 +3879,11 @@ int h3_gpu_gate_adaln_quantize_int8(
+                      const h3_gpu_tensor *row_map, uint32_t rows,
+                      uint32_t padded_rows, uint32_t width, uint32_t slots,
+                      uint32_t gate_slot, uint32_t shift_slot,
+-                     uint32_t scale_slot, float epsilon) {
++                     uint32_t scale_slot, float epsilon, BOOL pre_gated) {
+     H3GPU *gpu = GPU(opaque);
+     size_t elements = (size_t)rows * width;
+     size_t padded_elements = (size_t)padded_rows * width;
+-    if (!gpu.tensorOpsEnabled || !rows || padded_rows < rows || !width ||
++    if ((pre_gated && width != 5376) || !gpu.tensorOpsEnabled || !rows || padded_rows < rows || !width ||
+         width > 5376 || gate_slot >= slots || shift_slot >= slots ||
+         scale_slot >= slots || elements > UINT32_MAX ||
+         !h3_gpu_require_bf16(gpu, residual, elements,
+@@ -3642,6 +3917,7 @@ int h3_gpu_gate_adaln_quantize_int8(
+         getenv("H3_DISABLE_VECTOR_GATE_ADALN") == NULL ?
+         @"h3_gate_adaln_quantize_int8" :
+         @"h3_gate_adaln_quantize_int8_scalar";
++    if (pre_gated) pipeline_name = @"h3_adaln_quantize_int8_pre_gated";
+     id<MTLComputePipelineState> pipeline = h3_gpu_pipeline(
+         gpu, pipeline_name);
+     if (!pipeline || pipeline.maxTotalThreadsPerThreadgroup < 256) {
+@@ -3673,6 +3949,35 @@ int h3_gpu_gate_adaln_quantize_int8(
+     return 1;
+ }
+ 
++int h3_gpu_gate_adaln_quantize_int8(
++                     h3_gpu *opaque, h3_gpu_tensor *gated_residual,
++                     h3_gpu_tensor *quantized_output,
++                     h3_gpu_tensor *quantized_scales,
++                     const h3_gpu_tensor *residual,
++                     const h3_gpu_tensor *branch,
++                     const h3_gpu_tensor *norm_weight,
++                     const h3_gpu_tensor *gate_modulation,
++                     const h3_gpu_tensor *norm_modulation,
++                     const h3_gpu_tensor *row_map, uint32_t rows,
++                     uint32_t padded_rows, uint32_t width, uint32_t slots,
++                     uint32_t gate_slot, uint32_t shift_slot,
++                     uint32_t scale_slot, float epsilon) {
++    return h3_gpu_gate_adaln_quantize_int8_impl(opaque, gated_residual, quantized_output, quantized_scales, residual, branch, norm_weight, gate_modulation, norm_modulation, row_map, rows, padded_rows, width, slots, gate_slot, shift_slot, scale_slot, epsilon, NO);
++}
++
++int h3_gpu_adaln_quantize_int8_pre_gated(h3_gpu *opaque,
++                     h3_gpu_tensor *quantized_output, h3_gpu_tensor *quantized_scales,
++                     h3_gpu_tensor *hidden, const h3_gpu_tensor *norm_weight,
++                     const h3_gpu_tensor *modulation, const h3_gpu_tensor *row_map,
++                     uint32_t rows, uint32_t padded_rows, uint32_t width,
++                     uint32_t slots, uint32_t shift_slot, uint32_t scale_slot,
++                     float epsilon) {
++    return h3_gpu_gate_adaln_quantize_int8_impl(opaque, hidden,
++        quantized_output, quantized_scales, hidden, hidden, norm_weight,
++        modulation, modulation, row_map, rows, padded_rows, width, slots,
++        0, shift_slot, scale_slot, epsilon, YES);
++}
++
+ static int h3_gpu_qkv_rope_bf16_layout(h3_gpu *opaque, h3_gpu_tensor *query,
+                                        h3_gpu_tensor *key,
+                                        h3_gpu_tensor *value,
+@@ -4023,6 +4328,98 @@ int h3_gpu_grouped_qkv_linear_rope_int8(
+     return 1;
+ }
+ 
++/* M5MaxLocalBenchmark TM64 grouped projection/RMS/RoPE candidate. */
++int h3_gpu_m5_grouped_qkv_linear_rope_int8(
++                                 h3_gpu *opaque,
++                                 h3_gpu_tensor *query,
++                                 h3_gpu_tensor *key,
++                                 h3_gpu_tensor *value,
++                                 h3_gpu_tensor *quantized_input,
++                                 h3_gpu_tensor *input_scales,
++                                 const h3_gpu_tensor *input,
++                                 const h3_gpu_tensor *weight,
++                                 const h3_gpu_tensor *weight_scales,
++                                 const h3_gpu_tensor *q_norm,
++                                 const h3_gpu_tensor *k_norm,
++                                 const h3_gpu_tensor *rope_cos,
++                                 const h3_gpu_tensor *rope_sin,
++                                 uint32_t rows, uint32_t input_dim,
++                                 uint32_t heads, uint32_t head_dim,
++                                 uint32_t rope_half, float epsilon,
++                                 int input_is_quantized) {
++    H3GPU *gpu = GPU(opaque);
++    gpu.headMajorSDPAInputs = NO;
++    uint32_t inner = heads * head_dim;
++    uint32_t padded_rows = (rows + 127u) & ~127u;
++    size_t projected = (size_t)rows * inner;
++    size_t rope_count = (size_t)rows * rope_half;
++    if (!gpu.tensorOpsEnabled || rows < 128 || rows > UINT32_MAX-127u ||
++        !input_dim || input_dim % 128 || !heads || !isfinite(epsilon) || epsilon <= 0 ||
++        head_dim != 128 || heads % 4 || rope_half != 48 ||
++        !h3_gpu_require_i8(gpu, weight,
++                           (size_t)inner * 3 * input_dim,
++                           @"int8 QKV projection weight") ||
++        !h3_gpu_require_f32(gpu, weight_scales, inner * 3,
++                            @"int8 QKV weight scales") ||
++        !h3_gpu_require_i8(gpu, quantized_input,
++                           (size_t)padded_rows * input_dim,
++                           @"int8 QKV input") ||
++        !h3_gpu_require_f32(gpu, input_scales, padded_rows,
++                            @"int8 QKV input scales") ||
++        (!input_is_quantized &&
++         !h3_gpu_require_bf16(gpu, input, (size_t)rows * input_dim,
++                              @"BF16 QKV input")) ||
++        !h3_gpu_require_bf16(gpu, q_norm, head_dim, @"int8 Q norm") ||
++        !h3_gpu_require_bf16(gpu, k_norm, head_dim, @"int8 K norm") ||
++        !h3_gpu_require_bf16(gpu, rope_cos, rope_count,
++                             @"int8 RoPE cosine") ||
++        !h3_gpu_require_bf16(gpu, rope_sin, rope_count,
++                             @"int8 RoPE sine") ||
++        !h3_gpu_require_bf16(gpu, query, projected, @"int8 query") ||
++        !h3_gpu_require_bf16(gpu, key, projected, @"int8 key") ||
++        !h3_gpu_require_bf16(gpu, value, projected, @"int8 value") ||
++        !h3_gpu_require_command(gpu)) return 0;
++    if (!input_is_quantized && !h3_gpu_quantize_bf16_int8_rows(
++            opaque, quantized_input, input_scales, input, rows, padded_rows,
++            input_dim, 1.0f, @"int8 QKV input")) return 0;
++    id<MTLComputePipelineState> projection = h3_gpu_pipeline(
++        gpu, @"h3_m5_qkv_rope_int8_r64_swizzle8");
++    if (!projection || projection.maxTotalThreadsPerThreadgroup < 128) {
++        h3_gpu_set_error(gpu, @"M5 custom grouped QKV candidate unavailable; no fallback");
++        return 0;
++    }
++    typedef struct {
++        uint32_t rows, input_dim, heads, head_dim, rope_half, head_major;
++        float epsilon;
++    } qkv_project_rope_args;
++    qkv_project_rope_args args = {rows, input_dim, heads, head_dim, rope_half, 1u, epsilon};
++    @autoreleasepool {
++        id<MTLComputeCommandEncoder> encoder = [gpu.command computeCommandEncoder];
++        [encoder setComputePipelineState:projection];
++        [encoder setBuffer:TENSOR(quantized_input).buffer offset:0 atIndex:0];
++        [encoder setBuffer:TENSOR(weight).buffer offset:0 atIndex:1];
++        [encoder setBuffer:TENSOR(input_scales).buffer offset:0 atIndex:2];
++        [encoder setBuffer:TENSOR(weight_scales).buffer offset:0 atIndex:3];
++        [encoder setBuffer:TENSOR(query).buffer offset:0 atIndex:4];
++        [encoder setBuffer:TENSOR(key).buffer offset:0 atIndex:5];
++        [encoder setBuffer:TENSOR(value).buffer offset:0 atIndex:6];
++        [encoder setBuffer:TENSOR(q_norm).buffer offset:0 atIndex:7];
++        [encoder setBuffer:TENSOR(k_norm).buffer offset:0 atIndex:8];
++        [encoder setBuffer:TENSOR(rope_cos).buffer offset:0 atIndex:9];
++        [encoder setBuffer:TENSOR(rope_sin).buffer offset:0 atIndex:10];
++        [encoder setBytes:&args length:sizeof(args) atIndex:11];
++        NSUInteger groups = (NSUInteger)((rows+63u)/64u)*heads*3u;
++        [encoder dispatchThreadgroups:MTLSizeMake(groups,1,1)
++                 threadsPerThreadgroup:MTLSizeMake(128,1,1)];
++        [encoder endEncoding];
++    }
++    h3_gpu_stats stats = gpu.stats;
++    stats.direct_dispatches += 1;
++    gpu.stats = stats;
++    gpu.headMajorSDPAInputs = YES;
++    return 1;
++}
++
+ int h3_gpu_swiglu_bf16(h3_gpu *opaque, h3_gpu_tensor *output,
+                        const h3_gpu_tensor *fused, uint32_t rows,
+                        uint32_t width) {
+diff --git a/h3_shaders.metal b/h3_shaders.metal
+index 36316f5..5d83606 100644
+--- a/h3_shaders.metal
++++ b/h3_shaders.metal
+@@ -1317,6 +1317,77 @@ kernel void h3_fc1_swiglu_bf16_nax_r128_morton4(
+ /* Draw Things/ccv-style dynamic symmetric row quantization. Weight rows are
+  * checkpoint output channels; activation rows include zero-padded M tails so
+  * the int8 matmuls can keep a fully static 128x128x128 descriptor. */
++/* Plain normalized H256. Each SIMD group owns seven complete 256-wide
++ * blocks, with the upper three butterfly dimensions in per-lane registers.
++ * Preserves BF16 input, computes the transform in FP32, quantizes directly;
++ * no transformed BF16 round, signs, clipping or CPU/GPU buffer roundtrip.
++ * Whole-row scales deliberately differ from native FC2 group1024 scales. */
++kernel void h3_quantize_bf16_h256_int8_rows_k14336(
++        device const bfloat *input [[buffer(0)]],
++        device int8_t *output [[buffer(1)]],
++        device float *scales [[buffer(2)]],
++        constant int8_quant_args &args [[buffer(3)]],
++        uint tid [[thread_index_in_threadgroup]],
++        ushort sg [[simdgroup_index_in_threadgroup]],
++        ushort lane [[thread_index_in_simdgroup]],
++        uint row [[threadgroup_position_in_grid]]) {
++    constexpr uint width=14336, slots=7, registers=8, groups=8;
++    uint base=row*width;
++    if(row>=args.rows) {
++        for(uint j=tid;j<width;j+=256) output[base+j]=0;
++        if(tid==0) scales[row]=1.0f;
++        return;
++    }
++    float values[slots][registers];
++    threadgroup float partials[groups];
++    float peak=0.0f;
++    #pragma unroll
++    for(uint slot=0;slot<slots;++slot) {
++        uint block=slot*groups+sg;
++        #pragma unroll
++        for(uint reg=0;reg<registers;++reg) {
++            float v=float(input[base+block*256+reg*32+lane]);
++            #pragma unroll
++            for(uint stride=1;stride<32;stride*=2) {
++                float peer=simd_shuffle_xor(v,stride);
++                v=(lane&stride) ? peer-v : v+peer;
++            }
++            values[slot][reg]=v;
++        }
++        #pragma unroll
++        for(uint stride=1;stride<registers;stride*=2) {
++            #pragma unroll
++            for(uint start=0;start<registers;start+=2*stride) {
++                #pragma unroll
++                for(uint j=0;j<stride;++j) {
++                    float a=values[slot][start+j], b=values[slot][start+j+stride];
++                    values[slot][start+j]=a+b;
++                    values[slot][start+j+stride]=a-b;
++                }
++            }
++        }
++        #pragma unroll
++        for(uint reg=0;reg<registers;++reg) {
++            values[slot][reg]*=0.0625f;
++            peak=max(peak,abs(values[slot][reg]));
++        }
++    }
++    peak=simd_max(peak);
++    if(lane==0) partials[sg]=peak;
++    threadgroup_barrier(mem_flags::mem_threadgroup);
++    peak=simd_max(lane<groups ? partials[lane] : 0.0f);
++    float scale=peak==0.0f ? 1.0f : peak/127.0f;
++    if(tid==0) scales[row]=scale;
++    #pragma unroll
++    for(uint slot=0;slot<slots;++slot) {
++        uint block=slot*groups+sg;
++        #pragma unroll
++        for(uint reg=0;reg<registers;++reg)
++            output[base+block*256+reg*32+lane]=int8_t(clamp(
++                rint(values[slot][reg]/scale),-127.0f,127.0f));
++    }
++}
++
+ kernel void h3_quantize_bf16_int8_rows(
+                            device const bfloat *input [[buffer(0)]],
+                            device int8_t *output [[buffer(1)]],
+@@ -1682,6 +1753,90 @@ kernel void h3_quantize_bf16_int8_groups_scalar128_cached(
+     }
+ }
+ 
++/* Original MIT-licensed M5MaxLocalBenchmark Q/K tile port.
++ * Source: src/m5kernels/shaders/qk_rope_projection.metal + qk_rope_body.metal.
++ * TM64/TN128/four SIMD groups/swizzle8; native grouped Q,K,V weight layout.
++ * This is a candidate, not an asserted improvement over native grouped QKV.
++ * Include inside H3_METAL_HAS_TENSOR after h3_qkv_project_rope_args. */
++kernel void h3_m5_qkv_rope_int8_r64_swizzle8(
++    device int8_t *input [[buffer(0)]],
++    device int8_t *weight [[buffer(1)]],
++    device const float *input_scales [[buffer(2)]],
++    device const float *weight_scales [[buffer(3)]],
++    device bfloat *query [[buffer(4)]],
++    device bfloat *key [[buffer(5)]],
++    device bfloat *value [[buffer(6)]],
++    device const bfloat *q_gamma [[buffer(7)]],
++    device const bfloat *k_gamma [[buffer(8)]],
++    device const bfloat *rope_cos [[buffer(9)]],
++    device const bfloat *rope_sin [[buffer(10)]],
++    constant h3_qkv_project_rope_args &args [[buffer(11)]],
++    uint group_id [[threadgroup_position_in_grid]],
++    uint lane [[thread_index_in_simdgroup]],
++    uint sg [[simdgroup_index_in_threadgroup]]) {
++    constexpr uint TM=64, TN=128, GROUPS=4, SWIZZLE=8, D=128, HALF=48;
++    uint row_tiles=(args.rows+TM-1)/TM, columns=args.heads*3;
++    uint band=group_id/(columns*SWIZZLE), start=band*SWIZZLE;
++    uint height=min(SWIZZLE,row_tiles-start), inner=group_id%(columns*SWIZZLE);
++    uint row_start=(start+inner%height)*TM, column_tile=inner/height;
++    uint head=column_tile/3, stream=column_tile%3, weight_start=column_tile*D;
++    uint padded_rows=(args.rows+127u)&~127u;
++    device bfloat *output=stream==0?query:stream==1?key:value;
++    threadgroup bfloat projected[TM*D];
++    auto a=tensor(input,dextents<int,2>(int(args.input_dim),int(padded_rows)),
++                  array<int,2>{1,int(args.input_dim)});
++    auto w=tensor(weight,dextents<int,2>(int(args.input_dim),int(columns*D)),
++                  array<int,2>{1,int(args.input_dim)});
++    auto ta=a.slice(0,int(row_start)), tw=w.slice(0,int(weight_start));
++    constexpr auto desc=matmul2d_descriptor(TM,TN,dynamic_length_v<int>,false,true);
++    matmul2d<desc,execution_simdgroups<GROUPS>> op;
++    auto accum=op.get_destination_cooperative_tensor<decltype(ta),decltype(tw),int>();
++    op.run(ta,tw,accum);
++    #pragma unroll
++    for(ushort i=0;i<accum.get_capacity();++i) {
++        if(!accum.is_valid_element(i)) continue;
++        auto ij=accum.get_multidimensional_index(i);
++        uint local_row=uint(ij[1]), dimension=uint(ij[0]);
++        uint row=row_start+local_row;
++        if(row<args.rows) {
++            // Preserve native left-associated scales and BF16 projection round.
++            bfloat rounded=bfloat(float(accum[i])*input_scales[row]*
++                                  weight_scales[weight_start+dimension]);
++            if(stream==2)
++                output[(ulong(head)*args.rows+row)*D+dimension]=rounded;
++            else projected[local_row*D+dimension]=rounded;
++        }
++    }
++    // Stream is uniform across the threadgroup. V bypasses normalization/RoPE.
++    if(stream==2) return;
++    threadgroup_barrier(mem_flags::mem_threadgroup);
++    device const bfloat *gamma=stream==0?q_gamma:k_gamma;
++    for(uint local_row=sg;local_row<TM;local_row+=GROUPS) {
++        uint row=row_start+local_row;
++        if(row>=args.rows) continue;
++        float square_sum=0.0f;
++        #pragma unroll
++        for(uint d=lane;d<D;d+=32) {
++            float x=float(projected[local_row*D+d]);
++            square_sum+=x*x;
++        }
++        float inverse=rsqrt(simd_sum(square_sum)/float(D)+args.epsilon);
++        #pragma unroll
++        for(uint d=lane;d<D;d+=32) {
++            float y=float(projected[local_row*D+d])*inverse*float(gamma[d]);
++            if(d<2*HALF) {
++                uint pair=d<HALF?d+HALF:d-HALF, angle=d<HALF?d:d-HALF;
++                float paired=float(projected[local_row*D+pair])*inverse*float(gamma[pair]);
++                float c=float(rope_cos[ulong(row)*HALF+angle]);
++                float s=float(rope_sin[ulong(row)*HALF+angle]);
++                y=d<HALF?y*c-paired*s:y*c+paired*s;
++            }
++            output[(ulong(head)*args.rows+row)*D+d]=bfloat(y);
++        }
++    }
++}
++
++
+ /* Int8 H3 QKV projection. Checkpoint columns are grouped as
+  * [head, q/k/v, dimension], so each 128-column TensorOps tile writes one
+  * complete stream/head directly in head-major SDPA layout. */
+@@ -2449,6 +2604,80 @@ kernel void h3_linear_int8_nax_r128_full_k14336(
+                     local_weight_scales[(uint)index[0]]);
+     }
+ }
++/* Optional projection epilogue. Preserve both existing BF16 boundaries. */
++inline bfloat h3_fused_gate_value(float projection,
++                                  device const ushort *residual,
++                                  device const ushort *modulation,
++                                  device const uint *row_map,
++                                  constant gate_args &gate,
++                                  uint row, uint column) {
++    float branch = (float)(bfloat)projection;
++    uint index = row * gate.width + column;
++    uint base = row_map[row] * gate.slots * gate.width;
++    float scale = h3_bf16_to_f32(modulation[base + gate.gate_slot * gate.width + column]);
++    float value = h3_bf16_to_f32(residual[index]) + branch * scale;
++    return (bfloat)h3_bf16_to_f32(h3_f32_to_bf16(value));
++}
++
++kernel void h3_linear_int8_nax_r128_full_k14336_gate(
++                           device int8_t *input [[buffer(0)]],
++                           device int8_t *weight [[buffer(1)]],
++                           device const float *input_scales [[buffer(2)]],
++                           device const float *weight_scales [[buffer(3)]],
++                           device bfloat *output [[buffer(4)]],
++                           constant linear_args &args [[buffer(5)]],
++                           device const ushort *residual [[buffer(6)]],
++                           device const ushort *modulation [[buffer(7)]],
++                           device const uint *row_map [[buffer(8)]],
++                           constant gate_args &gate [[buffer(9)]],
++                           uint code [[threadgroup_position_in_grid]],
++                           ushort tid [[thread_index_in_threadgroup]]) {
++    constexpr uint TILE = 128;
++    constexpr uint INPUT_DIM = 14336;
++    constexpr uint OUTPUT_DIM = 5376;
++    uint padded_rows = (args.rows + TILE - 1) & ~(TILE - 1);
++    uint row_tiles = padded_rows / TILE;
++    uint2 group = h3_morton_decode_compact(
++        code, row_tiles, OUTPUT_DIM / TILE);
++    uint row_start = group.x * TILE;
++    uint column_start = group.y * TILE;
++    threadgroup float local_input_scales[TILE];
++    threadgroup float local_weight_scales[TILE];
++    if (tid < TILE) {
++        local_input_scales[tid] = input_scales[row_start + tid];
++        local_weight_scales[tid] = weight_scales[column_start + tid];
++    }
++    auto x = tensor<device int8_t, dextents<int32_t, 2>, tensor_inline>(
++        input, dextents<int32_t, 2>((int)INPUT_DIM,
++                                    (int)padded_rows));
++    auto w = tensor<device int8_t, dextents<int32_t, 2>, tensor_inline>(
++        weight, dextents<int32_t, 2>((int)INPUT_DIM,
++                                     (int)OUTPUT_DIM));
++    constexpr auto descriptor = matmul2d_descriptor(
++        TILE, TILE, INPUT_DIM, false, true, true,
++        matmul2d_descriptor::mode::multiply);
++    matmul2d<descriptor, execution_simdgroups<8>> mm;
++    auto a = x.slice<TILE, INPUT_DIM>(0, (int)row_start);
++    auto b = w.slice<INPUT_DIM, TILE>(0, (int)column_start);
++    auto accum = mm.template get_destination_cooperative_tensor<
++        decltype(a), decltype(b), int32_t>();
++    mm.run(a, b, accum);
++    threadgroup_barrier(mem_flags::mem_threadgroup);
++    #pragma clang loop unroll(full)
++    for (ushort element = 0; element < accum.get_capacity(); element++) {
++        if (!accum.is_valid_element(element)) continue;
++        auto index = accum.get_multidimensional_index(element);
++        uint row = row_start + (uint)index[1];
++        uint column = column_start + (uint)index[0];
++        if (row < args.rows)
++            output[row * OUTPUT_DIM + column] =
++                h3_fused_gate_value((float)accum[element] *
++                    local_input_scales[(uint)index[1]] *
++                    local_weight_scales[(uint)index[0]], residual, modulation,
++                    row_map, gate, row, column);
++    }
++}
++
+ 
+ kernel void h3_linear_int8_nax_r128x256_full_k14336(
+                            device int8_t *input [[buffer(0)]],
+@@ -2580,6 +2809,84 @@ kernel void h3_linear_int8_local_scales_nax_r128_impl(
+     }
+ }
+ 
++kernel void h3_linear_int8_local_scales_nax_r128_gate(
++                           device int8_t *input [[buffer(0)]],
++                           device int8_t *weight [[buffer(1)]],
++                           device const float *input_scales [[buffer(2)]],
++                           device const float *weight_scales [[buffer(3)]],
++                           device bfloat *output [[buffer(4)]],
++                           constant linear_args &args [[buffer(5)]],
++                           device const ushort *residual [[buffer(6)]],
++                           device const ushort *modulation [[buffer(7)]],
++                           device const uint *row_map [[buffer(8)]],
++                           constant gate_args &gate [[buffer(9)]],
++                           uint code [[threadgroup_position_in_grid]],
++                           ushort tid [[thread_index_in_threadgroup]]) {
++    constexpr uint INPUT_DIM = 0, OUTPUT_DIM = 0;
++    constexpr uint TILE = 128;
++    uint padded_rows = (args.rows + TILE - 1) & ~(TILE - 1);
++    uint row_tiles = padded_rows / TILE;
++    uint output_dim = OUTPUT_DIM ? OUTPUT_DIM : args.output_dim;
++    uint column_tiles = output_dim / TILE;
++    uint2 group = h3_morton_decode_compact(code, row_tiles, column_tiles);
++    uint row_start = group.x * TILE;
++    uint column_start = group.y * TILE;
++    uint input_dim = INPUT_DIM ? INPUT_DIM : args.input_dim;
++    threadgroup float local_input_scales[TILE];
++    threadgroup float local_weight_scales[TILE];
++    if (tid < TILE) {
++        local_input_scales[tid] = input_scales[row_start + tid];
++        local_weight_scales[tid] = weight_scales[column_start + tid];
++    }
++    threadgroup_barrier(mem_flags::mem_threadgroup);
++    auto x = tensor<device int8_t, dextents<int32_t, 2>, tensor_inline>(
++        input, dextents<int32_t, 2>((int)input_dim,
++                                    (int)padded_rows));
++    auto w = tensor<device int8_t, dextents<int32_t, 2>, tensor_inline>(
++        weight, dextents<int32_t, 2>((int)input_dim,
++                                     (int)output_dim));
++    constexpr auto descriptor = matmul2d_descriptor(
++        TILE, TILE, TILE, false, true, true,
++        matmul2d_descriptor::mode::multiply_accumulate);
++    constexpr auto first_descriptor = matmul2d_descriptor(
++        TILE, TILE, TILE, false, true, true,
++        matmul2d_descriptor::mode::multiply);
++    matmul2d<descriptor, execution_simdgroups<8>> mm;
++    matmul2d<first_descriptor, execution_simdgroups<8>> first_mm;
++    auto first_a = x.slice<TILE, TILE>(0, (int)row_start);
++    auto first_b = w.slice<TILE, TILE>(0, (int)column_start);
++    auto accum = mm.template get_destination_cooperative_tensor<
++        decltype(first_a), decltype(first_b), int32_t>();
++    first_mm.run(first_a, first_b, accum);
++    if (INPUT_DIM) {
++        for (uint k = TILE; k < INPUT_DIM; k += TILE) {
++            auto a = x.slice<TILE, TILE>((int)k, (int)row_start);
++            auto b = w.slice<TILE, TILE>((int)k, (int)column_start);
++            mm.run(a, b, accum);
++        }
++    } else {
++        for (uint k = TILE; k < input_dim; k += TILE) {
++            auto a = x.slice<TILE, TILE>((int)k, (int)row_start);
++            auto b = w.slice<TILE, TILE>((int)k, (int)column_start);
++            mm.run(a, b, accum);
++        }
++    }
++    #pragma clang loop unroll(full)
++    for (ushort element = 0; element < accum.get_capacity(); element++) {
++        if (!accum.is_valid_element(element)) continue;
++        auto index = accum.get_multidimensional_index(element);
++        uint row = row_start + (uint)index[1];
++        uint column = column_start + (uint)index[0];
++        if (row < args.rows)
++            output[row * output_dim + column] =
++                h3_fused_gate_value((float)accum[element] *
++                         local_input_scales[(uint)index[1]] *
++                         local_weight_scales[(uint)index[0]], residual,
++                         modulation, row_map, gate, row, column);
++    }
++}
++
++
+ typedef decltype(h3_linear_int8_local_scales_nax_r128_impl<0, 0>)
+     h3_linear_int8_local_scales_nax_r128_t;
+ template [[host_name("h3_linear_int8_local_scales_nax_r128")]]
+@@ -2790,6 +3097,128 @@ kernel void h3_linear_int8_grouped_local_nax_r128x64(
+     }
+ }
+ 
++kernel void h3_linear_int8_grouped_local_nax_r128x64_gate(
++                           device int8_t *input [[buffer(0)]],
++                           device int8_t *weight [[buffer(1)]],
++                           device const float *input_scales [[buffer(2)]],
++                           device const float *weight_scales [[buffer(3)]],
++                           device bfloat *output [[buffer(4)]],
++                           constant linear_args &args [[buffer(5)]],
++                           device const ushort *residual [[buffer(6)]],
++                           device const ushort *modulation [[buffer(7)]],
++                           device const uint *row_map [[buffer(8)]],
++                           constant gate_args &gate [[buffer(9)]],
++                           uint code [[threadgroup_position_in_grid]],
++                           ushort tid [[thread_index_in_threadgroup]]) {
++    constexpr uint ROW_TILE = 128;
++    constexpr uint COLUMN_TILE = 64;
++    constexpr uint K_TILE = 512;
++    constexpr uint SCALE_GROUP = 1024;
++    constexpr uint K_TILES_PER_GROUP = SCALE_GROUP / K_TILE;
++    constexpr uint SCALE_GROUPS = 14;
++    constexpr uint FRAGMENT_CAPACITY = 64;
++    uint padded_rows = (args.rows + ROW_TILE - 1) & ~(ROW_TILE - 1);
++    uint row_tiles = padded_rows / ROW_TILE;
++    uint column_tiles = args.output_dim / COLUMN_TILE;
++    uint2 group = h3_morton_decode_compact(
++        code, row_tiles, column_tiles);
++    uint row_start = group.x * ROW_TILE;
++    uint column_start = group.y * COLUMN_TILE;
++    uint scale_groups = args.input_dim / SCALE_GROUP;
++    threadgroup float local_input_scales[ROW_TILE * SCALE_GROUPS];
++    threadgroup float local_weight_scales[COLUMN_TILE];
++    for (uint local = tid; local < ROW_TILE * SCALE_GROUPS; local += 256) {
++        uint row = row_start + local / SCALE_GROUPS;
++        uint scale_group = local % SCALE_GROUPS;
++        local_input_scales[local] =
++            input_scales[row * SCALE_GROUPS + scale_group];
++    }
++    if (tid < COLUMN_TILE)
++        local_weight_scales[tid] = weight_scales[column_start + tid];
++    auto x = tensor<device int8_t, dextents<int32_t, 2>, tensor_inline>(
++        input, dextents<int32_t, 2>((int)args.input_dim,
++                                    (int)padded_rows));
++    auto w = tensor<device int8_t, dextents<int32_t, 2>, tensor_inline>(
++        weight, dextents<int32_t, 2>((int)args.input_dim,
++                                     (int)args.output_dim));
++    constexpr auto descriptor = matmul2d_descriptor(
++        ROW_TILE, COLUMN_TILE, K_TILE, false, true, true,
++        matmul2d_descriptor::mode::multiply_accumulate);
++    constexpr auto first_descriptor = matmul2d_descriptor(
++        ROW_TILE, COLUMN_TILE, K_TILE, false, true, true,
++        matmul2d_descriptor::mode::multiply);
++    matmul2d<descriptor, execution_simdgroups<8>> mm;
++    matmul2d<first_descriptor, execution_simdgroups<8>> first_mm;
++    thread float totals[FRAGMENT_CAPACITY];
++    for (uint scale_group = 0; scale_group < scale_groups;
++         scale_group += 2) {
++        uint first_k = scale_group * SCALE_GROUP;
++        uint second_k = first_k + SCALE_GROUP;
++        auto first_a = x.slice<ROW_TILE, K_TILE>(
++            (int)first_k, (int)row_start);
++        auto first_b = w.slice<K_TILE, COLUMN_TILE>(
++            (int)first_k, (int)column_start);
++        auto first_accum = mm.template get_destination_cooperative_tensor<
++            decltype(first_a), decltype(first_b), int32_t>();
++        first_mm.run(first_a, first_b, first_accum);
++        #pragma clang loop unroll(full)
++        for (uint k_tile = 1; k_tile < K_TILES_PER_GROUP; k_tile++) {
++            uint k = first_k + k_tile * K_TILE;
++            auto a = x.slice<ROW_TILE, K_TILE>((int)k, (int)row_start);
++            auto b = w.slice<K_TILE, COLUMN_TILE>(
++                (int)k, (int)column_start);
++            mm.run(a, b, first_accum);
++        }
++        auto second_a = x.slice<ROW_TILE, K_TILE>(
++            (int)second_k, (int)row_start);
++        auto second_b = w.slice<K_TILE, COLUMN_TILE>(
++            (int)second_k, (int)column_start);
++        auto second_accum = mm.template get_destination_cooperative_tensor<
++            decltype(second_a), decltype(second_b), int32_t>();
++        first_mm.run(second_a, second_b, second_accum);
++        #pragma clang loop unroll(full)
++        for (uint k_tile = 1; k_tile < K_TILES_PER_GROUP; k_tile++) {
++            uint k = second_k + k_tile * K_TILE;
++            auto a = x.slice<ROW_TILE, K_TILE>((int)k, (int)row_start);
++            auto b = w.slice<K_TILE, COLUMN_TILE>(
++                (int)k, (int)column_start);
++            mm.run(a, b, second_accum);
++        }
++        if (scale_group == 0)
++            threadgroup_barrier(mem_flags::mem_threadgroup);
++        #pragma clang loop unroll(full)
++        for (ushort element = 0; element < first_accum.get_capacity();
++             element++) {
++            if (!first_accum.is_valid_element(element)) continue;
++            auto index = first_accum.get_multidimensional_index(element);
++            float value = (float)first_accum[element] *
++                local_input_scales[(uint)index[1] * SCALE_GROUPS +
++                                   scale_group] *
++                local_weight_scales[(uint)index[0]];
++            if (scale_group == 0) totals[element] = value;
++            else totals[element] += value;
++        }
++        #pragma clang loop unroll(full)
++        for (ushort element = 0; element < second_accum.get_capacity();
++             element++) {
++            if (!second_accum.is_valid_element(element)) continue;
++            auto index = second_accum.get_multidimensional_index(element);
++            uint row = row_start + (uint)index[1];
++            uint column = column_start + (uint)index[0];
++            float value = (float)second_accum[element] *
++                local_input_scales[(uint)index[1] * SCALE_GROUPS +
++                                   scale_group + 1] *
++                local_weight_scales[(uint)index[0]];
++            totals[element] += value;
++            if (scale_group + 2 == scale_groups && row < args.rows)
++                output[row * args.output_dim + column] =
++                    h3_fused_gate_value(totals[element], residual, modulation,
++                        row_map, gate, row, column);
++        }
++    }
++}
++
++
+ /* Wider-output form: the doubled tile uses eight SIMD groups, so each thread
+  * still owns 64 output elements while the grid launches half as many FC2
+  * workgroups. */
+@@ -3515,6 +3944,107 @@ kernel void h3_gate_adaln_quantize_int8(
+     }
+ }
+ 
++/* Same ordered RMS/AdaLN/BF16/INT8 arithmetic, with an already gated input. */
++kernel void h3_adaln_quantize_int8_pre_gated(
++                         device const ushort *residual [[buffer(0)]],
++                         device const ushort *branch [[buffer(1)]],
++                         device const ushort *gate_modulation [[buffer(2)]],
++                         device const uint *row_map [[buffer(3)]],
++                         device const ushort *weight [[buffer(4)]],
++                         device const ushort *norm_modulation [[buffer(5)]],
++                         device ushort *gated_residual [[buffer(6)]],
++                         device int8_t *quantized [[buffer(7)]],
++                         device float *quantized_scales [[buffer(8)]],
++                         constant h3_gate_adaln_args &args [[buffer(9)]],
++                         uint tid [[thread_index_in_threadgroup]],
++                         ushort simdgroup [[simdgroup_index_in_threadgroup]],
++                         ushort lane [[thread_index_in_simdgroup]],
++                         uint row [[threadgroup_position_in_grid]]) {
++    constexpr uint VECTOR_WIDTH = 5376 / 4;
++    if (row >= args.rows) {
++        device char4 *quantized4 =
++            reinterpret_cast<device char4 *>(quantized);
++        uint quantized_base = row * VECTOR_WIDTH;
++        for (uint vector = tid; vector < VECTOR_WIDTH; vector += 256)
++            quantized4[quantized_base + vector] = char4(0);
++        if (tid == 0) quantized_scales[row] = 1.0f;
++        return;
++    }
++    threadgroup float reductions[256];
++    threadgroup ushort4 gated_values[VECTOR_WIDTH];
++    threadgroup float max_scratch[8];
++    uint base = row_map[row] * args.slots * args.width;
++    uint vector_base = row * VECTOR_WIDTH;
++    uint modulation_base = base / 4;
++    device const ushort4 *residual4 =
++        reinterpret_cast<device const ushort4 *>(residual);
++    for (uint vector = tid; vector < VECTOR_WIDTH; vector += 256)
++        gated_values[vector] = residual4[vector_base + vector];
++    threadgroup_barrier(mem_flags::mem_threadgroup);
++    threadgroup ushort *gated_scalars =
++        reinterpret_cast<threadgroup ushort *>(gated_values);
++    float local_sum = 0.0f;
++    for (uint column = tid; column < args.width; column += 256) {
++        float value = h3_bf16_to_f32(gated_scalars[column]);
++        local_sum = fma(value, value, local_sum);
++    }
++    reductions[tid] = local_sum;
++    threadgroup_barrier(mem_flags::mem_threadgroup);
++    for (uint stride = 128; stride >= 32; stride >>= 1) {
++        if (tid < stride) reductions[tid] += reductions[tid + stride];
++        threadgroup_barrier(mem_flags::mem_threadgroup);
++    }
++    if (tid < 32) {
++        float sum = reductions[tid];
++        for (uint stride = 16; stride; stride >>= 1) {
++            float partner = simd_shuffle_down(sum, stride);
++            if (tid < stride) sum += partner;
++        }
++        if (tid == 0)
++            reductions[0] = rsqrt(sum / float(args.width) + args.epsilon);
++    }
++    threadgroup_barrier(mem_flags::mem_threadgroup);
++    device const ushort4 *weight4 =
++        reinterpret_cast<device const ushort4 *>(weight);
++    device const ushort4 *norm_modulation4 =
++        reinterpret_cast<device const ushort4 *>(norm_modulation);
++    float inverse = reductions[0];
++    float local_max = 0.0f;
++    for (uint vector = tid; vector < VECTOR_WIDTH; vector += 256) {
++        ushort4 gated = gated_values[vector];
++        ushort4 norm_bits = weight4[vector];
++        ushort4 shift_bits = norm_modulation4[modulation_base +
++            args.shift_slot * VECTOR_WIDTH + vector];
++        ushort4 scale_bits = norm_modulation4[modulation_base +
++            args.scale_slot * VECTOR_WIDTH + vector];
++        float4 normalized = h3_bf16x4_to_f32(gated) * inverse *
++            h3_bf16x4_to_f32(norm_bits);
++        float4 value_float = normalized *
++            (float4(1.0f) + h3_bf16x4_to_f32(scale_bits)) +
++            h3_bf16x4_to_f32(shift_bits);
++        ushort4 value = h3_f32x4_to_bf16(value_float);
++        gated_values[vector] = value;
++        float4 rounded = h3_bf16x4_to_f32(value);
++        local_max = max(local_max,
++            max(max(fabs(rounded.x), fabs(rounded.y)),
++                max(fabs(rounded.z), fabs(rounded.w))));
++    }
++    float max_abs = h3_int8_reduce_max(
++        local_max, max_scratch, simdgroup, lane);
++    float output_scale = max_abs > 0.0f ? max_abs / 127.0f : 1.0f / 127.0f;
++    float quantize_scale = max_abs > 0.0f ? 127.0f / max_abs : 127.0f;
++    if (tid == 0) quantized_scales[row] = output_scale;
++    device char4 *quantized4 = reinterpret_cast<device char4 *>(quantized);
++    for (uint vector = tid; vector < VECTOR_WIDTH; vector += 256) {
++        ushort4 bits = gated_values[vector];
++        int4 value = int4(rint(
++            h3_bf16x4_to_f32(bits) * quantize_scale));
++        quantized4[vector_base + vector] =
++            char4(clamp(value, int4(-127), int4(127)));
++    }
++}
++
++
+ kernel void h3_qkv_rope_bf16(device const ushort *qkv [[buffer(0)]],
+                              device const ushort *q_weight [[buffer(1)]],
+                              device const ushort *k_weight [[buffer(2)]],

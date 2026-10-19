@@ -1,5 +1,13 @@
 # Native H3 evaluation results
 
+The [QKV and AdaLN/H256 integration package](kernel-integration-v1/README.md)
+adds six candidate videos, two-seed all-policy numerical evaluation, independent
+operator campaigns and matched resident timing. Both requested kernel families
+are connected to actual H3 call sites. The new flags remain off: the custom
+QKV operator is slower than native grouped fusion, and QKV/FC1 H256 increases
+whole-model drift despite improving sampled local projection error.
+[Measured results and limitations](kernel-integration-v1/results.md).
+
 [Six playable fox samples, two seeds](fox-two-seeds-v1/README.md) · [Local video gallery](fox-two-seeds-v1/gallery.html) · [Sample/config/checksum manifest](fox-two-seeds-v1/manifest.json)
 
 [Fifteen-second whale-maid BF16/H256 pair](whale-maid-15s-v1/README.md) · [16:9 video gallery](whale-maid-15s-v1/gallery.html)

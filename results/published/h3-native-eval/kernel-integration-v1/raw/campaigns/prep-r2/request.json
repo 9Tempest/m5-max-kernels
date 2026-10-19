@@ -1,0 +1,310 @@
+{
+  "schema": "h3_prep_campaign_v1",
+  "status": "failed",
+  "started_utc": "2026-10-19T04:11:12.443996+00:00",
+  "cases": [],
+  "source_manifest_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+  "source_manifest": {
+    "schema": "h3_kernel_integration_source_v1",
+    "status": "frozen",
+    "upstream_revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+    "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+    "changed_files": [
+      "h3_dit.c",
+      "h3_gpu.h",
+      "h3_gpu.m",
+      "h3_shaders.metal"
+    ],
+    "patches": [
+      {
+        "file": "kernel-integration.patch",
+        "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c"
+      }
+    ],
+    "note": "Combined source for explicit QKV kernel and QKV/FC1 Hadamard preparation experiments; no performance or promotion claim."
+  },
+  "harness_files": {
+    "prep_validate.c": "6352d38e5c061cabe4c49fcff794214a0ecc7f4625f09d861a7799cca03b035f",
+    "fused_reference.h": "18e1a880800384ec20a5279f16ef6cacdee70a2b61b037cf5d04d5886e5684d7",
+    "run_prep_campaign.py": "6ae0e39d9c25c4890b2c60b5a29a39a2ff8966949edaa8f6c51fe1e6927d054c",
+    "kernel_integration.py": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+    "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+    "run_fused_campaign.py": "8eade2abe2665794481e758b4a09b6641efe66ca1d4bff11a575aa370a4be380",
+    "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562"
+  },
+  "gpu_queue_wait_seconds": 0.00023425000108545646,
+  "upstream": {
+    "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+    "dirty": true,
+    "status": "M h3_dit.c\n M h3_gpu.h\n M h3_gpu.m\n M h3_shaders.metal",
+    "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0"
+  },
+  "harness": {
+    "revision": "c102992b0ce859c728e4df9cf365121fe064e03d",
+    "dirty": true,
+    "status": "?? integrations/h3/adaln-hadamard-overlay.patch\n?? integrations/h3/adaln-hadamard.patch\n?? integrations/h3/evaluate_kernel_integration.py\n?? integrations/h3/kernel-integration-source.json\n?? integrations/h3/kernel-integration.patch\n?? integrations/h3/kernel_evidence.py\n?? integrations/h3/kernel_integration.py\n?? integrations/h3/kernel_session.c\n?? integrations/h3/prep_validate.c\n?? integrations/h3/qkv-candidate-overlay.patch\n?? integrations/h3/qkv-candidate.patch\n?? integrations/h3/qkv_candidate.metal\n?? integrations/h3/qkv_reference.h\n?? integrations/h3/qkv_validate.c\n?? integrations/h3/run_kernel_integration.py\n?? integrations/h3/run_prep_campaign.py\n?? integrations/h3/run_qkv_campaign.py\n?? tests/test_h3_kernel_integration.py\n?? tests/test_h3_prep_campaign.py",
+    "source_sha256": "1c8c25918780466a93216e9bdadd0b7e664b178ba75a1817d8a96c680689242d"
+  },
+  "environment": {
+    "chip": "Apple M5 Max",
+    "memory_bytes": 137438953472,
+    "os": "macOS-27.0.1-arm64-arm-64bit",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+    "xcode": "Xcode 27.1\nBuild version 27A9275"
+  },
+  "runtime_overrides": {
+    "H3_NAX": "qkv-attn",
+    "H3_NAX_DIAGNOSTIC": "1"
+  },
+  "build": {
+    "command": [
+      "make",
+      "-B",
+      "-j8"
+    ],
+    "cwd": ".cache/h3.c-kernel-integration",
+    "returncode": 0,
+    "started_utc": "2026-10-19T04:11:12.571096+00:00",
+    "finished_utc": "2026-10-19T04:11:13.559301+00:00",
+    "wall_seconds": 0.9881873750018713,
+    "log": "build.log",
+    "log_sha256": "cb7d59203de639556c8c110cb2dd9e288db4a412f32460a727c4188cfd5458e1",
+    "fallback_detected": false
+  },
+  "driver_build": {
+    "command": [
+      "clang",
+      "-std=c11",
+      "-O2",
+      "-D_DARWIN_C_SOURCE",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I",
+      ".cache/h3.c-kernel-integration",
+      "results/local/h3/kernel-prep-campaign-r2/sources/prep_validate.c",
+      ".cache/h3.c-kernel-integration/libh3.a",
+      "-framework",
+      "Foundation",
+      "-framework",
+      "Metal",
+      "-framework",
+      "MetalPerformanceShaders",
+      "-framework",
+      "MetalPerformanceShadersGraph",
+      "-framework",
+      "Accelerate",
+      "-licucore",
+      "-lm",
+      "-o",
+      "results/local/h3/kernel-prep-campaign-r2/prep-validate"
+    ],
+    "cwd": ".cache/h3.c-kernel-integration",
+    "returncode": 0,
+    "started_utc": "2026-10-19T04:11:13.559475+00:00",
+    "finished_utc": "2026-10-19T04:11:13.778197+00:00",
+    "wall_seconds": 0.21873833300196566,
+    "log": "driver-build.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fallback_detected": false
+  },
+  "binary_sha256": "039d7b7e357239d185fe6f9dc09d4a24382e1bfc87af30b764707302a239200c",
+  "library_sha256": "cea12f73a00e74d277ed31ce5e04b32a01c40a03c27624387f380a9be6fd3b67",
+  "cases_requested": [
+    [
+      29,
+      17455,
+      [
+        1,
+        1
+      ]
+    ],
+    [
+      29,
+      17455,
+      [
+        1,
+        0
+      ]
+    ],
+    [
+      29,
+      17455,
+      [
+        0,
+        0
+      ]
+    ],
+    [
+      29,
+      9914,
+      [
+        1,
+        1
+      ]
+    ],
+    [
+      29,
+      9914,
+      [
+        1,
+        0
+      ]
+    ],
+    [
+      29,
+      9914,
+      [
+        0,
+        0
+      ]
+    ],
+    [
+      29,
+      2049,
+      [
+        1,
+        1
+      ]
+    ],
+    [
+      29,
+      2049,
+      [
+        1,
+        0
+      ]
+    ],
+    [
+      29,
+      2049,
+      [
+        0,
+        0
+      ]
+    ],
+    [
+      29,
+      17,
+      [
+        1,
+        1
+      ]
+    ],
+    [
+      29,
+      17,
+      [
+        1,
+        0
+      ]
+    ],
+    [
+      29,
+      17,
+      [
+        0,
+        0
+      ]
+    ],
+    [
+      17,
+      17455,
+      [
+        1,
+        1
+      ]
+    ],
+    [
+      17,
+      17455,
+      [
+        1,
+        0
+      ]
+    ],
+    [
+      17,
+      17455,
+      [
+        0,
+        0
+      ]
+    ],
+    [
+      17,
+      9914,
+      [
+        1,
+        1
+      ]
+    ],
+    [
+      17,
+      9914,
+      [
+        1,
+        0
+      ]
+    ],
+    [
+      17,
+      9914,
+      [
+        0,
+        0
+      ]
+    ],
+    [
+      17,
+      2049,
+      [
+        1,
+        1
+      ]
+    ],
+    [
+      17,
+      2049,
+      [
+        1,
+        0
+      ]
+    ],
+    [
+      17,
+      2049,
+      [
+        0,
+        0
+      ]
+    ],
+    [
+      17,
+      17,
+      [
+        1,
+        1
+      ]
+    ],
+    [
+      17,
+      17,
+      [
+        1,
+        0
+      ]
+    ],
+    [
+      17,
+      17,
+      [
+        0,
+        0
+      ]
+    ]
+  ],
+  "warmups": 3,
+  "repeats": 10,
+  "reverse": true
+}

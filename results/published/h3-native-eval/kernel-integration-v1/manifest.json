@@ -1,0 +1,4137 @@
+{
+  "schema": "h3_kernel_publication_v1",
+  "status": "completed",
+  "publisher_sha256": "6d78af9cfae6b3f644647850fc1e4ad8c6884275544d2b28c586f1497c5ca649",
+  "publisher_dependencies": {
+    "publish_samples.py": "40a31438bc0cf3a6235df9b4e870459736449cfb60a2250ad175dd5f26c2a9d3",
+    "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7"
+  },
+  "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+  "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+  "files": [
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001-analysis-v1.json",
+      "destination": "raw/analyses/h3-kernel-adaln-h-capture-seed42-001-analysis-v1.json",
+      "sha256": "3b40111fd382c1f6c433cb3bf40e9f04700da2251c51218c119e637365b3fd1e",
+      "bytes": 503280,
+      "role": "activation_analysis",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001-analysis-v1.json",
+      "destination": "raw/analyses/h3-kernel-adaln-h-capture-seed43-001-analysis-v1.json",
+      "sha256": "09fb39766e6a7bfac75d908589941369c1fc11805767a271c6150a21b2f7fbca",
+      "bytes": 503139,
+      "role": "activation_analysis",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001-analysis-v1.json",
+      "destination": "raw/analyses/h3-kernel-combined-capture-seed42-001-analysis-v1.json",
+      "sha256": "ce5a3f9c73a7be048a600d71852cbb0e65261b0b32b61a461ecb4163d2015562",
+      "bytes": 503205,
+      "role": "activation_analysis",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001-analysis-v1.json",
+      "destination": "raw/analyses/h3-kernel-combined-capture-seed43-001-analysis-v1.json",
+      "sha256": "158f31e03ad7c3767ef0d777f1f575f7e5e0c002f69936df38141b299ef47860",
+      "bytes": 503258,
+      "role": "activation_analysis",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/campaign.json",
+      "destination": "raw/campaigns/prep-r1/campaign.json",
+      "sha256": "b2c717adbb47149ab88f6cf39569d2a238b388660be4e49a4379ee6464f9f747",
+      "bytes": 166716,
+      "role": "prep_campaign",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17-seed17-gate0-maps0/case.json",
+      "destination": "raw/campaigns/prep-r1/m17-seed17-gate0-maps0/case.json",
+      "sha256": "2f29059cb2f40173f82c494e277b7d18add29f74b09eedeafcc2fa52c990663b",
+      "bytes": 5921,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17-seed17-gate0-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r1/m17-seed17-gate0-maps0/driver.json",
+      "sha256": "acd1dd4f230f62139a26009eeb58901fe8418056c24221c9495110c27f4b4add",
+      "bytes": 5185,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17-seed17-gate1-maps0/case.json",
+      "destination": "raw/campaigns/prep-r1/m17-seed17-gate1-maps0/case.json",
+      "sha256": "77b22b39f1265b1bdcbf433300ca8280652762d51c284e70dfc31d1b3a984616",
+      "bytes": 5927,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17-seed17-gate1-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r1/m17-seed17-gate1-maps0/driver.json",
+      "sha256": "9e809e5c0af326bac8ab3269cb8f4897113d1e5db340d5293e33818f7ba09dc7",
+      "bytes": 5551,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17-seed17-gate1-maps1/case.json",
+      "destination": "raw/campaigns/prep-r1/m17-seed17-gate1-maps1/case.json",
+      "sha256": "6543e3b16436cf32ddce4469fb53a5917a0de4d3faff4eee3ae930c378b9c98a",
+      "bytes": 5921,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17-seed17-gate1-maps1/driver.json",
+      "destination": "raw/campaigns/prep-r1/m17-seed17-gate1-maps1/driver.json",
+      "sha256": "2b63be9937ad0d4fd83782e46a71eb1881ab7ca28e24866f49088e718ddd70e6",
+      "bytes": 5187,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17-seed29-gate0-maps0/case.json",
+      "destination": "raw/campaigns/prep-r1/m17-seed29-gate0-maps0/case.json",
+      "sha256": "d35132500e45b92b4562b480da1ff882c3218f2771cb035e82c36e06791fa877",
+      "bytes": 5932,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17-seed29-gate0-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r1/m17-seed29-gate0-maps0/driver.json",
+      "sha256": "fda6040009394ffb7db4fa6d0f5a39a0e672727d244ee456bec2345171c3cf3e",
+      "bytes": 5310,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17-seed29-gate1-maps0/case.json",
+      "destination": "raw/campaigns/prep-r1/m17-seed29-gate1-maps0/case.json",
+      "sha256": "eebeaa9a2c842ffe431697435c0a7cb2fb2080709c195c28a42a397b003123ea",
+      "bytes": 5918,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17-seed29-gate1-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r1/m17-seed29-gate1-maps0/driver.json",
+      "sha256": "ccc97ced73813656edf7192bad7b686c0ec83ace2de2d3e09f7f90ca12ba2d63",
+      "bytes": 5181,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17-seed29-gate1-maps1/case.json",
+      "destination": "raw/campaigns/prep-r1/m17-seed29-gate1-maps1/case.json",
+      "sha256": "b8e18ea0658b21499335eabb79aaa5b1d0d0958c6a2ad6af797d269b7c2d4769",
+      "bytes": 5924,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17-seed29-gate1-maps1/driver.json",
+      "destination": "raw/campaigns/prep-r1/m17-seed29-gate1-maps1/driver.json",
+      "sha256": "fab5b6fc08e09a5bf43ee9f8fc18575df5bd51bec3716090b06f07508c4a0560",
+      "bytes": 5190,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17455-seed17-gate0-maps0/case.json",
+      "destination": "raw/campaigns/prep-r1/m17455-seed17-gate0-maps0/case.json",
+      "sha256": "aaf213bc03da1424e74750085f755d8672885bb350ca8412284f4ad7de3be36c",
+      "bytes": 5884,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17455-seed17-gate0-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r1/m17455-seed17-gate0-maps0/driver.json",
+      "sha256": "9c093acee1db8e7934dd4237db56d11ca7b93db8088b8a59bf870d963352e50e",
+      "bytes": 5407,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17455-seed17-gate1-maps0/case.json",
+      "destination": "raw/campaigns/prep-r1/m17455-seed17-gate1-maps0/case.json",
+      "sha256": "2451e313a3a1c8fb7f6af4bbe9150eebd555bd0189e025b83fc915d196390e55",
+      "bytes": 5864,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17455-seed17-gate1-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r1/m17455-seed17-gate1-maps0/driver.json",
+      "sha256": "b53501d57efebeb1222eda8a4eed46128ea902d472b49f55e2936aab9414c7d4",
+      "bytes": 5495,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17455-seed17-gate1-maps1/case.json",
+      "destination": "raw/campaigns/prep-r1/m17455-seed17-gate1-maps1/case.json",
+      "sha256": "d9da0103190767e3d01c9caaf06f68594d1273d46fbdf431c77b7bd7513c3d17",
+      "bytes": 5869,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17455-seed17-gate1-maps1/driver.json",
+      "destination": "raw/campaigns/prep-r1/m17455-seed17-gate1-maps1/driver.json",
+      "sha256": "0a0aae1b5ebe340e98a5a3f060c0bae161e6379e7e683bf04eccd62d7286f575",
+      "bytes": 5140,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17455-seed29-gate0-maps0/case.json",
+      "destination": "raw/campaigns/prep-r1/m17455-seed29-gate0-maps0/case.json",
+      "sha256": "4928dfa8e9f46c75664a8c4268af099e8db70462b8f079896111be9f6a60aaf9",
+      "bytes": 5874,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17455-seed29-gate0-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r1/m17455-seed29-gate0-maps0/driver.json",
+      "sha256": "211ccc6d147259164fc982bf0a44afceee0099c0ae91f0a790a90d4f6c983dd0",
+      "bytes": 5149,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17455-seed29-gate1-maps0/case.json",
+      "destination": "raw/campaigns/prep-r1/m17455-seed29-gate1-maps0/case.json",
+      "sha256": "486ce4f66f175710656f7359b122f0596992d2b61c989b479153e709e0ef46cb",
+      "bytes": 5863,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17455-seed29-gate1-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r1/m17455-seed29-gate1-maps0/driver.json",
+      "sha256": "40e7fa70c8ba2ef2ec8100bdd4d80f16138a08030095ebf9148e9cef5d7728d6",
+      "bytes": 5138,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17455-seed29-gate1-maps1/case.json",
+      "destination": "raw/campaigns/prep-r1/m17455-seed29-gate1-maps1/case.json",
+      "sha256": "b84fedb09f2a92eb2d8c2871bb6ac0fcd323d779f2f3993f5d22798238ffce7c",
+      "bytes": 5872,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m17455-seed29-gate1-maps1/driver.json",
+      "destination": "raw/campaigns/prep-r1/m17455-seed29-gate1-maps1/driver.json",
+      "sha256": "4c30f5b9f38940a2e1c50722089471fafa84e530f499a5c7bcc11ecb2cc2b5e6",
+      "bytes": 5145,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m2049-seed17-gate0-maps0/case.json",
+      "destination": "raw/campaigns/prep-r1/m2049-seed17-gate0-maps0/case.json",
+      "sha256": "3cc1dc140e4550efef1ba99482fa4e379ca133568e45cfa55ede7aa7851a072f",
+      "bytes": 5922,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m2049-seed17-gate0-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r1/m2049-seed17-gate0-maps0/driver.json",
+      "sha256": "1697334b841fa268359532a7d0c884c256c0eee676c5efb0735c40fe4c9fd196",
+      "bytes": 5194,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m2049-seed17-gate1-maps0/case.json",
+      "destination": "raw/campaigns/prep-r1/m2049-seed17-gate1-maps0/case.json",
+      "sha256": "9c652258beef1c4492c771d84965d32b43fc5a2428439e4431e104446c0f6a17",
+      "bytes": 5911,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m2049-seed17-gate1-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r1/m2049-seed17-gate1-maps0/driver.json",
+      "sha256": "86f3c86ebe6cc87eda0862e4544137cf7e8bfe400d389541883bda6fef743df8",
+      "bytes": 5545,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m2049-seed17-gate1-maps1/case.json",
+      "destination": "raw/campaigns/prep-r1/m2049-seed17-gate1-maps1/case.json",
+      "sha256": "01cc1777f65b472c9fa7a62a9d088bb92c4147277fdfbbf1c383e3c162609a92",
+      "bytes": 5926,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m2049-seed17-gate1-maps1/driver.json",
+      "destination": "raw/campaigns/prep-r1/m2049-seed17-gate1-maps1/driver.json",
+      "sha256": "b95f05bfa52c850125677d28d2af59ec0e431b0dd471f04104483216cb05b2df",
+      "bytes": 5183,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m2049-seed29-gate0-maps0/case.json",
+      "destination": "raw/campaigns/prep-r1/m2049-seed29-gate0-maps0/case.json",
+      "sha256": "091bbb5731af6d6fa45351b69c0381edf030f212d5afb7981bfc53daad6087bb",
+      "bytes": 5920,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m2049-seed29-gate0-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r1/m2049-seed29-gate0-maps0/driver.json",
+      "sha256": "209ac87be59b191eda394a3fc2c419a3ccd2224e73c1185e040071e15fb92b82",
+      "bytes": 5185,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m2049-seed29-gate1-maps0/case.json",
+      "destination": "raw/campaigns/prep-r1/m2049-seed29-gate1-maps0/case.json",
+      "sha256": "a82a1f117c1647fd034821de7adae73d3046e409eb47155075ac438da119d856",
+      "bytes": 5915,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m2049-seed29-gate1-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r1/m2049-seed29-gate1-maps0/driver.json",
+      "sha256": "a9a1567fbae70456907b57b2561379df0dd7c657f887197e8f8c56a1f9ceebaa",
+      "bytes": 5183,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m2049-seed29-gate1-maps1/case.json",
+      "destination": "raw/campaigns/prep-r1/m2049-seed29-gate1-maps1/case.json",
+      "sha256": "c923878720641f550146de20d6744d9b1db91090e0e5adec3ed99e3c4a3366df",
+      "bytes": 5903,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m2049-seed29-gate1-maps1/driver.json",
+      "destination": "raw/campaigns/prep-r1/m2049-seed29-gate1-maps1/driver.json",
+      "sha256": "c58caa14f329476a13f0ab60d08a3514a08b825fc85df1d41ddb97a57988bdf6",
+      "bytes": 5171,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m9914-seed17-gate0-maps0/case.json",
+      "destination": "raw/campaigns/prep-r1/m9914-seed17-gate0-maps0/case.json",
+      "sha256": "f8218452ae5ecd7dc0bfb7f353644efcfc6f06fcca739bf0ab7077108385c01d",
+      "bytes": 5881,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m9914-seed17-gate0-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r1/m9914-seed17-gate0-maps0/driver.json",
+      "sha256": "f33b56e5523afc02ea23f7e6008436c62d2fc50194cf7a58bb451cc28639fefc",
+      "bytes": 5155,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m9914-seed17-gate1-maps0/case.json",
+      "destination": "raw/campaigns/prep-r1/m9914-seed17-gate1-maps0/case.json",
+      "sha256": "51023555891cd9dfa6fc193a48609521cedda7df34d70edcd09d099aa0356ff1",
+      "bytes": 5876,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m9914-seed17-gate1-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r1/m9914-seed17-gate1-maps0/driver.json",
+      "sha256": "1176655ebd6d0fd021233d9ebe0f9b44ccc72faa9e97843ace0f0f56b7aee930",
+      "bytes": 5499,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m9914-seed17-gate1-maps1/case.json",
+      "destination": "raw/campaigns/prep-r1/m9914-seed17-gate1-maps1/case.json",
+      "sha256": "8f665f82a067e58b0253bc35e5ddea176f211b418a2e3372a905bba3d6e75258",
+      "bytes": 5870,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m9914-seed17-gate1-maps1/driver.json",
+      "destination": "raw/campaigns/prep-r1/m9914-seed17-gate1-maps1/driver.json",
+      "sha256": "f477c612d8bbb6729bbe8828f1ce62aa5b16f78c2af33335a0789cef4c387a73",
+      "bytes": 5248,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m9914-seed29-gate0-maps0/case.json",
+      "destination": "raw/campaigns/prep-r1/m9914-seed29-gate0-maps0/case.json",
+      "sha256": "24873b5bd1645edac97be6add2bc408879cd9a90f022a6a6b6fc360129eccf13",
+      "bytes": 5886,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m9914-seed29-gate0-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r1/m9914-seed29-gate0-maps0/driver.json",
+      "sha256": "4a479ecde593a89f7ae815d92b3642788c5dd1b7a9f7b22b90f15d6c36ab1283",
+      "bytes": 5151,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m9914-seed29-gate1-maps0/case.json",
+      "destination": "raw/campaigns/prep-r1/m9914-seed29-gate1-maps0/case.json",
+      "sha256": "074fbdea1cab75095045bca1422d80d86e31868afbb376fcac1503f51282db40",
+      "bytes": 5870,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m9914-seed29-gate1-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r1/m9914-seed29-gate1-maps0/driver.json",
+      "sha256": "e94c3e9acd9c85ce1de6c1d124a9870bb40e49801f77fac8b21630735428b7b7",
+      "bytes": 5398,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m9914-seed29-gate1-maps1/case.json",
+      "destination": "raw/campaigns/prep-r1/m9914-seed29-gate1-maps1/case.json",
+      "sha256": "ab49779c50c43b2964557cbd7c7ed9bde85be43d182e6f00ea0c4a1f8fdcdc46",
+      "bytes": 5868,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/m9914-seed29-gate1-maps1/driver.json",
+      "destination": "raw/campaigns/prep-r1/m9914-seed29-gate1-maps1/driver.json",
+      "sha256": "fb3fe6776da95a4c2f8ef17b06ab03c3f18403f68d2aef1c17f2c1bf266d7a6d",
+      "bytes": 5145,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/request.json",
+      "destination": "raw/campaigns/prep-r1/request.json",
+      "sha256": "5fe697fb5f6648be4fab2ecd053741035369f3c054a90e52df72fe45cfa39c1d",
+      "bytes": 6750,
+      "role": "prep_request",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/sources/source-manifest.json",
+      "destination": "raw/campaigns/prep-r1/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/sources/fused_reference.h",
+      "destination": "raw/campaigns/prep-r1/sources/fused_reference.h",
+      "sha256": "18e1a880800384ec20a5279f16ef6cacdee70a2b61b037cf5d04d5886e5684d7",
+      "bytes": 3351,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/sources/kernel-integration.patch",
+      "destination": "raw/campaigns/prep-r1/sources/kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c",
+      "bytes": 131269,
+      "role": "pinned_native_patch",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/sources/kernel_integration.py",
+      "destination": "raw/campaigns/prep-r1/sources/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+      "bytes": 8426,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/sources/prep_validate.c",
+      "destination": "raw/campaigns/prep-r1/sources/prep_validate.c",
+      "sha256": "6352d38e5c061cabe4c49fcff794214a0ecc7f4625f09d861a7799cca03b035f",
+      "bytes": 11805,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/sources/run.py",
+      "destination": "raw/campaigns/prep-r1/sources/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+      "bytes": 30956,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/sources/run_fc2_experiment.py",
+      "destination": "raw/campaigns/prep-r1/sources/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+      "bytes": 17991,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/sources/run_fused_campaign.py",
+      "destination": "raw/campaigns/prep-r1/sources/run_fused_campaign.py",
+      "sha256": "8eade2abe2665794481e758b4a09b6641efe66ca1d4bff11a575aa370a4be380",
+      "bytes": 16339,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r1/sources/run_prep_campaign.py",
+      "destination": "raw/campaigns/prep-r1/sources/run_prep_campaign.py",
+      "sha256": "6ae0e39d9c25c4890b2c60b5a29a39a2ff8966949edaa8f6c51fe1e6927d054c",
+      "bytes": 12271,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/campaign.json",
+      "destination": "raw/campaigns/prep-r2/campaign.json",
+      "sha256": "98647472ae1e60cedc2a320c1ba07056ff25fb6bb6461bf42d5c42ec99a0d891",
+      "bytes": 166818,
+      "role": "prep_campaign",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17-seed17-gate0-maps0/case.json",
+      "destination": "raw/campaigns/prep-r2/m17-seed17-gate0-maps0/case.json",
+      "sha256": "418f66e3b56687d66cc0a19b18a08ace7d1eb6dae4a99e9e2fe12e034dce7372",
+      "bytes": 5925,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17-seed17-gate0-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r2/m17-seed17-gate0-maps0/driver.json",
+      "sha256": "b710614c9b771984b1af2123903d54f2c2dc6110ab021186fad36cfaf3446713",
+      "bytes": 5182,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17-seed17-gate1-maps0/case.json",
+      "destination": "raw/campaigns/prep-r2/m17-seed17-gate1-maps0/case.json",
+      "sha256": "a5b58d2e68b32c1e9258fe7683fd42cb4a94cb17e3f03e2135a90905a208c711",
+      "bytes": 5924,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17-seed17-gate1-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r2/m17-seed17-gate1-maps0/driver.json",
+      "sha256": "e9b78c37f593660767d62af39de9507fcda994c3473c131da2bf17478322999b",
+      "bytes": 5552,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17-seed17-gate1-maps1/case.json",
+      "destination": "raw/campaigns/prep-r2/m17-seed17-gate1-maps1/case.json",
+      "sha256": "de3adc2af73b7299a895532fd0182f822de4204de9fde279088c510cb1cd1e6f",
+      "bytes": 5924,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17-seed17-gate1-maps1/driver.json",
+      "destination": "raw/campaigns/prep-r2/m17-seed17-gate1-maps1/driver.json",
+      "sha256": "43b8305a5181b164a1300bd863ef73da8d074136b0ad094797dd84a3b74d3a14",
+      "bytes": 5184,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17-seed29-gate0-maps0/case.json",
+      "destination": "raw/campaigns/prep-r2/m17-seed29-gate0-maps0/case.json",
+      "sha256": "12bc0c326836d7ad28603e61d649046aedaf7b265e677cdab9441cc3a861ab17",
+      "bytes": 5927,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17-seed29-gate0-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r2/m17-seed29-gate0-maps0/driver.json",
+      "sha256": "4d54245b6fee3dac79127e16d68a124e853d854431d8a9ac64a11eacbfb7135e",
+      "bytes": 5312,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17-seed29-gate1-maps0/case.json",
+      "destination": "raw/campaigns/prep-r2/m17-seed29-gate1-maps0/case.json",
+      "sha256": "d57b9ca0a441d77e1cb20018751be0ed1ae39289d5f8739f95815094dd32773e",
+      "bytes": 5934,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17-seed29-gate1-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r2/m17-seed29-gate1-maps0/driver.json",
+      "sha256": "a6dd7bc130498c3ed55d8b07e80fb1bc9990950019777ff8ee44c52c8e465739",
+      "bytes": 5189,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17-seed29-gate1-maps1/case.json",
+      "destination": "raw/campaigns/prep-r2/m17-seed29-gate1-maps1/case.json",
+      "sha256": "444491930339228b2a3af1f1f872a8efcba2e25a0f22347782e980da4c463c6e",
+      "bytes": 5929,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17-seed29-gate1-maps1/driver.json",
+      "destination": "raw/campaigns/prep-r2/m17-seed29-gate1-maps1/driver.json",
+      "sha256": "cbe229ecf1c1c2f57de9197757331f450db6bd689c5d185afe4069854ab1b50c",
+      "bytes": 5192,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17455-seed17-gate0-maps0/case.json",
+      "destination": "raw/campaigns/prep-r2/m17455-seed17-gate0-maps0/case.json",
+      "sha256": "9a0345c280a642147396137b35e231ad0f3a2cb699012eb5625f55bff17fd16a",
+      "bytes": 5881,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17455-seed17-gate0-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r2/m17455-seed17-gate0-maps0/driver.json",
+      "sha256": "3da667387a5e50ce9233e517405a75fbbd2fea362dfa6fc70ddf235486a38d12",
+      "bytes": 5408,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17455-seed17-gate1-maps0/case.json",
+      "destination": "raw/campaigns/prep-r2/m17455-seed17-gate1-maps0/case.json",
+      "sha256": "8c23030c74c65cf3b99d993ad6efa31d750d21c55ac0cdf5bf9c24324dd59a13",
+      "bytes": 5873,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17455-seed17-gate1-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r2/m17455-seed17-gate1-maps0/driver.json",
+      "sha256": "b4d9251489207d699efafc0395f9c7dbee6026c47996304b0beb3fcd04dd4d25",
+      "bytes": 5502,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17455-seed17-gate1-maps1/case.json",
+      "destination": "raw/campaigns/prep-r2/m17455-seed17-gate1-maps1/case.json",
+      "sha256": "88b25d7c2655fed1ac5bf6d358cdef0ee334f52115e3910ac440ca2b3064d7e2",
+      "bytes": 5868,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17455-seed17-gate1-maps1/driver.json",
+      "destination": "raw/campaigns/prep-r2/m17455-seed17-gate1-maps1/driver.json",
+      "sha256": "e8ec8a27c5255d75eff897649a6a903166eb53449ddaaf8b5ce47e287e9288d9",
+      "bytes": 5144,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17455-seed29-gate0-maps0/case.json",
+      "destination": "raw/campaigns/prep-r2/m17455-seed29-gate0-maps0/case.json",
+      "sha256": "cfd826250e1cc49eea1487f4ff3cef489b3ee6d699e19f28e490679de8663740",
+      "bytes": 5881,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17455-seed29-gate0-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r2/m17455-seed29-gate0-maps0/driver.json",
+      "sha256": "318f3c65e470a09d5a919955ed26ae0ca1777ac5147b7b9b1ab6cd10eff7bbb5",
+      "bytes": 5156,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17455-seed29-gate1-maps0/case.json",
+      "destination": "raw/campaigns/prep-r2/m17455-seed29-gate1-maps0/case.json",
+      "sha256": "365309502193e0f667cc0e42fda3608011e1ec3152f2a4096989017e34f39cca",
+      "bytes": 5874,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17455-seed29-gate1-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r2/m17455-seed29-gate1-maps0/driver.json",
+      "sha256": "a7a5043487bffff5e9c0fb626bad22d58d9865b59c14be5a25b684895b505779",
+      "bytes": 5139,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17455-seed29-gate1-maps1/case.json",
+      "destination": "raw/campaigns/prep-r2/m17455-seed29-gate1-maps1/case.json",
+      "sha256": "3441340ecc94d5aca45ad1249b2bab0539d4c889121834a71c41cbd717549c40",
+      "bytes": 5869,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m17455-seed29-gate1-maps1/driver.json",
+      "destination": "raw/campaigns/prep-r2/m17455-seed29-gate1-maps1/driver.json",
+      "sha256": "6815be6d2b2d406f27d1cf740cee645506ce7d699f6199b4cb08a4037235a2b2",
+      "bytes": 5144,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m2049-seed17-gate0-maps0/case.json",
+      "destination": "raw/campaigns/prep-r2/m2049-seed17-gate0-maps0/case.json",
+      "sha256": "b446fdf739b88f234fe967ae6b791e478d3b5aed3979b09155ce5376e3a5b603",
+      "bytes": 5916,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m2049-seed17-gate0-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r2/m2049-seed17-gate0-maps0/driver.json",
+      "sha256": "d5f8a71bb3ebeb9989e8909afc473e8e5fd14c30ade372877573abaa631e3609",
+      "bytes": 5186,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m2049-seed17-gate1-maps0/case.json",
+      "destination": "raw/campaigns/prep-r2/m2049-seed17-gate1-maps0/case.json",
+      "sha256": "4b5098023307c12e42fa01fce2709900986afa1f1859196c4d997eb56e0402c1",
+      "bytes": 5911,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m2049-seed17-gate1-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r2/m2049-seed17-gate1-maps0/driver.json",
+      "sha256": "7b2cd71c4ccfb7f2f918925124c75555f1b149da04dbba1623d3d85d43942f9b",
+      "bytes": 5539,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m2049-seed17-gate1-maps1/case.json",
+      "destination": "raw/campaigns/prep-r2/m2049-seed17-gate1-maps1/case.json",
+      "sha256": "d9a0001f8f80d46e179fd256ea1140edd73db9cc647b098b5664912b785366e1",
+      "bytes": 5908,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m2049-seed17-gate1-maps1/driver.json",
+      "destination": "raw/campaigns/prep-r2/m2049-seed17-gate1-maps1/driver.json",
+      "sha256": "d0b832ca1a1c484449159136308d5c13f0babffbbb375228d747fcbd4596f3eb",
+      "bytes": 5169,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m2049-seed29-gate0-maps0/case.json",
+      "destination": "raw/campaigns/prep-r2/m2049-seed29-gate0-maps0/case.json",
+      "sha256": "ec196b82b4965fd767118e78e7103d31e79da887236f733e75cbeb194a3e8b3a",
+      "bytes": 5922,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m2049-seed29-gate0-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r2/m2049-seed29-gate0-maps0/driver.json",
+      "sha256": "0d1a1ecfd2da5d86b3fe23932a926e69c98220c6784a6bd41a9569694c222d55",
+      "bytes": 5188,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m2049-seed29-gate1-maps0/case.json",
+      "destination": "raw/campaigns/prep-r2/m2049-seed29-gate1-maps0/case.json",
+      "sha256": "2b3a5e3b026bf548444a09fece774abe1629c4f804fc8989844cfc0f5539d219",
+      "bytes": 5920,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m2049-seed29-gate1-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r2/m2049-seed29-gate1-maps0/driver.json",
+      "sha256": "500eb1a617a814b8c8212e14348e95263e96c0c17c89d99f52eb3d638c04bb63",
+      "bytes": 5185,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m2049-seed29-gate1-maps1/case.json",
+      "destination": "raw/campaigns/prep-r2/m2049-seed29-gate1-maps1/case.json",
+      "sha256": "e13be9910453bfeb6c03980726ff2b381b43510f728013a926b5bf74ed4ab4eb",
+      "bytes": 5923,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m2049-seed29-gate1-maps1/driver.json",
+      "destination": "raw/campaigns/prep-r2/m2049-seed29-gate1-maps1/driver.json",
+      "sha256": "37097c4a133e06ba7da4712d17cecacc430a566fe87bc96564c91328334a0965",
+      "bytes": 5189,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m9914-seed17-gate0-maps0/case.json",
+      "destination": "raw/campaigns/prep-r2/m9914-seed17-gate0-maps0/case.json",
+      "sha256": "25ea75d852d6f91a242a0b2cbd0c9799bd81f536e85ffec864b05cfa7d7a8e96",
+      "bytes": 5874,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m9914-seed17-gate0-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r2/m9914-seed17-gate0-maps0/driver.json",
+      "sha256": "2a99ef08bb55294c94efa22de04814fed86ab0c8a1f21accde903de26ff482d0",
+      "bytes": 5144,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m9914-seed17-gate1-maps0/case.json",
+      "destination": "raw/campaigns/prep-r2/m9914-seed17-gate1-maps0/case.json",
+      "sha256": "3bee685c5c806668f4ced2d39cb244fcd16257cac20ed58e6d7adb201f4da204",
+      "bytes": 5863,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m9914-seed17-gate1-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r2/m9914-seed17-gate1-maps0/driver.json",
+      "sha256": "e56a249cd68feea1911934cafc2803ac89ae72efd3bbf03d1fe39f0acbc52d87",
+      "bytes": 5496,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m9914-seed17-gate1-maps1/case.json",
+      "destination": "raw/campaigns/prep-r2/m9914-seed17-gate1-maps1/case.json",
+      "sha256": "7ad26c9898f2e86f1aa6c2a4c19e56c0908bcf501183badd60bb63a00a60418a",
+      "bytes": 5858,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m9914-seed17-gate1-maps1/driver.json",
+      "destination": "raw/campaigns/prep-r2/m9914-seed17-gate1-maps1/driver.json",
+      "sha256": "6feb2b2e7817e0a60df466f091d1f7ad2939dee5fd20728fa370947d6523c55b",
+      "bytes": 5240,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m9914-seed29-gate0-maps0/case.json",
+      "destination": "raw/campaigns/prep-r2/m9914-seed29-gate0-maps0/case.json",
+      "sha256": "5a12b6eb6c4051b425d3e4310163756cafeb5f4dc59824cea4e39a72e6b9aad0",
+      "bytes": 5885,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m9914-seed29-gate0-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r2/m9914-seed29-gate0-maps0/driver.json",
+      "sha256": "b03b9fc431ac58c6a6db38e2abe06980886a365d2e857d8338eef5c05e1eaa20",
+      "bytes": 5160,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m9914-seed29-gate1-maps0/case.json",
+      "destination": "raw/campaigns/prep-r2/m9914-seed29-gate1-maps0/case.json",
+      "sha256": "2a298d6d38bb1cc4957a35a1c481776d536db05a7e6ec29a84a25d1d51d3c02a",
+      "bytes": 5886,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m9914-seed29-gate1-maps0/driver.json",
+      "destination": "raw/campaigns/prep-r2/m9914-seed29-gate1-maps0/driver.json",
+      "sha256": "158c5b9047fffdeca69ff5ef5e30d47373bd970f51d5fd572a8cd03923396211",
+      "bytes": 5409,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m9914-seed29-gate1-maps1/case.json",
+      "destination": "raw/campaigns/prep-r2/m9914-seed29-gate1-maps1/case.json",
+      "sha256": "66699de958acc35dc9855ab7083489cf987d9a35dd875543f4c7859bebb46d42",
+      "bytes": 5865,
+      "role": "prep_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/m9914-seed29-gate1-maps1/driver.json",
+      "destination": "raw/campaigns/prep-r2/m9914-seed29-gate1-maps1/driver.json",
+      "sha256": "692980c130113f309feb10681efde2828eab86299b1ea84ab02350a138a1d99d",
+      "bytes": 5136,
+      "role": "prep_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/request.json",
+      "destination": "raw/campaigns/prep-r2/request.json",
+      "sha256": "3dd2305e55e3b3b424fa4a9c42f4ef1b0b191b72a93a47b2d884c8fc2d06620b",
+      "bytes": 6828,
+      "role": "prep_request",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/sources/source-manifest.json",
+      "destination": "raw/campaigns/prep-r2/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/sources/fused_reference.h",
+      "destination": "raw/campaigns/prep-r2/sources/fused_reference.h",
+      "sha256": "18e1a880800384ec20a5279f16ef6cacdee70a2b61b037cf5d04d5886e5684d7",
+      "bytes": 3351,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/sources/kernel-integration.patch",
+      "destination": "raw/campaigns/prep-r2/sources/kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c",
+      "bytes": 131269,
+      "role": "pinned_native_patch",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/sources/kernel_integration.py",
+      "destination": "raw/campaigns/prep-r2/sources/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+      "bytes": 8426,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/sources/prep_validate.c",
+      "destination": "raw/campaigns/prep-r2/sources/prep_validate.c",
+      "sha256": "6352d38e5c061cabe4c49fcff794214a0ecc7f4625f09d861a7799cca03b035f",
+      "bytes": 11805,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/sources/run.py",
+      "destination": "raw/campaigns/prep-r2/sources/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+      "bytes": 30956,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/sources/run_fc2_experiment.py",
+      "destination": "raw/campaigns/prep-r2/sources/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+      "bytes": 17991,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/sources/run_fused_campaign.py",
+      "destination": "raw/campaigns/prep-r2/sources/run_fused_campaign.py",
+      "sha256": "8eade2abe2665794481e758b4a09b6641efe66ca1d4bff11a575aa370a4be380",
+      "bytes": 16339,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-prep-campaign-r2/sources/run_prep_campaign.py",
+      "destination": "raw/campaigns/prep-r2/sources/run_prep_campaign.py",
+      "sha256": "6ae0e39d9c25c4890b2c60b5a29a39a2ff8966949edaa8f6c51fe1e6927d054c",
+      "bytes": 12271,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/campaign.json",
+      "destination": "raw/campaigns/qkv-r1/campaign.json",
+      "sha256": "b837b31f26aeeed9ebeb1b50767c5de1fc206b095c376d986e9fe8afed486bc5",
+      "bytes": 57804,
+      "role": "qkv_campaign",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m129-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m129-seed17/case.json",
+      "sha256": "778fd9d22cd825b834674acd49e32a0a99ae29e9209a11b0f250465bd56e405e",
+      "bytes": 1372,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m129-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m129-seed17/driver.json",
+      "sha256": "571da955a7875df1f0ebda2051419b38ef3589b6ea086bafb5856eae4a932f6e",
+      "bytes": 16077,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m129-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m129-seed29/case.json",
+      "sha256": "73606b63dfcca97935382779a2899ac280f717232a615322d04e4d0bf63617c4",
+      "bytes": 1372,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m129-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m129-seed29/driver.json",
+      "sha256": "1c074774ce0fb965da08f9ab1b64ccf19b77a980d1f1f8d775a75fbba4a41e05",
+      "bytes": 16068,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m17-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m17-seed17/case.json",
+      "sha256": "3d368d7423eba85aba6fd349d193ce8b0a3b491e05fbbdf6f60a8026f6726f3b",
+      "bytes": 969,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m17-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m17-seed17/driver.json",
+      "sha256": "b6301dba19df6db01961b4ccccf456122d129e20dbd6155aac6bac44afcce0c8",
+      "bytes": 150,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m17-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m17-seed29/case.json",
+      "sha256": "ec3b01258e3317b5ba32eb55ca78e90f32f91caaee1174c0fc7a29a52303fcd2",
+      "bytes": 969,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m17-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m17-seed29/driver.json",
+      "sha256": "6855dc8f344afae610f765ebc6474bf7f3e50583993fdad7169539cd00e3cad3",
+      "bytes": 150,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m17455-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m17455-seed17/case.json",
+      "sha256": "7b2eafb1340976d2c98a14a06506e7f4f3b1343b6638d0c9d4efab7dfd6376d9",
+      "bytes": 1384,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m17455-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m17455-seed17/driver.json",
+      "sha256": "f5bcefd1c6cf4502b688ad3fcafb1a6b2a9a26e4ff0a71133dbfebc7835f1bda",
+      "bytes": 15870,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m17455-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m17455-seed29/case.json",
+      "sha256": "a3e329023611bdbf956f1fd59d396d8642e549b9e5e306378c93f516bf151a57",
+      "bytes": 1373,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m17455-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m17455-seed29/driver.json",
+      "sha256": "4ca0f6fa99d552898e91be190a546381fb7d29c491efaeb9d871dc8efe799496",
+      "bytes": 15855,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m2049-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m2049-seed17/case.json",
+      "sha256": "32bd3f05f5c41f058bdc311837f9ce9d88f100d70c2ad9bbd75bd1970c8e69b6",
+      "bytes": 1382,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m2049-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m2049-seed17/driver.json",
+      "sha256": "7df8630a0f0d05cea764acc6d99dbc8bbfa6ef10137e946e9dea2838d4e6abab",
+      "bytes": 15990,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m2049-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m2049-seed29/case.json",
+      "sha256": "35419d2466c91ae303430abe2f87126d4b70821689789722f44a6554c69f5331",
+      "bytes": 1376,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m2049-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m2049-seed29/driver.json",
+      "sha256": "d6bc5f8429a51853a0eee72fa1b9158d5a34ed2a1443a3c9c5ffeb7d20d962f5",
+      "bytes": 16009,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m9914-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m9914-seed17/case.json",
+      "sha256": "4433586b37f6e61ca7394c63cef5cceef15a7bfd7e65c34f846120b84ba95220",
+      "bytes": 1361,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m9914-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m9914-seed17/driver.json",
+      "sha256": "7d1531eda3982eb8988e2d1a85450696b22cd8a7edac166c0a599ca05be22d02",
+      "bytes": 15870,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m9914-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m9914-seed29/case.json",
+      "sha256": "07e6982edabc6eaacfc9488a0948309dd33dce2e1dd26e6a0a588e6e60fbb554",
+      "bytes": 1373,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/h256-m9914-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r1/h256-m9914-seed29/driver.json",
+      "sha256": "2a6b5df162676b910f9c35338d4f0da8f7244dbf0adaeb696ec7774b139d412e",
+      "bytes": 15867,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m129-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r1/native-m129-seed17/case.json",
+      "sha256": "7e13eab6db0c96f4e4db443a246c5814eadc297dc6fcd9f11737fd35f39b42e3",
+      "bytes": 1387,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m129-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r1/native-m129-seed17/driver.json",
+      "sha256": "8d348a5863001f865f428410aa43a0c5c7e9ba78452edaf3e6de8981d9f427ff",
+      "bytes": 16086,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m129-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r1/native-m129-seed29/case.json",
+      "sha256": "44b48fba12c9afea1891a2ff68f70fa24da2299ef42d45d66fd321ef542e678e",
+      "bytes": 1382,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m129-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r1/native-m129-seed29/driver.json",
+      "sha256": "992941791f90da9594c83b9f617c9c05d06872ced1ebfedd5e85a4d39a523e7b",
+      "bytes": 16094,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m17-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r1/native-m17-seed17/case.json",
+      "sha256": "4ba99c8af13332437122c0c0ef65c7a7ef5c788de9b71b31cafbc2510b101269",
+      "bytes": 973,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m17-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r1/native-m17-seed17/driver.json",
+      "sha256": "b6301dba19df6db01961b4ccccf456122d129e20dbd6155aac6bac44afcce0c8",
+      "bytes": 150,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m17-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r1/native-m17-seed29/case.json",
+      "sha256": "0dd8c7da4614d6478b50e85e2697570f8ca4d6d195519e2703f9e246f595b250",
+      "bytes": 974,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m17-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r1/native-m17-seed29/driver.json",
+      "sha256": "6855dc8f344afae610f765ebc6474bf7f3e50583993fdad7169539cd00e3cad3",
+      "bytes": 150,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m17455-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r1/native-m17455-seed17/case.json",
+      "sha256": "75661b6fc3e2f82c6099f4349a54f8aa29705c3a3013c5ba9878ca03345cc7dc",
+      "bytes": 1377,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m17455-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r1/native-m17455-seed17/driver.json",
+      "sha256": "e52854faab5658133287977afb9a74f26444828ba628f402fdf4163265ed240b",
+      "bytes": 15862,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m17455-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r1/native-m17455-seed29/case.json",
+      "sha256": "c50c4ff52d9fcb4068d3c1d8b3ac87212418b5712d7f47d200e5083169c6d6af",
+      "bytes": 1385,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m17455-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r1/native-m17455-seed29/driver.json",
+      "sha256": "112bf8aa274ddc545669ea7502409d9942a271994c6eef83f3ad2d9dd575617a",
+      "bytes": 15873,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m2049-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r1/native-m2049-seed17/case.json",
+      "sha256": "6bc055dff11ef14495bd3a07a7b280e24e967f6db87977ef9c949c47eb0a1788",
+      "bytes": 1387,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m2049-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r1/native-m2049-seed17/driver.json",
+      "sha256": "c6669972f3705534e486099f498f55346ecfa8d8a92836bfd6df05bae63486a1",
+      "bytes": 16046,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m2049-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r1/native-m2049-seed29/case.json",
+      "sha256": "2470370482e8889d908b837b5eb74853247528ea46d9f8d1790e0ea7a2c834fd",
+      "bytes": 1384,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m2049-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r1/native-m2049-seed29/driver.json",
+      "sha256": "79397b43586b9bb821e75963ebd9e34c2bc3ec8b6accb6c1d75e15e275ea6891",
+      "bytes": 15972,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m9914-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r1/native-m9914-seed17/case.json",
+      "sha256": "4c939f8ea89deb088f2899c899028a713fa6dc2b2406dca652d301c42f3ce889",
+      "bytes": 1374,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m9914-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r1/native-m9914-seed17/driver.json",
+      "sha256": "d0f30395c59864753ecbf3c96b6db01baaceb8ab627b34acfc7ca316fbd1bdab",
+      "bytes": 15989,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m9914-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r1/native-m9914-seed29/case.json",
+      "sha256": "528f5f7eb6564072bb659735bce8b87f816ba02ab63d7cbc7f7424b06abcba18",
+      "bytes": 1376,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/native-m9914-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r1/native-m9914-seed29/driver.json",
+      "sha256": "ce9d4b5c95f2eb5391a2fde3c5a0ae5ac35e22f96cfd6411090c57c3e4244f07",
+      "bytes": 15871,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/request.json",
+      "destination": "raw/campaigns/qkv-r1/request.json",
+      "sha256": "0edda8d5775368160389bab01daf658eeea0918abc98f8419ece4d1dd80165e4",
+      "bytes": 28596,
+      "role": "qkv_request",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/sources/source-manifest.json",
+      "destination": "raw/campaigns/qkv-r1/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/sources/kernel-integration.patch",
+      "destination": "raw/campaigns/qkv-r1/sources/kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c",
+      "bytes": 131269,
+      "role": "pinned_native_patch",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/sources/kernel_integration.py",
+      "destination": "raw/campaigns/qkv-r1/sources/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+      "bytes": 8426,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/sources/qkv_reference.h",
+      "destination": "raw/campaigns/qkv-r1/sources/qkv_reference.h",
+      "sha256": "7e408ccbb618c0f2abee28b61bb04c9d7622d7f338f4b4bde5b42306a0a99815",
+      "bytes": 3117,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/sources/qkv_validate.c",
+      "destination": "raw/campaigns/qkv-r1/sources/qkv_validate.c",
+      "sha256": "834dba37ca74a2516233a6bf61bc79434aae52ca256ca5cf00b6dde5bebe9e36",
+      "bytes": 16265,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/sources/run.py",
+      "destination": "raw/campaigns/qkv-r1/sources/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+      "bytes": 30956,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/sources/run_fc2_experiment.py",
+      "destination": "raw/campaigns/qkv-r1/sources/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+      "bytes": 17991,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/sources/run_fused_campaign.py",
+      "destination": "raw/campaigns/qkv-r1/sources/run_fused_campaign.py",
+      "sha256": "8eade2abe2665794481e758b4a09b6641efe66ca1d4bff11a575aa370a4be380",
+      "bytes": 16339,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/sources/run_qkv_campaign.py",
+      "destination": "raw/campaigns/qkv-r1/sources/run_qkv_campaign.py",
+      "sha256": "4134e250e99027e180a5cad4eabcf213cded37d20533873ed498f15e53dcd384",
+      "bytes": 10792,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r1/sources/validate_qkv_report.py",
+      "destination": "raw/campaigns/qkv-r1/sources/validate_qkv_report.py",
+      "sha256": "e0d5bbad453e88afa33fbfb71509d25f7b69d5fed89a0ec22395121f93c59ed5",
+      "bytes": 8114,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/campaign.json",
+      "destination": "raw/campaigns/qkv-r2/campaign.json",
+      "sha256": "70397f67f69033fcda7c987fb48247e0f96b3dfad281d3817bac62ab39e9f77a",
+      "bytes": 57889,
+      "role": "qkv_campaign",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m129-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m129-seed17/case.json",
+      "sha256": "7d913496ee0385066f6d63cc2d4a4a2ef5ea47a48423c2a90bd9562dc248385d",
+      "bytes": 1378,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m129-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m129-seed17/driver.json",
+      "sha256": "cd7c6be3c773618878b4a9bb2699073d8f12784dab4c2c0b5d8881e657bddbdf",
+      "bytes": 16093,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m129-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m129-seed29/case.json",
+      "sha256": "ce4e532a91e23f12cf69af4297a1727ac8d403eba666472c44223c4a32da5044",
+      "bytes": 1377,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m129-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m129-seed29/driver.json",
+      "sha256": "f90e45b1718b77aa09c498803e8c2cf41ba8a6ea28dc4aff0d646cf59e9c24c3",
+      "bytes": 16059,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m17-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m17-seed17/case.json",
+      "sha256": "0f7e96b03896d02d6e3806757ea9b3cb1b7ddd4b1849893b20ee01824a606fd9",
+      "bytes": 968,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m17-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m17-seed17/driver.json",
+      "sha256": "b6301dba19df6db01961b4ccccf456122d129e20dbd6155aac6bac44afcce0c8",
+      "bytes": 150,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m17-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m17-seed29/case.json",
+      "sha256": "fd6ef473cfaaf78c65ef782af762a98d81fc0dbc89ae851f094cc2320d681581",
+      "bytes": 969,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m17-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m17-seed29/driver.json",
+      "sha256": "6855dc8f344afae610f765ebc6474bf7f3e50583993fdad7169539cd00e3cad3",
+      "bytes": 150,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m17455-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m17455-seed17/case.json",
+      "sha256": "1e783886c9610af92384bf34be16c7a03208e667500646684100a2e364054bc6",
+      "bytes": 1374,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m17455-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m17455-seed17/driver.json",
+      "sha256": "c763718d5b930ae5e213a85870a97555d90c456bce1fdf77d8c4029a22240cf7",
+      "bytes": 15882,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m17455-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m17455-seed29/case.json",
+      "sha256": "9cbaa78db3934a75a2552e753f8d708406323c5014491c305bef8f4457c2cd65",
+      "bytes": 1370,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m17455-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m17455-seed29/driver.json",
+      "sha256": "0b215c0efebba3fd2e860b5ea21bfa63230228fd39f06385f04502a29e69ee3b",
+      "bytes": 15857,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m2049-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m2049-seed17/case.json",
+      "sha256": "4d45ceebb22708d42caaa8fc3c6db10606d42ea1014f983074038e08b0e24591",
+      "bytes": 1373,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m2049-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m2049-seed17/driver.json",
+      "sha256": "44f3edc1292f2beabc5711a0527518adb16afa1d6547aa9504e9d079478b53ab",
+      "bytes": 15984,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m2049-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m2049-seed29/case.json",
+      "sha256": "ad97a13a8e1bc83fcd5842869ae2ba1f3e1cefecb2a50ac6e1f779a1b9800ecb",
+      "bytes": 1374,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m2049-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m2049-seed29/driver.json",
+      "sha256": "aaa234b2182436606bd546bcad472b6908e3451fb06eaf423aecd54bc6eaf93f",
+      "bytes": 16016,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m9914-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m9914-seed17/case.json",
+      "sha256": "8876a9e08d1bfa7a4ae8a2514043404e590d189bd22868c558f23439aa74bc40",
+      "bytes": 1373,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m9914-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m9914-seed17/driver.json",
+      "sha256": "ffd804313ef090031da95a436d137d6f90f9a115e65a1f9a746057da495c8823",
+      "bytes": 15883,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m9914-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m9914-seed29/case.json",
+      "sha256": "4efd9066ca9009f7c6ba0b0fb4e00352dc961e42c1ffa975e5c5d1dbfac8ab61",
+      "bytes": 1363,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/h256-m9914-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r2/h256-m9914-seed29/driver.json",
+      "sha256": "44135656a3903c58ad94163207478b89c60862bca873b7a787506e638a93931f",
+      "bytes": 15868,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m129-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r2/native-m129-seed17/case.json",
+      "sha256": "cdfa2ac12b358d983c7eb71b7428dc0963ad273bbb9a2a78ce957bc5dbfc6c00",
+      "bytes": 1383,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m129-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r2/native-m129-seed17/driver.json",
+      "sha256": "30b3ee9f0b71e53ca55766ec23d8dd7d23666d3f86f9671c27644dc1013e2a41",
+      "bytes": 16066,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m129-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r2/native-m129-seed29/case.json",
+      "sha256": "7015dff5a5990e9a30b39a3e4946d336878bcd62e66d8dd6ee036e06c56ba755",
+      "bytes": 1377,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m129-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r2/native-m129-seed29/driver.json",
+      "sha256": "d7b55424fccdfd950d22fedfe5cefdc30c2dc64010c444f55fd1294b360c4431",
+      "bytes": 16064,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m17-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r2/native-m17-seed17/case.json",
+      "sha256": "6eb5ca8fe5ca930e915eb29766e0fe78297cd047898d2abafe01cee2cc52e4dc",
+      "bytes": 975,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m17-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r2/native-m17-seed17/driver.json",
+      "sha256": "b6301dba19df6db01961b4ccccf456122d129e20dbd6155aac6bac44afcce0c8",
+      "bytes": 150,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m17-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r2/native-m17-seed29/case.json",
+      "sha256": "efb948b31829445d64327cd1bf49574fdf4d1a54a713837aac5e407af088b2b8",
+      "bytes": 976,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m17-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r2/native-m17-seed29/driver.json",
+      "sha256": "6855dc8f344afae610f765ebc6474bf7f3e50583993fdad7169539cd00e3cad3",
+      "bytes": 150,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m17455-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r2/native-m17455-seed17/case.json",
+      "sha256": "c434a0a2e9fdd3501346961138311b27b09c2bdd038956f3e08c75d777c9b26b",
+      "bytes": 1378,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m17455-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r2/native-m17455-seed17/driver.json",
+      "sha256": "0f754940d090b383714ba88d97ed35df0c0c9e5d855c7e3a2a1b300418625945",
+      "bytes": 15864,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m17455-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r2/native-m17455-seed29/case.json",
+      "sha256": "36bdb06ceae430fa2fbf0bf50ed1ec585aa76b21dc82ca862c00ca0325cb7dd5",
+      "bytes": 1389,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m17455-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r2/native-m17455-seed29/driver.json",
+      "sha256": "e561abedc341bdd4aeea5306965242866715ff9c5888f2845170c9653d4d4c19",
+      "bytes": 15867,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m2049-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r2/native-m2049-seed17/case.json",
+      "sha256": "8e6c312ed6e2b5f0ed11dd0d709c7b0e7751d26982ac57f6d8523a1b745c4c65",
+      "bytes": 1386,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m2049-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r2/native-m2049-seed17/driver.json",
+      "sha256": "a4d5e8410601be566d07d6eef4a7309011e402b2d169f67e7a1a2e9f0a15e724",
+      "bytes": 16058,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m2049-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r2/native-m2049-seed29/case.json",
+      "sha256": "5ca991151fb98e43aa616a170307ea093e134842fa85866589c9649717f7a0b2",
+      "bytes": 1388,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m2049-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r2/native-m2049-seed29/driver.json",
+      "sha256": "ee0a8d8a43f34e798b8cc70066a08a5e11500171f17a785e4e2b0020cfe002c9",
+      "bytes": 15960,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m9914-seed17/case.json",
+      "destination": "raw/campaigns/qkv-r2/native-m9914-seed17/case.json",
+      "sha256": "60ad10d01f3c045b52590cedaba284e36bd8582d978cfb2078d39cdcd3c41d35",
+      "bytes": 1380,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m9914-seed17/driver.json",
+      "destination": "raw/campaigns/qkv-r2/native-m9914-seed17/driver.json",
+      "sha256": "2d073909bd32b1a6b0bdf19d124c6a82939b4824e33d966331ec9bc87304089b",
+      "bytes": 16013,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m9914-seed29/case.json",
+      "destination": "raw/campaigns/qkv-r2/native-m9914-seed29/case.json",
+      "sha256": "8a41fcb6ff800886154269cf11fae12eae032ec3976b24e19babb48a209f1754",
+      "bytes": 1380,
+      "role": "qkv_case",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/native-m9914-seed29/driver.json",
+      "destination": "raw/campaigns/qkv-r2/native-m9914-seed29/driver.json",
+      "sha256": "965c2219aaff4e3f44591508fb30d5fd7d775251116694ce27b0f87635140372",
+      "bytes": 15831,
+      "role": "qkv_driver",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/request.json",
+      "destination": "raw/campaigns/qkv-r2/request.json",
+      "sha256": "c06ca44faca73fc67f889f8c30ae4140d9e8810f5fc86c3ecd5346c76f4c5b04",
+      "bytes": 28678,
+      "role": "qkv_request",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/sources/source-manifest.json",
+      "destination": "raw/campaigns/qkv-r2/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/sources/kernel-integration.patch",
+      "destination": "raw/campaigns/qkv-r2/sources/kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c",
+      "bytes": 131269,
+      "role": "pinned_native_patch",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/sources/kernel_integration.py",
+      "destination": "raw/campaigns/qkv-r2/sources/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+      "bytes": 8426,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/sources/qkv_reference.h",
+      "destination": "raw/campaigns/qkv-r2/sources/qkv_reference.h",
+      "sha256": "7e408ccbb618c0f2abee28b61bb04c9d7622d7f338f4b4bde5b42306a0a99815",
+      "bytes": 3117,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/sources/qkv_validate.c",
+      "destination": "raw/campaigns/qkv-r2/sources/qkv_validate.c",
+      "sha256": "834dba37ca74a2516233a6bf61bc79434aae52ca256ca5cf00b6dde5bebe9e36",
+      "bytes": 16265,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/sources/run.py",
+      "destination": "raw/campaigns/qkv-r2/sources/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+      "bytes": 30956,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/sources/run_fc2_experiment.py",
+      "destination": "raw/campaigns/qkv-r2/sources/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+      "bytes": 17991,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/sources/run_fused_campaign.py",
+      "destination": "raw/campaigns/qkv-r2/sources/run_fused_campaign.py",
+      "sha256": "8eade2abe2665794481e758b4a09b6641efe66ca1d4bff11a575aa370a4be380",
+      "bytes": 16339,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/sources/run_qkv_campaign.py",
+      "destination": "raw/campaigns/qkv-r2/sources/run_qkv_campaign.py",
+      "sha256": "4134e250e99027e180a5cad4eabcf213cded37d20533873ed498f15e53dcd384",
+      "bytes": 10792,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-campaign-r2/sources/validate_qkv_report.py",
+      "destination": "raw/campaigns/qkv-r2/sources/validate_qkv_report.py",
+      "sha256": "e0d5bbad453e88afa33fbfb71509d25f7b69d5fed89a0ec22395121f93c59ed5",
+      "bytes": 8114,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-default-combined-001/default-decision.json",
+      "destination": "raw/decisions/kernel-default-combined-001.json",
+      "sha256": "15dcf396256e841af64f8c032534f3280537cc02ccb0d83bd6072770d1d1b089",
+      "bytes": 63028,
+      "role": "default_decision",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-all-policies-eval-seed42-001/adaln-h-only-fused-media/evaluation.json",
+      "destination": "raw/evaluations/kernel-all-policies-eval-seed42-001/adaln-h-only-fused-media.json",
+      "sha256": "a2b60ccb3890337b2ca1b64a7ab92f04312005f1e3548413f9f53b840d88c6e2",
+      "bytes": 98410,
+      "role": "decoded_media_evaluation",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-all-policies-eval-seed42-001/baseline-fused-media/evaluation.json",
+      "destination": "raw/evaluations/kernel-all-policies-eval-seed42-001/baseline-fused-media.json",
+      "sha256": "c6faab09ac6cfbadd780a0d1964a25d48ced66a1d85655cf86e0eb07d295b517",
+      "bytes": 98412,
+      "role": "decoded_media_evaluation",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-all-policies-eval-seed42-001/combined-fused-media/evaluation.json",
+      "destination": "raw/evaluations/kernel-all-policies-eval-seed42-001/combined-fused-media.json",
+      "sha256": "92cc07625e96cfc3a2a3cb2daa98c4e2478feeea2d3f352370858c9bfb270b0e",
+      "bytes": 98396,
+      "role": "decoded_media_evaluation",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-all-policies-eval-seed42-001/kernel-evaluation.json",
+      "destination": "raw/evaluations/kernel-all-policies-eval-seed42-001/kernel-evaluation.json",
+      "sha256": "db361a4c23e134063993ba98b135bd7956f9087c608c8b976ad81016fb559fb5",
+      "bytes": 664537,
+      "role": "two_seed_evaluation",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-all-policies-eval-seed42-001/old-hadamard-media/evaluation.json",
+      "destination": "raw/evaluations/kernel-all-policies-eval-seed42-001/old-hadamard-media.json",
+      "sha256": "e8706657797450526621f3992be3595981d18a1da7090a684211ff8ca0076553",
+      "bytes": 98411,
+      "role": "decoded_media_evaluation",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-all-policies-eval-seed42-001/qkv-only-fused-media/evaluation.json",
+      "destination": "raw/evaluations/kernel-all-policies-eval-seed42-001/qkv-only-fused-media.json",
+      "sha256": "1c838acfaa7a8386e536dd769cd85858f2b7e6b78abacd2bc8c00e2637f27561",
+      "bytes": 98415,
+      "role": "decoded_media_evaluation",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-all-policies-eval-seed43-001/adaln-h-only-fused-media/evaluation.json",
+      "destination": "raw/evaluations/kernel-all-policies-eval-seed43-001/adaln-h-only-fused-media.json",
+      "sha256": "58904a0e17ef3f4b4266ccc1c3773c21df9359d6045bebcf1f4e8a649a77fb64",
+      "bytes": 98415,
+      "role": "decoded_media_evaluation",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-all-policies-eval-seed43-001/baseline-fused-media/evaluation.json",
+      "destination": "raw/evaluations/kernel-all-policies-eval-seed43-001/baseline-fused-media.json",
+      "sha256": "1384b83c256a2938a1840b53fd6b4ddb3b97e2241ef01744a521c662ee6cfb6d",
+      "bytes": 98403,
+      "role": "decoded_media_evaluation",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-all-policies-eval-seed43-001/combined-fused-media/evaluation.json",
+      "destination": "raw/evaluations/kernel-all-policies-eval-seed43-001/combined-fused-media.json",
+      "sha256": "2c7ebf2e0fd313c9a677aa454fbd8207baa0f9ca9c4e0d909ee33e85858d3d7f",
+      "bytes": 98395,
+      "role": "decoded_media_evaluation",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-all-policies-eval-seed43-001/kernel-evaluation.json",
+      "destination": "raw/evaluations/kernel-all-policies-eval-seed43-001/kernel-evaluation.json",
+      "sha256": "6c68c6cfc1503b7ac34886bb4e77808d888785494eccaa8614a391f41c270a3b",
+      "bytes": 665021,
+      "role": "two_seed_evaluation",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-all-policies-eval-seed43-001/old-hadamard-media/evaluation.json",
+      "destination": "raw/evaluations/kernel-all-policies-eval-seed43-001/old-hadamard-media.json",
+      "sha256": "2c5639eaddf61df248ee6cd712d20639c3d0d2ce4becd234703f56803aa24afc",
+      "bytes": 98401,
+      "role": "decoded_media_evaluation",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-all-policies-eval-seed43-001/qkv-only-fused-media/evaluation.json",
+      "destination": "raw/evaluations/kernel-all-policies-eval-seed43-001/qkv-only-fused-media.json",
+      "sha256": "8bdeddff0b0f1066703bfa00abb07b517571ef6126e1cbffee9acd3acdac051e",
+      "bytes": 98413,
+      "role": "decoded_media_evaluation",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-resident-baseline-combined-001/resident-comparison.json",
+      "destination": "raw/resident/kernel-resident-baseline-combined-001.json",
+      "sha256": "395fea7962ca5cdd1fcb7f8e9d701eef4f0c7494bbe7690392b0aa9d240f260a",
+      "bytes": 31009,
+      "role": "resident_comparison",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/fc2-bf16-capture-seed42-001/latents/latent-metadata.json",
+      "destination": "raw/runs/fc2-bf16-capture-seed42-001/latent-metadata.json",
+      "sha256": "760a90826418d623468d80230d8f912044beed9ff991665dd17b76da10c5438a",
+      "bytes": 678,
+      "role": "latent_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/fc2-bf16-capture-seed42-001/run.json",
+      "destination": "raw/runs/fc2-bf16-capture-seed42-001/run.json",
+      "sha256": "8f3131e51b850f76cb1e1bb385e5325d354dd5bd39125a470b180aa9acc288b6",
+      "bytes": 62775,
+      "role": "run_metadata",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/fc2-bf16-capture-seed43-001/latents/latent-metadata.json",
+      "destination": "raw/runs/fc2-bf16-capture-seed43-001/latent-metadata.json",
+      "sha256": "550badfd6909588607f9e04e4e229e115af5b3a368ef81e6b2411dda9d0c047f",
+      "bytes": 678,
+      "role": "latent_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/fc2-bf16-capture-seed43-001/run.json",
+      "destination": "raw/runs/fc2-bf16-capture-seed43-001/run.json",
+      "sha256": "61beb18429e7e79d33139fe47cd045854bc008a5b0ebe4f33110f7a4b234e889",
+      "bytes": 62856,
+      "role": "run_metadata",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/fc2-hadamard-capture-seed42-001/latents/latent-metadata.json",
+      "destination": "raw/runs/fc2-hadamard-capture-seed42-001/latent-metadata.json",
+      "sha256": "e4836ef650ca6164be16376ebd1e012e6e4002fa5a0c4e43528cd8a1a1e53196",
+      "bytes": 678,
+      "role": "latent_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/fc2-hadamard-capture-seed42-001/run.json",
+      "destination": "raw/runs/fc2-hadamard-capture-seed42-001/run.json",
+      "sha256": "41c701852bc7a0c5502ba4c67d6fb50633f592f520497373b803b8f877290a4f",
+      "bytes": 62663,
+      "role": "run_metadata",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/fc2-hadamard-capture-seed43-001/latents/latent-metadata.json",
+      "destination": "raw/runs/fc2-hadamard-capture-seed43-001/latent-metadata.json",
+      "sha256": "266b271b3c8b3a63c229967c4ca443be6a450bc1b3d4953f5ca2c912b0ce2956",
+      "bytes": 678,
+      "role": "latent_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/fc2-hadamard-capture-seed43-001/run.json",
+      "destination": "raw/runs/fc2-hadamard-capture-seed43-001/run.json",
+      "sha256": "8ee7278426114e92fa5b04baf526406d4b63f1e55fdac8e496e9d4abc3b9318f",
+      "bytes": 62695,
+      "role": "run_metadata",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/fc1-step00-block00.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/fc1-step00-block00.json",
+      "sha256": "3faf721732332fea83084cd28e7f740925ead32be6985f5d3d0d7e6b54811668",
+      "bytes": 770,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/fc1-step00-block24.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/fc1-step00-block24.json",
+      "sha256": "c06bd03adcc55a47bbdff037e48b5fbb9ada93e27a7aa19e47ea507fd0ebf729",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/fc1-step00-block49.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/fc1-step00-block49.json",
+      "sha256": "6a5a9c64e8b9bc5483fcc9900b03915255ad262abb10866ebe85d7110e3babce",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/fc1-step10-block00.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/fc1-step10-block00.json",
+      "sha256": "1a8f19a3f2242382e21ad1a8da5da673ca41ff317dd6b470fbe31f103c8fd314",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/fc1-step10-block24.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/fc1-step10-block24.json",
+      "sha256": "8ed10dc7e0786d13acf2e0abcf00c313c2a9e0f8c607073720c5a90a4edccfd1",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/fc1-step10-block49.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/fc1-step10-block49.json",
+      "sha256": "2c9f83df3f5614a26f5f0d24321075d5729fc26040c29ccbdb11922f07565755",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/fc1-step19-block00.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/fc1-step19-block00.json",
+      "sha256": "685a883b0c1b1368f74a144437782dd758ca14b593ed53965bc33fac1a1597d4",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/fc1-step19-block24.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/fc1-step19-block24.json",
+      "sha256": "174468f1835bfc7e9aaba5a944ad1f2125ebb535d24f82c2021feed9ab754d38",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/fc1-step19-block49.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/fc1-step19-block49.json",
+      "sha256": "516f4b4970e9418b82505d715c838bdab5ea1715c9e8b64e2b6717a4ca8f7b2d",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/qkv-step00-block00.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/qkv-step00-block00.json",
+      "sha256": "682549550f0896bb8c4ba5967a8aa84bb1accc67e07cfe743e328a4f3382fe92",
+      "bytes": 770,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/qkv-step00-block24.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/qkv-step00-block24.json",
+      "sha256": "446abe1cd5d9457faa30be60a6cf18f8da87b0169c4820ac0dd1246aea797b4d",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/qkv-step00-block49.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/qkv-step00-block49.json",
+      "sha256": "f7eff6be01a26b7f5ee96397e6b70ea1b9d59e069c5d4452abc37560423a1f6c",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/qkv-step10-block00.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/qkv-step10-block00.json",
+      "sha256": "732c7c0c8be65d8f504676416354a0005c577ff8c0db989a714c7210ac9bb73a",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/qkv-step10-block24.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/qkv-step10-block24.json",
+      "sha256": "12b5d20540decb2811724f7c01d4aafa81b198dcee17a433b310a3aef155f708",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/qkv-step10-block49.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/qkv-step10-block49.json",
+      "sha256": "ead2f135040dde46009aa7dc884cf4c9fea76bfb3dc0aa03910bac202ac06ccb",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/qkv-step19-block00.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/qkv-step19-block00.json",
+      "sha256": "6cb2a6227252e15a6aaab05e8e3e5cec858f83c65026770945f95bca806658fa",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/qkv-step19-block24.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/qkv-step19-block24.json",
+      "sha256": "d659d5649ed26df6397e4da8692f34a9fe398706efc291678479f2d7c91c175f",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/adaln/qkv-step19-block49.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/adaln-metadata/qkv-step19-block49.json",
+      "sha256": "4b78c618ce5ce14f47629825d6d2f6fee45fedc0a4216e832ac8e4c9b2d311ee",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/harness-snapshot/UPSTREAM-LICENSE",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/harness-snapshot/UPSTREAM-LICENSE",
+      "sha256": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+      "bytes": 1077,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/harness-snapshot/adaln_capture.py",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/harness-snapshot/adaln_capture.py",
+      "sha256": "8a7628d58e2b65d03fa2a19e91139621433009bed47279c2d4a2302b9b2b2a9e",
+      "bytes": 23962,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/harness-snapshot/fc2_analyze.py",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/harness-snapshot/fc2_analyze.py",
+      "sha256": "5798d1fca3785823a92d58c931911c22aac71514444cd3ec01fc9841c66627f3",
+      "bytes": 10151,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/harness-snapshot/kernel_integration.py",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/harness-snapshot/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+      "bytes": 8426,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/harness-snapshot/kernel_session.c",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/harness-snapshot/kernel_session.c",
+      "sha256": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+      "bytes": 16140,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/harness-snapshot/locking.py",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/harness-snapshot/locking.py",
+      "sha256": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4",
+      "bytes": 623,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/harness-snapshot/manifest.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/harness-snapshot/manifest.json",
+      "sha256": "cc6d201b556aed25bc7a358e9784b7f2f133f59ccba0082728b7e8d5e77621bd",
+      "bytes": 2319,
+      "role": "source_snapshot_inventory",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/harness-snapshot/model-files.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/harness-snapshot/model-files.json",
+      "sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+      "bytes": 15915,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/harness-snapshot/run.py",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/harness-snapshot/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+      "bytes": 30956,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/harness-snapshot/run_fc2_experiment.py",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/harness-snapshot/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+      "bytes": 17991,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/harness-snapshot/run_kernel_integration.py",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/harness-snapshot/run_kernel_integration.py",
+      "sha256": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+      "bytes": 15957,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/harness-snapshot/run_session.py",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/harness-snapshot/run_session.py",
+      "sha256": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+      "bytes": 12689,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/latents/latent-metadata.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/latent-metadata.json",
+      "sha256": "d9b9654d4eabb9b6e11bfa7df2b223aa274046b810c77705bee4136f48b75927",
+      "bytes": 753,
+      "role": "latent_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/run.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/run.json",
+      "sha256": "4f042cad8fcf6de84983db168ebfe67d9bd0f21713315c6aca9d8d859306721d",
+      "bytes": 111479,
+      "role": "run_metadata",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/source-pin/manifest.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/source-pin/kernel-integration.patch",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed42-001/source-pin/kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c",
+      "bytes": 131269,
+      "role": "pinned_native_patch",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/fc1-step00-block00.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/fc1-step00-block00.json",
+      "sha256": "3faf721732332fea83084cd28e7f740925ead32be6985f5d3d0d7e6b54811668",
+      "bytes": 770,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/fc1-step00-block24.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/fc1-step00-block24.json",
+      "sha256": "c06bd03adcc55a47bbdff037e48b5fbb9ada93e27a7aa19e47ea507fd0ebf729",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/fc1-step00-block49.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/fc1-step00-block49.json",
+      "sha256": "6a5a9c64e8b9bc5483fcc9900b03915255ad262abb10866ebe85d7110e3babce",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/fc1-step10-block00.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/fc1-step10-block00.json",
+      "sha256": "1a8f19a3f2242382e21ad1a8da5da673ca41ff317dd6b470fbe31f103c8fd314",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/fc1-step10-block24.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/fc1-step10-block24.json",
+      "sha256": "8ed10dc7e0786d13acf2e0abcf00c313c2a9e0f8c607073720c5a90a4edccfd1",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/fc1-step10-block49.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/fc1-step10-block49.json",
+      "sha256": "2c9f83df3f5614a26f5f0d24321075d5729fc26040c29ccbdb11922f07565755",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/fc1-step19-block00.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/fc1-step19-block00.json",
+      "sha256": "685a883b0c1b1368f74a144437782dd758ca14b593ed53965bc33fac1a1597d4",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/fc1-step19-block24.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/fc1-step19-block24.json",
+      "sha256": "174468f1835bfc7e9aaba5a944ad1f2125ebb535d24f82c2021feed9ab754d38",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/fc1-step19-block49.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/fc1-step19-block49.json",
+      "sha256": "516f4b4970e9418b82505d715c838bdab5ea1715c9e8b64e2b6717a4ca8f7b2d",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/qkv-step00-block00.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/qkv-step00-block00.json",
+      "sha256": "682549550f0896bb8c4ba5967a8aa84bb1accc67e07cfe743e328a4f3382fe92",
+      "bytes": 770,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/qkv-step00-block24.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/qkv-step00-block24.json",
+      "sha256": "446abe1cd5d9457faa30be60a6cf18f8da87b0169c4820ac0dd1246aea797b4d",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/qkv-step00-block49.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/qkv-step00-block49.json",
+      "sha256": "f7eff6be01a26b7f5ee96397e6b70ea1b9d59e069c5d4452abc37560423a1f6c",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/qkv-step10-block00.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/qkv-step10-block00.json",
+      "sha256": "732c7c0c8be65d8f504676416354a0005c577ff8c0db989a714c7210ac9bb73a",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/qkv-step10-block24.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/qkv-step10-block24.json",
+      "sha256": "12b5d20540decb2811724f7c01d4aafa81b198dcee17a433b310a3aef155f708",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/qkv-step10-block49.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/qkv-step10-block49.json",
+      "sha256": "ead2f135040dde46009aa7dc884cf4c9fea76bfb3dc0aa03910bac202ac06ccb",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/qkv-step19-block00.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/qkv-step19-block00.json",
+      "sha256": "6cb2a6227252e15a6aaab05e8e3e5cec858f83c65026770945f95bca806658fa",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/qkv-step19-block24.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/qkv-step19-block24.json",
+      "sha256": "d659d5649ed26df6397e4da8692f34a9fe398706efc291678479f2d7c91c175f",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/adaln/qkv-step19-block49.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/adaln-metadata/qkv-step19-block49.json",
+      "sha256": "4b78c618ce5ce14f47629825d6d2f6fee45fedc0a4216e832ac8e4c9b2d311ee",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/harness-snapshot/UPSTREAM-LICENSE",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/harness-snapshot/UPSTREAM-LICENSE",
+      "sha256": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+      "bytes": 1077,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/harness-snapshot/adaln_capture.py",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/harness-snapshot/adaln_capture.py",
+      "sha256": "8f5f4a781ba51d07d86baa4023791f83dd418e803a9ab971c90e133d87ab6504",
+      "bytes": 25466,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/harness-snapshot/fc2_analyze.py",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/harness-snapshot/fc2_analyze.py",
+      "sha256": "5798d1fca3785823a92d58c931911c22aac71514444cd3ec01fc9841c66627f3",
+      "bytes": 10151,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/harness-snapshot/kernel_integration.py",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/harness-snapshot/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+      "bytes": 8426,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/harness-snapshot/kernel_session.c",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/harness-snapshot/kernel_session.c",
+      "sha256": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+      "bytes": 16140,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/harness-snapshot/locking.py",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/harness-snapshot/locking.py",
+      "sha256": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4",
+      "bytes": 623,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/harness-snapshot/manifest.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/harness-snapshot/manifest.json",
+      "sha256": "797ba1742d63026eae40cdd6065c097a46ea50e39d3e1fe3cb801feb181ed54a",
+      "bytes": 2319,
+      "role": "source_snapshot_inventory",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/harness-snapshot/model-files.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/harness-snapshot/model-files.json",
+      "sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+      "bytes": 15915,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/harness-snapshot/run.py",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/harness-snapshot/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+      "bytes": 30956,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/harness-snapshot/run_fc2_experiment.py",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/harness-snapshot/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+      "bytes": 17991,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/harness-snapshot/run_kernel_integration.py",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/harness-snapshot/run_kernel_integration.py",
+      "sha256": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+      "bytes": 15957,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/harness-snapshot/run_session.py",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/harness-snapshot/run_session.py",
+      "sha256": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+      "bytes": 12689,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/latents/latent-metadata.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/latent-metadata.json",
+      "sha256": "4f53a1d22d0f48fdcd4d1077d0a0be4136d52b16c69175c7f995a94fe3588a6b",
+      "bytes": 753,
+      "role": "latent_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/run.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/run.json",
+      "sha256": "6e6de69fc7f470883103ee4308ea4869cb8de71cf93b39ca9a72056420c9701d",
+      "bytes": 111804,
+      "role": "run_metadata",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/source-pin/manifest.json",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/source-pin/kernel-integration.patch",
+      "destination": "raw/runs/kernel-adaln-h-capture-seed43-001/source-pin/kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c",
+      "bytes": 131269,
+      "role": "pinned_native_patch",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed42-001/harness-snapshot/UPSTREAM-LICENSE",
+      "destination": "raw/runs/kernel-baseline-capture-seed42-001/harness-snapshot/UPSTREAM-LICENSE",
+      "sha256": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+      "bytes": 1077,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed42-001/harness-snapshot/kernel_integration.py",
+      "destination": "raw/runs/kernel-baseline-capture-seed42-001/harness-snapshot/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+      "bytes": 8426,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed42-001/harness-snapshot/kernel_session.c",
+      "destination": "raw/runs/kernel-baseline-capture-seed42-001/harness-snapshot/kernel_session.c",
+      "sha256": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+      "bytes": 16140,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed42-001/harness-snapshot/locking.py",
+      "destination": "raw/runs/kernel-baseline-capture-seed42-001/harness-snapshot/locking.py",
+      "sha256": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4",
+      "bytes": 623,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed42-001/harness-snapshot/manifest.json",
+      "destination": "raw/runs/kernel-baseline-capture-seed42-001/harness-snapshot/manifest.json",
+      "sha256": "c279e97b79881b4e94fa3d18e1dc0ed5de796ce628f697daad0d1193211ab4b1",
+      "bytes": 1903,
+      "role": "source_snapshot_inventory",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed42-001/harness-snapshot/model-files.json",
+      "destination": "raw/runs/kernel-baseline-capture-seed42-001/harness-snapshot/model-files.json",
+      "sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+      "bytes": 15915,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed42-001/harness-snapshot/run.py",
+      "destination": "raw/runs/kernel-baseline-capture-seed42-001/harness-snapshot/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+      "bytes": 30956,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed42-001/harness-snapshot/run_fc2_experiment.py",
+      "destination": "raw/runs/kernel-baseline-capture-seed42-001/harness-snapshot/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+      "bytes": 17991,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed42-001/harness-snapshot/run_kernel_integration.py",
+      "destination": "raw/runs/kernel-baseline-capture-seed42-001/harness-snapshot/run_kernel_integration.py",
+      "sha256": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+      "bytes": 15957,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed42-001/harness-snapshot/run_session.py",
+      "destination": "raw/runs/kernel-baseline-capture-seed42-001/harness-snapshot/run_session.py",
+      "sha256": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+      "bytes": 12689,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed42-001/latents/latent-metadata.json",
+      "destination": "raw/runs/kernel-baseline-capture-seed42-001/latent-metadata.json",
+      "sha256": "cd85e30a68039aa4eb3d30ea210fdabbf2147ad13571ea0c5b4be5edc1844e32",
+      "bytes": 753,
+      "role": "latent_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed42-001/run.json",
+      "destination": "raw/runs/kernel-baseline-capture-seed42-001/run.json",
+      "sha256": "ca656da7f1d3f91ad1d0d55de52d315dd60c019edcfa171a514dae90afaa9ba2",
+      "bytes": 46738,
+      "role": "run_metadata",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed42-001/source-pin/manifest.json",
+      "destination": "raw/runs/kernel-baseline-capture-seed42-001/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed42-001/source-pin/kernel-integration.patch",
+      "destination": "raw/runs/kernel-baseline-capture-seed42-001/source-pin/kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c",
+      "bytes": 131269,
+      "role": "pinned_native_patch",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed43-001/harness-snapshot/UPSTREAM-LICENSE",
+      "destination": "raw/runs/kernel-baseline-capture-seed43-001/harness-snapshot/UPSTREAM-LICENSE",
+      "sha256": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+      "bytes": 1077,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed43-001/harness-snapshot/kernel_integration.py",
+      "destination": "raw/runs/kernel-baseline-capture-seed43-001/harness-snapshot/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+      "bytes": 8426,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed43-001/harness-snapshot/kernel_session.c",
+      "destination": "raw/runs/kernel-baseline-capture-seed43-001/harness-snapshot/kernel_session.c",
+      "sha256": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+      "bytes": 16140,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed43-001/harness-snapshot/locking.py",
+      "destination": "raw/runs/kernel-baseline-capture-seed43-001/harness-snapshot/locking.py",
+      "sha256": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4",
+      "bytes": 623,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed43-001/harness-snapshot/manifest.json",
+      "destination": "raw/runs/kernel-baseline-capture-seed43-001/harness-snapshot/manifest.json",
+      "sha256": "c279e97b79881b4e94fa3d18e1dc0ed5de796ce628f697daad0d1193211ab4b1",
+      "bytes": 1903,
+      "role": "source_snapshot_inventory",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed43-001/harness-snapshot/model-files.json",
+      "destination": "raw/runs/kernel-baseline-capture-seed43-001/harness-snapshot/model-files.json",
+      "sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+      "bytes": 15915,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed43-001/harness-snapshot/run.py",
+      "destination": "raw/runs/kernel-baseline-capture-seed43-001/harness-snapshot/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+      "bytes": 30956,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed43-001/harness-snapshot/run_fc2_experiment.py",
+      "destination": "raw/runs/kernel-baseline-capture-seed43-001/harness-snapshot/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+      "bytes": 17991,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed43-001/harness-snapshot/run_kernel_integration.py",
+      "destination": "raw/runs/kernel-baseline-capture-seed43-001/harness-snapshot/run_kernel_integration.py",
+      "sha256": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+      "bytes": 15957,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed43-001/harness-snapshot/run_session.py",
+      "destination": "raw/runs/kernel-baseline-capture-seed43-001/harness-snapshot/run_session.py",
+      "sha256": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+      "bytes": 12689,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed43-001/latents/latent-metadata.json",
+      "destination": "raw/runs/kernel-baseline-capture-seed43-001/latent-metadata.json",
+      "sha256": "74d45b1905b15b9cd20642947088e2c456d9a971a0aa77f0ffc91f25e2e4cc89",
+      "bytes": 753,
+      "role": "latent_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed43-001/run.json",
+      "destination": "raw/runs/kernel-baseline-capture-seed43-001/run.json",
+      "sha256": "d8dce56c265beff4dd7d1c528d84d26e8a8c2ef7a1c157d100499984978422cf",
+      "bytes": 47414,
+      "role": "run_metadata",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed43-001/source-pin/manifest.json",
+      "destination": "raw/runs/kernel-baseline-capture-seed43-001/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-capture-seed43-001/source-pin/kernel-integration.patch",
+      "destination": "raw/runs/kernel-baseline-capture-seed43-001/source-pin/kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c",
+      "bytes": 131269,
+      "role": "pinned_native_patch",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed42-001/harness-snapshot/UPSTREAM-LICENSE",
+      "destination": "raw/runs/kernel-baseline-resident-seed42-001/harness-snapshot/UPSTREAM-LICENSE",
+      "sha256": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+      "bytes": 1077,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed42-001/harness-snapshot/kernel_integration.py",
+      "destination": "raw/runs/kernel-baseline-resident-seed42-001/harness-snapshot/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+      "bytes": 8426,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed42-001/harness-snapshot/kernel_session.c",
+      "destination": "raw/runs/kernel-baseline-resident-seed42-001/harness-snapshot/kernel_session.c",
+      "sha256": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+      "bytes": 16140,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed42-001/harness-snapshot/locking.py",
+      "destination": "raw/runs/kernel-baseline-resident-seed42-001/harness-snapshot/locking.py",
+      "sha256": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4",
+      "bytes": 623,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed42-001/harness-snapshot/manifest.json",
+      "destination": "raw/runs/kernel-baseline-resident-seed42-001/harness-snapshot/manifest.json",
+      "sha256": "c279e97b79881b4e94fa3d18e1dc0ed5de796ce628f697daad0d1193211ab4b1",
+      "bytes": 1903,
+      "role": "source_snapshot_inventory",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed42-001/harness-snapshot/model-files.json",
+      "destination": "raw/runs/kernel-baseline-resident-seed42-001/harness-snapshot/model-files.json",
+      "sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+      "bytes": 15915,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed42-001/harness-snapshot/run.py",
+      "destination": "raw/runs/kernel-baseline-resident-seed42-001/harness-snapshot/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+      "bytes": 30956,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed42-001/harness-snapshot/run_fc2_experiment.py",
+      "destination": "raw/runs/kernel-baseline-resident-seed42-001/harness-snapshot/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+      "bytes": 17991,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed42-001/harness-snapshot/run_kernel_integration.py",
+      "destination": "raw/runs/kernel-baseline-resident-seed42-001/harness-snapshot/run_kernel_integration.py",
+      "sha256": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+      "bytes": 15957,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed42-001/harness-snapshot/run_session.py",
+      "destination": "raw/runs/kernel-baseline-resident-seed42-001/harness-snapshot/run_session.py",
+      "sha256": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+      "bytes": 12689,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed42-001/run.json",
+      "destination": "raw/runs/kernel-baseline-resident-seed42-001/run.json",
+      "sha256": "65c15fa1b86be9518a2ff482f35805d840249c8f525e1a3213977b2d51eaa38a",
+      "bytes": 47717,
+      "role": "run_metadata",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed42-001/source-pin/manifest.json",
+      "destination": "raw/runs/kernel-baseline-resident-seed42-001/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed42-001/source-pin/kernel-integration.patch",
+      "destination": "raw/runs/kernel-baseline-resident-seed42-001/source-pin/kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c",
+      "bytes": 131269,
+      "role": "pinned_native_patch",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed43-001/harness-snapshot/UPSTREAM-LICENSE",
+      "destination": "raw/runs/kernel-baseline-resident-seed43-001/harness-snapshot/UPSTREAM-LICENSE",
+      "sha256": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+      "bytes": 1077,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed43-001/harness-snapshot/kernel_integration.py",
+      "destination": "raw/runs/kernel-baseline-resident-seed43-001/harness-snapshot/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+      "bytes": 8426,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed43-001/harness-snapshot/kernel_session.c",
+      "destination": "raw/runs/kernel-baseline-resident-seed43-001/harness-snapshot/kernel_session.c",
+      "sha256": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+      "bytes": 16140,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed43-001/harness-snapshot/locking.py",
+      "destination": "raw/runs/kernel-baseline-resident-seed43-001/harness-snapshot/locking.py",
+      "sha256": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4",
+      "bytes": 623,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed43-001/harness-snapshot/manifest.json",
+      "destination": "raw/runs/kernel-baseline-resident-seed43-001/harness-snapshot/manifest.json",
+      "sha256": "c279e97b79881b4e94fa3d18e1dc0ed5de796ce628f697daad0d1193211ab4b1",
+      "bytes": 1903,
+      "role": "source_snapshot_inventory",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed43-001/harness-snapshot/model-files.json",
+      "destination": "raw/runs/kernel-baseline-resident-seed43-001/harness-snapshot/model-files.json",
+      "sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+      "bytes": 15915,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed43-001/harness-snapshot/run.py",
+      "destination": "raw/runs/kernel-baseline-resident-seed43-001/harness-snapshot/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+      "bytes": 30956,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed43-001/harness-snapshot/run_fc2_experiment.py",
+      "destination": "raw/runs/kernel-baseline-resident-seed43-001/harness-snapshot/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+      "bytes": 17991,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed43-001/harness-snapshot/run_kernel_integration.py",
+      "destination": "raw/runs/kernel-baseline-resident-seed43-001/harness-snapshot/run_kernel_integration.py",
+      "sha256": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+      "bytes": 15957,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed43-001/harness-snapshot/run_session.py",
+      "destination": "raw/runs/kernel-baseline-resident-seed43-001/harness-snapshot/run_session.py",
+      "sha256": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+      "bytes": 12689,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed43-001/run.json",
+      "destination": "raw/runs/kernel-baseline-resident-seed43-001/run.json",
+      "sha256": "2b6c13a52757ff3ab7e2acc6054f0f1ff5e0661a104c7c7693b647b129523f9f",
+      "bytes": 47776,
+      "role": "run_metadata",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed43-001/source-pin/manifest.json",
+      "destination": "raw/runs/kernel-baseline-resident-seed43-001/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-baseline-resident-seed43-001/source-pin/kernel-integration.patch",
+      "destination": "raw/runs/kernel-baseline-resident-seed43-001/source-pin/kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c",
+      "bytes": 131269,
+      "role": "pinned_native_patch",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/fc1-step00-block00.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/fc1-step00-block00.json",
+      "sha256": "3faf721732332fea83084cd28e7f740925ead32be6985f5d3d0d7e6b54811668",
+      "bytes": 770,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/fc1-step00-block24.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/fc1-step00-block24.json",
+      "sha256": "c06bd03adcc55a47bbdff037e48b5fbb9ada93e27a7aa19e47ea507fd0ebf729",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/fc1-step00-block49.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/fc1-step00-block49.json",
+      "sha256": "6a5a9c64e8b9bc5483fcc9900b03915255ad262abb10866ebe85d7110e3babce",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/fc1-step10-block00.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/fc1-step10-block00.json",
+      "sha256": "1a8f19a3f2242382e21ad1a8da5da673ca41ff317dd6b470fbe31f103c8fd314",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/fc1-step10-block24.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/fc1-step10-block24.json",
+      "sha256": "8ed10dc7e0786d13acf2e0abcf00c313c2a9e0f8c607073720c5a90a4edccfd1",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/fc1-step10-block49.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/fc1-step10-block49.json",
+      "sha256": "2c9f83df3f5614a26f5f0d24321075d5729fc26040c29ccbdb11922f07565755",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/fc1-step19-block00.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/fc1-step19-block00.json",
+      "sha256": "685a883b0c1b1368f74a144437782dd758ca14b593ed53965bc33fac1a1597d4",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/fc1-step19-block24.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/fc1-step19-block24.json",
+      "sha256": "174468f1835bfc7e9aaba5a944ad1f2125ebb535d24f82c2021feed9ab754d38",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/fc1-step19-block49.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/fc1-step19-block49.json",
+      "sha256": "516f4b4970e9418b82505d715c838bdab5ea1715c9e8b64e2b6717a4ca8f7b2d",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/qkv-step00-block00.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/qkv-step00-block00.json",
+      "sha256": "682549550f0896bb8c4ba5967a8aa84bb1accc67e07cfe743e328a4f3382fe92",
+      "bytes": 770,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/qkv-step00-block24.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/qkv-step00-block24.json",
+      "sha256": "446abe1cd5d9457faa30be60a6cf18f8da87b0169c4820ac0dd1246aea797b4d",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/qkv-step00-block49.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/qkv-step00-block49.json",
+      "sha256": "f7eff6be01a26b7f5ee96397e6b70ea1b9d59e069c5d4452abc37560423a1f6c",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/qkv-step10-block00.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/qkv-step10-block00.json",
+      "sha256": "732c7c0c8be65d8f504676416354a0005c577ff8c0db989a714c7210ac9bb73a",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/qkv-step10-block24.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/qkv-step10-block24.json",
+      "sha256": "12b5d20540decb2811724f7c01d4aafa81b198dcee17a433b310a3aef155f708",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/qkv-step10-block49.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/qkv-step10-block49.json",
+      "sha256": "ead2f135040dde46009aa7dc884cf4c9fea76bfb3dc0aa03910bac202ac06ccb",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/qkv-step19-block00.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/qkv-step19-block00.json",
+      "sha256": "6cb2a6227252e15a6aaab05e8e3e5cec858f83c65026770945f95bca806658fa",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/qkv-step19-block24.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/qkv-step19-block24.json",
+      "sha256": "d659d5649ed26df6397e4da8692f34a9fe398706efc291678479f2d7c91c175f",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/adaln/qkv-step19-block49.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/adaln-metadata/qkv-step19-block49.json",
+      "sha256": "4b78c618ce5ce14f47629825d6d2f6fee45fedc0a4216e832ac8e4c9b2d311ee",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/harness-snapshot/UPSTREAM-LICENSE",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/harness-snapshot/UPSTREAM-LICENSE",
+      "sha256": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+      "bytes": 1077,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/harness-snapshot/adaln_capture.py",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/harness-snapshot/adaln_capture.py",
+      "sha256": "8f5f4a781ba51d07d86baa4023791f83dd418e803a9ab971c90e133d87ab6504",
+      "bytes": 25466,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/harness-snapshot/fc2_analyze.py",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/harness-snapshot/fc2_analyze.py",
+      "sha256": "5798d1fca3785823a92d58c931911c22aac71514444cd3ec01fc9841c66627f3",
+      "bytes": 10151,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/harness-snapshot/kernel_integration.py",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/harness-snapshot/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+      "bytes": 8426,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/harness-snapshot/kernel_session.c",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/harness-snapshot/kernel_session.c",
+      "sha256": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+      "bytes": 16140,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/harness-snapshot/locking.py",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/harness-snapshot/locking.py",
+      "sha256": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4",
+      "bytes": 623,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/harness-snapshot/manifest.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/harness-snapshot/manifest.json",
+      "sha256": "797ba1742d63026eae40cdd6065c097a46ea50e39d3e1fe3cb801feb181ed54a",
+      "bytes": 2319,
+      "role": "source_snapshot_inventory",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/harness-snapshot/model-files.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/harness-snapshot/model-files.json",
+      "sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+      "bytes": 15915,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/harness-snapshot/run.py",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/harness-snapshot/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+      "bytes": 30956,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/harness-snapshot/run_fc2_experiment.py",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/harness-snapshot/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+      "bytes": 17991,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/harness-snapshot/run_kernel_integration.py",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/harness-snapshot/run_kernel_integration.py",
+      "sha256": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+      "bytes": 15957,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/harness-snapshot/run_session.py",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/harness-snapshot/run_session.py",
+      "sha256": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+      "bytes": 12689,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/latents/latent-metadata.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/latent-metadata.json",
+      "sha256": "752d5240cf45562c8dfc77eb836cc3b18ef4f252424b6c96324d184996958ba2",
+      "bytes": 753,
+      "role": "latent_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/run.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/run.json",
+      "sha256": "b25c59e78e85e6d0c010ee274b9a4b89bd223f74dacad44313d082f18dbb4dd5",
+      "bytes": 111567,
+      "role": "run_metadata",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/source-pin/manifest.json",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/source-pin/kernel-integration.patch",
+      "destination": "raw/runs/kernel-combined-capture-seed42-001/source-pin/kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c",
+      "bytes": 131269,
+      "role": "pinned_native_patch",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/fc1-step00-block00.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/fc1-step00-block00.json",
+      "sha256": "3faf721732332fea83084cd28e7f740925ead32be6985f5d3d0d7e6b54811668",
+      "bytes": 770,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/fc1-step00-block24.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/fc1-step00-block24.json",
+      "sha256": "c06bd03adcc55a47bbdff037e48b5fbb9ada93e27a7aa19e47ea507fd0ebf729",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/fc1-step00-block49.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/fc1-step00-block49.json",
+      "sha256": "6a5a9c64e8b9bc5483fcc9900b03915255ad262abb10866ebe85d7110e3babce",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/fc1-step10-block00.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/fc1-step10-block00.json",
+      "sha256": "1a8f19a3f2242382e21ad1a8da5da673ca41ff317dd6b470fbe31f103c8fd314",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/fc1-step10-block24.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/fc1-step10-block24.json",
+      "sha256": "8ed10dc7e0786d13acf2e0abcf00c313c2a9e0f8c607073720c5a90a4edccfd1",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/fc1-step10-block49.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/fc1-step10-block49.json",
+      "sha256": "2c9f83df3f5614a26f5f0d24321075d5729fc26040c29ccbdb11922f07565755",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/fc1-step19-block00.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/fc1-step19-block00.json",
+      "sha256": "685a883b0c1b1368f74a144437782dd758ca14b593ed53965bc33fac1a1597d4",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/fc1-step19-block24.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/fc1-step19-block24.json",
+      "sha256": "174468f1835bfc7e9aaba5a944ad1f2125ebb535d24f82c2021feed9ab754d38",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/fc1-step19-block49.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/fc1-step19-block49.json",
+      "sha256": "516f4b4970e9418b82505d715c838bdab5ea1715c9e8b64e2b6717a4ca8f7b2d",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/qkv-step00-block00.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/qkv-step00-block00.json",
+      "sha256": "682549550f0896bb8c4ba5967a8aa84bb1accc67e07cfe743e328a4f3382fe92",
+      "bytes": 770,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/qkv-step00-block24.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/qkv-step00-block24.json",
+      "sha256": "446abe1cd5d9457faa30be60a6cf18f8da87b0169c4820ac0dd1246aea797b4d",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/qkv-step00-block49.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/qkv-step00-block49.json",
+      "sha256": "f7eff6be01a26b7f5ee96397e6b70ea1b9d59e069c5d4452abc37560423a1f6c",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/qkv-step10-block00.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/qkv-step10-block00.json",
+      "sha256": "732c7c0c8be65d8f504676416354a0005c577ff8c0db989a714c7210ac9bb73a",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/qkv-step10-block24.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/qkv-step10-block24.json",
+      "sha256": "12b5d20540decb2811724f7c01d4aafa81b198dcee17a433b310a3aef155f708",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/qkv-step10-block49.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/qkv-step10-block49.json",
+      "sha256": "ead2f135040dde46009aa7dc884cf4c9fea76bfb3dc0aa03910bac202ac06ccb",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/qkv-step19-block00.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/qkv-step19-block00.json",
+      "sha256": "6cb2a6227252e15a6aaab05e8e3e5cec858f83c65026770945f95bca806658fa",
+      "bytes": 771,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/qkv-step19-block24.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/qkv-step19-block24.json",
+      "sha256": "d659d5649ed26df6397e4da8692f34a9fe398706efc291678479f2d7c91c175f",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/adaln/qkv-step19-block49.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/adaln-metadata/qkv-step19-block49.json",
+      "sha256": "4b78c618ce5ce14f47629825d6d2f6fee45fedc0a4216e832ac8e4c9b2d311ee",
+      "bytes": 772,
+      "role": "activation_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/harness-snapshot/UPSTREAM-LICENSE",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/harness-snapshot/UPSTREAM-LICENSE",
+      "sha256": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+      "bytes": 1077,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/harness-snapshot/adaln_capture.py",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/harness-snapshot/adaln_capture.py",
+      "sha256": "8f5f4a781ba51d07d86baa4023791f83dd418e803a9ab971c90e133d87ab6504",
+      "bytes": 25466,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/harness-snapshot/fc2_analyze.py",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/harness-snapshot/fc2_analyze.py",
+      "sha256": "5798d1fca3785823a92d58c931911c22aac71514444cd3ec01fc9841c66627f3",
+      "bytes": 10151,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/harness-snapshot/kernel_integration.py",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/harness-snapshot/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+      "bytes": 8426,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/harness-snapshot/kernel_session.c",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/harness-snapshot/kernel_session.c",
+      "sha256": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+      "bytes": 16140,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/harness-snapshot/locking.py",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/harness-snapshot/locking.py",
+      "sha256": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4",
+      "bytes": 623,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/harness-snapshot/manifest.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/harness-snapshot/manifest.json",
+      "sha256": "797ba1742d63026eae40cdd6065c097a46ea50e39d3e1fe3cb801feb181ed54a",
+      "bytes": 2319,
+      "role": "source_snapshot_inventory",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/harness-snapshot/model-files.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/harness-snapshot/model-files.json",
+      "sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+      "bytes": 15915,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/harness-snapshot/run.py",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/harness-snapshot/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+      "bytes": 30956,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/harness-snapshot/run_fc2_experiment.py",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/harness-snapshot/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+      "bytes": 17991,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/harness-snapshot/run_kernel_integration.py",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/harness-snapshot/run_kernel_integration.py",
+      "sha256": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+      "bytes": 15957,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/harness-snapshot/run_session.py",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/harness-snapshot/run_session.py",
+      "sha256": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+      "bytes": 12689,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/latents/latent-metadata.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/latent-metadata.json",
+      "sha256": "e89314f765b0e430ab9c3f9b94069a109b01014b9895aafec944062b145100e2",
+      "bytes": 753,
+      "role": "latent_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/run.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/run.json",
+      "sha256": "ef016c8ddd715b336dfe9857d490c7c2ed5d8860ba3b05c69e3cdcb818f60d6b",
+      "bytes": 111617,
+      "role": "run_metadata",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/source-pin/manifest.json",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/source-pin/kernel-integration.patch",
+      "destination": "raw/runs/kernel-combined-capture-seed43-001/source-pin/kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c",
+      "bytes": 131269,
+      "role": "pinned_native_patch",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed42-001/harness-snapshot/UPSTREAM-LICENSE",
+      "destination": "raw/runs/kernel-combined-resident-seed42-001/harness-snapshot/UPSTREAM-LICENSE",
+      "sha256": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+      "bytes": 1077,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed42-001/harness-snapshot/kernel_integration.py",
+      "destination": "raw/runs/kernel-combined-resident-seed42-001/harness-snapshot/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+      "bytes": 8426,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed42-001/harness-snapshot/kernel_session.c",
+      "destination": "raw/runs/kernel-combined-resident-seed42-001/harness-snapshot/kernel_session.c",
+      "sha256": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+      "bytes": 16140,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed42-001/harness-snapshot/locking.py",
+      "destination": "raw/runs/kernel-combined-resident-seed42-001/harness-snapshot/locking.py",
+      "sha256": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4",
+      "bytes": 623,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed42-001/harness-snapshot/manifest.json",
+      "destination": "raw/runs/kernel-combined-resident-seed42-001/harness-snapshot/manifest.json",
+      "sha256": "c279e97b79881b4e94fa3d18e1dc0ed5de796ce628f697daad0d1193211ab4b1",
+      "bytes": 1903,
+      "role": "source_snapshot_inventory",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed42-001/harness-snapshot/model-files.json",
+      "destination": "raw/runs/kernel-combined-resident-seed42-001/harness-snapshot/model-files.json",
+      "sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+      "bytes": 15915,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed42-001/harness-snapshot/run.py",
+      "destination": "raw/runs/kernel-combined-resident-seed42-001/harness-snapshot/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+      "bytes": 30956,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed42-001/harness-snapshot/run_fc2_experiment.py",
+      "destination": "raw/runs/kernel-combined-resident-seed42-001/harness-snapshot/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+      "bytes": 17991,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed42-001/harness-snapshot/run_kernel_integration.py",
+      "destination": "raw/runs/kernel-combined-resident-seed42-001/harness-snapshot/run_kernel_integration.py",
+      "sha256": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+      "bytes": 15957,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed42-001/harness-snapshot/run_session.py",
+      "destination": "raw/runs/kernel-combined-resident-seed42-001/harness-snapshot/run_session.py",
+      "sha256": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+      "bytes": 12689,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed42-001/run.json",
+      "destination": "raw/runs/kernel-combined-resident-seed42-001/run.json",
+      "sha256": "8b15f8e9842da6812b7d56afc0c2231a473e45f92008a8396c2b903d2e6e1263",
+      "bytes": 47708,
+      "role": "run_metadata",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed42-001/source-pin/manifest.json",
+      "destination": "raw/runs/kernel-combined-resident-seed42-001/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed42-001/source-pin/kernel-integration.patch",
+      "destination": "raw/runs/kernel-combined-resident-seed42-001/source-pin/kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c",
+      "bytes": 131269,
+      "role": "pinned_native_patch",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed43-001/harness-snapshot/UPSTREAM-LICENSE",
+      "destination": "raw/runs/kernel-combined-resident-seed43-001/harness-snapshot/UPSTREAM-LICENSE",
+      "sha256": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+      "bytes": 1077,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed43-001/harness-snapshot/kernel_integration.py",
+      "destination": "raw/runs/kernel-combined-resident-seed43-001/harness-snapshot/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+      "bytes": 8426,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed43-001/harness-snapshot/kernel_session.c",
+      "destination": "raw/runs/kernel-combined-resident-seed43-001/harness-snapshot/kernel_session.c",
+      "sha256": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+      "bytes": 16140,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed43-001/harness-snapshot/locking.py",
+      "destination": "raw/runs/kernel-combined-resident-seed43-001/harness-snapshot/locking.py",
+      "sha256": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4",
+      "bytes": 623,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed43-001/harness-snapshot/manifest.json",
+      "destination": "raw/runs/kernel-combined-resident-seed43-001/harness-snapshot/manifest.json",
+      "sha256": "c279e97b79881b4e94fa3d18e1dc0ed5de796ce628f697daad0d1193211ab4b1",
+      "bytes": 1903,
+      "role": "source_snapshot_inventory",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed43-001/harness-snapshot/model-files.json",
+      "destination": "raw/runs/kernel-combined-resident-seed43-001/harness-snapshot/model-files.json",
+      "sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+      "bytes": 15915,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed43-001/harness-snapshot/run.py",
+      "destination": "raw/runs/kernel-combined-resident-seed43-001/harness-snapshot/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+      "bytes": 30956,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed43-001/harness-snapshot/run_fc2_experiment.py",
+      "destination": "raw/runs/kernel-combined-resident-seed43-001/harness-snapshot/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+      "bytes": 17991,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed43-001/harness-snapshot/run_kernel_integration.py",
+      "destination": "raw/runs/kernel-combined-resident-seed43-001/harness-snapshot/run_kernel_integration.py",
+      "sha256": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+      "bytes": 15957,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed43-001/harness-snapshot/run_session.py",
+      "destination": "raw/runs/kernel-combined-resident-seed43-001/harness-snapshot/run_session.py",
+      "sha256": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+      "bytes": 12689,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed43-001/run.json",
+      "destination": "raw/runs/kernel-combined-resident-seed43-001/run.json",
+      "sha256": "9cfbc166d516b58729759e0b31a35fe9970fe832c0247820031cae43b8066e57",
+      "bytes": 47767,
+      "role": "run_metadata",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed43-001/source-pin/manifest.json",
+      "destination": "raw/runs/kernel-combined-resident-seed43-001/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-resident-seed43-001/source-pin/kernel-integration.patch",
+      "destination": "raw/runs/kernel-combined-resident-seed43-001/source-pin/kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c",
+      "bytes": 131269,
+      "role": "pinned_native_patch",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed42-001/harness-snapshot/UPSTREAM-LICENSE",
+      "destination": "raw/runs/kernel-qkv-capture-seed42-001/harness-snapshot/UPSTREAM-LICENSE",
+      "sha256": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+      "bytes": 1077,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed42-001/harness-snapshot/kernel_integration.py",
+      "destination": "raw/runs/kernel-qkv-capture-seed42-001/harness-snapshot/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+      "bytes": 8426,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed42-001/harness-snapshot/kernel_session.c",
+      "destination": "raw/runs/kernel-qkv-capture-seed42-001/harness-snapshot/kernel_session.c",
+      "sha256": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+      "bytes": 16140,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed42-001/harness-snapshot/locking.py",
+      "destination": "raw/runs/kernel-qkv-capture-seed42-001/harness-snapshot/locking.py",
+      "sha256": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4",
+      "bytes": 623,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed42-001/harness-snapshot/manifest.json",
+      "destination": "raw/runs/kernel-qkv-capture-seed42-001/harness-snapshot/manifest.json",
+      "sha256": "c279e97b79881b4e94fa3d18e1dc0ed5de796ce628f697daad0d1193211ab4b1",
+      "bytes": 1903,
+      "role": "source_snapshot_inventory",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed42-001/harness-snapshot/model-files.json",
+      "destination": "raw/runs/kernel-qkv-capture-seed42-001/harness-snapshot/model-files.json",
+      "sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+      "bytes": 15915,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed42-001/harness-snapshot/run.py",
+      "destination": "raw/runs/kernel-qkv-capture-seed42-001/harness-snapshot/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+      "bytes": 30956,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed42-001/harness-snapshot/run_fc2_experiment.py",
+      "destination": "raw/runs/kernel-qkv-capture-seed42-001/harness-snapshot/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+      "bytes": 17991,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed42-001/harness-snapshot/run_kernel_integration.py",
+      "destination": "raw/runs/kernel-qkv-capture-seed42-001/harness-snapshot/run_kernel_integration.py",
+      "sha256": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+      "bytes": 15957,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed42-001/harness-snapshot/run_session.py",
+      "destination": "raw/runs/kernel-qkv-capture-seed42-001/harness-snapshot/run_session.py",
+      "sha256": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+      "bytes": 12689,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed42-001/latents/latent-metadata.json",
+      "destination": "raw/runs/kernel-qkv-capture-seed42-001/latent-metadata.json",
+      "sha256": "0f58c4c3e627bcb42c04dc55868622b2ce71844b403198c703de62455812c10b",
+      "bytes": 753,
+      "role": "latent_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed42-001/run.json",
+      "destination": "raw/runs/kernel-qkv-capture-seed42-001/run.json",
+      "sha256": "d74e1f87a1ffb6180819cd5190b7806944538a76537714d02ab0c141397c0e88",
+      "bytes": 47138,
+      "role": "run_metadata",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed42-001/source-pin/manifest.json",
+      "destination": "raw/runs/kernel-qkv-capture-seed42-001/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed42-001/source-pin/kernel-integration.patch",
+      "destination": "raw/runs/kernel-qkv-capture-seed42-001/source-pin/kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c",
+      "bytes": 131269,
+      "role": "pinned_native_patch",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed43-001/harness-snapshot/UPSTREAM-LICENSE",
+      "destination": "raw/runs/kernel-qkv-capture-seed43-001/harness-snapshot/UPSTREAM-LICENSE",
+      "sha256": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+      "bytes": 1077,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed43-001/harness-snapshot/kernel_integration.py",
+      "destination": "raw/runs/kernel-qkv-capture-seed43-001/harness-snapshot/kernel_integration.py",
+      "sha256": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+      "bytes": 8426,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed43-001/harness-snapshot/kernel_session.c",
+      "destination": "raw/runs/kernel-qkv-capture-seed43-001/harness-snapshot/kernel_session.c",
+      "sha256": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+      "bytes": 16140,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed43-001/harness-snapshot/locking.py",
+      "destination": "raw/runs/kernel-qkv-capture-seed43-001/harness-snapshot/locking.py",
+      "sha256": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4",
+      "bytes": 623,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed43-001/harness-snapshot/manifest.json",
+      "destination": "raw/runs/kernel-qkv-capture-seed43-001/harness-snapshot/manifest.json",
+      "sha256": "c279e97b79881b4e94fa3d18e1dc0ed5de796ce628f697daad0d1193211ab4b1",
+      "bytes": 1903,
+      "role": "source_snapshot_inventory",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed43-001/harness-snapshot/model-files.json",
+      "destination": "raw/runs/kernel-qkv-capture-seed43-001/harness-snapshot/model-files.json",
+      "sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+      "bytes": 15915,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed43-001/harness-snapshot/run.py",
+      "destination": "raw/runs/kernel-qkv-capture-seed43-001/harness-snapshot/run.py",
+      "sha256": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+      "bytes": 30956,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed43-001/harness-snapshot/run_fc2_experiment.py",
+      "destination": "raw/runs/kernel-qkv-capture-seed43-001/harness-snapshot/run_fc2_experiment.py",
+      "sha256": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+      "bytes": 17991,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed43-001/harness-snapshot/run_kernel_integration.py",
+      "destination": "raw/runs/kernel-qkv-capture-seed43-001/harness-snapshot/run_kernel_integration.py",
+      "sha256": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+      "bytes": 15957,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed43-001/harness-snapshot/run_session.py",
+      "destination": "raw/runs/kernel-qkv-capture-seed43-001/harness-snapshot/run_session.py",
+      "sha256": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+      "bytes": 12689,
+      "role": "producer_source_snapshot",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed43-001/latents/latent-metadata.json",
+      "destination": "raw/runs/kernel-qkv-capture-seed43-001/latent-metadata.json",
+      "sha256": "38892256b819ffcff6c47237abbcdd894fe0c70bfe74183d6c1cd69069375ed8",
+      "bytes": 753,
+      "role": "latent_metadata_only",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed43-001/run.json",
+      "destination": "raw/runs/kernel-qkv-capture-seed43-001/run.json",
+      "sha256": "3bda5568153423910fc430997d6fe4ca01d3ae18a29b2e9507d36bcec5fc265b",
+      "bytes": 47381,
+      "role": "run_metadata",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed43-001/source-pin/manifest.json",
+      "destination": "raw/runs/kernel-qkv-capture-seed43-001/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed43-001/source-pin/kernel-integration.patch",
+      "destination": "raw/runs/kernel-qkv-capture-seed43-001/source-pin/kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c",
+      "bytes": 131269,
+      "role": "pinned_native_patch",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "integrations/h3/kernel-integration-source.json",
+      "destination": "raw/source-manifest.json",
+      "sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "bytes": 614,
+      "role": "source_manifest",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed42-001/video-5s.mp4",
+      "destination": "videos/kernel-adaln-h-capture-seed42-001.mp4",
+      "sha256": "6f4e1fed3e03f1313165501551e6530d57d9a64f8f7371938d527923d6e3b9e0",
+      "bytes": 906597,
+      "role": "exact_5s_video",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-adaln-h-capture-seed43-001/video-5s.mp4",
+      "destination": "videos/kernel-adaln-h-capture-seed43-001.mp4",
+      "sha256": "8874f3ad7e21f5d93c6b1aa5b36ac12718c839cd5ffc339ffda749e366862c9a",
+      "bytes": 831607,
+      "role": "exact_5s_video",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed42-001/video-5s.mp4",
+      "destination": "videos/kernel-combined-capture-seed42-001.mp4",
+      "sha256": "305359fc963f8248d9218a127b0775de9467ef7038deb7f129c44cb4751df1a3",
+      "bytes": 907490,
+      "role": "exact_5s_video",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-combined-capture-seed43-001/video-5s.mp4",
+      "destination": "videos/kernel-combined-capture-seed43-001.mp4",
+      "sha256": "72c1cc1231b37e7244b5f1a9cb3b0bc46a5e3094733560ffaa7c3f1c9cddf05b",
+      "bytes": 824026,
+      "role": "exact_5s_video",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed42-001/video-5s.mp4",
+      "destination": "videos/kernel-qkv-capture-seed42-001.mp4",
+      "sha256": "7a21ea53ee23928db6689533d2fdaf4604d35edf4a00279bda86b1c8e7d4521f",
+      "bytes": 914872,
+      "role": "exact_5s_video",
+      "copy": "byte_identical"
+    },
+    {
+      "source": "results/local/h3/kernel-qkv-capture-seed43-001/video-5s.mp4",
+      "destination": "videos/kernel-qkv-capture-seed43-001.mp4",
+      "sha256": "7befe483977cb8c252c46522a55cf42fbd245be0bc2b6e378907c0065ab43c5c",
+      "bytes": 859336,
+      "role": "exact_5s_video",
+      "copy": "byte_identical"
+    }
+  ],
+  "campaigns": [
+    {
+      "sha256": "b2c717adbb47149ab88f6cf39569d2a238b388660be4e49a4379ee6464f9f747",
+      "kind": "prep",
+      "status": "completed",
+      "cases": 24,
+      "file": "raw/campaigns/prep-r1/campaign.json"
+    },
+    {
+      "sha256": "98647472ae1e60cedc2a320c1ba07056ff25fb6bb6461bf42d5c42ec99a0d891",
+      "kind": "prep",
+      "status": "completed",
+      "cases": 24,
+      "file": "raw/campaigns/prep-r2/campaign.json"
+    },
+    {
+      "sha256": "b837b31f26aeeed9ebeb1b50767c5de1fc206b095c376d986e9fe8afed486bc5",
+      "kind": "qkv",
+      "status": "completed_with_explicit_unsupported",
+      "cases": 20,
+      "file": "raw/campaigns/qkv-r1/campaign.json"
+    },
+    {
+      "sha256": "70397f67f69033fcda7c987fb48247e0f96b3dfad281d3817bac62ab39e9f77a",
+      "kind": "qkv",
+      "status": "completed_with_explicit_unsupported",
+      "cases": 20,
+      "file": "raw/campaigns/qkv-r2/campaign.json"
+    }
+  ],
+  "decisions": [
+    {
+      "file": "raw/decisions/kernel-default-combined-001.json",
+      "sha256": "15dcf396256e841af64f8c032534f3280537cc02ccb0d83bd6072770d1d1b089",
+      "status": "completed",
+      "decision": "keep_experimental",
+      "eligible_for_default": false
+    }
+  ],
+  "videos": [
+    {
+      "file": "videos/kernel-qkv-capture-seed42-001.mp4",
+      "sha256": "7a21ea53ee23928db6689533d2fdaf4604d35edf4a00279bda86b1c8e7d4521f",
+      "bytes": 914872,
+      "source_run_sha256": "d74e1f87a1ffb6180819cd5190b7806944538a76537714d02ab0c141397c0e88",
+      "seed": 42,
+      "policy": "qkv-only",
+      "frames": 120,
+      "fps": 24,
+      "seconds": 5
+    },
+    {
+      "file": "videos/kernel-adaln-h-capture-seed42-001.mp4",
+      "sha256": "6f4e1fed3e03f1313165501551e6530d57d9a64f8f7371938d527923d6e3b9e0",
+      "bytes": 906597,
+      "source_run_sha256": "4f042cad8fcf6de84983db168ebfe67d9bd0f21713315c6aca9d8d859306721d",
+      "seed": 42,
+      "policy": "adaln-h-only",
+      "frames": 120,
+      "fps": 24,
+      "seconds": 5
+    },
+    {
+      "file": "videos/kernel-combined-capture-seed42-001.mp4",
+      "sha256": "305359fc963f8248d9218a127b0775de9467ef7038deb7f129c44cb4751df1a3",
+      "bytes": 907490,
+      "source_run_sha256": "b25c59e78e85e6d0c010ee274b9a4b89bd223f74dacad44313d082f18dbb4dd5",
+      "seed": 42,
+      "policy": "combined",
+      "frames": 120,
+      "fps": 24,
+      "seconds": 5
+    },
+    {
+      "file": "videos/kernel-qkv-capture-seed43-001.mp4",
+      "sha256": "7befe483977cb8c252c46522a55cf42fbd245be0bc2b6e378907c0065ab43c5c",
+      "bytes": 859336,
+      "source_run_sha256": "3bda5568153423910fc430997d6fe4ca01d3ae18a29b2e9507d36bcec5fc265b",
+      "seed": 43,
+      "policy": "qkv-only",
+      "frames": 120,
+      "fps": 24,
+      "seconds": 5
+    },
+    {
+      "file": "videos/kernel-adaln-h-capture-seed43-001.mp4",
+      "sha256": "8874f3ad7e21f5d93c6b1aa5b36ac12718c839cd5ffc339ffda749e366862c9a",
+      "bytes": 831607,
+      "source_run_sha256": "6e6de69fc7f470883103ee4308ea4869cb8de71cf93b39ca9a72056420c9701d",
+      "seed": 43,
+      "policy": "adaln-h-only",
+      "frames": 120,
+      "fps": 24,
+      "seconds": 5
+    },
+    {
+      "file": "videos/kernel-combined-capture-seed43-001.mp4",
+      "sha256": "72c1cc1231b37e7244b5f1a9cb3b0bc46a5e3094733560ffaa7c3f1c9cddf05b",
+      "bytes": 824026,
+      "source_run_sha256": "ef016c8ddd715b336dfe9857d490c7c2ed5d8860ba3b05c69e3cdcb818f60d6b",
+      "seed": 43,
+      "policy": "combined",
+      "frames": 120,
+      "fps": 24,
+      "seconds": 5
+    }
+  ],
+  "publication_scope": "Byte-identical explicitly selected JSON/MP4 with checksum and identity joins. Publication success is not a new numerical/perceptual/default-eligibility judgment.",
+  "excluded": [
+    "model weights",
+    "latent/activation arrays",
+    "executables/libraries",
+    "private logs/traces",
+    "reference images"
+  ],
+  "producer_source_snapshots": "Recorded-hash .py/.c/.h/.patch/.json/license whitelist included for new runs and campaigns.",
+  "verification_limits": "No GPU, media decode, weight/latent re-read or scientific re-evaluation. Existing report statuses and limits are preserved verbatim; video identity is checked against the completed run's exact-video artifact.",
+  "unsupported_qkv_policy_scope": "Early unsupported QKV driver reports contain rows/seed/reason, not operand policy. Requested policy comes only from the raw case/request; no successful policy execution is inferred.",
+  "generated_files": [
+    {
+      "file": "README.md",
+      "sha256": "4c04118f939710e9bb78b407fb59048fb457dd8ddd11e71287a2bec23075d77c",
+      "bytes": 2063,
+      "copy": "generated_publication_index"
+    },
+    {
+      "file": "gallery.html",
+      "sha256": "be00b1374ab4c7553e0a91df22a1a1c0fd0bb7ad62167c3a918b82b588cb9255",
+      "bytes": 2931,
+      "copy": "generated_publication_index"
+    }
+  ]
+}

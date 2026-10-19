@@ -131,6 +131,35 @@ The [gated residual extension](gated-residual-fusion.md) compares standalone gat
 
 ## Follow-up: projection epilogues
 
+The subsequent [actual native QKV/AdaLN integration](../integrations/h3/kernel-integration.md)
+uses the existing grouped QKV fusion as its comparator. Two reversed operator
+campaigns pass all 32 supported QKV and 48 prep cases. At the real-request
+M9914/17455 lengths, native/custom QKV online latency ratios are
+0.9352–0.9428: the custom tile is 6.1–6.9% slower. Fused H256 preparation is
+bit-identical to staged H256, with maximum independent implementation relative
+L2 6.087501e-7, but costs more than native preparation without rotation.
+These findings supersede any inference that the single-projection gains below
+would transfer unchanged to the already-fused native runtime.
+
+The complete combined policy is also slower in the matched resident test:
+147.659017→149.364160 s at seed42 and 147.807164→149.768661 s at seed43
+(1.155%/1.327% higher generation latency). Synchronized denoise callbacks
+increase 118.525176→120.390033 s and 118.640971→120.575822 s
+(1.573%/1.631%). Each arm has one warmup plus three timed requests, with
+reversed policy order at the second seed. The original video hashes match
+the corresponding diagnostic captures. Decode/export and repeated audio-VAE
+setup remain in generation timing; initial weight preparation and trimming
+are excluded. These are descriptive medians, not confidence intervals.
+
+All four policies have finite 20-step/final and strict RGB/PCM evaluations
+at both seeds. Combined final video L2 relative to BF16 increases
+0.335791→0.403528 and 0.203205→0.373968, with audio/media/tail regressions.
+All 576 sampled real rows have improved same-X/W projection L2 under H256,
+which does not establish a complete-generation improvement. The explicit
+numeric review and performance gates reject default promotion; the new flags
+remain off. The [public evidence and six videos](../results/published/h3-native-eval/kernel-integration-v1/results.md)
+retain all cases, timings, source snapshots and review limits.
+
 Moving gated residual add into the preceding GEMM preserves the branch BF16 round, residual BF16 round and following AdaLN BF16 round. Both placements retain the updated residual and contain the same three core/five online dispatches. Two independent seeds with reversed order give M4096 attention-to-FFN online 10.846 → 10.710 / 10.670 → 10.619 ms, and FFN-to-Q 12.723 → 12.426 / 12.488 → 12.096 ms. Large-shape reductions range from 0.3–4.6%; small-M timing is unstable. All 48 final records pass, with exact paired residual/codes/scales and 0.67–1.37% total chain relative L2. [Chain results](gate-epilogue-fusion.md).
 
 The independent Q/K projection/RMSNorm/RoPE kernel preserves native H3 BF16 projection/output boundaries, rotates 96 of 128 channels per head and writes head-major BF16 directly. With common online H256/INT8 preparation, M4096 normal latency is 3.977 → 3.460 ms at seed29 and 4.012 → 3.456 ms at seed43; M9914 is 9.659 → 7.959 and 9.765 → 7.944 ms. Normal/outlier repeats support 13–14% lower online latency at M4096 and about 18% at M9914, with exact paired Q/K outputs and 1.11–1.31% total relative L2. M128 shows no repeatable win. The pinned native runtime already fuses grouped QKV/RMS/RoPE; this experiment compares our single-projection fused and staged implementations, not upstream runtime throughput. [Q/K results](qk-rope-fusion.md).
@@ -163,4 +192,4 @@ Native scaled MXINT8→FP32 TensorOps did not compile through the tested API pat
 
 The ~60 TFLOP/s FP16 and ~110 effective TOPS INT8 numbers in [Draw Things’ report](https://releases.drawthings.ai/p/metal-quantized-attention-pulling) use different kernels, fusion and measurement conditions. They are context, not matched pass/fail targets. No claim of SOTA is made until a pinned MFA comparison is run on matched workloads.
 
-The separate native runs above now measure full generation and encoder/VAE phases, with real FC2 calibration, a native FC2-H256 path and paired latent/media comparisons at two seeds. Perceptual quality, calibration for other projection families and fused low-bit attention remain open. Q/K projection with normalization/RoPE has an independent component experiment; the upstream already fuses grouped QKV/RMS/RoPE, so new native fusion changes still require a matched comparison. The [coverage ledger](h3-coverage.md) makes these gaps explicit. Do not infer video latency, memory fit or perceptual quality from operator microbenchmarks.
+The separate native runs above now measure full generation and encoder/VAE phases, with real FC2 calibration, a native FC2-H256 path and paired latent/media comparisons at two seeds. The later QKV/FC1 integration adds actual-row calibration and two-seed model evidence, including negative results against native fusion. Perceptual quality, calibration beyond these sampled families/prompts and fused low-bit attention remain open. The [coverage ledger](h3-coverage.md) makes these gaps explicit. Do not infer video latency, memory fit or perceptual quality from operator microbenchmarks.
