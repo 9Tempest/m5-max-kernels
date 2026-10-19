@@ -144,8 +144,20 @@ padding, synchronization, and output unpacking, after the complete warmup.
 `cached_generation` additionally includes decoder/export and repeated audio
 VAE setup. There is no kernel-only or compilation-free full-request claim.
 The wrapper verifies cache retention and reports whether all four MP4 files
-are byte-identical. Fusion options remain explicitly unsupported until the
-corresponding source version and numerical checks are frozen.
+are byte-identical. With the separate frozen `fused.patch` runtime, it accepts
+`--fusion none|fc2|attention|both`; both fusion flags default to off. The same
+fusion choice applies to the warmup and all three timed requests. Attention
+and combined fusion have seed42 whole-model latent/media parity against
+on-load H256. The matched seed42 `none`/`attention` resident comparison records
+median generation 151.126785→147.752793 s and synchronized denoise
+121.909995→118.566479 s, with all eight original videos byte-identical.
+These are descriptive single-seed, fixed-order ratios of 1.022835×/1.028200×;
+independent reversed-order repeats and another seed remain necessary before
+stable promotion. [Raw samples and scope](../../results/published/h3-native-eval/fused-resident-seed42-v1/README.md).
+Prepared
+checkpoint loading combined with fusion has not been validated; the prepared
+loader's separate parity result does not establish that combination. See
+[fusion contracts and evidence](fused.md) before running a comparison.
 
 The optional [diagnostic build](diagnostics.md) records actual geometry,
 selected branches and sampled post-Euler finite statistics. Keep its overhead

@@ -232,6 +232,14 @@ def media_contract(probe):
         ):
             raise ValueError("cropped/interlaced/repeated-field video is unsupported")
     for frame, count in zip(af, samples, strict=True):
+        # Normal decoder output already applies packet skip/discard padding.
+        # Pending frame-side trim instructions would require a separate,
+        # explicitly supported decode contract; never infer another crop here.
+        if any(
+            str(side.get("side_data_type", "")).lower() == "skip samples"
+            for side in frame.get("side_data_list", [])
+        ):
+            raise ValueError("unresolved decoded audio skip/discard metadata is unsupported")
         duration = fraction(
             frame.get("duration", frame.get("pkt_duration")), "audio frame duration"
         )
@@ -251,6 +259,11 @@ def media_contract(probe):
     aduration = fraction(audio.get("duration_ts"), "audio duration ticks") * abase
     if vduration != len(vf) / fps or vduration != aduration:
         raise ValueError("declared video/audio durations or video frame count differ")
+    # These are decoded AVFrame sample counts, after normal codec trimming,
+    # not encoded packet sizes. Missing or excess decoded tails are not padding
+    # that this evaluator may silently remove or synthesize.
+    if Fraction(sum(samples), 32000) != aduration:
+        raise ValueError("decoded audio sample duration differs from declared video/audio duration")
     width, height = int(video["width"]), int(video["height"])
     if width <= 0 or height <= 0:
         raise ValueError("invalid video dimensions")

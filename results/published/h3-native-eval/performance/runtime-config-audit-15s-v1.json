@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "audit": "posthoc_VAE_runtime_config_pin_audit",
+  "checked_utc": "2026-10-19T00:08:28.135731+00:00",
+  "model_revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+  "model_manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+  "validator_source_sha256": "3ec955b4128e3c5e56ca9893b61f6f24a6c033a5217244e3dbc4320519e5173d",
+  "validator_function": "run_long_benchmark.runtime_config_inventory",
+  "original_and_derived_current_configs_byte_equal": true,
+  "current_configs": {
+    "model_manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+    "files": [
+      {
+        "path": "FL2VA/video_vae/config.json",
+        "bytes": 1807,
+        "sha256": "3edd2cdd1ebc823c868be55ef917e1b3b8a398fde4d3150dae44a3bf05d9f627",
+        "expected": {
+          "type": "file",
+          "oid": "20f91e40ea9bc24c21a0e757715f93acf49eb841",
+          "size": 1807,
+          "path": "FL2VA/video_vae/config.json"
+        }
+      },
+      {
+        "path": "FL2VA/audio_vae/config.json",
+        "bytes": 1973,
+        "sha256": "d8f3bcc62e23c7e9806970fa63cca6139c06faa3797cf9c94034f60db8512771",
+        "expected": {
+          "type": "file",
+          "oid": "bc2a8dc3bfe9037e1f0e82e97f309019b6a398e6",
+          "size": 1973,
+          "path": "FL2VA/audio_vae/config.json"
+        }
+      }
+    ],
+    "verification": "full file digest against pinned model inventory before generation",
+    "scope": "video VAE encoder/decoder and audio VAE latent normalization configs"
+  },
+  "derived_manifest_sha256": "6840c91f6e5b9fcb4e8fe25292a1b1e2209d2f7f9c02e3427cfbbcbc71da4cda",
+  "derived_snapshot_records": {
+    "FL2VA/video_vae/config.json": {
+      "path": "FL2VA/video_vae/config.json",
+      "storage": "hardlink",
+      "sha256": "3edd2cdd1ebc823c868be55ef917e1b3b8a398fde4d3150dae44a3bf05d9f627",
+      "original_sha256": "3edd2cdd1ebc823c868be55ef917e1b3b8a398fde4d3150dae44a3bf05d9f627",
+      "bytes": 1807
+    },
+    "FL2VA/audio_vae/config.json": {
+      "path": "FL2VA/audio_vae/config.json",
+      "storage": "hardlink",
+      "sha256": "d8f3bcc62e23c7e9806970fa63cca6139c06faa3797cf9c94034f60db8512771",
+      "original_sha256": "d8f3bcc62e23c7e9806970fa63cca6139c06faa3797cf9c94034f60db8512771",
+      "bytes": 1973
+    }
+  },
+  "runs": {
+    "bf16": {
+      "run_id": "whale-maid-15s-bf16-001",
+      "run_sha256": "ada46b0a3401083e1370b9c50287a26a2c2a6522dfab5d577cba42544ca5f921",
+      "runtime_source": {
+        "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+      },
+      "historical_runner_sha256": "7b071c977903dde2c8c7eaf0c1ba74b2163b12823d862e57f7a57b8a71c19e22"
+    },
+    "hadamard": {
+      "run_id": "whale-maid-15s-hadamard-001",
+      "run_sha256": "f3db9931b2300c797a780860b9ffe2b04ae159a0dc5a62dc7734431beae8ee43",
+      "runtime_source": {
+        "source_sha256": "054ec73eb454e44dc75d71bf83fa53a7129e5bd1e30fb304236f545f92f9cd7e",
+        "patch_sha256": "1cad08a5bddc2dfa37c29d2c00551fe467a032d358d1287072f93bfd9dc74c67"
+      },
+      "historical_runner_sha256": "7b071c977903dde2c8c7eaf0c1ba74b2163b12823d862e57f7a57b8a71c19e22"
+    }
+  },
+  "scope": "Current original/derived small configuration files checked against pinned model inventory; derived config digests also agree with the generation-bound derived manifest snapshot.",
+  "limitations": [
+    "Posthoc audit, not runtime capture of the original BF16 config bytes. No historical raw JSON is changed.",
+    "The historical original-model preflight omitted video/audio VAE config files. Current agreement is supporting evidence, not proof that the original files were unchanged throughout prior generation.",
+    "New long-runner preflight records both configs before generation. General original-model inventory fix is pending the active benchmark queue boundary."
+  ],
+  "new_validation_tests": "tests/test_h3_long_runtime_configs.py",
+  "checkpoint_payloads_read": false,
+  "gpu_used": false
+}

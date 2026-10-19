@@ -115,8 +115,12 @@ stream. It compares dimensions, nominal/average FPS, exact rational frame
 timestamps, audio frame timestamps and sample counts, declared duration,
 pixel/color metadata and aspect ratio. Each video must have a contiguous
 constant-rate timeline; audio blocks must have no gaps or overlaps and must
-start with video. Declared audio/video durations must match. Unsupported
-rotations are rejected.
+start with video. Declared audio/video durations must match, and the total
+decoded audio sample count divided by 32,000 must equal that duration exactly.
+This rejects equally truncated or extended audio in both inputs. Normal
+decoder-applied partial final frames are accepted; unresolved frame-side
+skip/discard metadata is explicitly unsupported. Unsupported rotations are
+rejected.
 
 Frame durations must also match the declared FPS/audio sample counts; changing
 channel layouts, frame cropping, interlacing and repeated fields are rejected.
@@ -165,6 +169,19 @@ and dirty state when Git is available, library/tool versions, tool binary
 hashes, raw probe/process logs, decoded media and artifact hashes. Existing
 records cannot be overwritten. Input hashes are checked again at the end.
 Evaluation wall time is CPU evaluation cost, not generation latency.
+
+The five-second benchmark pair wrapper additionally binds each current
+`video-5s.mp4` SHA256 to its original `run.json` record before decoding or
+joining a saved media report. Both recorded and decoded contracts must retain
+512×512, 120 frames, 24 fps, five seconds and 160,000 samples per stereo channel.
+The joined RGB/PCM shape, dtype, finite counts and explicit ranges are checked;
+replacing both videos or supplying equally short paired clips cannot attach
+new media metrics to the original latent evidence. Existing published fox and
+15-second JSON records keep their original evaluator hashes and are not rewritten.
+The [audio-duration audit](../results/published/h3-native-eval/performance/audio-duration-audit-v1.json)
+rechecks the retained, hash-bound probes for those five published media reports
+under the stronger decoded-tail rule; all ten inputs pass. This is a later
+structural audit, not a recomputation or replacement of the original metrics.
 
 LPIPS and VBench currently have no configured adapter or checkpoint. Without
 their flags they are `not_measured`; explicitly requesting `--lpips` or
@@ -290,10 +307,14 @@ byte-identical to the on-load H256 reference, with 200 verified projections
 loaded and zero runtime weight rotation/quantization. This is loader replay
 parity for one request, not a quality approval. The first
 [native fusion campaign](../results/published/h3-native-eval/fused-campaign-001-v1/README.md)
-passes all 12 operator numerical cases; independent timing repetition and
-whole-model fusion parity/E2E remain pending, as do the three additional
-five-second prompt pairs. The fifteen-second first-frame pair is complete below. The original BF16
-and completed derived checkpoint are retained locally. The separate
+and its [independent repetition](../results/published/h3-native-eval/fused-campaign-002-v1/README.md)
+have separate operator evidence, while the
+[seed42 whole-model parity report](../results/published/h3-native-eval/fused-model-parity-seed42-v1/README.md)
+checks the gate-fusion variants. These are distinct from the BF16/prepared-H256
+comparisons here. The separate [matched resident fusion comparison](../results/published/h3-native-eval/fused-resident-seed42-v1/README.md) records complete-request medians of 151.126785/147.752793 s and synchronized denoise medians of 121.909995/118.566479 s for fusion off/attention on. It uses one seed and fixed process order, so these descriptive timings do not establish stable promotion.
+All three additional five-second pairs and the fifteen-second first-frame
+pair have completed. The original BF16 and completed derived checkpoint are
+retained locally. The separate
 [resident H256 measurement](../results/published/h3-native-eval/performance/hadamard-resident-seed42-001.json)
 has one warmup plus three timed same-seed requests and byte-identical videos;
 it is performance evidence for its recorded scope, not a perceptual quality gate.
@@ -331,6 +352,60 @@ capture boundaries. `--media` runs the strict media comparison, while
 `--media-evaluation PATH` joins an existing strict record only after matching
 both video hashes and evaluator provenance. The original three-way fox helper
 and its published results remain unchanged.
+
+All three scene evaluations completed under the strengthened run-record/video
+binding and decoded-audio-tail checks. Every run retains 20 video/audio Euler
+states and both final tensors; all are finite and preserve their recorded
+hashes and capture boundaries. Every exact clip is 512×512 with 120 frames,
+24 fps and 160,000 samples per stereo channel. The records below compare
+prepared H256 against matched BF16, with one fixed seed per scene; they do
+not include a matched unrotated native-INT8 arm.
+
+| Scene / seed | Final video latent SNR dB | Video relative L2 | Final audio latent SNR dB | Audio relative L2 |
+| --- | ---: | ---: | ---: | ---: |
+| Person turn / 71 | 20.840767 | 0.09077403 | 29.320198 | 0.03419717 |
+| Rainy street / 73 | 10.392946 | 0.30224053 | 20.792541 | 0.09127944 |
+| Water pour / 79 | 8.085944 | 0.39418745 | 14.816440 | 0.18162600 |
+
+| Scene | RGB SNR dB | RGB PSNR dB, range255 | RGB SSIM | PCM SNR dB | PCM relative L2 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Person turn | 20.663847 | 29.819498 | 0.912221 | 12.220583 | 0.24488988 |
+| Rainy street | 6.314006 | 17.650144 | 0.638439 | 7.021580 | 0.44557516 |
+| Water pour | 11.772501 | 17.297473 | 0.718942 | 3.708196 | 0.65251453 |
+
+The [public six-video collection](../results/published/h3-native-eval/diversity-three-scenes-v1/README.md)
+and [playable gallery](../results/published/h3-native-eval/diversity-three-scenes-v1/gallery.html)
+include byte-identical copies of all six videos and six evaluation reports.
+The immutable latent/paired reports are
+[person](../results/published/h3-native-eval/diversity-three-scenes-v1/evaluations/person-turn-eval-001-benchmark-evaluation.json),
+[rain](../results/published/h3-native-eval/diversity-three-scenes-v1/evaluations/rainy-street-eval-001-benchmark-evaluation.json) and
+[water](../results/published/h3-native-eval/diversity-three-scenes-v1/evaluations/water-pour-eval-001-benchmark-evaluation.json).
+Their strict media reports preserve every RGB SSIM frame and separate
+stereo-channel metrics:
+[person](../results/published/h3-native-eval/diversity-three-scenes-v1/evaluations/person-turn-evaluation.json),
+[rain](../results/published/h3-native-eval/diversity-three-scenes-v1/evaluations/rainy-street-evaluation.json),
+[water](../results/published/h3-native-eval/diversity-three-scenes-v1/evaluations/water-pour-evaluation.json).
+Raw latent arrays, weights and generation logs remain local. Unique staging
+directory names prevent media filename collisions; source and published JSON
+bytes retain identical hashes.
+
+Both videos of each scene were inspected at 0/1/2/3/4/4.958333 seconds. The
+person samples show the broad walking, turning and raised/lowered-hand stages;
+the turn timing, later face and coat details differ. Both rainy-street samples
+show wet pavement and illuminated signs, but the car recedes along the street
+rather than clearly crossing left-to-right as requested. Both water samples
+show pouring into an initially empty glass and a rising water level, with
+different framing, stream and bubble details. The six-frame reviews cannot
+establish smooth motion, exact action counts, fluid realism or complete prompt
+adherence. Audio was not listened to. Local bounded review notes are retained
+for [person](../results/local/h3/person-turn-review-001/README.md),
+[rain](../results/local/h3/rainy-street-review-001/README.md) and
+[water](../results/local/h3/water-pour-review-001/README.md).
+
+All three `quality_decision` fields remain `not_evaluated`. Differences across
+prompts illustrate the limits of a single clip or one aggregate pixel score;
+they do not provide VBench/FVD scores, a universal SNR threshold, a perceptual
+quality pass, or evidence that H256 improves these scenes over native INT8.
 
 ## Fifteen-second first-frame pair
 

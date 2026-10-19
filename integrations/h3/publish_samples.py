@@ -45,7 +45,13 @@ def load_json(path):
 
 def public_text_check(value):
     encoded = json.dumps(value, ensure_ascii=False)
-    if any(token in encoded for token in ("/Users/", "/home/", "codex://threads/")):
+    private_path = re.search(
+        r"(?<![\w./-])(?:file://)?/"
+        r"(?:Users|home|private|tmp|var/(?:folders|tmp|run/user)|run/user)"
+        r"(?:/|[\s\"']|$)",
+        encoded,
+    )
+    if private_path or "codex://threads/" in encoded:
         raise ValueError("publication data contains a private absolute path or thread reference")
 
 
@@ -94,6 +100,7 @@ def model_identity(record, directory):
 
 def sample_record(directory):
     path = directory / "run.json"
+    record_digest = base.sha256(path)
     record = load_json(path)
     if record.get("status") != "completed" or record.get("mode") not in LABELS:
         raise ValueError("only completed explicit precision runs can be published")
@@ -130,7 +137,7 @@ def sample_record(directory):
         "label": LABELS[record["mode"]],
         "mode": record["mode"],
         "recipe": recipe,
-        "source_run_sha256": base.sha256(path),
+        "source_run_sha256": record_digest,
         "source_run_status": "completed",
         "diagnostic_capture": record.get("diagnostic", False),
         "runtime": {
@@ -199,18 +206,49 @@ def sample_record(directory):
                 "target_canvas",
             )
         }
+    if base.sha256(path) != record_digest:
+        raise ValueError("sample run record changed during validation")
     public_text_check(entry)
     return entry, video
 
 
+def model_origin(sample):
+    """Compare the original model behind either BF16 or a derived checkpoint."""
+    model = sample.get("model", {})
+    if not isinstance(model, dict):
+        raise ValueError("comparison sample has incomplete original model identity")
+    if sample.get("prepared_checkpoint") is True:
+        origin = model.get("source_model", {})
+        digest_key = "model_manifest_sha256"
+    else:
+        if "source_model" in model:
+            raise ValueError("derived model origin requires the prepared-checkpoint declaration")
+        origin, digest_key = model, "manifest_sha256"
+    if not isinstance(origin, dict):
+        raise ValueError("comparison sample has incomplete original model identity")
+    identity = {
+        "repository": origin.get("repository"),
+        "revision": origin.get("revision"),
+        "manifest_sha256": origin.get(digest_key),
+    }
+    if any(
+        not isinstance(value, str) or not value for value in identity.values()
+    ) or not re.fullmatch(r"[0-9a-f]{64}", identity["manifest_sha256"]):
+        raise ValueError("comparison sample has incomplete original model identity")
+    return identity
+
+
 def validate_matched_samples(samples):
     first = samples[0]
+    origin = model_origin(first)
     if any(
         sample["recipe"] != first["recipe"]
         or sample.get("conditioning") != first.get("conditioning")
         for sample in samples[1:]
     ):
         raise ValueError("comparison samples have different recipes or conditioning")
+    if any(model_origin(sample) != origin for sample in samples[1:]):
+        raise ValueError("comparison samples have different original model identities")
 
 
 def evaluation_association(kind, record, samples):
@@ -249,10 +287,13 @@ def evaluation_association(kind, record, samples):
     return {role: sample["id"] for role, sample in associated.items()}
 
 
-def copy_exclusive(source, destination):
+def copy_exclusive(source, destination, expected_sha256=None):
     with source.open("rb") as input_file, destination.open("xb") as output_file:
         shutil.copyfileobj(input_file, output_file)
-    if base.sha256(source) != base.sha256(destination):
+    digest = base.sha256(destination)
+    if expected_sha256 is not None and digest != expected_sha256:
+        raise ValueError("publication source changed after validation; copy checksum differs")
+    if base.sha256(source) != digest:
         raise ValueError("publication copy checksum mismatch")
 
 
@@ -331,14 +372,17 @@ def execute(args):
     eval_sources = []
     for kind, paths in (("media", args.media_evaluation), ("latents", args.latent_evaluation)):
         for path in paths:
+            digest = base.sha256(path)
             record = load_json(path)
             public_text_check(record)
             if record.get("status") != "completed":
                 raise ValueError("only completed eval records can be published")
             association = evaluation_association(kind, record, samples)
+            if base.sha256(path) != digest:
+                raise ValueError("evaluation record changed during validation")
             name = f"evaluations/{path.parent.name}-{path.name}"
             evaluations.append(
-                {"kind": kind, "file": name, "sha256": base.sha256(path), "samples": association}
+                {"kind": kind, "file": name, "sha256": digest, "samples": association}
             )
             eval_sources.append(path)
     if len({entry["file"] for entry in evaluations}) != len(evaluations):
@@ -346,7 +390,8 @@ def execute(args):
     for folder in ("videos", "posters", "evaluations"):
         (output / folder).mkdir()
     for sample, source in zip(samples, sources, strict=True):
-        copy_exclusive(source, output / sample["video"]["file"])
+        destination = output / sample["video"]["file"]
+        copy_exclusive(source, destination, sample["video"]["sha256"])
         subprocess.run(
             [
                 "ffmpeg",
@@ -357,7 +402,7 @@ def execute(args):
                 "-ss",
                 str(min(2, sample["recipe"]["seconds"] / 2)),
                 "-i",
-                str(source),
+                str(destination),
                 "-frames:v",
                 "1",
                 "-vf",
@@ -368,7 +413,7 @@ def execute(args):
         )
         sample["poster_sha256"] = base.sha256(output / sample["poster"])
     for entry, source in zip(evaluations, eval_sources, strict=True):
-        copy_exclusive(source, output / entry["file"])
+        copy_exclusive(source, output / entry["file"], entry["sha256"])
     (output / "README.md").write_text(render_readme(samples, evaluations))
     (output / "gallery.html").write_text(render_gallery(samples))
     manifest = {

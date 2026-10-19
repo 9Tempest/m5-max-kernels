@@ -171,7 +171,12 @@ def test_missing_models_fail_before_hashing_or_runtime(tmp_path):
 
 def test_truncated_model_is_rejected_before_runtime(tmp_path, monkeypatch):
     entries = []
-    paths = ["FL2VA/transformer/config.json", "FL2VA/tokenizer/tokenizer.json"] + [
+    paths = [
+        "FL2VA/transformer/config.json",
+        "FL2VA/tokenizer/tokenizer.json",
+        "FL2VA/video_vae/config.json",
+        "FL2VA/audio_vae/config.json",
+    ] + [
         f"FL2VA/{component}/model.safetensors"
         for component in ("text_encoder", "transformer", "video_vae/source", "audio_vae")
     ]
@@ -189,7 +194,12 @@ def test_truncated_model_is_rejected_before_runtime(tmp_path, monkeypatch):
 
 @pytest.fixture
 def model_fixture(tmp_path, monkeypatch):
-    paths = ["FL2VA/transformer/config.json", "FL2VA/tokenizer/tokenizer.json"] + [
+    paths = [
+        "FL2VA/transformer/config.json",
+        "FL2VA/tokenizer/tokenizer.json",
+        "FL2VA/video_vae/config.json",
+        "FL2VA/audio_vae/config.json",
+    ] + [
         f"FL2VA/{component}/model.safetensors"
         for component in ("text_encoder", "transformer", "video_vae/source", "audio_vae")
     ]
@@ -218,7 +228,7 @@ def model_fixture(tmp_path, monkeypatch):
 )
 def test_unlisted_runtime_shards_cannot_shadow_verified_weights(model_fixture, component):
     model, manifest = model_fixture
-    assert len(h3.model_inventory(model, manifest)["files"]) == 6
+    assert len(h3.model_inventory(model, manifest)["files"]) == 8
     (model / "FL2VA" / component / "000-shadow.safetensors").write_bytes(b"unlisted weights")
     with pytest.raises(ValueError, match="unexpected model weight shards"):
         h3.model_inventory(model, manifest)
@@ -507,3 +517,16 @@ def test_session_rejects_nonzero_gpu_wait_before_launch(tmp_path, session_wrappe
     assert record["status"] == "failed"
     assert "session driver owns its lock" in record["error"]
     assert record["measurements"] == {}
+
+
+@pytest.mark.parametrize("component", ["video_vae", "audio_vae"])
+@pytest.mark.parametrize("change", ["missing", "same_size_edit"])
+def test_runtime_vae_config_must_match_pinned_inventory(model_fixture, component, change):
+    model, manifest = model_fixture
+    path = model / "FL2VA" / component / "config.json"
+    if change == "missing":
+        path.unlink()
+    else:
+        path.write_bytes(b"Test data")
+    with pytest.raises(ValueError, match="required model file is missing|Git blob hash mismatch"):
+        h3.model_inventory(model, manifest)

@@ -85,6 +85,31 @@ def expected_shape(benchmark):
     return shape
 
 
+def runtime_config_inventory(model, manifest_path=None):
+    """Pin the small VAE configs that affect conditioning and decoded outputs."""
+    manifest_path = manifest_path or Path(__file__).with_name("model-files.json")
+    if base.sha256(manifest_path) != base.MODEL_MANIFEST_SHA256:
+        raise ValueError("runtime config inventory differs from the pinned model manifest")
+    inventory = experiment.load_json(manifest_path)
+    records = []
+    for name in ("FL2VA/video_vae/config.json", "FL2VA/audio_vae/config.json"):
+        matches = [entry for entry in inventory if entry.get("path") == name]
+        if len(matches) != 1 or matches[0].get("type") != "file":
+            raise ValueError(f"runtime config is missing from pinned inventory: {name}")
+        specification = matches[0]
+        path = derived.contained_file(model, name)
+        digest = derived.verify_original_file(path, specification)
+        records.append(
+            dict(path=name, bytes=path.stat().st_size, sha256=digest, expected=specification)
+        )
+    return dict(
+        model_manifest_sha256=base.MODEL_MANIFEST_SHA256,
+        files=records,
+        verification="full file digest against pinned model inventory before generation",
+        scope="video VAE encoder/decoder and audio VAE latent normalization configs",
+    )
+
+
 def conditioning_headers(model):
     """Header-only coverage of every native first-frame vision/encoder tensor."""
     root = model / "FL2VA/text_encoder"
@@ -482,6 +507,7 @@ def execute(args):
             record["patch"] = source_guard(source, record["upstream"])
             env, overrides = base.runtime_environment()
             overrides["H3_HADAMARD_FC2"] = str(int(args.mode == "hadamard-fc2"))
+            record["runtime_model_configs"] = runtime_config_inventory(model)
             if args.mode == "bf16":
                 record["model"] = base.model_inventory(
                     model, Path(__file__).with_name("model-files.json")

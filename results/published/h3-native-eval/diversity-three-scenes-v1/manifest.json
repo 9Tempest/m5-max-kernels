@@ -1,0 +1,556 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-19T00:28:29.348130+00:00",
+  "publisher_sha256": "40a31438bc0cf3a6235df9b4e870459736449cfb60a2250ad175dd5f26c2a9d3",
+  "scope": "generated sample videos, selected generation provenance and immutable paired evaluations",
+  "samples": [
+    {
+      "id": "person-turn-v1-seed71-bf16",
+      "label": "BF16",
+      "mode": "bf16",
+      "recipe": {
+        "benchmark": "person-turn-v1",
+        "prompt": "A person in a blue coat walks across a quiet park path, pauses, turns to face the camera, and waves once. Full body, fixed camera, natural daylight, realistic motion, soft footsteps and birds.",
+        "seed": 71,
+        "width": 512,
+        "height": 512,
+        "seconds": 5,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "source_run_sha256": "73d6561d0eccf804b8a4f94e5b43d3e4a45ad69496500dfaf9b56b5b2760f881",
+      "source_run_status": "completed",
+      "diagnostic_capture": true,
+      "runtime": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "dirty": true,
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+        "binary_sha256": "915881e195b1a1214d09a6f891bc58b291fd3820a77df7a437a5aa74b99a1e7c",
+        "library_sha256": "cca92b0f2aa3be686f8cc827a725d308a3a497ad8f2c4b7d33dc6c0c0bcd4dc0"
+      },
+      "runtime_patch": {
+        "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+      },
+      "environment": {
+        "system": "Darwin",
+        "release": "27.0.0",
+        "machine": "arm64",
+        "python": "3.12.15",
+        "chip": "Apple M5 Max",
+        "memory_bytes": 137438953472,
+        "xcode": "Xcode 27.1\nBuild version 27A9275",
+        "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+        "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+      },
+      "harness_revision": {
+        "revision": "137f2c738bbf7b77208092520dc6f70910c6b583",
+        "dirty": true
+      },
+      "harness_files": {
+        "run_benchmark.py": "e2da12ec5e6292f0c408b426d59adec217b1841e6ebf41852f4df6c01c973b61",
+        "benchmark_catalog.py": "04a86726f8957918f2bc329b6cb2f6de27f4faf77c9176048721b348dd5d8f4e",
+        "benchmarks.json": "a82e6544fc15c59beeca87a81e8e36f0d75ab2913a7eb3e4924ee62a5815d762",
+        "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+        "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+        "run_prepared_checkpoint.py": "1852cd2863cbbbe576b210fa940dba08ec5793f31fbc583b65bc627c1bf1ed40",
+        "derived_checkpoint.py": "39b9408e8954a8b84ee69cee990b859c616f845c95aff72f4dcbd83cf35dfdf2",
+        "prepared_checkpoint.py": "caf1d4c614370dc0b9096076760e27d6e773aa981ba2404870769636b5fc2cfb"
+      },
+      "prepared_checkpoint": false,
+      "model": {
+        "repository": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+      },
+      "video": {
+        "file": "videos/person-turn-v1-seed71-bf16.mp4",
+        "sha256": "ab069fdd8b7b87bd5b4f728cdbeb616b76fc33bc1cc39662997b8b1f69b04a2f",
+        "bytes": 705395,
+        "frames": 120,
+        "fps": 24,
+        "duration_seconds": 5
+      },
+      "poster": "posters/person-turn-v1-seed71-bf16.jpg",
+      "quality_decision": "not_evaluated",
+      "timing_note": "Sample capture timing is diagnostic; see the separate performance report.",
+      "poster_sha256": "61144a3ec3c07e168cd4f53590968a9efc9d6cd5fb76546688226339342aa6ad"
+    },
+    {
+      "id": "person-turn-v1-seed71-hadamard-fc2",
+      "label": "INT8 + H256 FC2",
+      "mode": "hadamard-fc2",
+      "recipe": {
+        "benchmark": "person-turn-v1",
+        "prompt": "A person in a blue coat walks across a quiet park path, pauses, turns to face the camera, and waves once. Full body, fixed camera, natural daylight, realistic motion, soft footsteps and birds.",
+        "seed": 71,
+        "width": 512,
+        "height": 512,
+        "seconds": 5,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "source_run_sha256": "a1a7b6544e1f633f8e14329b6b688c7b21ba703240664599ca72f03ecb312f72",
+      "source_run_status": "completed",
+      "diagnostic_capture": true,
+      "runtime": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "dirty": true,
+        "source_sha256": "054ec73eb454e44dc75d71bf83fa53a7129e5bd1e30fb304236f545f92f9cd7e",
+        "binary_sha256": "e4af4c0d6d534503289e7e1a7c4a9fe0968a9e04ebdfb75be93e17ac636f2139",
+        "library_sha256": "6a82538ef04d4fc1cff4b5ee477f5b01642eb1f77718cef6b16f26331d21c3e7"
+      },
+      "runtime_patch": {
+        "source_sha256": "054ec73eb454e44dc75d71bf83fa53a7129e5bd1e30fb304236f545f92f9cd7e",
+        "patch_sha256": "1cad08a5bddc2dfa37c29d2c00551fe467a032d358d1287072f93bfd9dc74c67"
+      },
+      "environment": {
+        "system": "Darwin",
+        "release": "27.0.0",
+        "machine": "arm64",
+        "python": "3.12.15",
+        "chip": "Apple M5 Max",
+        "memory_bytes": 137438953472,
+        "xcode": "Xcode 27.1\nBuild version 27A9275",
+        "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+        "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+      },
+      "harness_revision": {
+        "revision": "137f2c738bbf7b77208092520dc6f70910c6b583",
+        "dirty": true
+      },
+      "harness_files": {
+        "run_benchmark.py": "e2da12ec5e6292f0c408b426d59adec217b1841e6ebf41852f4df6c01c973b61",
+        "benchmark_catalog.py": "04a86726f8957918f2bc329b6cb2f6de27f4faf77c9176048721b348dd5d8f4e",
+        "benchmarks.json": "a82e6544fc15c59beeca87a81e8e36f0d75ab2913a7eb3e4924ee62a5815d762",
+        "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+        "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+        "run_prepared_checkpoint.py": "1852cd2863cbbbe576b210fa940dba08ec5793f31fbc583b65bc627c1bf1ed40",
+        "derived_checkpoint.py": "39b9408e8954a8b84ee69cee990b859c616f845c95aff72f4dcbd83cf35dfdf2",
+        "prepared_checkpoint.py": "caf1d4c614370dc0b9096076760e27d6e773aa981ba2404870769636b5fc2cfb"
+      },
+      "prepared_checkpoint": true,
+      "model": {
+        "manifest_sha256": "6840c91f6e5b9fcb4e8fe25292a1b1e2209d2f7f9c02e3427cfbbcbc71da4cda",
+        "source_model": {
+          "repository": "MiniMaxAI/MiniMax-H3",
+          "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+          "model_manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+        },
+        "producer": {
+          "upstream_revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+          "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+          "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+          "library_sha256": "b53575187831a606605c098225c0725abc48d3babb128968a9d0e8d5b3fb4eb3",
+          "exporter_source_sha256": "eded6d8e2a32c3499d0840fe0fd9b455809bc621961b6e4558c87921606ad9d5",
+          "exporter_binary_sha256": "581ca61547cd2f5e080472811a9c866cf6fb5c7daff8bde65e1c149b4ac54ba6"
+        },
+        "policy_id": "h3_dit_int8_native_fc2_h256_v1",
+        "prepared_manifest_sha256": "a2b3bb2d64954fb48bccaea138558183c09d721417147615e49cbebfc2888f1b",
+        "original_checkpoint_retained": true
+      },
+      "video": {
+        "file": "videos/person-turn-v1-seed71-hadamard-fc2.mp4",
+        "sha256": "4b52b5f2b86ea757651bd2a5853c6a7db72de4a39eed7e2f72ab19353a3adfe6",
+        "bytes": 736704,
+        "frames": 120,
+        "fps": 24,
+        "duration_seconds": 5
+      },
+      "poster": "posters/person-turn-v1-seed71-hadamard-fc2.jpg",
+      "quality_decision": "not_evaluated",
+      "timing_note": "Sample capture timing is diagnostic; see the separate performance report.",
+      "poster_sha256": "b89f2ab326971c4aba5e8dd7be9f63424d325453271cc411a3a38515e305afa6"
+    },
+    {
+      "id": "rainy-street-v1-seed73-bf16",
+      "label": "BF16",
+      "mode": "bf16",
+      "recipe": {
+        "benchmark": "rainy-street-v1",
+        "prompt": "A slow forward tracking shot along a rainy city street at night. Neon signs reflect in puddles as one car passes from left to right. Realistic lighting, steady camera, gentle rain and distant traffic.",
+        "seed": 73,
+        "width": 512,
+        "height": 512,
+        "seconds": 5,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "source_run_sha256": "d36069d8c508d5564acfee4befcfdd6d5d4ada13d6869e9a43ac38afc779744d",
+      "source_run_status": "completed",
+      "diagnostic_capture": true,
+      "runtime": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "dirty": true,
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+        "binary_sha256": "915881e195b1a1214d09a6f891bc58b291fd3820a77df7a437a5aa74b99a1e7c",
+        "library_sha256": "dd922402065ceb6bf54da1431ab6d957205b7e0c4a3d00b2dda5d8cfed624eff"
+      },
+      "runtime_patch": {
+        "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+      },
+      "environment": {
+        "system": "Darwin",
+        "release": "27.0.0",
+        "machine": "arm64",
+        "python": "3.12.15",
+        "chip": "Apple M5 Max",
+        "memory_bytes": 137438953472,
+        "xcode": "Xcode 27.1\nBuild version 27A9275",
+        "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+        "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+      },
+      "harness_revision": {
+        "revision": "137f2c738bbf7b77208092520dc6f70910c6b583",
+        "dirty": true
+      },
+      "harness_files": {
+        "run_benchmark.py": "e2da12ec5e6292f0c408b426d59adec217b1841e6ebf41852f4df6c01c973b61",
+        "benchmark_catalog.py": "04a86726f8957918f2bc329b6cb2f6de27f4faf77c9176048721b348dd5d8f4e",
+        "benchmarks.json": "a82e6544fc15c59beeca87a81e8e36f0d75ab2913a7eb3e4924ee62a5815d762",
+        "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+        "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+        "run_prepared_checkpoint.py": "1852cd2863cbbbe576b210fa940dba08ec5793f31fbc583b65bc627c1bf1ed40",
+        "derived_checkpoint.py": "39b9408e8954a8b84ee69cee990b859c616f845c95aff72f4dcbd83cf35dfdf2",
+        "prepared_checkpoint.py": "caf1d4c614370dc0b9096076760e27d6e773aa981ba2404870769636b5fc2cfb"
+      },
+      "prepared_checkpoint": false,
+      "model": {
+        "repository": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+      },
+      "video": {
+        "file": "videos/rainy-street-v1-seed73-bf16.mp4",
+        "sha256": "66757f19def05ce2743ed29c0e24208e62edf716b395d123f04f2671555fbb2b",
+        "bytes": 1377711,
+        "frames": 120,
+        "fps": 24,
+        "duration_seconds": 5
+      },
+      "poster": "posters/rainy-street-v1-seed73-bf16.jpg",
+      "quality_decision": "not_evaluated",
+      "timing_note": "Sample capture timing is diagnostic; see the separate performance report.",
+      "poster_sha256": "17cfde9ea38e913774b53f549f071c87208d57c2c8cf04fe122953a0111989de"
+    },
+    {
+      "id": "rainy-street-v1-seed73-hadamard-fc2",
+      "label": "INT8 + H256 FC2",
+      "mode": "hadamard-fc2",
+      "recipe": {
+        "benchmark": "rainy-street-v1",
+        "prompt": "A slow forward tracking shot along a rainy city street at night. Neon signs reflect in puddles as one car passes from left to right. Realistic lighting, steady camera, gentle rain and distant traffic.",
+        "seed": 73,
+        "width": 512,
+        "height": 512,
+        "seconds": 5,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "source_run_sha256": "9bcb7e0e43b2b2540871d0844efa8fb510433e83ab292f15803074449d79a897",
+      "source_run_status": "completed",
+      "diagnostic_capture": true,
+      "runtime": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "dirty": true,
+        "source_sha256": "054ec73eb454e44dc75d71bf83fa53a7129e5bd1e30fb304236f545f92f9cd7e",
+        "binary_sha256": "e4af4c0d6d534503289e7e1a7c4a9fe0968a9e04ebdfb75be93e17ac636f2139",
+        "library_sha256": "2e8b4514d485735035c87ad45a81a2d8b0843919b854768c8f194f1288b51abc"
+      },
+      "runtime_patch": {
+        "source_sha256": "054ec73eb454e44dc75d71bf83fa53a7129e5bd1e30fb304236f545f92f9cd7e",
+        "patch_sha256": "1cad08a5bddc2dfa37c29d2c00551fe467a032d358d1287072f93bfd9dc74c67"
+      },
+      "environment": {
+        "system": "Darwin",
+        "release": "27.0.0",
+        "machine": "arm64",
+        "python": "3.12.15",
+        "chip": "Apple M5 Max",
+        "memory_bytes": 137438953472,
+        "xcode": "Xcode 27.1\nBuild version 27A9275",
+        "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+        "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+      },
+      "harness_revision": {
+        "revision": "137f2c738bbf7b77208092520dc6f70910c6b583",
+        "dirty": true
+      },
+      "harness_files": {
+        "run_benchmark.py": "e2da12ec5e6292f0c408b426d59adec217b1841e6ebf41852f4df6c01c973b61",
+        "benchmark_catalog.py": "04a86726f8957918f2bc329b6cb2f6de27f4faf77c9176048721b348dd5d8f4e",
+        "benchmarks.json": "a82e6544fc15c59beeca87a81e8e36f0d75ab2913a7eb3e4924ee62a5815d762",
+        "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+        "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+        "run_prepared_checkpoint.py": "1852cd2863cbbbe576b210fa940dba08ec5793f31fbc583b65bc627c1bf1ed40",
+        "derived_checkpoint.py": "39b9408e8954a8b84ee69cee990b859c616f845c95aff72f4dcbd83cf35dfdf2",
+        "prepared_checkpoint.py": "caf1d4c614370dc0b9096076760e27d6e773aa981ba2404870769636b5fc2cfb"
+      },
+      "prepared_checkpoint": true,
+      "model": {
+        "manifest_sha256": "6840c91f6e5b9fcb4e8fe25292a1b1e2209d2f7f9c02e3427cfbbcbc71da4cda",
+        "source_model": {
+          "repository": "MiniMaxAI/MiniMax-H3",
+          "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+          "model_manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+        },
+        "producer": {
+          "upstream_revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+          "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+          "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+          "library_sha256": "b53575187831a606605c098225c0725abc48d3babb128968a9d0e8d5b3fb4eb3",
+          "exporter_source_sha256": "eded6d8e2a32c3499d0840fe0fd9b455809bc621961b6e4558c87921606ad9d5",
+          "exporter_binary_sha256": "581ca61547cd2f5e080472811a9c866cf6fb5c7daff8bde65e1c149b4ac54ba6"
+        },
+        "policy_id": "h3_dit_int8_native_fc2_h256_v1",
+        "prepared_manifest_sha256": "a2b3bb2d64954fb48bccaea138558183c09d721417147615e49cbebfc2888f1b",
+        "original_checkpoint_retained": true
+      },
+      "video": {
+        "file": "videos/rainy-street-v1-seed73-hadamard-fc2.mp4",
+        "sha256": "71241b9a68f336f77213a08f77d806ab23ea7ac8f73e0ca573a57a066e21ac32",
+        "bytes": 1433935,
+        "frames": 120,
+        "fps": 24,
+        "duration_seconds": 5
+      },
+      "poster": "posters/rainy-street-v1-seed73-hadamard-fc2.jpg",
+      "quality_decision": "not_evaluated",
+      "timing_note": "Sample capture timing is diagnostic; see the separate performance report.",
+      "poster_sha256": "5cc6eda3c9816c21ed4097c5fdd4791945b59d1d75dd34413ce7160db4fa3f07"
+    },
+    {
+      "id": "water-pour-v1-seed79-bf16",
+      "label": "BF16",
+      "mode": "bf16",
+      "recipe": {
+        "benchmark": "water-pour-v1",
+        "prompt": "Close-up of clear water pouring from a glass pitcher into a transparent drinking glass on a wooden table. Small splashes and ripples form as the glass fills. Fixed camera, soft daylight, realistic fluid motion and clear pouring sounds.",
+        "seed": 79,
+        "width": 512,
+        "height": 512,
+        "seconds": 5,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "source_run_sha256": "6cb334eed097a766ab9ea14f83484e5f0e919c144bc327e8a087a8eb2b10f941",
+      "source_run_status": "completed",
+      "diagnostic_capture": true,
+      "runtime": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "dirty": true,
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+        "binary_sha256": "915881e195b1a1214d09a6f891bc58b291fd3820a77df7a437a5aa74b99a1e7c",
+        "library_sha256": "e0d2ee98aa5db8e4adc3f0e66abedcd266edc71f71d88683bcf5c45a64b7c28a"
+      },
+      "runtime_patch": {
+        "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+      },
+      "environment": {
+        "system": "Darwin",
+        "release": "27.0.0",
+        "machine": "arm64",
+        "python": "3.12.15",
+        "chip": "Apple M5 Max",
+        "memory_bytes": 137438953472,
+        "xcode": "Xcode 27.1\nBuild version 27A9275",
+        "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+        "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+      },
+      "harness_revision": {
+        "revision": "137f2c738bbf7b77208092520dc6f70910c6b583",
+        "dirty": true
+      },
+      "harness_files": {
+        "run_benchmark.py": "e2da12ec5e6292f0c408b426d59adec217b1841e6ebf41852f4df6c01c973b61",
+        "benchmark_catalog.py": "04a86726f8957918f2bc329b6cb2f6de27f4faf77c9176048721b348dd5d8f4e",
+        "benchmarks.json": "a82e6544fc15c59beeca87a81e8e36f0d75ab2913a7eb3e4924ee62a5815d762",
+        "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+        "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+        "run_prepared_checkpoint.py": "1852cd2863cbbbe576b210fa940dba08ec5793f31fbc583b65bc627c1bf1ed40",
+        "derived_checkpoint.py": "39b9408e8954a8b84ee69cee990b859c616f845c95aff72f4dcbd83cf35dfdf2",
+        "prepared_checkpoint.py": "caf1d4c614370dc0b9096076760e27d6e773aa981ba2404870769636b5fc2cfb"
+      },
+      "prepared_checkpoint": false,
+      "model": {
+        "repository": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+      },
+      "video": {
+        "file": "videos/water-pour-v1-seed79-bf16.mp4",
+        "sha256": "90461c9c7294e09b08eada343f3fb91ddc5cbf03d32a3c8a58897b1f691d0118",
+        "bytes": 1121689,
+        "frames": 120,
+        "fps": 24,
+        "duration_seconds": 5
+      },
+      "poster": "posters/water-pour-v1-seed79-bf16.jpg",
+      "quality_decision": "not_evaluated",
+      "timing_note": "Sample capture timing is diagnostic; see the separate performance report.",
+      "poster_sha256": "51f2a2483a43b231947ce8d892f0dc3247006e30fe95b4ea11b27c52846fb9a5"
+    },
+    {
+      "id": "water-pour-v1-seed79-hadamard-fc2",
+      "label": "INT8 + H256 FC2",
+      "mode": "hadamard-fc2",
+      "recipe": {
+        "benchmark": "water-pour-v1",
+        "prompt": "Close-up of clear water pouring from a glass pitcher into a transparent drinking glass on a wooden table. Small splashes and ripples form as the glass fills. Fixed camera, soft daylight, realistic fluid motion and clear pouring sounds.",
+        "seed": 79,
+        "width": 512,
+        "height": 512,
+        "seconds": 5,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "source_run_sha256": "10aadacbe05412d3028c9dfe0c955dd3aadb0a398c9aa3e565c4a05115b8be8c",
+      "source_run_status": "completed",
+      "diagnostic_capture": true,
+      "runtime": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "dirty": true,
+        "source_sha256": "054ec73eb454e44dc75d71bf83fa53a7129e5bd1e30fb304236f545f92f9cd7e",
+        "binary_sha256": "e4af4c0d6d534503289e7e1a7c4a9fe0968a9e04ebdfb75be93e17ac636f2139",
+        "library_sha256": "79cc269919ea821d1f7be620413c24f7a907ba6afaced0658a71ba8bce5bc7a1"
+      },
+      "runtime_patch": {
+        "source_sha256": "054ec73eb454e44dc75d71bf83fa53a7129e5bd1e30fb304236f545f92f9cd7e",
+        "patch_sha256": "1cad08a5bddc2dfa37c29d2c00551fe467a032d358d1287072f93bfd9dc74c67"
+      },
+      "environment": {
+        "system": "Darwin",
+        "release": "27.0.0",
+        "machine": "arm64",
+        "python": "3.12.15",
+        "chip": "Apple M5 Max",
+        "memory_bytes": 137438953472,
+        "xcode": "Xcode 27.1\nBuild version 27A9275",
+        "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+        "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+      },
+      "harness_revision": {
+        "revision": "137f2c738bbf7b77208092520dc6f70910c6b583",
+        "dirty": true
+      },
+      "harness_files": {
+        "run_benchmark.py": "e2da12ec5e6292f0c408b426d59adec217b1841e6ebf41852f4df6c01c973b61",
+        "benchmark_catalog.py": "04a86726f8957918f2bc329b6cb2f6de27f4faf77c9176048721b348dd5d8f4e",
+        "benchmarks.json": "a82e6544fc15c59beeca87a81e8e36f0d75ab2913a7eb3e4924ee62a5815d762",
+        "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+        "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+        "run_prepared_checkpoint.py": "1852cd2863cbbbe576b210fa940dba08ec5793f31fbc583b65bc627c1bf1ed40",
+        "derived_checkpoint.py": "39b9408e8954a8b84ee69cee990b859c616f845c95aff72f4dcbd83cf35dfdf2",
+        "prepared_checkpoint.py": "caf1d4c614370dc0b9096076760e27d6e773aa981ba2404870769636b5fc2cfb"
+      },
+      "prepared_checkpoint": true,
+      "model": {
+        "manifest_sha256": "6840c91f6e5b9fcb4e8fe25292a1b1e2209d2f7f9c02e3427cfbbcbc71da4cda",
+        "source_model": {
+          "repository": "MiniMaxAI/MiniMax-H3",
+          "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+          "model_manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+        },
+        "producer": {
+          "upstream_revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+          "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+          "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+          "library_sha256": "b53575187831a606605c098225c0725abc48d3babb128968a9d0e8d5b3fb4eb3",
+          "exporter_source_sha256": "eded6d8e2a32c3499d0840fe0fd9b455809bc621961b6e4558c87921606ad9d5",
+          "exporter_binary_sha256": "581ca61547cd2f5e080472811a9c866cf6fb5c7daff8bde65e1c149b4ac54ba6"
+        },
+        "policy_id": "h3_dit_int8_native_fc2_h256_v1",
+        "prepared_manifest_sha256": "a2b3bb2d64954fb48bccaea138558183c09d721417147615e49cbebfc2888f1b",
+        "original_checkpoint_retained": true
+      },
+      "video": {
+        "file": "videos/water-pour-v1-seed79-hadamard-fc2.mp4",
+        "sha256": "b189607315789c9ee0b643ab4f67dcc8ed6e93e68e584bd0a703db69a032f9fd",
+        "bytes": 1169969,
+        "frames": 120,
+        "fps": 24,
+        "duration_seconds": 5
+      },
+      "poster": "posters/water-pour-v1-seed79-hadamard-fc2.jpg",
+      "quality_decision": "not_evaluated",
+      "timing_note": "Sample capture timing is diagnostic; see the separate performance report.",
+      "poster_sha256": "69b8570400f5d7e03ed299519d8e8f10b04cd1c67b98be19d916e05addcfd26d"
+    }
+  ],
+  "evaluations": [
+    {
+      "kind": "media",
+      "file": "evaluations/person-turn-evaluation.json",
+      "sha256": "32be2d8f2a5b7b3154f91f5ea204f63b95f838af719f4323f7f18acb92501439",
+      "samples": {
+        "reference": "person-turn-v1-seed71-bf16",
+        "candidate": "person-turn-v1-seed71-hadamard-fc2"
+      }
+    },
+    {
+      "kind": "media",
+      "file": "evaluations/rainy-street-evaluation.json",
+      "sha256": "8b468c121d9e2c90a9c66c2fdd01722c798de7a257a3d07a5e428522af07ee5c",
+      "samples": {
+        "reference": "rainy-street-v1-seed73-bf16",
+        "candidate": "rainy-street-v1-seed73-hadamard-fc2"
+      }
+    },
+    {
+      "kind": "media",
+      "file": "evaluations/water-pour-evaluation.json",
+      "sha256": "b3ee985492e206c9be45bbd72c685e4207d7e0b7415f56f9170b2e2a196cca75",
+      "samples": {
+        "reference": "water-pour-v1-seed79-bf16",
+        "candidate": "water-pour-v1-seed79-hadamard-fc2"
+      }
+    },
+    {
+      "kind": "latents",
+      "file": "evaluations/person-turn-eval-001-benchmark-evaluation.json",
+      "sha256": "b4d1668e4c409082b74f5cd7a833baa28111911ebbc1648d888c71d97b7e29e7",
+      "samples": {
+        "bf16": "person-turn-v1-seed71-bf16",
+        "hadamard": "person-turn-v1-seed71-hadamard-fc2"
+      }
+    },
+    {
+      "kind": "latents",
+      "file": "evaluations/rainy-street-eval-001-benchmark-evaluation.json",
+      "sha256": "90a499910a175bcd003db2b54a97a5d85bb116f4dc107369c37de343c53bfb00",
+      "samples": {
+        "bf16": "rainy-street-v1-seed73-bf16",
+        "hadamard": "rainy-street-v1-seed73-hadamard-fc2"
+      }
+    },
+    {
+      "kind": "latents",
+      "file": "evaluations/water-pour-eval-001-benchmark-evaluation.json",
+      "sha256": "99eebbaf59b4a8453d16bf3dbdfc91ae815804c82eef796ad9467924c0cf944d",
+      "samples": {
+        "bf16": "water-pour-v1-seed79-bf16",
+        "hadamard": "water-pour-v1-seed79-hadamard-fc2"
+      }
+    }
+  ]
+}

@@ -53,4 +53,25 @@ A separate resident H256 run completes one full warmup and three repeated genera
 
 Both the original BF16 checkpoint and a separate prepared INT8 + H256 checkpoint are retained locally. Reloading all 200 prepared projections requires no weight rotation or requantization. A seed42 replay matches all 42 captured latent tensors and both video exports byte-for-byte. Verified payload import takes 12.721376 s in this single diagnostic run; it is separate from offline preparation and full checkpoint hash verification. [Checkpoint and replay evidence](prepared-checkpoint-summary-v1.json). Model weights are not included in this repository.
 
-Three additional paired scenes—person turning, rainy street and pouring water—are defined in the [pinned catalog](../../../integrations/h3/benchmarks.json). Their result packages will be added after actual generation and evaluation. The [first native fused-GEMM campaign](fused-campaign-001-v1/README.md) passes all 12 numerical cases and records alternating online timings. H256 FC2 has no stable gain; whole-model parity/E2E and independent timing repetition remain pending; upstream grouped QKV and gate→AdaLN→quant fusion remain the baseline.
+The [three additional paired scenes](diversity-three-scenes-v1/README.md)—person turning, rainy street and pouring water—are complete, with six playable videos and immutable latent/media evaluations. Each uses its [pinned prompt and seed](../../../integrations/h3/benchmarks.json), 512×512, 120 frames, 24 fps, 20 steps and all 50 blocks. H256 uses the separately prepared checkpoint. Values below compare H256 against the corresponding BF16 output.
+
+| Scene / seed | Final video latent SNR (dB) | RGB SNR (dB) | RGB SSIM | PCM SNR (dB) |
+|---|---:|---:|---:|---:|
+| Person turning / 71 | 20.8408 | 20.6638 | 0.912221 | 12.2206 |
+| Rainy street / 73 | 10.3929 | 6.3140 | 0.638439 | 7.0216 |
+| Pouring water / 79 | 8.0859 | 11.7725 | 0.718942 | 3.7082 |
+
+Quantization drift varies substantially by scene. Six sampled frames per video show the broad person-turn and water-filling stages, with pose, framing and detail differences. Neither rainy clip clearly satisfies the requested left-to-right car crossing. Full motion and audio listening remain unscored; these records retain `quality_decision=not_evaluated`.
+
+[Two independent native fused-GEMM campaigns](fused-comparison-001-002-v1/README.md) pass all 24 numerical cases and record alternating online timings. H256 FC2 has no consistent gain; attention output at M9914 improves in both seeds and both campaigns. The [full-model parity check](fused-model-parity-seed42-v1/README.md) confirms that attention-only and combined attention/FC2 fusion each match all 42 original H256 latent tensors and both video exports byte-for-byte. These experiments use the on-load H256 path; prepared-checkpoint loading and fusion have not been combined. Upstream grouped QKV and gate→AdaLN→quant fusion remain the baseline.
+
+The [matched resident comparison](fused-resident-seed42-v1/README.md) keeps the same frozen runtime and H256 policy, with attention-output gate fusion disabled/enabled. Each arm completes one full warmup and three timed requests; all eight native 124-frame videos are byte-identical.
+
+| Resident median, seed42 | Fusion off (s) | Attention fusion (s) | Baseline / candidate | Lower latency |
+|---|---:|---:|---:|---:|
+| Complete cached request | 151.126785 | 147.752793 | 1.022835× | 2.23% |
+| Synchronized denoise callback | 121.909995 | 118.566479 | 1.028200× | 2.74% |
+
+These are descriptive results from one sequential process per policy, one seed and three repetitions. A second seed, reversed process order and independent reruns are still required before stable performance promotion. Full-request timing includes repeated audio VAE setup and is not compilation-free. Both fusion flags remain off by default.
+
+The [runtime-config audit](performance/runtime-config-audit-15s-v1.json) checks the current original and derived VAE configs against the pinned model inventory. The [audio-duration audit](performance/audio-duration-audit-v1.json) checks the stored decoded sample counts for all five published media evaluations against their declared durations. These are explicit posthoc checks; the historical raw records remain unchanged. The updated runners and evaluators verify runtime VAE configs, bind decoded media to its recorded digest, and require exact sample duration.

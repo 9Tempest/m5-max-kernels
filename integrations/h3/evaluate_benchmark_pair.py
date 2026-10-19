@@ -197,6 +197,68 @@ def validate_pair_recipe(reference, candidate):
     return entry
 
 
+def recorded_video(directory, run):
+    """Bind the media to the generation record, before decoding or joining it."""
+    video = run.get("exact_video", {})
+    expected = dict(file="video-5s.mp4", width=512, height=512, frames=120, fps=24)
+    if (
+        any(video.get(key) != value for key, value in expected.items())
+        or video.get("duration_seconds") != 5
+    ):
+        raise ValueError("recorded exact video differs from the fixed five-second recipe")
+    path = directory / expected["file"]
+    if metrics.sha256(path) != video.get("sha256"):
+        raise ValueError("exact video digest differs from capture run")
+    return path
+
+
+def validate_media_join(media, videos, runs):
+    if (
+        media.get("status") != "completed"
+        or media.get("kind") != "media"
+        or media.get("harness_sha256") != metrics.sha256(Path(metrics.__file__))
+    ):
+        raise ValueError("media join requires a completed current strict evaluator record")
+    expected = dict(
+        width=512,
+        height=512,
+        frames=120,
+        fps="24",
+        duration_seconds="5",
+        audio_rate=32000,
+        audio_channels=2,
+        decoded_audio_samples=160000,
+    )
+    contracts = []
+    for key, path, run in zip(("reference", "candidate"), videos, runs, strict=True):
+        evidence = media["files"][key]
+        contract = evidence["contract"]
+        if not (evidence.get("sha256") == metrics.sha256(path) == run["exact_video"]["sha256"]):
+            raise ValueError("media evaluation is not for the recorded paired videos")
+        if any(contract.get(key) != value for key, value in expected.items()):
+            raise ValueError("decoded media differs from the fixed five-second recipe")
+        contracts.append(contract)
+    if contracts[0] != contracts[1]:
+        raise ValueError("joined media timelines/audio/color contracts differ")
+    for key, shape, data_range, dtype in (
+        ("video_rgb", [120, 512, 512, 3], 255.0, "uint8"),
+        ("audio_pcm32k_stereo", [160000, 2], 2.0, "float32"),
+    ):
+        value = media[key]
+        if (
+            value.get("status") != "completed"
+            or value.get("shape") != shape
+            or value.get("data_range") != data_range
+            or value.get("reference_dtype") != dtype
+            or value.get("candidate_dtype") != dtype
+            or value.get("reference_nonfinite") != 0
+            or value.get("candidate_nonfinite") != 0
+        ):
+            raise ValueError("joined RGB/PCM numerical contract differs")
+    if media.get("optional", {}).get("ssim", {}).get("status") != "completed":
+        raise ValueError("paired media requires completed RGB SSIM")
+
+
 def execute(args):
     out = args.output_dir.resolve()
     out.mkdir(parents=True, exist_ok=False)
@@ -211,6 +273,10 @@ def execute(args):
         numerical_metric_sha256=metrics.sha256(Path(metrics.__file__)),
     )
     try:
+        input_run_hashes = {
+            label: metrics.sha256(directory / "run.json")
+            for label, directory in (("bf16", args.bf16), ("hadamard", args.hadamard))
+        }
         reference_run = capture.read_json(args.bf16 / "run.json")
         candidate_run = capture.read_json(args.hadamard / "run.json")
         record["benchmark"] = validate_pair_recipe(reference_run, candidate_run)
@@ -225,11 +291,16 @@ def execute(args):
         if any(value["status"] != "completed" for value in record["latents"].values()):
             raise ValueError("latent numerical comparison failed")
         if args.media or args.media_evaluation:
+            runs = (reference_run, candidate_run)
+            videos = [
+                recorded_video(directory, run)
+                for directory, run in zip((args.bf16, args.hadamard), runs, strict=True)
+            ]
             if args.media:
                 media = metrics.execute(
                     SimpleNamespace(
-                        reference=args.bf16 / "video-5s.mp4",
-                        candidate=args.hadamard / "video-5s.mp4",
+                        reference=videos[0],
+                        candidate=videos[1],
                         kind="media",
                         data_range=None,
                         audio_data_range=2.0,
@@ -243,13 +314,7 @@ def execute(args):
             else:
                 media_path = args.media_evaluation
                 media = capture.read_json(media_path)
-            if media.get("status") != "completed" or media.get("harness_sha256") != metrics.sha256(
-                Path(metrics.__file__)
-            ):
-                raise ValueError("media join requires a completed current strict evaluator record")
-            for key, directory in (("reference", args.bf16), ("candidate", args.hadamard)):
-                if media["files"][key]["sha256"] != metrics.sha256(directory / "video-5s.mp4"):
-                    raise ValueError("media evaluation is not for the paired videos")
+            validate_media_join(media, videos, runs)
             record["media"] = {
                 "evaluation_sha256": metrics.sha256(media_path),
                 "video_rgb": media["video_rgb"],
@@ -257,7 +322,11 @@ def execute(args):
                 "ssim": media["optional"]["ssim"],
             }
         for label, directory in (("bf16", args.bf16), ("hadamard", args.hadamard)):
-            if metrics.sha256(directory / "run.json") != record["sources"][label]["run_sha256"]:
+            if not (
+                metrics.sha256(directory / "run.json")
+                == record["sources"][label]["run_sha256"]
+                == input_run_hashes[label]
+            ):
                 raise ValueError("input run record changed during evaluation")
         record["status"] = "completed"
     except Exception as error:

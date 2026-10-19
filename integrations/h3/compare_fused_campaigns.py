@@ -10,14 +10,29 @@ import publish_fused_campaign as publisher
 import run as base
 
 
+def utc_interval(record):
+    try:
+        start, end = (
+            datetime.fromisoformat(record[key]) for key in ("started_utc", "finished_utc")
+        )
+    except (KeyError, TypeError, ValueError) as error:
+        raise ValueError("campaign interval requires valid UTC timestamps") from error
+    if any(
+        value.tzinfo is None or value.utcoffset().total_seconds() != 0 for value in (start, end)
+    ):
+        raise ValueError("campaign interval requires timezone-aware UTC timestamps")
+    if end <= start:
+        raise ValueError("campaign interval must finish after it starts")
+    return start, end
+
+
 def compare(first, second):
     runs = [publisher.collect(directory)[0] for directory in (first, second)]
     if runs[0]["source_campaign_sha256"] == runs[1]["source_campaign_sha256"]:
         raise ValueError("an independent rerun cannot reuse the same campaign record")
     raw = [publisher.read_public(directory / "campaign.json") for directory in (first, second)]
-    if datetime.fromisoformat(raw[0]["finished_utc"]) > datetime.fromisoformat(
-        raw[1]["started_utc"]
-    ):
+    intervals = [utc_interval(record) for record in raw]
+    if intervals[0][1] > intervals[1][0]:
         raise ValueError("campaign intervals overlap or are out of order")
     for key in (
         "environment",

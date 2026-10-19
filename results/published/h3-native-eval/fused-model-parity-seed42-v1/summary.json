@@ -1,0 +1,734 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "publisher_sha256": "ca67f63b1936e120572d8fd741f154a24f7aa8916cb8d51930a98c10aacf5efe",
+  "seed": 42,
+  "recipe": {
+    "benchmark": "fox-winter-t2va-v1",
+    "prompt": "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+    "width": 512,
+    "height": 512,
+    "seconds": 5,
+    "steps": 20,
+    "active_dit_blocks": 50,
+    "reuse": 1,
+    "core_reuse": 1,
+    "reference_rope": true
+  },
+  "scope": "on-load H256 attention/both fusion versus unfused on-load H256; exact diagnostic trajectory/media parity, not performance or quality",
+  "original_model": {
+    "repository": "MiniMaxAI/MiniMax-H3",
+    "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+    "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+  },
+  "reference": {
+    "source_run_sha256": "41c701852bc7a0c5502ba4c67d6fb50633f592f520497373b803b8f877290a4f",
+    "runtime": {
+      "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+      "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+      "binary_sha256": "915881e195b1a1214d09a6f891bc58b291fd3820a77df7a437a5aa74b99a1e7c",
+      "library_sha256": "ab0b3e41befc9cd77e545af9184846610dcdba87b659498f652a04a34e5f1dd6",
+      "dirty": true
+    },
+    "patch": {
+      "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+      "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+    },
+    "metadata_sha256": "e4836ef650ca6164be16376ebd1e012e6e4002fa5a0c4e43528cd8a1a1e53196"
+  },
+  "comparisons": [
+    {
+      "fusion": "attention",
+      "source_run_sha256": "9c06587bcd5461b8f4aaa26203a6b49e32a98e4b937de0e32b777858003d83a9",
+      "runtime": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "source_sha256": "83ef61ace55a0ca9d8c2735d627e8c0ca96692bfebaae2376fae3b6fd9dbef7b",
+        "binary_sha256": "c4f18fed6c26afc5780f96e6222e175265816def7cf8b128e113fedaef89a5b5",
+        "dirty": true
+      },
+      "patch": {
+        "patch_sha256": "cbd7239d98dffac8feb469caa7fdeee504a564dda51f625f95406284b2a806fe",
+        "source_sha256": "83ef61ace55a0ca9d8c2735d627e8c0ca96692bfebaae2376fae3b6fd9dbef7b"
+      },
+      "observed_flags": {
+        "H3_HADAMARD_FC2": "1",
+        "H3_FUSE_FC2_GATE": "0",
+        "H3_FUSE_ATTN_OUT_GATE": "1"
+      },
+      "metadata_sha256": "19704b7aabbb05ae38c25eada6ae7d62ecad305ad22a9dc5266c16042992387d",
+      "latents": {
+        "contract": "exact bytes for every packed Euler state and final unpacked VAE input",
+        "passed": true,
+        "tensors": [
+          {
+            "file": "euler-step00-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "702899a3f088fb4800fdbdaceaea5f2401fdfa7c825f3c3c3f017bcc4339ec41",
+            "candidate_sha256": "702899a3f088fb4800fdbdaceaea5f2401fdfa7c825f3c3c3f017bcc4339ec41",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step00-video.f32",
+            "elements": 909312,
+            "reference_sha256": "98a385ef14ce2bb211aafbb739a170dd477a100e369db267c91a6365165ef1f1",
+            "candidate_sha256": "98a385ef14ce2bb211aafbb739a170dd477a100e369db267c91a6365165ef1f1",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step01-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "fa722480c4baec61066416e8b23ca4f015aca7a9cb05f5be8bfcc10d9b3a350d",
+            "candidate_sha256": "fa722480c4baec61066416e8b23ca4f015aca7a9cb05f5be8bfcc10d9b3a350d",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step01-video.f32",
+            "elements": 909312,
+            "reference_sha256": "a4199963e0051758c0f7fdcae6e609fcf6840a709e7d5ad519c089c38f6c4450",
+            "candidate_sha256": "a4199963e0051758c0f7fdcae6e609fcf6840a709e7d5ad519c089c38f6c4450",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step02-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "b9bba9fc9b96a84a55325fcba636c8cb9f0540a4d22215ce1786270b0d1ce97d",
+            "candidate_sha256": "b9bba9fc9b96a84a55325fcba636c8cb9f0540a4d22215ce1786270b0d1ce97d",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step02-video.f32",
+            "elements": 909312,
+            "reference_sha256": "0bf00ba6448d9d68a2daa8ddcf9a395738ac02ec7c4c7dfe5d14cb1f0ebe9f43",
+            "candidate_sha256": "0bf00ba6448d9d68a2daa8ddcf9a395738ac02ec7c4c7dfe5d14cb1f0ebe9f43",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step03-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "49131ef50275d8a10a3e37576f0511d37f053762c0ecd3a2ec20036a0af3ebb7",
+            "candidate_sha256": "49131ef50275d8a10a3e37576f0511d37f053762c0ecd3a2ec20036a0af3ebb7",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step03-video.f32",
+            "elements": 909312,
+            "reference_sha256": "cd3051681440291b6c85d4e56db78fe3e16b8e1fbc744193de598400e08cf762",
+            "candidate_sha256": "cd3051681440291b6c85d4e56db78fe3e16b8e1fbc744193de598400e08cf762",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step04-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "f0fadd01e94995eb5568ea733c26b80741524c79860974d370740ed4a56f5471",
+            "candidate_sha256": "f0fadd01e94995eb5568ea733c26b80741524c79860974d370740ed4a56f5471",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step04-video.f32",
+            "elements": 909312,
+            "reference_sha256": "1af50fab476e932c4dcf725bf869f2daff2d528650e1c24c8603977fa4b5bde7",
+            "candidate_sha256": "1af50fab476e932c4dcf725bf869f2daff2d528650e1c24c8603977fa4b5bde7",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step05-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "baa306be6b138b0f051b4769aae17f85ddbb71ee5e07edd5a72b82f042fa7bc1",
+            "candidate_sha256": "baa306be6b138b0f051b4769aae17f85ddbb71ee5e07edd5a72b82f042fa7bc1",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step05-video.f32",
+            "elements": 909312,
+            "reference_sha256": "856145d89fcfc96e72480e62a7e43ad1824661d2ae23c44fcda0c1a24dd70ae5",
+            "candidate_sha256": "856145d89fcfc96e72480e62a7e43ad1824661d2ae23c44fcda0c1a24dd70ae5",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step06-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "41da7ca0afdbd4c5b5dacd0a1c3e4d7ad157100518fb596cc9235c8272b1d244",
+            "candidate_sha256": "41da7ca0afdbd4c5b5dacd0a1c3e4d7ad157100518fb596cc9235c8272b1d244",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step06-video.f32",
+            "elements": 909312,
+            "reference_sha256": "8282e727c056f2a05a7da921b6ac3343c5203ae46f520333c2c654ea9d080a49",
+            "candidate_sha256": "8282e727c056f2a05a7da921b6ac3343c5203ae46f520333c2c654ea9d080a49",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step07-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "a668f5f1f125c88d0f06abaf0c6a56cf8ba3ad31539645d7a5733c00502fdfa8",
+            "candidate_sha256": "a668f5f1f125c88d0f06abaf0c6a56cf8ba3ad31539645d7a5733c00502fdfa8",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step07-video.f32",
+            "elements": 909312,
+            "reference_sha256": "6405db9b22d186873b2e88b9449d60c24181cd7caf9be8e8a342854afe1f556a",
+            "candidate_sha256": "6405db9b22d186873b2e88b9449d60c24181cd7caf9be8e8a342854afe1f556a",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step08-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "7d1b31769c8f3a0f32cb6d9dfbb0d04e6a16ec4500a439c9924598e3530afdaf",
+            "candidate_sha256": "7d1b31769c8f3a0f32cb6d9dfbb0d04e6a16ec4500a439c9924598e3530afdaf",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step08-video.f32",
+            "elements": 909312,
+            "reference_sha256": "730200fa4aacec4e64f0655e3b2f218962abe83c5e57f4405f8185e26f2fd06a",
+            "candidate_sha256": "730200fa4aacec4e64f0655e3b2f218962abe83c5e57f4405f8185e26f2fd06a",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step09-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "14642970e52f66f192254cf324c463542690fe632804d225f3af65c86d58cee2",
+            "candidate_sha256": "14642970e52f66f192254cf324c463542690fe632804d225f3af65c86d58cee2",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step09-video.f32",
+            "elements": 909312,
+            "reference_sha256": "de511e1f3934551022da39d61d8fd3f03c11b4300a778fc0e5b6f6ec10f4f68b",
+            "candidate_sha256": "de511e1f3934551022da39d61d8fd3f03c11b4300a778fc0e5b6f6ec10f4f68b",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step10-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "d000afb546628787bb86b041b18b2afab1b4b88a69fc878fd827bc405b330c7e",
+            "candidate_sha256": "d000afb546628787bb86b041b18b2afab1b4b88a69fc878fd827bc405b330c7e",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step10-video.f32",
+            "elements": 909312,
+            "reference_sha256": "f85dc9c3f051c7a9f9da1cf9f78b3da2fc4e69f8fdeb9f17975a50b2998ad3b6",
+            "candidate_sha256": "f85dc9c3f051c7a9f9da1cf9f78b3da2fc4e69f8fdeb9f17975a50b2998ad3b6",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step11-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "5e98e08069ca5f06a6524999a90ad5425fcdf2926adf3cffa6c0cc1dbdcb253f",
+            "candidate_sha256": "5e98e08069ca5f06a6524999a90ad5425fcdf2926adf3cffa6c0cc1dbdcb253f",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step11-video.f32",
+            "elements": 909312,
+            "reference_sha256": "22c0f78a911e547ac110388e240526751551f487cc3d9e473d804b90937d1212",
+            "candidate_sha256": "22c0f78a911e547ac110388e240526751551f487cc3d9e473d804b90937d1212",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step12-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "aeaee3d89f038658763cb351f5bfbdff2a7518128945e6d97058743c36995c44",
+            "candidate_sha256": "aeaee3d89f038658763cb351f5bfbdff2a7518128945e6d97058743c36995c44",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step12-video.f32",
+            "elements": 909312,
+            "reference_sha256": "f99d982a58ae8c2b88e3aaa1014c66e2b3e927d63f9e984572a7ecde6b7865e7",
+            "candidate_sha256": "f99d982a58ae8c2b88e3aaa1014c66e2b3e927d63f9e984572a7ecde6b7865e7",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step13-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "5fa9c8c1b32dacd987aba7c0719f914836cd1fab087666cec348603df62a9c59",
+            "candidate_sha256": "5fa9c8c1b32dacd987aba7c0719f914836cd1fab087666cec348603df62a9c59",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step13-video.f32",
+            "elements": 909312,
+            "reference_sha256": "5451178b77f12e8a8396c7f5c4120bc2791eb1cff6fbc0a41a9cab6a63bf4ff4",
+            "candidate_sha256": "5451178b77f12e8a8396c7f5c4120bc2791eb1cff6fbc0a41a9cab6a63bf4ff4",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step14-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "538bad6db92c7692d52f3b9c7692f793794a90832042f5179129a30f95b3f022",
+            "candidate_sha256": "538bad6db92c7692d52f3b9c7692f793794a90832042f5179129a30f95b3f022",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step14-video.f32",
+            "elements": 909312,
+            "reference_sha256": "00cba6b7d1dc772c5301b5ee4ba942b3bb6adf3ad7b4854e26979e8f058badc9",
+            "candidate_sha256": "00cba6b7d1dc772c5301b5ee4ba942b3bb6adf3ad7b4854e26979e8f058badc9",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step15-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "a1eaa2fcd7b371f1f8e4a1f870f5d3a8bb841e103b9905fdaa77c4694a9750e1",
+            "candidate_sha256": "a1eaa2fcd7b371f1f8e4a1f870f5d3a8bb841e103b9905fdaa77c4694a9750e1",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step15-video.f32",
+            "elements": 909312,
+            "reference_sha256": "fabe6740bbf2eba51ae29ac7fc7ff8f87e64eaa778ebc2a3b75852c948b37bec",
+            "candidate_sha256": "fabe6740bbf2eba51ae29ac7fc7ff8f87e64eaa778ebc2a3b75852c948b37bec",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step16-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "9b4a85b3c53b234d80f87c0edf937b5a239ccfdb909952732834ca324d17c51e",
+            "candidate_sha256": "9b4a85b3c53b234d80f87c0edf937b5a239ccfdb909952732834ca324d17c51e",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step16-video.f32",
+            "elements": 909312,
+            "reference_sha256": "383667e0b2459f70fd0cad3048e405911877770c04a3104148eef6188961ef01",
+            "candidate_sha256": "383667e0b2459f70fd0cad3048e405911877770c04a3104148eef6188961ef01",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step17-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "7984718d2c533115a4ae294c0b4daa688f48638a29de3cdf33fab6c6150d0992",
+            "candidate_sha256": "7984718d2c533115a4ae294c0b4daa688f48638a29de3cdf33fab6c6150d0992",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step17-video.f32",
+            "elements": 909312,
+            "reference_sha256": "eb6e56ba101bc22a8af660484112e6509e7dbcc959a6b64898c8cf77e0a49f2d",
+            "candidate_sha256": "eb6e56ba101bc22a8af660484112e6509e7dbcc959a6b64898c8cf77e0a49f2d",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step18-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "f1f0058f403b899921c144fdddb2bf6aef6f5988e3bc8e7641251109241d835e",
+            "candidate_sha256": "f1f0058f403b899921c144fdddb2bf6aef6f5988e3bc8e7641251109241d835e",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step18-video.f32",
+            "elements": 909312,
+            "reference_sha256": "77791d5ddbbb1a11b1c4a16d5e1df1948206654ba71a1bc7f289c908aa15c0ad",
+            "candidate_sha256": "77791d5ddbbb1a11b1c4a16d5e1df1948206654ba71a1bc7f289c908aa15c0ad",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step19-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "bdfb437fb0939fbd6923630fc37c3eecd2606cad42791be3fc9dc52baf35ed52",
+            "candidate_sha256": "bdfb437fb0939fbd6923630fc37c3eecd2606cad42791be3fc9dc52baf35ed52",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step19-video.f32",
+            "elements": 909312,
+            "reference_sha256": "85359f637e0449be386ccdc07791c5e8e105abfaf5ffd1d031937e670176ec15",
+            "candidate_sha256": "85359f637e0449be386ccdc07791c5e8e105abfaf5ffd1d031937e670176ec15",
+            "byte_equal": true
+          },
+          {
+            "file": "final-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "5745929caf479e31d9177a4b5019ed852ac8bf06aa826a9a8c9e7e64b119bf5f",
+            "candidate_sha256": "5745929caf479e31d9177a4b5019ed852ac8bf06aa826a9a8c9e7e64b119bf5f",
+            "byte_equal": true
+          },
+          {
+            "file": "final-video.f32",
+            "elements": 909312,
+            "reference_sha256": "4223cc83fdef2ab3ea0e010101d4fdf00dc5eb9f34e3081ea074fc25bf56d1db",
+            "candidate_sha256": "4223cc83fdef2ab3ea0e010101d4fdf00dc5eb9f34e3081ea074fc25bf56d1db",
+            "byte_equal": true
+          }
+        ]
+      },
+      "media": [
+        {
+          "kind": "original_video",
+          "reference_sha256": "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+          "candidate_sha256": "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+          "byte_equal": true
+        },
+        {
+          "kind": "exact_video",
+          "reference_sha256": "e5a1d1511b6f5104b218df1c9c266f7533c6b8e351bc9d4499009613b076bed6",
+          "candidate_sha256": "e5a1d1511b6f5104b218df1c9c266f7533c6b8e351bc9d4499009613b076bed6",
+          "byte_equal": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "fusion": "both",
+      "source_run_sha256": "57c901435b01a676f5fc0c44272b9a72d16fa5ece0c8a6b31c647aff508b3eea",
+      "runtime": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "source_sha256": "83ef61ace55a0ca9d8c2735d627e8c0ca96692bfebaae2376fae3b6fd9dbef7b",
+        "binary_sha256": "c4f18fed6c26afc5780f96e6222e175265816def7cf8b128e113fedaef89a5b5",
+        "dirty": true
+      },
+      "patch": {
+        "patch_sha256": "cbd7239d98dffac8feb469caa7fdeee504a564dda51f625f95406284b2a806fe",
+        "source_sha256": "83ef61ace55a0ca9d8c2735d627e8c0ca96692bfebaae2376fae3b6fd9dbef7b"
+      },
+      "observed_flags": {
+        "H3_HADAMARD_FC2": "1",
+        "H3_FUSE_FC2_GATE": "1",
+        "H3_FUSE_ATTN_OUT_GATE": "1"
+      },
+      "metadata_sha256": "007a716c908747f14098e2c5dd86b4d88c4b61ab565c8a4162aea455f1ef5c55",
+      "latents": {
+        "contract": "exact bytes for every packed Euler state and final unpacked VAE input",
+        "passed": true,
+        "tensors": [
+          {
+            "file": "euler-step00-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "702899a3f088fb4800fdbdaceaea5f2401fdfa7c825f3c3c3f017bcc4339ec41",
+            "candidate_sha256": "702899a3f088fb4800fdbdaceaea5f2401fdfa7c825f3c3c3f017bcc4339ec41",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step00-video.f32",
+            "elements": 909312,
+            "reference_sha256": "98a385ef14ce2bb211aafbb739a170dd477a100e369db267c91a6365165ef1f1",
+            "candidate_sha256": "98a385ef14ce2bb211aafbb739a170dd477a100e369db267c91a6365165ef1f1",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step01-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "fa722480c4baec61066416e8b23ca4f015aca7a9cb05f5be8bfcc10d9b3a350d",
+            "candidate_sha256": "fa722480c4baec61066416e8b23ca4f015aca7a9cb05f5be8bfcc10d9b3a350d",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step01-video.f32",
+            "elements": 909312,
+            "reference_sha256": "a4199963e0051758c0f7fdcae6e609fcf6840a709e7d5ad519c089c38f6c4450",
+            "candidate_sha256": "a4199963e0051758c0f7fdcae6e609fcf6840a709e7d5ad519c089c38f6c4450",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step02-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "b9bba9fc9b96a84a55325fcba636c8cb9f0540a4d22215ce1786270b0d1ce97d",
+            "candidate_sha256": "b9bba9fc9b96a84a55325fcba636c8cb9f0540a4d22215ce1786270b0d1ce97d",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step02-video.f32",
+            "elements": 909312,
+            "reference_sha256": "0bf00ba6448d9d68a2daa8ddcf9a395738ac02ec7c4c7dfe5d14cb1f0ebe9f43",
+            "candidate_sha256": "0bf00ba6448d9d68a2daa8ddcf9a395738ac02ec7c4c7dfe5d14cb1f0ebe9f43",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step03-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "49131ef50275d8a10a3e37576f0511d37f053762c0ecd3a2ec20036a0af3ebb7",
+            "candidate_sha256": "49131ef50275d8a10a3e37576f0511d37f053762c0ecd3a2ec20036a0af3ebb7",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step03-video.f32",
+            "elements": 909312,
+            "reference_sha256": "cd3051681440291b6c85d4e56db78fe3e16b8e1fbc744193de598400e08cf762",
+            "candidate_sha256": "cd3051681440291b6c85d4e56db78fe3e16b8e1fbc744193de598400e08cf762",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step04-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "f0fadd01e94995eb5568ea733c26b80741524c79860974d370740ed4a56f5471",
+            "candidate_sha256": "f0fadd01e94995eb5568ea733c26b80741524c79860974d370740ed4a56f5471",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step04-video.f32",
+            "elements": 909312,
+            "reference_sha256": "1af50fab476e932c4dcf725bf869f2daff2d528650e1c24c8603977fa4b5bde7",
+            "candidate_sha256": "1af50fab476e932c4dcf725bf869f2daff2d528650e1c24c8603977fa4b5bde7",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step05-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "baa306be6b138b0f051b4769aae17f85ddbb71ee5e07edd5a72b82f042fa7bc1",
+            "candidate_sha256": "baa306be6b138b0f051b4769aae17f85ddbb71ee5e07edd5a72b82f042fa7bc1",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step05-video.f32",
+            "elements": 909312,
+            "reference_sha256": "856145d89fcfc96e72480e62a7e43ad1824661d2ae23c44fcda0c1a24dd70ae5",
+            "candidate_sha256": "856145d89fcfc96e72480e62a7e43ad1824661d2ae23c44fcda0c1a24dd70ae5",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step06-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "41da7ca0afdbd4c5b5dacd0a1c3e4d7ad157100518fb596cc9235c8272b1d244",
+            "candidate_sha256": "41da7ca0afdbd4c5b5dacd0a1c3e4d7ad157100518fb596cc9235c8272b1d244",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step06-video.f32",
+            "elements": 909312,
+            "reference_sha256": "8282e727c056f2a05a7da921b6ac3343c5203ae46f520333c2c654ea9d080a49",
+            "candidate_sha256": "8282e727c056f2a05a7da921b6ac3343c5203ae46f520333c2c654ea9d080a49",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step07-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "a668f5f1f125c88d0f06abaf0c6a56cf8ba3ad31539645d7a5733c00502fdfa8",
+            "candidate_sha256": "a668f5f1f125c88d0f06abaf0c6a56cf8ba3ad31539645d7a5733c00502fdfa8",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step07-video.f32",
+            "elements": 909312,
+            "reference_sha256": "6405db9b22d186873b2e88b9449d60c24181cd7caf9be8e8a342854afe1f556a",
+            "candidate_sha256": "6405db9b22d186873b2e88b9449d60c24181cd7caf9be8e8a342854afe1f556a",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step08-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "7d1b31769c8f3a0f32cb6d9dfbb0d04e6a16ec4500a439c9924598e3530afdaf",
+            "candidate_sha256": "7d1b31769c8f3a0f32cb6d9dfbb0d04e6a16ec4500a439c9924598e3530afdaf",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step08-video.f32",
+            "elements": 909312,
+            "reference_sha256": "730200fa4aacec4e64f0655e3b2f218962abe83c5e57f4405f8185e26f2fd06a",
+            "candidate_sha256": "730200fa4aacec4e64f0655e3b2f218962abe83c5e57f4405f8185e26f2fd06a",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step09-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "14642970e52f66f192254cf324c463542690fe632804d225f3af65c86d58cee2",
+            "candidate_sha256": "14642970e52f66f192254cf324c463542690fe632804d225f3af65c86d58cee2",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step09-video.f32",
+            "elements": 909312,
+            "reference_sha256": "de511e1f3934551022da39d61d8fd3f03c11b4300a778fc0e5b6f6ec10f4f68b",
+            "candidate_sha256": "de511e1f3934551022da39d61d8fd3f03c11b4300a778fc0e5b6f6ec10f4f68b",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step10-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "d000afb546628787bb86b041b18b2afab1b4b88a69fc878fd827bc405b330c7e",
+            "candidate_sha256": "d000afb546628787bb86b041b18b2afab1b4b88a69fc878fd827bc405b330c7e",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step10-video.f32",
+            "elements": 909312,
+            "reference_sha256": "f85dc9c3f051c7a9f9da1cf9f78b3da2fc4e69f8fdeb9f17975a50b2998ad3b6",
+            "candidate_sha256": "f85dc9c3f051c7a9f9da1cf9f78b3da2fc4e69f8fdeb9f17975a50b2998ad3b6",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step11-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "5e98e08069ca5f06a6524999a90ad5425fcdf2926adf3cffa6c0cc1dbdcb253f",
+            "candidate_sha256": "5e98e08069ca5f06a6524999a90ad5425fcdf2926adf3cffa6c0cc1dbdcb253f",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step11-video.f32",
+            "elements": 909312,
+            "reference_sha256": "22c0f78a911e547ac110388e240526751551f487cc3d9e473d804b90937d1212",
+            "candidate_sha256": "22c0f78a911e547ac110388e240526751551f487cc3d9e473d804b90937d1212",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step12-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "aeaee3d89f038658763cb351f5bfbdff2a7518128945e6d97058743c36995c44",
+            "candidate_sha256": "aeaee3d89f038658763cb351f5bfbdff2a7518128945e6d97058743c36995c44",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step12-video.f32",
+            "elements": 909312,
+            "reference_sha256": "f99d982a58ae8c2b88e3aaa1014c66e2b3e927d63f9e984572a7ecde6b7865e7",
+            "candidate_sha256": "f99d982a58ae8c2b88e3aaa1014c66e2b3e927d63f9e984572a7ecde6b7865e7",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step13-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "5fa9c8c1b32dacd987aba7c0719f914836cd1fab087666cec348603df62a9c59",
+            "candidate_sha256": "5fa9c8c1b32dacd987aba7c0719f914836cd1fab087666cec348603df62a9c59",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step13-video.f32",
+            "elements": 909312,
+            "reference_sha256": "5451178b77f12e8a8396c7f5c4120bc2791eb1cff6fbc0a41a9cab6a63bf4ff4",
+            "candidate_sha256": "5451178b77f12e8a8396c7f5c4120bc2791eb1cff6fbc0a41a9cab6a63bf4ff4",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step14-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "538bad6db92c7692d52f3b9c7692f793794a90832042f5179129a30f95b3f022",
+            "candidate_sha256": "538bad6db92c7692d52f3b9c7692f793794a90832042f5179129a30f95b3f022",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step14-video.f32",
+            "elements": 909312,
+            "reference_sha256": "00cba6b7d1dc772c5301b5ee4ba942b3bb6adf3ad7b4854e26979e8f058badc9",
+            "candidate_sha256": "00cba6b7d1dc772c5301b5ee4ba942b3bb6adf3ad7b4854e26979e8f058badc9",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step15-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "a1eaa2fcd7b371f1f8e4a1f870f5d3a8bb841e103b9905fdaa77c4694a9750e1",
+            "candidate_sha256": "a1eaa2fcd7b371f1f8e4a1f870f5d3a8bb841e103b9905fdaa77c4694a9750e1",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step15-video.f32",
+            "elements": 909312,
+            "reference_sha256": "fabe6740bbf2eba51ae29ac7fc7ff8f87e64eaa778ebc2a3b75852c948b37bec",
+            "candidate_sha256": "fabe6740bbf2eba51ae29ac7fc7ff8f87e64eaa778ebc2a3b75852c948b37bec",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step16-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "9b4a85b3c53b234d80f87c0edf937b5a239ccfdb909952732834ca324d17c51e",
+            "candidate_sha256": "9b4a85b3c53b234d80f87c0edf937b5a239ccfdb909952732834ca324d17c51e",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step16-video.f32",
+            "elements": 909312,
+            "reference_sha256": "383667e0b2459f70fd0cad3048e405911877770c04a3104148eef6188961ef01",
+            "candidate_sha256": "383667e0b2459f70fd0cad3048e405911877770c04a3104148eef6188961ef01",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step17-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "7984718d2c533115a4ae294c0b4daa688f48638a29de3cdf33fab6c6150d0992",
+            "candidate_sha256": "7984718d2c533115a4ae294c0b4daa688f48638a29de3cdf33fab6c6150d0992",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step17-video.f32",
+            "elements": 909312,
+            "reference_sha256": "eb6e56ba101bc22a8af660484112e6509e7dbcc959a6b64898c8cf77e0a49f2d",
+            "candidate_sha256": "eb6e56ba101bc22a8af660484112e6509e7dbcc959a6b64898c8cf77e0a49f2d",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step18-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "f1f0058f403b899921c144fdddb2bf6aef6f5988e3bc8e7641251109241d835e",
+            "candidate_sha256": "f1f0058f403b899921c144fdddb2bf6aef6f5988e3bc8e7641251109241d835e",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step18-video.f32",
+            "elements": 909312,
+            "reference_sha256": "77791d5ddbbb1a11b1c4a16d5e1df1948206654ba71a1bc7f289c908aa15c0ad",
+            "candidate_sha256": "77791d5ddbbb1a11b1c4a16d5e1df1948206654ba71a1bc7f289c908aa15c0ad",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step19-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "bdfb437fb0939fbd6923630fc37c3eecd2606cad42791be3fc9dc52baf35ed52",
+            "candidate_sha256": "bdfb437fb0939fbd6923630fc37c3eecd2606cad42791be3fc9dc52baf35ed52",
+            "byte_equal": true
+          },
+          {
+            "file": "euler-step19-video.f32",
+            "elements": 909312,
+            "reference_sha256": "85359f637e0449be386ccdc07791c5e8e105abfaf5ffd1d031937e670176ec15",
+            "candidate_sha256": "85359f637e0449be386ccdc07791c5e8e105abfaf5ffd1d031937e670176ec15",
+            "byte_equal": true
+          },
+          {
+            "file": "final-audio.f32",
+            "elements": 13248,
+            "reference_sha256": "5745929caf479e31d9177a4b5019ed852ac8bf06aa826a9a8c9e7e64b119bf5f",
+            "candidate_sha256": "5745929caf479e31d9177a4b5019ed852ac8bf06aa826a9a8c9e7e64b119bf5f",
+            "byte_equal": true
+          },
+          {
+            "file": "final-video.f32",
+            "elements": 909312,
+            "reference_sha256": "4223cc83fdef2ab3ea0e010101d4fdf00dc5eb9f34e3081ea074fc25bf56d1db",
+            "candidate_sha256": "4223cc83fdef2ab3ea0e010101d4fdf00dc5eb9f34e3081ea074fc25bf56d1db",
+            "byte_equal": true
+          }
+        ]
+      },
+      "media": [
+        {
+          "kind": "original_video",
+          "reference_sha256": "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+          "candidate_sha256": "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+          "byte_equal": true
+        },
+        {
+          "kind": "exact_video",
+          "reference_sha256": "e5a1d1511b6f5104b218df1c9c266f7533c6b8e351bc9d4499009613b076bed6",
+          "candidate_sha256": "e5a1d1511b6f5104b218df1c9c266f7533c6b8e351bc9d4499009613b076bed6",
+          "byte_equal": true
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "source_records": [
+    {
+      "role": "reference",
+      "source_sha256": "41c701852bc7a0c5502ba4c67d6fb50633f592f520497373b803b8f877290a4f",
+      "export": "byte_identical_raw_json",
+      "file": "raw/reference-run.json"
+    },
+    {
+      "role": "attention",
+      "source_sha256": "9c06587bcd5461b8f4aaa26203a6b49e32a98e4b937de0e32b777858003d83a9",
+      "export": "byte_identical_raw_json",
+      "file": "raw/attention-run.json"
+    },
+    {
+      "role": "both",
+      "source_sha256": "57c901435b01a676f5fc0c44272b9a72d16fa5ece0c8a6b31c647aff508b3eea",
+      "export": "byte_identical_raw_json",
+      "file": "raw/both-run.json"
+    }
+  ],
+  "prepared_checkpoint_scope": "not this executable path; prepared import replay has separate evidence and does not establish prepared-plus-fusion parity",
+  "performance": "not measured; captures add readback/synchronization",
+  "default_enablement": false
+}

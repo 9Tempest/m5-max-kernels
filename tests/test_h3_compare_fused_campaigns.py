@@ -98,3 +98,28 @@ def test_matching_archives_are_not_mislabeled_different(tmp_path, comparison):
     result = comparison.compare(first, second)
     assert result["library_archive_sha_equal"] is True
     assert "Library archive hashes match" in comparison.readme(result)
+
+
+@pytest.mark.parametrize("arm", [0, 1])
+@pytest.mark.parametrize(
+    "start,end",
+    [
+        ("2026-10-18T04:00:00+00:00", "2026-10-18T01:00:00+00:00"),
+        ("2026-10-18T00:00:00+00:00", "2026-10-18T00:00:00+00:00"),
+        ("2026-10-18T00:00:00", "2026-10-18T01:00:00"),
+        ("2026-10-18T00:00:00+01:00", "2026-10-18T01:00:00+01:00"),
+        ("2026-10-18T00:00:00+00:00", "invalid"),
+        (None, "2026-10-18T01:00:00+00:00"),
+    ],
+)
+def test_each_campaign_requires_its_own_valid_utc_interval(tmp_path, comparison, arm, start, end):
+    directories = pair(tmp_path, comparison)
+    update(directories[arm], lambda record: record.update(started_utc=start, finished_utc=end))
+    with pytest.raises(ValueError, match="campaign interval"):
+        comparison.compare(*directories)
+
+
+def test_explicit_z_utc_and_touching_serial_intervals_are_valid(tmp_path, comparison):
+    first, second = pair(tmp_path, comparison)
+    update(first, lambda record: record.update(finished_utc="2026-10-18T02:00:00Z"))
+    assert comparison.compare(first, second)["status"] == "completed"

@@ -388,7 +388,12 @@ def model_inventory(model, manifest_path):
         raise ValueError("model manifest SHA256 does not match the pinned model revision")
     manifest = json.loads(manifest_bytes)
     lookup = {entry["path"]: entry for entry in manifest if entry.get("type") == "file"}
-    required = {"FL2VA/tokenizer/tokenizer.json", "FL2VA/transformer/config.json"}
+    required = {
+        "FL2VA/tokenizer/tokenizer.json",
+        "FL2VA/transformer/config.json",
+        "FL2VA/video_vae/config.json",
+        "FL2VA/audio_vae/config.json",
+    }
     for component in ("text_encoder", "transformer", "video_vae/source", "audio_vae"):
         prefix = f"FL2VA/{component}/"
         weights = {

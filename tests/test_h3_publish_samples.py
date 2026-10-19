@@ -5,6 +5,7 @@ import copy
 import json
 from pathlib import Path
 import sys
+from types import SimpleNamespace
 
 import pytest
 
@@ -232,3 +233,163 @@ def test_latent_evaluation_requires_both_roles(tmp_path, publisher):
         publisher.evaluation_association(
             "latents", dict(source=dict(bf16=dict(run_sha256=a["source_run_sha256"]))), [a, b]
         )
+
+
+@pytest.mark.parametrize("field", ["repository", "revision", "manifest_sha256"])
+def test_matching_recipe_cannot_hide_different_original_model(tmp_path, publisher, field):
+    a, b = pair(tmp_path, publisher)
+    b["model"][field] = "f" * 64 if field == "manifest_sha256" else "different"
+    with pytest.raises(ValueError, match="different original model"):
+        publisher.validate_matched_samples([a, b])
+
+
+def test_prepared_model_compares_origin_not_derived_manifest(tmp_path, publisher):
+    a, b = pair(tmp_path, publisher)
+    b["prepared_checkpoint"] = True
+    b["model"] = dict(
+        manifest_sha256="d" * 64,
+        prepared_manifest_sha256="e" * 64,
+        source_model=dict(repository="original", revision="pinned", model_manifest_sha256="a" * 64),
+    )
+    publisher.validate_matched_samples([a, b])
+    assert publisher.model_origin(a) == publisher.model_origin(b)
+    b["model"]["source_model"]["model_manifest_sha256"] = "f" * 64
+    with pytest.raises(ValueError, match="different original model"):
+        publisher.validate_matched_samples([a, b])
+
+
+def test_incomplete_prepared_origin_cannot_match_by_missing_fields(tmp_path, publisher):
+    a, b = pair(tmp_path, publisher)
+    for sample in (a, b):
+        sample.update(prepared_checkpoint=True, model=dict(source_model={}))
+    with pytest.raises(ValueError, match="incomplete original model"):
+        publisher.validate_matched_samples([a, b])
+
+
+@pytest.mark.parametrize(
+    "path",
+    [
+        "/tmp/session.json",
+        "/tmp",
+        "/private/tmp/input.jpg",
+        "/private/var/folders/secret/session.json",
+        "/var/folders/secret/session.json",
+        "/var/tmp/session.json",
+        "/run/user/1000/session.json",
+        "/var/run/user/1000/session.json",
+        "file:///tmp/session.json",
+        "command --output=/tmp/session.json",
+    ],
+)
+def test_private_temporary_absolute_paths_rejected(publisher, path):
+    with pytest.raises(ValueError, match="private absolute path"):
+        publisher.public_text_check({"nested": [{"path": path}]})
+
+
+def test_relative_tmp_and_public_url_remain_publishable(publisher):
+    publisher.public_text_check(
+        dict(relative="results/tmp/session.json", url="https://example.org/tmp/document")
+    )
+
+
+def publication_fixture(tmp_path, publisher, monkeypatch):
+    directories, records = [], []
+    for name, mode in (("baseline", "bf16"), ("candidate", "hadamard-fc2")):
+        root = tmp_path / name
+        root.mkdir()
+        directory, record = sample(root, publisher)
+        video = directory / "video-5s.mp4"
+        video.write_bytes(name.encode())
+        record["mode"] = mode
+        record["exact_video"]["sha256"] = publisher.base.sha256(video)
+        (directory / "run.json").write_text(json.dumps(record))
+        directories.append(directory)
+        records.append(record)
+    evaluation = tmp_path / "media-evaluation.json"
+    evaluation.write_text(
+        json.dumps(
+            dict(
+                kind="media",
+                status="completed",
+                files=dict(
+                    reference=dict(sha256=records[0]["exact_video"]["sha256"]),
+                    candidate=dict(sha256=records[1]["exact_video"]["sha256"]),
+                ),
+            )
+        )
+    )
+    commands = []
+
+    def poster(command, **kwargs):
+        commands.append(command)
+        Path(command[-1]).write_bytes(b"fixture-poster")
+
+    monkeypatch.setattr(publisher.subprocess, "run", poster)
+    return (
+        SimpleNamespace(
+            output_dir=tmp_path / "published",
+            run_dir=directories,
+            media_evaluation=[evaluation],
+            latent_evaluation=[],
+        ),
+        commands,
+    )
+
+
+@pytest.mark.parametrize("kind", ["video", "evaluation"])
+def test_source_change_after_validation_cannot_publish_stale_digest(
+    tmp_path, publisher, monkeypatch, kind
+):
+    args, _ = publication_fixture(tmp_path, publisher, monkeypatch)
+    original_copy = publisher.copy_exclusive
+
+    def changed_copy(source, destination, expected_sha256=None):
+        if (kind == "video" and source.suffix == ".mp4") or (
+            kind == "evaluation" and source == args.media_evaluation[0]
+        ):
+            source.write_bytes(b"changed after completed evidence validation")
+        return original_copy(source, destination, expected_sha256)
+
+    monkeypatch.setattr(publisher, "copy_exclusive", changed_copy)
+    with pytest.raises(ValueError, match="changed after validation"):
+        publisher.execute(args)
+    assert not (args.output_dir / "manifest.json").exists()
+
+
+def test_poster_reads_verified_copy_even_if_original_changes_later(
+    tmp_path, publisher, monkeypatch
+):
+    args, commands = publication_fixture(tmp_path, publisher, monkeypatch)
+    original_copy = publisher.copy_exclusive
+
+    def copy_then_source_changes(source, destination, expected_sha256=None):
+        original_copy(source, destination, expected_sha256)
+        if source.suffix == ".mp4":
+            source.write_bytes(b"modified after verified publication copy")
+
+    monkeypatch.setattr(publisher, "copy_exclusive", copy_then_source_changes)
+    result = publisher.execute(args)
+    for entry, command in zip(result["samples"], commands, strict=True):
+        exported = args.output_dir / entry["video"]["file"]
+        assert Path(command[command.index("-i") + 1]) == exported
+        assert publisher.base.sha256(exported) == entry["video"]["sha256"]
+    for entry in result["evaluations"]:
+        assert publisher.base.sha256(args.output_dir / entry["file"]) == entry["sha256"]
+
+
+@pytest.mark.parametrize("kind", ["run", "evaluation"])
+def test_record_change_during_parse_is_rejected(tmp_path, publisher, monkeypatch, kind):
+    args, _ = publication_fixture(tmp_path, publisher, monkeypatch)
+    original_load = publisher.load_json
+    target = args.run_dir[0] / "run.json" if kind == "run" else args.media_evaluation[0]
+
+    def changed_load(path):
+        record = original_load(path)
+        if path == target:
+            path.write_text(json.dumps(record | {"changed": True}))
+        return record
+
+    monkeypatch.setattr(publisher, "load_json", changed_load)
+    with pytest.raises(ValueError, match="record changed during validation"):
+        publisher.execute(args)
+    assert not (args.output_dir / "manifest.json").exists()

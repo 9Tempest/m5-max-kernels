@@ -6,7 +6,11 @@ experiment. Both flags default to off. Two independent twelve-case native GPU
 campaigns pass their implementation and paired-output contracts. H256 FC2
 shows no consistent timing benefit across seeds. Attention-output at M9914
 has lower medians in both seeds and both campaigns; M2049 includes a reversal.
-Full-model parity and end-to-end acceleration remain **pending**.
+Attention-only and both-flags full-model captures pass exact trajectory/media
+parity for the seed42 fox request. A matched seed42 resident comparison observes
+1.022835× cached-generation and 1.028200× denoise median ratios for attention
+fusion. This single-seed, fixed-order result is descriptive, not a stable
+promotion; prepared loading combined with fusion remains unvalidated.
 
 | Flag | Changed projection | Existing downstream operation |
 |---|---|---|
@@ -183,9 +187,10 @@ directions. These intervals are not model throughput.
 Both paths report **three timed GPU dispatches**: activation packing/rotation,
 GEMM, and next AdaLN/packing. The original native path already fuses gate into
 the final operation. CPU residual restoration happens before the timing and
-statistics boundaries; it is not a timed GPU dispatch. Full-model checks are
-still needed for all real timestep maps, combined flags, buffer lifetimes and
-the final block endpoint. No default is enabled from these microbenchmarks.
+statistics boundaries; it is not a timed GPU dispatch. These microchecks alone
+do not validate real timestep maps, combined flags, buffer lifetimes or the
+final block endpoint. The seed42 full-model check below adds trajectory evidence
+for one request. No default is enabled from these microbenchmarks.
 
 The package can be regenerated into a new output directory using the CPU-only
 `publish_fused_campaign.py --campaign-dir ... --output-dir ...` exporter. It
@@ -216,17 +221,17 @@ hash equality between separate processes.
 These are descriptive median directions, not significance tests. H256 FC2
 does not support enabling its gate epilogue: at M9914, seed17's reductions
 are only about 0.05%/0.23%, while seed29 is slower in both campaigns.
-Attention-output M9914 is the best next resident candidate under the fixed
-H256 checkpoint policy, conditional on whole-model exact parity. Its observed
+Attention-output M9914 was selected for the resident comparison under the fixed
+H256 checkpoint policy after whole-model exact parity. Its observed operator
 wall reductions span about 0.78–6.26%; the magnitude is not stable enough to
 predict a full-generation change. M2049 seed29 reverses in the second campaign.
 
 Group1024 FC2 has repeated positive directions, but its small-shape magnitude
 changes substantially across campaigns. It is a different FC2 quantization
 policy and cannot be substituted for H256 or used to justify the H256 flag.
-Prioritize matched fused-source `none` versus `attention` resident requests
-after all Euler/final tensors and media agree. Test `both` for complete-model
-correctness, while keeping FC2 off for the primary performance comparison.
+The matched fused-source `none` versus `attention` resident comparison below
+keeps FC2 off. The `both` path has complete-model correctness evidence but is
+not the primary performance candidate.
 No default enablement follows from these operator measurements.
 
 The CPU-only `compare_fused_campaigns.py` creates a new comparison directory
@@ -235,6 +240,22 @@ mismatched executable/environment identities, and retains all raw timings and
 source hashes without modifying either original campaign.
 
 ## Full-model trajectory checks
+
+The [seed42 diagnostic parity package](../../results/published/h3-native-eval/fused-model-parity-seed42-v1/README.md)
+contains completed attention-only and both-flags runs against the original
+on-load H256 reference. The publisher re-reads every captured file, checks size,
+hash and finite values, validates source/model/reference identities and actual
+generation-log flag markers, and requires the runner's video-parity boolean to
+be exactly true. In each candidate, all **42 latent tensors** and both
+**original and five-second MP4 exports** are byte-identical to the reference.
+The three run JSON files passed privacy checks and are copied unchanged with
+source digests; no latent arrays, weights or original logs are included.
+
+This validates the recorded seed42 fox trajectory, including the combined
+flag path. It does not establish all prompts, seeds or shapes. The runtime uses
+on-load H256 weights. Prepared-checkpoint loading has a different source and
+separate replay evidence; those two results do not prove a combined prepared
+loader plus fusion path. Diagnostic times are not performance measurements.
 
 After microchecks pass, compare individual and combined flags with the same
 original H256 capture. This wrapper adds readbacks/synchronization and is a
@@ -281,6 +302,36 @@ the enabled flags; subsequent generations must retain the DiT, decoder and
 conditioning caches. The denoise interval uses native monotonic callback
 timestamps, including its logging/check overhead. Native cached DiT profile
 wall marks include time across requests and must not replace this interval.
+
+## Matched resident result
+
+The [public resident comparison](../../results/published/h3-native-eval/fused-resident-seed42-v1/README.md)
+uses the same frozen source and H256 policy for both arms, with attention gate
+fusion as the only runtime-policy difference. Each process completes one
+full warmup and three timed requests. All eight original videos are
+byte-identical to each other and the seed42 H256 reference. The comparator
+verifies immutable harness snapshots, actual flags, cache retention, event and
+profile logs, nonoverlapping process intervals and media hashes.
+
+| Synchronized host interval | None raw seconds | Attention raw seconds | None / attention medians |
+|---|---|---|---:|
+| Cached generation | 151.126785 / 151.210439 / 149.808414 | 147.752793 / 149.613678 / 147.617907 | 1.022835× |
+| Denoise callback | 121.909995 / 121.987383 / 120.727940 | 118.566479 / 120.543138 / 118.564946 | 1.028200× |
+
+Median generation decreases by 3.373992 s (2.232557%), and denoise by
+3.343516 s (2.742610%). These are ratios of separate three-sample medians,
+not paired repetition ratios or confidence intervals. Baseline ran first;
+the candidate ran second. One seed and fixed process order do not establish
+independent replication, statistical significance or a new best result.
+Reversed-order runs and another seed remain required before promotion. Both
+flags stay off by default.
+
+Generation includes decode and the original 124-frame AV export. Repeated
+audio VAE setup prevents a compilation-free end-to-end claim. Fresh native
+denoise callback timestamps include online activation preparation, padding,
+synchronization and output unpacking; cached native profile wall marks are
+not substituted. These resident runs have no latent captures. Prepared import
+combined with fusion remains unmeasured.
 
 CPU-only checks:
 

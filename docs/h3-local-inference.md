@@ -127,8 +127,76 @@ is 0.81870478 and RGB SNR is 15.69317 dB. PCM SNR is only 0.439247 dB
 These are drift metrics, not perceptual acceptance. Review so far covers
 limited sampled still frames; full motion/prompt timing and audio listening
 remain unevaluated. The original BF16 checkpoint remains retained alongside
-the derived checkpoint. The three extra person/rain/water pairs and full-model
-fusion parity/performance are still pending.
+the derived checkpoint. Attention-only and combined fusion now have seed42
+whole-model parity evidence; the matched resident comparison below measures
+attention-only fusion with H256 fixed in both arms.
+
+## Additional five-second prompts
+
+The person-turn (seed71), rainy-street (seed73) and water-pour (seed79)
+BF16/prepared-H256 pairs have completed strict latent/media evaluation.
+The [public three-scene package](../results/published/h3-native-eval/diversity-three-scenes-v1/README.md)
+contains all six videos and the three paired media/latent records, with a
+[playable gallery](../results/published/h3-native-eval/diversity-three-scenes-v1/gallery.html).
+Each uses the fixed 512×512, 24 fps, 20-step, 50-block recipe and retains both
+checkpoints' source identities. These are different prompts and seeds, not
+independent repetitions of the fox request or matched latency samples.
+
+| BF16-relative diagnostic | Person turn, seed71 | Rainy street, seed73 | Water pour, seed79 |
+| --- | ---: | ---: | ---: |
+| Final video latent relative L2 | 0.09077403 | 0.30224053 | 0.39418745 |
+| Final audio latent relative L2 | 0.03419717 | 0.09127944 | 0.18162600 |
+| Decoded RGB SNR, dB | 20.663847 | 6.314006 | 11.772501 |
+| Decoded RGB SSIM | 0.91222101 | 0.63843918 | 0.71894218 |
+| Decoded stereo PCM SNR, dB | 12.220583 | 7.021580 | 3.708196 |
+
+Sources: [person evaluation](../results/published/h3-native-eval/diversity-three-scenes-v1/evaluations/person-turn-eval-001-benchmark-evaluation.json),
+[rain evaluation](../results/published/h3-native-eval/diversity-three-scenes-v1/evaluations/rainy-street-eval-001-benchmark-evaluation.json)
+and [water evaluation](../results/published/h3-native-eval/diversity-three-scenes-v1/evaluations/water-pour-eval-001-benchmark-evaluation.json).
+All records retain `quality_decision=not_evaluated`. Six still frames per
+mode show the broad person walk/turn/wave stages, with different turn timing
+and later face/coat details; the first frame partially crops the person.
+In the rainy scene both cars appear to travel away along the street rather
+than clearly cross left to right as requested. Night lighting/wet pavement
+are present, with differences in signs and reflections. Both water samples
+show an empty glass, an entering stream, bubbles/splash and a rising water
+level. Glass framing, pitcher angle and stream details differ; the H256 rim
+moves lower in later sampled frames. This does not establish fixed-camera
+behavior or fluid realism. These observations do not assess full motion or
+audio; no audio has been listened to.
+[Person review](../results/local/h3/person-turn-review-001/README.md),
+[rain review](../results/local/h3/rainy-street-review-001/README.md),
+[water review](../results/local/h3/water-pour-review-001/README.md).
+
+## Review fixes and retrospective checks
+
+Cross-review tightened the sample publisher's binding of original model
+identity across BF16 and prepared records, required copied video/evaluation
+bytes to match their already-validated SHA256s, and made poster generation
+read the verified destination video. Public-text checks now reject temporary
+absolute paths as well as user-home paths. Fusion campaign comparison checks
+each run's positive UTC interval before checking serial execution. Regression
+tests preserve the formerly accepted invalid cases; these changes do not
+rewrite existing raw records or published JSON.
+
+The [VAE configuration audit](../results/published/h3-native-eval/performance/runtime-config-audit-15s-v1.json)
+identifies a historical preflight gap: the original-model inventory omitted
+the video/audio VAE configuration files. The current original and derived
+files match the pinned model inventory, and the derived manifest already
+binds those digests. This is retrospective supporting evidence, not proof
+that the original BF16 files stayed unchanged throughout earlier generation.
+Both the long-runner preflight and the shared original-model inventory now
+verify these configs. The shared inventory fix was applied after all six scene
+generations completed, before the matched resident comparison. Historical run
+hashes and timing evidence remain unchanged.
+
+The [audio-duration audit](../results/published/h3-native-eval/performance/audio-duration-audit-v1.json)
+rechecks saved, hash-bound decoded-frame reports for the fox and 15s pairs:
+each side has exactly 160000 or 480000 audio samples per channel, respectively,
+and no unresolved decoded-frame skip data. It does not re-decode media or
+recompute the historical metrics. FFmpeg's normal decoder skip/discard handling
+is already reflected in decoded frame sample counts; the new gate rejects
+unresolved side data or a duration mismatch without trimming/padding it away.
 
 ## Contracts that affect interpretation
 
@@ -363,9 +431,59 @@ for that request, not official-pipeline or perceptual quality. Two
 [native fusion campaigns](../results/published/h3-native-eval/fused-comparison-001-002-v1/README.md)
 pass all 24 operator numerical cases. H256 FC2 has no cross-seed stable speed
 gain; attention output at M9914 has lower paired medians in both seeds and
-rounds, without a statistical-significance or model-speedup claim. Whole-model
-fusion parity/E2E and the three additional five-second prompt pairs remain
-pending; the fifteen-second first-frame pair is completed above.
+rounds, without a statistical-significance or model-speedup claim.
+
+The [whole-model seed42 fusion check](../results/published/h3-native-eval/fused-model-parity-seed42-v1/README.md)
+now passes for attention-only and both attention/FC2 flags. Each candidate
+matches all 42 finite latent tensors and both the original 124-frame and
+exact-duration 120-frame MP4s byte-for-byte against the on-load H256 reference.
+The publisher re-read all 126 tensors across the reference and two candidates,
+and independently checked media hashes, source/patch/model identities, policy
+markers and recipe. This is diagnostic parity for one fox request, not a
+latency or perceptual-quality result. Prepared import plus fusion has not
+been tested; separate prepared-loader parity does not establish that
+combination. Neither fusion flag is enabled by default.
+
+## Matched resident attention-fusion comparison
+
+The [completed seed42 resident comparison](../results/published/h3-native-eval/fused-resident-seed42-v1/README.md)
+uses the same frozen `83ef61ac…` runtime, pinned harness, original checkpoint,
+fox prompt and environment in both arms. H256 FC2 is fixed; only
+attention-output gate fusion changes. Each separate process completes one
+full warmup and three timed requests, with 512×512, 20 steps, all 50 blocks
+and no reuse. The unfused process runs first, followed by attention-only.
+
+| Synchronized host measurement | None median, s | Attention median, s | None / attention | Median seconds saved |
+| --- | ---: | ---: | ---: | ---: |
+| Cached generation, including decode and original AV export | 151.126785 | 147.752793 | 1.022835× | 3.373992 |
+| Denoise callback interval | 121.909995 | 118.566479 | 1.028200× | 3.343516 |
+
+The generation median is 2.232557% lower and the denoise median is 2.742610%
+lower in this round. Generation samples range from 149.808414–151.210439 s
+without fusion and 147.617907–149.613678 s with it; denoise ranges are
+120.727940–121.987383 s and 118.564946–120.543138 s. All eight original
+124-frame MP4s, including warmups, are byte-identical. The exporter verifies
+the same recipe/model/source/harness/environment, cache and policy markers,
+raw timing events, callback boundaries, media checksums and nonoverlapping
+process intervals. [Raw samples and provenance](../results/published/h3-native-eval/fused-resident-seed42-v1/comparison.json).
+
+There is no latent capture in these timing runs. Online activation preparation,
+padding and synchronized callback overhead are included; offline weight
+preparation is in warmup. Cached generation includes the original 124-frame
+AV export, not the later exact-duration trim. Audio VAE setup/compilation APIs
+and loading still repeat, so compilation-free end-to-end latency is not
+claimed. Denoise uses native callback offsets, not the stale cached profile
+wall mark. The earlier standalone H256 resident result above is context,
+not the baseline for these ratios.
+
+These are descriptive ratios of separate three-sample medians at one seed
+and a fixed process order, without interleaving or independent replication.
+The shared lock and interval checks exclude overlap between these arms, not
+all possible external GPU activity. A second seed with reversed order and
+independent repeated comparisons is needed before stable promotion. Neither
+fusion flag is enabled by default, and prepared-checkpoint import combined
+with fusion remains untested. This result is not an INT8/H256-versus-BF16
+resident comparison or a new-best claim.
 
 ## Integration plans after profiling
 
@@ -375,16 +493,19 @@ pending; the fifteen-second first-frame pair is completed above.
    9914-row tail and any 9984-row INT8 workspace, launches and layout changes.
    Accept only if decoded implementation checks pass and the complete warm
    projection/block latency improves in an independent repeat.
-2. **H256 INT8 with preparation fusion.** Rotate/quantize immutable weights
-   once when preparing the resident DiT, or persist a separately versioned
-   derived-weight cache keyed by original hashes, rotation, dtype and scale
-   contract. Port the repository's Metal shader into the native runtime;
-   calling the Python/MLX wrapper across a buffer-copy boundary is not a
-   zero-copy integration. For QKV and gate/up, fuse the appropriate
-   residual/norm/modulation boundary, then rotation and dynamic quantization.
-   For FC2, capture and rotate post-SwiGLU values instead. Preserve residual
-   output and the runtime's BF16 rounding/scaling semantics. Compare against
-   its existing group1024 INT8 rather than only plain row-INT8.
+2. **Extend the completed FC2 H256 integration selectively.** Native C/Metal
+   FC2 rotation and INT8 packing, real post-SwiGLU capture, comparison against
+   native group1024 INT8, and the loadable 200-projection prepared checkpoint
+   are complete. Original BF16 remains retained; FC2 has H256, while QKV,
+   attention output and FC1 retain native INT8. Possible next experiments are
+   FC1-output/SwiGLU/H256-packing fusion and H256 for QKV or gate/up. The latter
+   changes the precision policy and needs new real-activation calibration and
+   full-model comparison. Any fusion must retain the current BF16 branch,
+   post-SwiGLU, residual and normalization boundaries, include all required
+   layout/padding work, and avoid a Python/MLX buffer-copy boundary. The native
+   runtime already fuses gated residual into AdaLN/quantization; that existing
+   fusion is not a new optimization. Neither further fusion nor broader H256
+   deployment has measured performance or quality evidence here.
 3. **Attention and decoder optimization.** If the measured device-time share
    warrants it, integrate a pinned attention kernel with the exact packed
    noncausal layout and scaling contract. Independently sweep VAE tiles and

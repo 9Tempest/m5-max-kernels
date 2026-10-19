@@ -57,6 +57,17 @@ def paired(captures, monkeypatch):
             }
         )
         run.update(benchmark=entry["id"], catalog=entry)
+        video = directory / "video-5s.mp4"
+        video.write_bytes(b"fixture-video")
+        run["exact_video"] = dict(
+            file=video.name,
+            sha256=pair.metrics.sha256(video),
+            width=512,
+            height=512,
+            frames=120,
+            fps=24,
+            duration_seconds=5.0,
+        )
         meta_path = directory / "latents/latent-metadata.json"
         meta = json.loads(meta_path.read_text())
         meta["seed"] = entry["seed"]
@@ -142,3 +153,131 @@ def test_unrelated_media_record_cannot_be_joined(paired):
     media.write_text(json.dumps(dict(status="completed", harness_sha256="wrong")))
     paired.media_evaluation = media
     assert "media join" in pair.execute(paired)["error"]
+
+
+def media_fixture(paired):
+    contract = dict(
+        width=512,
+        height=512,
+        frames=120,
+        fps="24",
+        duration_seconds="5",
+        audio_rate=32000,
+        audio_channels=2,
+        decoded_audio_samples=160000,
+    )
+    return dict(
+        status="completed",
+        kind="media",
+        harness_sha256=pair.metrics.sha256(Path(pair.metrics.__file__)),
+        files={
+            label: dict(sha256=pair.metrics.sha256(directory / "video-5s.mp4"), contract=contract)
+            for label, directory in (("reference", paired.bf16), ("candidate", paired.hadamard))
+        },
+        video_rgb=dict(
+            status="completed",
+            shape=[120, 512, 512, 3],
+            data_range=255.0,
+            reference_dtype="uint8",
+            candidate_dtype="uint8",
+            reference_nonfinite=0,
+            candidate_nonfinite=0,
+        ),
+        audio_pcm32k_stereo=dict(
+            status="completed",
+            shape=[160000, 2],
+            data_range=2.0,
+            reference_dtype="float32",
+            candidate_dtype="float32",
+            reference_nonfinite=0,
+            candidate_nonfinite=0,
+        ),
+        optional={"ssim": {"status": "completed"}},
+    )
+
+
+def join_fixture(paired, record):
+    path = paired.output_dir.parent / "joined-media.json"
+    path.write_text(json.dumps(record))
+    paired.media_evaluation = path
+    return pair.execute(paired)
+
+
+def test_valid_media_join_is_bound_to_capture_runs(paired):
+    assert join_fixture(paired, media_fixture(paired))["status"] == "completed"
+
+
+@pytest.mark.parametrize("requested_decode", [False, True])
+def test_both_replaced_videos_cannot_reuse_original_latents(paired, monkeypatch, requested_decode):
+    for directory in (paired.bf16, paired.hadamard):
+        (directory / "video-5s.mp4").write_bytes(b"replacement-pair")
+    record = media_fixture(paired)  # Even a matching eval for both new files must fail.
+    if requested_decode:
+        paired.media = True
+        monkeypatch.setattr(
+            pair.metrics, "execute", lambda args: pytest.fail("must reject before media decode")
+        )
+        result = pair.execute(paired)
+    else:
+        result = join_fixture(paired, record)
+    assert result["status"] == "failed"
+    assert "digest differs from capture run" in result["error"]
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        {"file": "other.mp4"},
+        {"file": "../video-5s.mp4"},
+        {"width": 256},
+        {"height": 256},
+        {"frames": 96},
+        {"fps": 30},
+        {"duration_seconds": 4},
+    ],
+)
+def test_both_run_records_must_declare_the_fixed_video(paired, change):
+    for directory in (paired.bf16, paired.hadamard):
+        mutate(directory / "run.json", lambda r: r["exact_video"].update(change))
+    result = join_fixture(paired, media_fixture(paired))
+    assert "recorded exact video" in result["error"]
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        {"width": 256},
+        {"height": 256},
+        {"frames": 96},
+        {"fps": "30"},
+        {"duration_seconds": "4"},
+        {"audio_rate": 48000},
+        {"audio_channels": 1},
+        {"decoded_audio_samples": 128000},
+    ],
+)
+def test_both_decoded_contracts_cannot_share_a_wrong_recipe(paired, change):
+    record = media_fixture(paired)
+    for side in record["files"].values():
+        side["contract"].update(change)
+    result = join_fixture(paired, record)
+    assert "decoded media differs" in result["error"]
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        lambda r: r["files"]["candidate"].update(sha256="0" * 64),
+        lambda r: r["video_rgb"].update(shape=[96, 512, 512, 3]),
+        lambda r: r["audio_pcm32k_stereo"].update(shape=[128000, 2]),
+        lambda r: r["audio_pcm32k_stereo"].update(data_range=1.0),
+        lambda r: r["video_rgb"].update(status="failed"),
+        lambda r: r["audio_pcm32k_stereo"].update(candidate_nonfinite=1),
+        lambda r: r["audio_pcm32k_stereo"].update(candidate_dtype="float64"),
+        lambda r: r["optional"]["ssim"].update(status="not_measured"),
+    ],
+)
+def test_joined_metrics_require_matching_hash_shape_range_and_completion(paired, change):
+    record = media_fixture(paired)
+    change(record)
+    assert join_fixture(paired, record)["status"] == "failed"
