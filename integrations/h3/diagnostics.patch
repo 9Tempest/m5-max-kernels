@@ -1,0 +1,159 @@
+--- a/h3_dit.c
++++ b/h3_dit.c
+@@ -71,6 +71,7 @@
+     h3_gpu *gpu;
+     h3_weight_store *weights;
+     h3_dit_schedule *schedule;
++    int diagnostics;
+     int fused_mlp;
+     int nax_mlp;
+     int int8_mlp;
+@@ -205,6 +206,77 @@
+     va_end(arguments);
+ }
+ 
++/* Optional diagnostic additions: M5MaxLocalBenchmark, MIT. No GPU waits. */
++static double diagnostic_now(void) {
++    struct timespec now;
++    if (clock_gettime(CLOCK_MONOTONIC, &now) != 0) return 0.0;
++    return (double)now.tv_sec + (double)now.tv_nsec * 1e-9;
++}
++
++static int diagnostic_step(const h3_dit *dit, int step) {
++    return dit->diagnostics &&
++        (step == 0 || step == dit->sigmas.steps / 2 ||
++         step == dit->sigmas.steps - 1);
++}
++
++static void diagnostic_operation(h3_dit *dit, int step, unsigned block,
++                                  uint32_t rows, const char *operation,
++                                  double started, h3_gpu_stats before) {
++    double elapsed = diagnostic_now() - started;
++    h3_gpu_stats after = {0};
++    h3_gpu_get_stats(dit->gpu, &after);
++    fprintf(stderr,
++        "h3 diag: {\"schema\":1,\"kind\":\"operation\",\"step\":%d,"
++        "\"block\":%u,\"rows\":%u,\"operation\":\"%s\",\"calls\":1,"
++        "\"host_api_ms\":%.6f,\"direct\":%llu,\"mps_linear\":%llu,"
++        "\"mps_sdpa\":%llu,\"submissions\":%llu}\n",
++        step, block, rows, operation, elapsed * 1000.0,
++        (unsigned long long)(after.direct_dispatches - before.direct_dispatches),
++        (unsigned long long)(after.mps_linear_dispatches - before.mps_linear_dispatches),
++        (unsigned long long)(after.mps_sdpa_dispatches - before.mps_sdpa_dispatches),
++        (unsigned long long)(after.submissions - before.submissions));
++}
++
++/* Call only after an existing successful submit: shared storage is now stable.
++ * These are post-Euler target latents, not per-layer calibration activations. */
++static void diagnostic_latent(const h3_gpu_tensor *tensor, size_t offset,
++                               float *scratch, size_t count, int step,
++                               const char *modality) {
++    if (!h3_gpu_tensor_read_f32_range(tensor, offset, scratch, count)) {
++        fprintf(stderr, "h3 diag: {\"schema\":1,\"kind\":\"latent\","
++                "\"step\":%d,\"modality\":\"%s\",\"status\":\"read_failed\"}\n",
++                step, modality);
++        return;
++    }
++    size_t finite = 0, zero = 0, histogram[12] = {0};
++    const double upper[11] = {0, 0.0625, 0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32};
++    double minimum = 0.0, maximum = 0.0, sum_square = 0.0;
++    for (size_t i = 0; i < count; i++) {
++        double value = scratch[i];
++        if (!isfinite(value)) continue;
++        if (!finite || value < minimum) minimum = value;
++        if (!finite || value > maximum) maximum = value;
++        finite++;
++        if (value == 0.0) zero++;
++        sum_square += value * value;
++        size_t bin = 0;
++        while (bin < 11 && fabs(value) > upper[bin]) bin++;
++        histogram[bin]++;
++    }
++    fprintf(stderr,
++        "h3 diag: {\"schema\":1,\"kind\":\"latent\",\"step\":%d,"
++        "\"modality\":\"%s\",\"status\":\"sampled\",\"boundary\":\"post_euler\","
++        "\"elements\":%zu,\"finite\":%zu,\"nonfinite\":%zu,\"zeros\":%zu,"
++        "\"finite_min\":%.9g,\"finite_max\":%.9g,\"finite_rms\":%.9g,"
++        "\"abs_upper_inclusive\":[0,0.0625,0.125,0.25,0.5,1,2,4,8,16,32,null],"
++        "\"abs_counts\":[%zu,%zu,%zu,%zu,%zu,%zu,%zu,%zu,%zu,%zu,%zu,%zu]}\n",
++        step, modality, count, finite, count - finite, zero, minimum, maximum,
++        finite ? sqrt(sum_square / (double)finite) : 0.0,
++        histogram[0], histogram[1], histogram[2], histogram[3],
++        histogram[4], histogram[5], histogram[6], histogram[7],
++        histogram[8], histogram[9], histogram[10], histogram[11]);
++}
++
+ static unsigned command_block_interval(const h3_dit *dit) {
+     const char *value = getenv("H3_DIT_COMMAND_BLOCKS");
+     if (value && *value) {
+@@ -1598,6 +1670,8 @@
+         fail(error, error_size, "out of memory creating DiT model");
+         return NULL;
+     }
++    const char *diagnostics = getenv("H3_DIAGNOSTICS");
++    dit->diagnostics = diagnostics && !strcmp(diagnostics, "1");
+     dit->fused_mlp = getenv("H3_DISABLE_FUSED_MLP") == NULL;
+     /* The released final heads are F32, but their inputs are already BF16.
+      * Converting these small weights once selects the Iris-derived tiled
+@@ -1691,6 +1765,27 @@
+         fail(error, error_size, "cannot write persistent DiT condition rows");
+         goto failed;
+     }
++    if (dit->diagnostics) {
++        fprintf(stderr,
++            "h3 diag: {\"schema\":1,\"kind\":\"geometry\",\"sequence\":%u,"
++            "\"text_rows\":%u,\"video_condition_rows\":%u,\"audio_condition_rows\":%u,"
++            "\"video_rows\":%u,\"audio_rows\":%u,\"latent_t\":%d,"
++            "\"latent_h\":%d,\"latent_w\":%d,\"audio_t_per_channel\":%d,"
++            "\"hidden\":%d,\"heads\":%d,\"head_dim\":%d,\"ffn\":%d,"
++            "\"active_blocks\":%u,\"steps\":%d,\"configured_int8_qkv\":%d,"
++            "\"configured_int8_mlp\":%d,\"configured_int8_output\":%d,"
++            "\"nax_mlp_available\":%d,\"final_heads_bf16\":%d,"
++            "\"spatial_rope_scale\":%.9g,\"ssd_streaming\":%d,"
++            "\"token_reduction\":%d,\"core_reuse_interval\":%u}\n",
++            dit->sequence, dit->text_rows, dit->video_condition_rows,
++            dit->audio_condition_rows, dit->video_rows, dit->audio_rows,
++            dit->latent_t, dit->latent_h, dit->latent_w, dit->audio_t,
++            HIDDEN, HEADS, HEAD_DIM, FFN, dit->active_block_count,
++            dit->sigmas.steps, dit->int8_qkv, dit->int8_mlp,
++            dit->int8_attention_out, dit->nax_mlp, dit->bf16_final,
++            (double)dit->spatial_rope_scale, dit->ssd_streaming,
++            dit->token_reduction, dit->core_reuse_interval);
++    }
+     h3_gpu_profile_mark(dit->gpu, "load");
+     return dit;
+ failed:
+@@ -1891,8 +1986,18 @@
+         dit->reduced_rope_sin : dit->rope_sin;
+     uint32_t rows = dit->token_reduction_active ?
+         dit->reduced_sequence : dit->sequence;
+-#define OP(call, label) do {                                                    \
+-    if (!gpu_op(dit, (call), error, error_size, label)) return 0;               \
++    int diagnostic = diagnostic_step(dit, step) &&
++        (index == 0 || index == 24 || index == 49);
++#define OP(call, label) do {                                                  \
++    h3_gpu_stats before = {0};                                                \
++    double started = 0.0;                                                    \
++    if (diagnostic) {                                                        \
++        h3_gpu_get_stats(dit->gpu, &before);                                 \
++        started = diagnostic_now();                                         \
++    }                                                                        \
++    if (!gpu_op(dit, (call), error, error_size, label)) return 0;              \
++    if (diagnostic)                                                          \
++        diagnostic_operation(dit, step, index, rows, label, started, before); \
+ } while (0)
+     if (!attention_adaln_ready)
+         OP(h3_gpu_adaln_bf16(dit->gpu, dit->mod_attention, dit->hidden,
+@@ -2737,6 +2842,12 @@
+             if (ok && finish) {
+                 command_active = 0;
+                 pending_evaluations = 0;
++                if (diagnostic_step(dit, step)) {
++                    diagnostic_latent(dit->video_input, video_offset,
++                        video_rows, video_count, step, "video");
++                    diagnostic_latent(dit->audio_input, audio_offset,
++                        audio_rows, audio_count, step, "audio");
++                }
+             }
+         }
+         if (ok && preview) {

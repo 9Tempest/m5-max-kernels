@@ -1,0 +1,120 @@
+{
+  "benchmark": "fox-winter-t2va-cached-v1",
+  "prompt": "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+  "mode": "hadamard-fc2",
+  "fusion": "none",
+  "seed": 42,
+  "width": 512,
+  "height": 512,
+  "steps": 20,
+  "source_frames": 124,
+  "warmups": 1,
+  "repetitions": 3,
+  "active_dit_blocks": 50,
+  "reuse": 1,
+  "core_reuse": 1,
+  "use_reference_rope": true,
+  "timing_contract": {
+    "cached_generation": "h3_generate synchronized host wall including decode and 124-frame AV export; excludes one complete warmup",
+    "cached_denoise_callback": "after packing/copy through synchronized GPU completion and output latent copy/unpack; warmed DiT pipelines and weights; online activation quantization/padding included",
+    "compile_free_e2e": "not claimed; audio VAE context setup/compilation API and loading repeat per request",
+    "offline_weight_preparation": "outside measured requests, included in warmup",
+    "kernel_only": "not measured",
+    "ordering": "one mode per process, three same-seed repetitions; no interleaved cross-mode stability claim"
+  },
+  "harness_files": {
+    "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+    "run_session.py": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+    "session.c": "201f6120bbd85a67471d29e8306858a3079b545bcb70c74ed5ac6cb919f6c2fa",
+    "run_native_session.py": "8e705ef85f489c5dcc3e894ecfba899a605d98369b0ffe987012135758437d9e",
+    "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562"
+  },
+  "upstream": {
+    "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+    "dirty": true,
+    "status": "M h3_dit.c\n M h3_gpu.h\n M h3_gpu.m\n M h3_shaders.metal",
+    "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+  },
+  "patch": {
+    "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+    "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+  },
+  "driver": {
+    "source_sha256": "201f6120bbd85a67471d29e8306858a3079b545bcb70c74ed5ac6cb919f6c2fa",
+    "binary_sha256": "130f5fdd98dc5f8f732b50d7674a896fcc5fb1575623cc24ad8cc53ffc94b96e",
+    "library_sha256": "5abd88658064b2f9789480b9e3c07c65bf9ff709d43b828afb08071b3a711cdf",
+    "wrapper_sha256": "8e705ef85f489c5dcc3e894ecfba899a605d98369b0ffe987012135758437d9e"
+  },
+  "shape": {
+    "fps": 24,
+    "requested_seconds": 5,
+    "requested_frames": 120,
+    "aligned_frames": 124,
+    "aligned_seconds": 5.166666666666667,
+    "video_latent_t": 37,
+    "audio_latent_t": 207,
+    "video_tokens": 9472,
+    "stereo_audio_tokens": 414,
+    "text_tokens": 28,
+    "packed_sequence_tokens": 9914,
+    "shape_evidence": "text tokens derived from observed public cache bytes and pinned h3_cache_get_info formula; video/audio/layout from h3_host.c; INT8 arena allocation rounding from h3_dit.c; not a per-op tensor trace",
+    "int8_activation_arena_rows": 9984
+  },
+  "warmup_seconds": 180.586287,
+  "cached_generation": {
+    "raw_seconds": [
+      153.60243,
+      153.325268,
+      153.235321
+    ],
+    "count": 3,
+    "median_seconds": 153.325268,
+    "p10_seconds": 153.2533104,
+    "p90_seconds": 153.5469976,
+    "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+  },
+  "cached_denoise_callback": {
+    "raw_seconds": [
+      123.723213,
+      123.509807,
+      123.38668
+    ],
+    "count": 3,
+    "median_seconds": 123.509807,
+    "p10_seconds": 123.4113054,
+    "p90_seconds": 123.6805318,
+    "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+  },
+  "all_repetition_videos_byte_identical": true,
+  "started_utc": "2026-10-18T23:11:03.337887+00:00",
+  "finished_utc": "2026-10-18T23:24:04.592868+00:00",
+  "schema_version": 1,
+  "status": "completed",
+  "source_run_sha256": "5e75ead53f3e146ffaee632c3432c8c38eaade1e113b478247e724a43b442f07",
+  "exporter_sha256": "7b7ce466c2c23e949131d365023d83bfe219764ebd3463413ae76546a3394213",
+  "model": {
+    "repository": "MiniMaxAI/MiniMax-H3",
+    "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+    "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+  },
+  "harness": {
+    "revision": "7c800faa29e4ea5a43bd90ec99fe8623b7dee76e",
+    "dirty": true
+  },
+  "environment": {
+    "system": "Darwin",
+    "release": "27.0.0",
+    "machine": "arm64",
+    "python": "3.12.15",
+    "chip": "Apple M5 Max",
+    "memory_bytes": 137438953472,
+    "xcode": "Xcode 27.1\nBuild version 27A9275",
+    "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+  },
+  "video_sha256": [
+    "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+    "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+    "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+    "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a"
+  ]
+}

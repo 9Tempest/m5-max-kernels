@@ -1,0 +1,708 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "kind": "diagnostic_process_comparison",
+  "benchmark": "deepseek-whale-maid-15s-v1",
+  "promotion": "not_established",
+  "quality_decision": "not_evaluated",
+  "derivation": {
+    "kind": "sanitized selected-field summary; not a byte-identical copy of either raw run",
+    "source_fields": "recipe/catalog/shape, profile, measurements.generation, measurements.trim, preflight_seconds, source/model identity, prepared_load, and runtime/capture provenance are selected from immutable run.json records; ratios are computed from their recorded values",
+    "removed": "absolute paths, process commands, complete dirty-status listing, raw input image, individual weight-file/tensor inventories and weight payloads",
+    "source_records_unchanged": true,
+    "weights_reread_or_rehashed": false,
+    "profile_precision": "phase values retain the native log three-decimal precision; process wall retains recorded host-timer precision"
+  },
+  "recipe": {
+    "seed": 83,
+    "width": 512,
+    "height": 288,
+    "seconds": 15,
+    "fps": 24,
+    "steps": 20,
+    "active_dit_blocks": 50,
+    "reuse": 1,
+    "core_reuse": 1,
+    "reference_rope": true,
+    "source_frames": 362,
+    "exact_frames": 360
+  },
+  "conditioning": {
+    "mode": "first-frame",
+    "type": "first_frame",
+    "sha256": "b1b4c9330f8e27fd95c770e610210b366ad30933a651f71d1e39401bf63cf24d",
+    "bytes": 208682,
+    "original_width": 1280,
+    "original_height": 720,
+    "preprocessing": "upstream_first_frame_stretch_to_render_canvas",
+    "target_canvas": [
+      512,
+      288
+    ]
+  },
+  "prompt": {
+    "prompt_file": "prompts/deepseek-whale-maid-15s-zh.txt",
+    "prompt_sha256": "fccc21a2e05295b2920af3b6a3a58e720d7d8f5f15f2e057986faecd4f95f0cc",
+    "prompt_bytes": 2233,
+    "prompt_tokens": 545,
+    "catalog_sha256": "ee6fb7632e4b65858c9f0ec2944f5ae2a95eb85ae0e3219e308fb6fd1295e21a",
+    "catalog_suite": "h3-first-frame-15s-v1"
+  },
+  "shape": {
+    "fps": 24,
+    "requested_seconds": 15,
+    "requested_frames": 360,
+    "aligned_frames": 362,
+    "aligned_seconds": 15.083333333333334,
+    "video_latent_t": 107,
+    "audio_latent_t": 603,
+    "video_tokens": 15408,
+    "stereo_audio_tokens": 1206,
+    "text_tokens": 697,
+    "packed_sequence_tokens": 17455,
+    "shape_evidence": "source-derived h3_host.c; text/packed tokens not logged by pinned CLI; full native CPU tokenizer roundtrip and pinned first-frame layout; total rows source-derived, not runtime-traced",
+    "condition_video_rows": 144
+  },
+  "observed_latent_shapes": {
+    "final_video_shape": [
+      24,
+      107,
+      18,
+      32
+    ],
+    "final_audio_shape": [
+      32,
+      2,
+      603
+    ],
+    "per_step_video_shape": [
+      15408,
+      96
+    ],
+    "per_step_audio_shape": [
+      1206,
+      32
+    ]
+  },
+  "capture": {
+    "enabled": true,
+    "tensors_per_run": 42,
+    "euler_steps_per_run": 20,
+    "scope": "diagnostic_CPU_readback_after_completed_GPU_Euler",
+    "dtype": "float32_little_endian",
+    "conditioning_video_rows_excluded_from_target_latent_dumps": true,
+    "all_recorded_tensors_finite": true
+  },
+  "timing_contract": {
+    "generation_process": "synchronized subprocess host wall; includes runtime GPU context/shader setup, model loading, first-frame video/vision encoding, text encoding, denoising, both VAE decoders, 362-frame AV export, and diagnostic latent readbacks/writes",
+    "excluded_from_generation_process": [
+      "GPU queue wait",
+      "full model/prepared payload hash preflight",
+      "native make -B and tokenizer build/probe",
+      "offline prepared checkpoint export/assembly",
+      "postprocess latent/media validation",
+      "362-to-360-frame trimming",
+      "postprocess evaluation"
+    ],
+    "preflight_includes_build_and_tokenizer_probe": true,
+    "euler_denoise": "native GPU Euler denoise wall mark includes this run's diagnostic capture; encode/wait/root GPU fields are accounting scopes, not CPU-active time or full device attribution",
+    "phase_overlap": "DiT total overlaps DiT load and denoise; phase counters are not an exhaustive disjoint decomposition",
+    "memory": "DiT tracked Metal tensor peak only; not process RSS, total unified-memory footprint or MPS internal scratch",
+    "load_comparison": "BF16 original projection loading versus prepared INT8/H256 payload verification/loading; not identical load work. Prepared load marker is a subset of DiT load and must not be added to it",
+    "cache_and_order": "BF16 first, prepared H second; full preflight hashing warms filesystem cache. One process per mode, one seed, no interleaving or independent repetition",
+    "online_activation_preparation": "included; native INT8 QKV/output/FC1 and H256+INT8 FC2 in candidate",
+    "resident_compile_free_latency": "not measured",
+    "kernel_only_time": "not measured",
+    "stable_speedup": "not established; ratios describe this captured pair only"
+  },
+  "comparison": {
+    "generation_process_seconds": {
+      "bf16": 506.2758587919998,
+      "prepared_int8_h256": 364.85503699999936,
+      "bf16_divided_by_candidate": 1.387608248346591,
+      "candidate_reduction_percent": 27.93355032361957
+    },
+    "euler_denoise_seconds": {
+      "bf16": 443.527,
+      "prepared_int8_h256": 293.568,
+      "bf16_divided_by_candidate": 1.51081521146719,
+      "candidate_reduction_percent": 33.810568465955846
+    },
+    "dit_tracked_tensor_peak_GiB": {
+      "bf16": 38.199,
+      "prepared_int8_h256": 20.967,
+      "bf16_divided_by_candidate": 1.8218629274574332,
+      "candidate_reduction_percent": 45.111128563574965
+    },
+    "video_vae_decoder_seconds": {
+      "bf16": 43.918,
+      "prepared_int8_h256": 43.951,
+      "bf16_divided_by_candidate": 0.9992491638415508,
+      "candidate_reduction_percent": -0.07514003369917255
+    }
+  },
+  "source_comparison": {
+    "same_upstream_revision": true,
+    "same_harness_file_hashes": true,
+    "same_model_origin": true,
+    "same_runtime_source_digest": false,
+    "expected_difference": "BF16 uses capture/H-capable source 83307697 with all INT8/H projection flags off; candidate uses prepared-loader source 054ec73e with native INT8 QKV/output/FC1 and H256 FC2. This is the complete precision/checkpoint deployment contrast, not an isolated Hadamard-only or same-source fusion experiment",
+    "harness_git_revision_difference": "the checkout was rebased between runs; recorded harness file hashes are identical despite different aggregate revision/source digests"
+  },
+  "quality_evidence": {
+    "scope": "paired drift against BF16, not perceptual ground truth or native-INT8-versus-H improvement",
+    "latent_record": {
+      "file": "whale-maid-15s-v1/evaluations/whale-maid-15s-eval-001-long-evaluation.json",
+      "sha256": "19706c0fe7f2b49a3633569d011a9e327de6864a30b0050f7007e62ecbaacc60",
+      "evaluator_sha256": "d0d8332b5732d6f086e6ecb1386cb8f3404bea91b6b779caf067b8bfb8c6eb38"
+    },
+    "media_record": {
+      "file": "whale-maid-15s-v1/evaluations/media-evaluation.json",
+      "sha256": "1f360cacecf35dd37696046f0d31bc7a2c5b7309cf579a30ce68fab291ee96d9",
+      "evaluator_sha256": "e54704bba58a6c85bf2bddd6825f7ecbb39b4a50440f6a350708fdd3e5e62f8a"
+    },
+    "final_video_relative_l2": 0.2119504765006355,
+    "final_audio_relative_l2": 0.3159345919732146,
+    "rgb_ffmpeg_ssim_mean": 0.8187047777777776,
+    "rgb_snr_db": 15.693165651280255,
+    "pcm_32000_stereo_snr_db": 0.43924713348293565,
+    "pcm_32000_stereo_relative_l2": 0.9506871927618703,
+    "review_limit": "limited sampled still-frame review; full motion/prompt adherence and listening not evaluated. Large PCM waveform drift is retained, not interpreted as listening quality"
+  },
+  "runs": {
+    "bf16": {
+      "source_run_id": "whale-maid-15s-bf16-001",
+      "source_run_sha256": "ada46b0a3401083e1370b9c50287a26a2c2a6522dfab5d577cba42544ca5f921",
+      "mode": "bf16",
+      "status": "completed",
+      "diagnostic": true,
+      "prepared_checkpoint": false,
+      "original_checkpoint_retained": true,
+      "timing_contract_recorded": {
+        "scope": "diagnostic capture with extra waits/readbacks; not a performance sample",
+        "gpu_lock": "preflight/build/generation/capture/media validation",
+        "model_preflight": "full weight verification before process timing warms file cache",
+        "offline_weight_preparation": "none",
+        "online_activation_preparation": "included in generation; H256 FC2 for prepared mode",
+        "resident_compile_free_latency": "not measured"
+      },
+      "harness": {
+        "revision": "7c800faa29e4ea5a43bd90ec99fe8623b7dee76e",
+        "dirty": true,
+        "source_sha256": "7883b08e38f354fd608a970e346aab8b02f581d085c4ae1b4f3a4a3f550f997a"
+      },
+      "harness_files": {
+        "run_long_benchmark.py": "7b071c977903dde2c8c7eaf0c1ba74b2163b12823d862e57f7a57b8a71c19e22",
+        "long_benchmark.json": "ee6fb7632e4b65858c9f0ec2944f5ae2a95eb85ae0e3219e308fb6fd1295e21a",
+        "tokenizer_probe.c": "ae7c4b8201a2ca28211bc5aa5a448d02cbf5906e1c1579b0fdcb8ad97abad5d0",
+        "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+        "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+        "run_prepared_checkpoint.py": "1852cd2863cbbbe576b210fa940dba08ec5793f31fbc583b65bc627c1bf1ed40",
+        "derived_checkpoint.py": "39b9408e8954a8b84ee69cee990b859c616f845c95aff72f4dcbd83cf35dfdf2",
+        "prepared_checkpoint.py": "caf1d4c614370dc0b9096076760e27d6e773aa981ba2404870769636b5fc2cfb"
+      },
+      "upstream": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "dirty": true,
+        "status": "M h3_dit.c\n M h3_gpu.h\n M h3_gpu.m\n M h3_shaders.metal",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+        "binary_sha256": "915881e195b1a1214d09a6f891bc58b291fd3820a77df7a437a5aa74b99a1e7c",
+        "library_sha256": "063715060ea3fbba80366f39cd35f935bba7d33f06b9e896f724b82b65934220"
+      },
+      "patch": {
+        "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+      },
+      "model": {
+        "repository": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+        "verification": "full file digest versus pinned API manifest; performed before process timing",
+        "cache_note": "digest verification reads weights and may warm the filesystem cache"
+      },
+      "environment": {
+        "system": "Darwin",
+        "release": "27.0.0",
+        "machine": "arm64",
+        "python": "3.12.15",
+        "chip": "Apple M5 Max",
+        "memory_bytes": 137438953472,
+        "xcode": "Xcode 27.1\nBuild version 27A9275",
+        "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+        "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers",
+        "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix"
+      },
+      "runtime_controls": {
+        "H3_NAX": "qkv-attn",
+        "H3_NAX_DIAGNOSTIC": "1",
+        "H3_HADAMARD_FC2": "0",
+        "H3_CAPTURE_SEED": "83",
+        "H3_GPU_SAMPLER": "1",
+        "H3_GPU_SAMPLER_WINDOW": "1"
+      },
+      "tokenization": {
+        "schema": 1,
+        "prompt_bytes": 2233,
+        "prompt_tokens": 545,
+        "image_prefix_tokens": 6,
+        "roundtrip_exact": true,
+        "presentation_tokens": 697,
+        "vision_tokens": 144,
+        "vision_boundary_tokens": 2,
+        "native_overflow_limit": 167772,
+        "configured_model_max_length": 262144,
+        "tokenizer_sha256": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+        "config_sha256": "a07e942ac874baa13758de8d1fbdb186683cc03416b5589e1b6671c6b3057c68",
+        "binary_sha256": "b89dae4639608e0fae7b838ce4e64156d3bb48fb773e8a371788f24a1c3fb79c",
+        "driver_sha256": "ae7c4b8201a2ca28211bc5aa5a448d02cbf5906e1c1579b0fdcb8ad97abad5d0",
+        "prompt_sha256": "fccc21a2e05295b2920af3b6a3a58e720d7d8f5f15f2e057986faecd4f95f0cc",
+        "truncated": false
+      },
+      "generation_process": {
+        "returncode": 0,
+        "started_utc": "2026-10-18T23:36:18.319560+00:00",
+        "finished_utc": "2026-10-18T23:44:44.598426+00:00",
+        "wall_seconds": 506.2758587919998,
+        "log_sha256": "f2477ae8689aa23b4877c23010afe5f72fdc202f2cacdad5db1f8706db53cf3d",
+        "fallback_detected": false
+      },
+      "excluded_preflight_seconds": 53.73518833300113,
+      "excluded_build_seconds": 1.0360899170009361,
+      "excluded_trim_seconds": 0.33559000000059314,
+      "profile": [
+        {
+          "component": "video VAE encoder",
+          "phase": "total",
+          "wall_s": 1.812,
+          "encode_s": 0.288,
+          "wait_s": 1.329,
+          "root_gpu_s": 1.05,
+          "peak_GiB": 1.019,
+          "alloc_GiB": 8.466,
+          "submissions": 108,
+          "direct": 402,
+          "linear": 0,
+          "conv": 204,
+          "attention": 0
+        },
+        {
+          "component": "Qwen vision encoder",
+          "phase": "total",
+          "wall_s": 0.973,
+          "encode_s": 0.796,
+          "wait_s": 0.046,
+          "root_gpu_s": 0.022,
+          "peak_GiB": 0.114,
+          "alloc_GiB": 1.154,
+          "submissions": 32,
+          "direct": 171,
+          "linear": 117,
+          "conv": 0,
+          "attention": 27
+        },
+        {
+          "component": "Qwen text encoder",
+          "phase": "total",
+          "wall_s": 6.182,
+          "encode_s": 0.04,
+          "wait_s": 4.259,
+          "root_gpu_s": 1.539,
+          "peak_GiB": 3.77,
+          "alloc_GiB": 46.997,
+          "submissions": 51,
+          "direct": 454,
+          "linear": 350,
+          "conv": 0,
+          "attention": 0
+        },
+        {
+          "component": "H3 DiT",
+          "phase": "load",
+          "wall_s": 7.825,
+          "encode_s": 0.384,
+          "wait_s": 5.479,
+          "root_gpu_s": 0.134,
+          "peak_GiB": 38.199,
+          "alloc_GiB": 64.185,
+          "submissions": 55,
+          "direct": 26,
+          "linear": 58,
+          "conv": 0,
+          "attention": 2
+        },
+        {
+          "component": "H3 DiT",
+          "phase": "GPU Euler denoise",
+          "wall_s": 443.527,
+          "encode_s": 363.036,
+          "wait_s": 80.419,
+          "root_gpu_s": 0.171,
+          "peak_GiB": 38.199,
+          "alloc_GiB": 0.0,
+          "submissions": 20,
+          "direct": 3180,
+          "linear": 4000,
+          "conv": 0,
+          "attention": 1000
+        },
+        {
+          "component": "H3 DiT",
+          "phase": "total",
+          "wall_s": 451.726,
+          "encode_s": 363.42,
+          "wait_s": 85.899,
+          "root_gpu_s": 0.304,
+          "peak_GiB": 38.199,
+          "alloc_GiB": 64.185,
+          "submissions": 75,
+          "direct": 3206,
+          "linear": 4058,
+          "conv": 0,
+          "attention": 1002
+        },
+        {
+          "component": "audio VAE decoder",
+          "phase": "total",
+          "wall_s": 0.729,
+          "encode_s": 0.224,
+          "wait_s": 0.415,
+          "root_gpu_s": 0.391,
+          "peak_GiB": 0.286,
+          "alloc_GiB": 1.45,
+          "submissions": 16,
+          "direct": 340,
+          "linear": 0,
+          "conv": 136,
+          "attention": 0
+        },
+        {
+          "component": "video VAE decoder",
+          "phase": "total",
+          "wall_s": 43.918,
+          "encode_s": 0.261,
+          "wait_s": 42.258,
+          "root_gpu_s": 0.342,
+          "peak_GiB": 9.454,
+          "alloc_GiB": 9.463,
+          "submissions": 42,
+          "direct": 9198,
+          "linear": 6090,
+          "conv": 0,
+          "attention": 1512
+        }
+      ],
+      "capture_metadata_sha256": "0592d43d51d3a582259c13c76b6001fef9bc04ef0a1b6aeb4562420045391f4b",
+      "precision_flags": {
+        "int8_mlp": 0,
+        "int8_qkv": 0,
+        "int8_attention_out": 0,
+        "hadamard_fc2": 0
+      },
+      "original_video": {
+        "width": 512,
+        "height": 288,
+        "frames": 362,
+        "fps": 24,
+        "duration_seconds": 15.083333,
+        "file": "original.mp4",
+        "sha256": "e16162cfb4e974d03093f2fd1086405d325d6a795b111e89318e568f7d0b6c2f",
+        "audio_channels": 2,
+        "audio_duration_seconds": 15.075
+      },
+      "exact_video": {
+        "width": 512,
+        "height": 288,
+        "frames": 360,
+        "fps": 24,
+        "duration_seconds": 15.0,
+        "file": "video-15s.mp4",
+        "sha256": "d208b56b550056022b8aded9e15a21ed5f185a51c4207be30198d6327a40928e",
+        "audio_channels": 2,
+        "audio_duration_seconds": 15.0
+      }
+    },
+    "hadamard": {
+      "source_run_id": "whale-maid-15s-hadamard-001",
+      "source_run_sha256": "f3db9931b2300c797a780860b9ffe2b04ae159a0dc5a62dc7734431beae8ee43",
+      "mode": "hadamard-fc2",
+      "status": "completed",
+      "diagnostic": true,
+      "prepared_checkpoint": true,
+      "original_checkpoint_retained": true,
+      "timing_contract_recorded": {
+        "scope": "diagnostic capture with extra waits/readbacks; not a performance sample",
+        "gpu_lock": "preflight/build/generation/capture/media validation",
+        "model_preflight": "full weight verification before process timing warms file cache",
+        "offline_weight_preparation": "separate prepared checkpoint export",
+        "online_activation_preparation": "included in generation; H256 FC2 for prepared mode",
+        "resident_compile_free_latency": "not measured"
+      },
+      "harness": {
+        "revision": "29b2b00d8a80a77e5daa8805111322f93974a7d3",
+        "dirty": true,
+        "source_sha256": "a636426e4e4056399f3f73d87303090a9134092fc7f6c1630412bff9867820fa"
+      },
+      "harness_files": {
+        "run_long_benchmark.py": "7b071c977903dde2c8c7eaf0c1ba74b2163b12823d862e57f7a57b8a71c19e22",
+        "long_benchmark.json": "ee6fb7632e4b65858c9f0ec2944f5ae2a95eb85ae0e3219e308fb6fd1295e21a",
+        "tokenizer_probe.c": "ae7c4b8201a2ca28211bc5aa5a448d02cbf5906e1c1579b0fdcb8ad97abad5d0",
+        "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+        "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+        "run_prepared_checkpoint.py": "1852cd2863cbbbe576b210fa940dba08ec5793f31fbc583b65bc627c1bf1ed40",
+        "derived_checkpoint.py": "39b9408e8954a8b84ee69cee990b859c616f845c95aff72f4dcbd83cf35dfdf2",
+        "prepared_checkpoint.py": "caf1d4c614370dc0b9096076760e27d6e773aa981ba2404870769636b5fc2cfb"
+      },
+      "upstream": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "dirty": true,
+        "status": "M h3_dit.c\n M h3_gpu.h\n M h3_gpu.m\n M h3_shaders.metal",
+        "source_sha256": "054ec73eb454e44dc75d71bf83fa53a7129e5bd1e30fb304236f545f92f9cd7e",
+        "binary_sha256": "e4af4c0d6d534503289e7e1a7c4a9fe0968a9e04ebdfb75be93e17ac636f2139",
+        "library_sha256": "86cda66e8fc9a645f618bee8e660a84f17f7d23745b96e4ca33b9af424bb5353"
+      },
+      "patch": {
+        "source_sha256": "054ec73eb454e44dc75d71bf83fa53a7129e5bd1e30fb304236f545f92f9cd7e",
+        "patch_sha256": "1cad08a5bddc2dfa37c29d2c00551fe467a032d358d1287072f93bfd9dc74c67"
+      },
+      "model": {
+        "manifest_sha256": "6840c91f6e5b9fcb4e8fe25292a1b1e2209d2f7f9c02e3427cfbbcbc71da4cda",
+        "prepared_manifest_sha256": "a2b3bb2d64954fb48bccaea138558183c09d721417147615e49cbebfc2888f1b",
+        "payloads": {
+          "projections": 200,
+          "payloads": 400,
+          "verified_bytes": 19279769600
+        },
+        "verification": "full files and prepared payload hashes",
+        "source_model": {
+          "repository": "MiniMaxAI/MiniMax-H3",
+          "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+          "model_manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+        }
+      },
+      "environment": {
+        "system": "Darwin",
+        "release": "27.0.0",
+        "machine": "arm64",
+        "python": "3.12.15",
+        "chip": "Apple M5 Max",
+        "memory_bytes": 137438953472,
+        "xcode": "Xcode 27.1\nBuild version 27A9275",
+        "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+        "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers",
+        "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix"
+      },
+      "runtime_controls": {
+        "H3_NAX": "qkv-attn",
+        "H3_NAX_DIAGNOSTIC": "1",
+        "H3_HADAMARD_FC2": "1",
+        "H3_PREPARED_DIT_MANIFEST_SHA256": "a2b3bb2d64954fb48bccaea138558183c09d721417147615e49cbebfc2888f1b",
+        "H3_CAPTURE_SEED": "83",
+        "H3_GPU_SAMPLER": "1",
+        "H3_GPU_SAMPLER_WINDOW": "1"
+      },
+      "tokenization": {
+        "schema": 1,
+        "prompt_bytes": 2233,
+        "prompt_tokens": 545,
+        "image_prefix_tokens": 6,
+        "roundtrip_exact": true,
+        "presentation_tokens": 697,
+        "vision_tokens": 144,
+        "vision_boundary_tokens": 2,
+        "native_overflow_limit": 167772,
+        "configured_model_max_length": 262144,
+        "tokenizer_sha256": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+        "config_sha256": "a07e942ac874baa13758de8d1fbdb186683cc03416b5589e1b6671c6b3057c68",
+        "binary_sha256": "b89dae4639608e0fae7b838ce4e64156d3bb48fb773e8a371788f24a1c3fb79c",
+        "driver_sha256": "ae7c4b8201a2ca28211bc5aa5a448d02cbf5906e1c1579b0fdcb8ad97abad5d0",
+        "prompt_sha256": "fccc21a2e05295b2920af3b6a3a58e720d7d8f5f15f2e057986faecd4f95f0cc",
+        "truncated": false
+      },
+      "generation_process": {
+        "returncode": 0,
+        "started_utc": "2026-10-18T23:45:37.329858+00:00",
+        "finished_utc": "2026-10-18T23:51:42.187058+00:00",
+        "wall_seconds": 364.85503699999936,
+        "log_sha256": "f2d59a6566bc3b23c52b176ce8fe8ed114dc4008c581b5a9b25df4dcf8038f89",
+        "fallback_detected": false
+      },
+      "excluded_preflight_seconds": 47.672833874999924,
+      "excluded_build_seconds": 1.0695904999993218,
+      "excluded_trim_seconds": 0.33351862500057905,
+      "profile": [
+        {
+          "component": "video VAE encoder",
+          "phase": "total",
+          "wall_s": 1.577,
+          "encode_s": 0.091,
+          "wait_s": 1.311,
+          "root_gpu_s": 1.054,
+          "peak_GiB": 1.019,
+          "alloc_GiB": 8.466,
+          "submissions": 108,
+          "direct": 402,
+          "linear": 0,
+          "conv": 204,
+          "attention": 0
+        },
+        {
+          "component": "Qwen vision encoder",
+          "phase": "total",
+          "wall_s": 0.208,
+          "encode_s": 0.036,
+          "wait_s": 0.038,
+          "root_gpu_s": 0.017,
+          "peak_GiB": 0.114,
+          "alloc_GiB": 1.154,
+          "submissions": 32,
+          "direct": 171,
+          "linear": 117,
+          "conv": 0,
+          "attention": 27
+        },
+        {
+          "component": "Qwen text encoder",
+          "phase": "total",
+          "wall_s": 6.806,
+          "encode_s": 0.049,
+          "wait_s": 4.65,
+          "root_gpu_s": 1.477,
+          "peak_GiB": 3.77,
+          "alloc_GiB": 46.997,
+          "submissions": 51,
+          "direct": 454,
+          "linear": 350,
+          "conv": 0,
+          "attention": 0
+        },
+        {
+          "component": "H3 DiT",
+          "phase": "load",
+          "wall_s": 15.719,
+          "encode_s": 0.076,
+          "wait_s": 2.273,
+          "root_gpu_s": 0.163,
+          "peak_GiB": 20.967,
+          "alloc_GiB": 46.953,
+          "submissions": 55,
+          "direct": 26,
+          "linear": 58,
+          "conv": 0,
+          "attention": 2
+        },
+        {
+          "component": "H3 DiT",
+          "phase": "GPU Euler denoise",
+          "wall_s": 293.568,
+          "encode_s": 0.062,
+          "wait_s": 293.464,
+          "root_gpu_s": 1.828,
+          "peak_GiB": 20.967,
+          "alloc_GiB": 0.0,
+          "submissions": 20,
+          "direct": 8200,
+          "linear": 0,
+          "conv": 0,
+          "attention": 1000
+        },
+        {
+          "component": "H3 DiT",
+          "phase": "total",
+          "wall_s": 310.477,
+          "encode_s": 0.138,
+          "wait_s": 295.737,
+          "root_gpu_s": 1.991,
+          "peak_GiB": 20.967,
+          "alloc_GiB": 46.953,
+          "submissions": 75,
+          "direct": 8226,
+          "linear": 58,
+          "conv": 0,
+          "attention": 1002
+        },
+        {
+          "component": "audio VAE decoder",
+          "phase": "total",
+          "wall_s": 0.769,
+          "encode_s": 0.252,
+          "wait_s": 0.417,
+          "root_gpu_s": 0.392,
+          "peak_GiB": 0.286,
+          "alloc_GiB": 1.45,
+          "submissions": 16,
+          "direct": 340,
+          "linear": 0,
+          "conv": 136,
+          "attention": 0
+        },
+        {
+          "component": "video VAE decoder",
+          "phase": "total",
+          "wall_s": 43.951,
+          "encode_s": 0.261,
+          "wait_s": 42.219,
+          "root_gpu_s": 0.341,
+          "peak_GiB": 9.454,
+          "alloc_GiB": 9.463,
+          "submissions": 42,
+          "direct": 9198,
+          "linear": 6090,
+          "conv": 0,
+          "attention": 1512
+        }
+      ],
+      "capture_metadata_sha256": "26d0b8f53ef529cb229156b35957ae8c372a6f957046c084e1e665007b424308",
+      "precision_flags": {
+        "int8_mlp": 1,
+        "int8_qkv": 1,
+        "int8_attention_out": 1,
+        "hadamard_fc2": 1
+      },
+      "original_video": {
+        "width": 512,
+        "height": 288,
+        "frames": 362,
+        "fps": 24,
+        "duration_seconds": 15.083333,
+        "file": "original.mp4",
+        "sha256": "4f13052c24384bb1ec65a4aa3cec26f8ea04237cfe57043c4d80506bb93fc65f",
+        "audio_channels": 2,
+        "audio_duration_seconds": 15.075
+      },
+      "exact_video": {
+        "width": 512,
+        "height": 288,
+        "frames": 360,
+        "fps": 24,
+        "duration_seconds": 15.0,
+        "file": "video-15s.mp4",
+        "sha256": "67299d8754d778285b65bf470a70bf02573777c432d1630ff839a7071eb38da5",
+        "audio_channels": 2,
+        "audio_duration_seconds": 15.0
+      },
+      "prepared_load": {
+        "projections": 200,
+        "verified_payload_load_wall_seconds": 12.411358,
+        "weight_rotation_quantization_seconds": 0.0
+      },
+      "derived_checkpoint": {
+        "manifest_sha256": "6840c91f6e5b9fcb4e8fe25292a1b1e2209d2f7f9c02e3427cfbbcbc71da4cda",
+        "source_model": {
+          "repository": "MiniMaxAI/MiniMax-H3",
+          "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+          "model_manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+        },
+        "producer": {
+          "upstream_revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+          "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+          "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+          "library_sha256": "b53575187831a606605c098225c0725abc48d3babb128968a9d0e8d5b3fb4eb3",
+          "exporter_source_sha256": "eded6d8e2a32c3499d0840fe0fd9b455809bc621961b6e4558c87921606ad9d5",
+          "exporter_binary_sha256": "581ca61547cd2f5e080472811a9c866cf6fb5c7daff8bde65e1c149b4ac54ba6"
+        },
+        "policy_id": "h3_dit_int8_native_fc2_h256_v1",
+        "prepared_manifest_sha256": "a2b3bb2d64954fb48bccaea138558183c09d721417147615e49cbebfc2888f1b"
+      }
+    }
+  }
+}

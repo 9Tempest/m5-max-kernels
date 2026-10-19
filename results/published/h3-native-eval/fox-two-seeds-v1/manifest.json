@@ -1,0 +1,402 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-18T23:16:55.050741+00:00",
+  "publisher_sha256": "5119d29f91546b505a8673d2a6662ec54b6bb3c75c949f2d83655ea012207cc3",
+  "scope": "generated sample videos, selected generation provenance and immutable paired evaluations",
+  "samples": [
+    {
+      "id": "fox-winter-t2va-v1-seed42-bf16",
+      "label": "BF16",
+      "mode": "bf16",
+      "recipe": {
+        "benchmark": "fox-winter-t2va-v1",
+        "prompt": "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+        "seed": 42,
+        "width": 512,
+        "height": 512,
+        "seconds": 5,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "source_run_sha256": "8f3131e51b850f76cb1e1bb385e5325d354dd5bd39125a470b180aa9acc288b6",
+      "source_run_status": "completed",
+      "diagnostic_capture": true,
+      "runtime": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "dirty": true,
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+        "binary_sha256": "915881e195b1a1214d09a6f891bc58b291fd3820a77df7a437a5aa74b99a1e7c",
+        "library_sha256": "3aececc174c8d127d3931f7c8a6c7741f16fbe2e0327e389eff3007fe3d03218"
+      },
+      "runtime_patch": {
+        "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+      },
+      "harness_files": {
+        "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+        "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+        "fc2_validate.c": "28db9b5f50ce1bcbcc99a985f8cc0108324105d386ea37a4186b206e8ffded42",
+        "fc2_analyze.py": "5798d1fca3785823a92d58c931911c22aac71514444cd3ec01fc9841c66627f3",
+        "hadamard.patch": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e"
+      },
+      "model": {
+        "repository": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+      },
+      "video": {
+        "file": "videos/fox-winter-t2va-v1-seed42-bf16.mp4",
+        "sha256": "1c5c50dce1ac856b8c41cfdedb655d7aec249e3bafb83f17b16e43af1bbe34ab",
+        "bytes": 917010,
+        "frames": 120,
+        "fps": 24,
+        "duration_seconds": 5
+      },
+      "poster": "posters/fox-winter-t2va-v1-seed42-bf16.jpg",
+      "quality_decision": "not_evaluated",
+      "timing_note": "Sample capture timing is diagnostic; see the separate performance report.",
+      "poster_sha256": "9f0be687ef0537e2a6f15b0893f53b5ca7d041538dc1a11cf88c616705126635"
+    },
+    {
+      "id": "fox-winter-t2va-v1-seed42-upstream-int8",
+      "label": "Native INT8",
+      "mode": "upstream-int8",
+      "recipe": {
+        "benchmark": "fox-winter-t2va-v1",
+        "prompt": "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+        "seed": 42,
+        "width": 512,
+        "height": 512,
+        "seconds": 5,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "source_run_sha256": "393e7cddf16db3dea1bc481c099d3988950626eb98abce8100c795469576eb47",
+      "source_run_status": "completed",
+      "diagnostic_capture": true,
+      "runtime": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "dirty": true,
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+        "binary_sha256": "915881e195b1a1214d09a6f891bc58b291fd3820a77df7a437a5aa74b99a1e7c",
+        "library_sha256": "c3a6fd9bff702160386f6c74ce52047630520d7039390bc2edace1a010230106"
+      },
+      "runtime_patch": {
+        "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+      },
+      "harness_files": {
+        "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+        "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+        "fc2_validate.c": "28db9b5f50ce1bcbcc99a985f8cc0108324105d386ea37a4186b206e8ffded42",
+        "fc2_analyze.py": "bfd1855828ea3ccce14fd791b31dcaa2d6840c0f7f9164bbec7e8d5045d86792",
+        "hadamard.patch": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e"
+      },
+      "model": {
+        "repository": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+      },
+      "video": {
+        "file": "videos/fox-winter-t2va-v1-seed42-upstream-int8.mp4",
+        "sha256": "993e73621f4028c9759058457f0f41ee2a06dd865bf8691de28f06baddcc3020",
+        "bytes": 919288,
+        "frames": 120,
+        "fps": 24,
+        "duration_seconds": 5
+      },
+      "poster": "posters/fox-winter-t2va-v1-seed42-upstream-int8.jpg",
+      "quality_decision": "not_evaluated",
+      "timing_note": "Sample capture timing is diagnostic; see the separate performance report.",
+      "poster_sha256": "ed6fccbe5e0012c818506fd9c44fcb5a4b60a49eb5cd44ae763f4fdb6c78f42a"
+    },
+    {
+      "id": "fox-winter-t2va-v1-seed42-hadamard-fc2",
+      "label": "INT8 + H256 FC2",
+      "mode": "hadamard-fc2",
+      "recipe": {
+        "benchmark": "fox-winter-t2va-v1",
+        "prompt": "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+        "seed": 42,
+        "width": 512,
+        "height": 512,
+        "seconds": 5,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "source_run_sha256": "41c701852bc7a0c5502ba4c67d6fb50633f592f520497373b803b8f877290a4f",
+      "source_run_status": "completed",
+      "diagnostic_capture": true,
+      "runtime": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "dirty": true,
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+        "binary_sha256": "915881e195b1a1214d09a6f891bc58b291fd3820a77df7a437a5aa74b99a1e7c",
+        "library_sha256": "ab0b3e41befc9cd77e545af9184846610dcdba87b659498f652a04a34e5f1dd6"
+      },
+      "runtime_patch": {
+        "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+      },
+      "harness_files": {
+        "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+        "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+        "fc2_validate.c": "28db9b5f50ce1bcbcc99a985f8cc0108324105d386ea37a4186b206e8ffded42",
+        "fc2_analyze.py": "5798d1fca3785823a92d58c931911c22aac71514444cd3ec01fc9841c66627f3",
+        "hadamard.patch": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e"
+      },
+      "model": {
+        "repository": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+      },
+      "video": {
+        "file": "videos/fox-winter-t2va-v1-seed42-hadamard-fc2.mp4",
+        "sha256": "e5a1d1511b6f5104b218df1c9c266f7533c6b8e351bc9d4499009613b076bed6",
+        "bytes": 897037,
+        "frames": 120,
+        "fps": 24,
+        "duration_seconds": 5
+      },
+      "poster": "posters/fox-winter-t2va-v1-seed42-hadamard-fc2.jpg",
+      "quality_decision": "not_evaluated",
+      "timing_note": "Sample capture timing is diagnostic; see the separate performance report.",
+      "poster_sha256": "895dcaa8113cdbff0393a69ec3cdec9b9cc07872993751a08ad1efc9725aa9c7"
+    },
+    {
+      "id": "fox-winter-t2va-v1-seed43-bf16",
+      "label": "BF16",
+      "mode": "bf16",
+      "recipe": {
+        "benchmark": "fox-winter-t2va-v1",
+        "prompt": "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+        "seed": 43,
+        "width": 512,
+        "height": 512,
+        "seconds": 5,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "source_run_sha256": "61beb18429e7e79d33139fe47cd045854bc008a5b0ebe4f33110f7a4b234e889",
+      "source_run_status": "completed",
+      "diagnostic_capture": true,
+      "runtime": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "dirty": true,
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+        "binary_sha256": "915881e195b1a1214d09a6f891bc58b291fd3820a77df7a437a5aa74b99a1e7c",
+        "library_sha256": "5cde320b4ec83ca1633d3b5b95b6afcf43e72ba7e0342d217ce1f81fc945da07"
+      },
+      "runtime_patch": {
+        "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+      },
+      "harness_files": {
+        "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+        "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+        "fc2_validate.c": "28db9b5f50ce1bcbcc99a985f8cc0108324105d386ea37a4186b206e8ffded42",
+        "fc2_analyze.py": "5798d1fca3785823a92d58c931911c22aac71514444cd3ec01fc9841c66627f3",
+        "hadamard.patch": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e"
+      },
+      "model": {
+        "repository": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+      },
+      "video": {
+        "file": "videos/fox-winter-t2va-v1-seed43-bf16.mp4",
+        "sha256": "d4c7119fd287db604ed0a5d1ca465700670caa9be8d6c55cfecec71bc801b0c8",
+        "bytes": 871029,
+        "frames": 120,
+        "fps": 24,
+        "duration_seconds": 5
+      },
+      "poster": "posters/fox-winter-t2va-v1-seed43-bf16.jpg",
+      "quality_decision": "not_evaluated",
+      "timing_note": "Sample capture timing is diagnostic; see the separate performance report.",
+      "poster_sha256": "25e5794d5d4601359563b27458af4b90ef29721b4f39d63663ad14a940c95fc0"
+    },
+    {
+      "id": "fox-winter-t2va-v1-seed43-upstream-int8",
+      "label": "Native INT8",
+      "mode": "upstream-int8",
+      "recipe": {
+        "benchmark": "fox-winter-t2va-v1",
+        "prompt": "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+        "seed": 43,
+        "width": 512,
+        "height": 512,
+        "seconds": 5,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "source_run_sha256": "ce239d82c81b3f39f649fb2206cf839103ce369b4b656bd5f943205292dfe326",
+      "source_run_status": "completed",
+      "diagnostic_capture": true,
+      "runtime": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "dirty": true,
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+        "binary_sha256": "915881e195b1a1214d09a6f891bc58b291fd3820a77df7a437a5aa74b99a1e7c",
+        "library_sha256": "0fa1cfeb957197e069dea18da61695903cf4226e7a5c0d64dfe4a9c7a6b2b2a3"
+      },
+      "runtime_patch": {
+        "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+      },
+      "harness_files": {
+        "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+        "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+        "fc2_validate.c": "28db9b5f50ce1bcbcc99a985f8cc0108324105d386ea37a4186b206e8ffded42",
+        "fc2_analyze.py": "5798d1fca3785823a92d58c931911c22aac71514444cd3ec01fc9841c66627f3",
+        "hadamard.patch": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e"
+      },
+      "model": {
+        "repository": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+      },
+      "video": {
+        "file": "videos/fox-winter-t2va-v1-seed43-upstream-int8.mp4",
+        "sha256": "e26020261fb97134f119d23fd09b8a101b56d987385c6115292ee94ae01401fe",
+        "bytes": 865946,
+        "frames": 120,
+        "fps": 24,
+        "duration_seconds": 5
+      },
+      "poster": "posters/fox-winter-t2va-v1-seed43-upstream-int8.jpg",
+      "quality_decision": "not_evaluated",
+      "timing_note": "Sample capture timing is diagnostic; see the separate performance report.",
+      "poster_sha256": "313d23256ffdd9d3ea1531aa98e0820452b3fe97995db484eb669642698a992c"
+    },
+    {
+      "id": "fox-winter-t2va-v1-seed43-hadamard-fc2",
+      "label": "INT8 + H256 FC2",
+      "mode": "hadamard-fc2",
+      "recipe": {
+        "benchmark": "fox-winter-t2va-v1",
+        "prompt": "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+        "seed": 43,
+        "width": 512,
+        "height": 512,
+        "seconds": 5,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "source_run_sha256": "8ee7278426114e92fa5b04baf526406d4b63f1e55fdac8e496e9d4abc3b9318f",
+      "source_run_status": "completed",
+      "diagnostic_capture": true,
+      "runtime": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "dirty": true,
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+        "binary_sha256": "915881e195b1a1214d09a6f891bc58b291fd3820a77df7a437a5aa74b99a1e7c",
+        "library_sha256": "936d1e1b58ec9d40d62ab3261473185d152cec3118060e3e0ea99ea1a627997d"
+      },
+      "runtime_patch": {
+        "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+      },
+      "harness_files": {
+        "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+        "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+        "fc2_validate.c": "28db9b5f50ce1bcbcc99a985f8cc0108324105d386ea37a4186b206e8ffded42",
+        "fc2_analyze.py": "5798d1fca3785823a92d58c931911c22aac71514444cd3ec01fc9841c66627f3",
+        "hadamard.patch": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e"
+      },
+      "model": {
+        "repository": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+      },
+      "video": {
+        "file": "videos/fox-winter-t2va-v1-seed43-hadamard-fc2.mp4",
+        "sha256": "60def2380de0168b6e37ff9924b429a87457a7f928ebf8a2b769e2d366b0452b",
+        "bytes": 855038,
+        "frames": 120,
+        "fps": 24,
+        "duration_seconds": 5
+      },
+      "poster": "posters/fox-winter-t2va-v1-seed43-hadamard-fc2.jpg",
+      "quality_decision": "not_evaluated",
+      "timing_note": "Sample capture timing is diagnostic; see the separate performance report.",
+      "poster_sha256": "a4fc29f17c04a47cf8f1020da0e21017473d03af873021ae97b9c8eabe24ad26"
+    }
+  ],
+  "evaluations": [
+    {
+      "kind": "media",
+      "file": "evaluations/eval-bf16-int8-seed42-002-evaluation.json",
+      "sha256": "9bd829c8208b422ddaaa0ad567546b02cfc6019ba3c314fd7fd9a58402290b26",
+      "samples": {
+        "reference": "fox-winter-t2va-v1-seed42-bf16",
+        "candidate": "fox-winter-t2va-v1-seed42-upstream-int8"
+      }
+    },
+    {
+      "kind": "media",
+      "file": "evaluations/eval-bf16-hadamard-seed42-root-001-evaluation.json",
+      "sha256": "c870b0adcb882be7716c15abd2fbeb285ee4190a69cd92b046517c55a8ae8396",
+      "samples": {
+        "reference": "fox-winter-t2va-v1-seed42-bf16",
+        "candidate": "fox-winter-t2va-v1-seed42-hadamard-fc2"
+      }
+    },
+    {
+      "kind": "media",
+      "file": "evaluations/eval-bf16-native-seed43-001-evaluation.json",
+      "sha256": "8c8ab2dab3d90cabc8cfcdbf07f7dfcd6683fe91ae3ddc8663fd03a64b4fe07e",
+      "samples": {
+        "reference": "fox-winter-t2va-v1-seed43-bf16",
+        "candidate": "fox-winter-t2va-v1-seed43-upstream-int8"
+      }
+    },
+    {
+      "kind": "media",
+      "file": "evaluations/eval-bf16-hadamard-seed43-001-evaluation.json",
+      "sha256": "18bac4f73b36ae38c169c061f4b970e0054ee1ce0d560305b2b91b87f7fa2398",
+      "samples": {
+        "reference": "fox-winter-t2va-v1-seed43-bf16",
+        "candidate": "fox-winter-t2va-v1-seed43-hadamard-fc2"
+      }
+    },
+    {
+      "kind": "latents",
+      "file": "evaluations/latent-threeway-seed42-001-latent-evaluation.json",
+      "sha256": "ef6b7ca7b6b23810eddf7900404b0e6fd7f3d3f5d5b781433f32485c7d506866",
+      "samples": {
+        "bf16": "fox-winter-t2va-v1-seed42-bf16",
+        "native": "fox-winter-t2va-v1-seed42-upstream-int8",
+        "hadamard": "fox-winter-t2va-v1-seed42-hadamard-fc2"
+      }
+    },
+    {
+      "kind": "latents",
+      "file": "evaluations/latent-threeway-seed43-001-latent-evaluation.json",
+      "sha256": "e1c274bc38cee80b54a521d2b3c3d839d66b18685f45ec13f4fb81b2e1a43a4b",
+      "samples": {
+        "bf16": "fox-winter-t2va-v1-seed43-bf16",
+        "native": "fox-winter-t2va-v1-seed43-upstream-int8",
+        "hadamard": "fox-winter-t2va-v1-seed43-hadamard-fc2"
+      }
+    }
+  ]
+}

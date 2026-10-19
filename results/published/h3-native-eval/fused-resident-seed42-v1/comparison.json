@@ -1,0 +1,252 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "kind": "matched_resident_none_attention_pair",
+  "recipe": {
+    "benchmark": "fox-winter-t2va-cached-v1",
+    "prompt": "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+    "mode": "hadamard-fc2",
+    "width": 512,
+    "height": 512,
+    "steps": 20,
+    "source_frames": 124,
+    "warmups": 1,
+    "repetitions": 3,
+    "active_dit_blocks": 50,
+    "reuse": 1,
+    "core_reuse": 1,
+    "use_reference_rope": true,
+    "seed": 42
+  },
+  "shape": {
+    "fps": 24,
+    "requested_seconds": 5,
+    "requested_frames": 120,
+    "aligned_frames": 124,
+    "aligned_seconds": 5.166666666666667,
+    "video_latent_t": 37,
+    "audio_latent_t": 207,
+    "video_tokens": 9472,
+    "stereo_audio_tokens": 414,
+    "text_tokens": 28,
+    "packed_sequence_tokens": 9914,
+    "shape_evidence": "text tokens derived from observed public cache bytes and pinned h3_cache_get_info formula; video/audio/layout from h3_host.c; INT8 arena allocation rounding from h3_dit.c; not a per-op tensor trace",
+    "int8_activation_arena_rows": 9984
+  },
+  "model": {
+    "repository": "MiniMaxAI/MiniMax-H3",
+    "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+    "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+  },
+  "source_sha256": "83ef61ace55a0ca9d8c2735d627e8c0ca96692bfebaae2376fae3b6fd9dbef7b",
+  "patch_sha256": "cbd7239d98dffac8feb469caa7fdeee504a564dda51f625f95406284b2a806fe",
+  "runtime_harness_sha256": {
+    "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+    "run_session.py": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+    "session.c": "52a52de9acdcf3d778d5c5fb0560c3eae0c848d89cbd3320e49d43eeb1448c2c",
+    "run_native_session.py": "643c410c12ca3a96f85757c95f69e0e43d19808a878ee2312521cdbcc7a70b2f",
+    "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+    "run_fused_campaign.py": "8eade2abe2665794481e758b4a09b6641efe66ca1d4bff11a575aa370a4be380",
+    "fused.patch": "cbd7239d98dffac8feb469caa7fdeee504a564dda51f625f95406284b2a806fe",
+    "hadamard.patch": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+    "fused_validate.c": "6105dad5dd401aea70f4db1ab153b49bb6817a315c1ff314741d2e24e22bce30",
+    "fused_reference.h": "18e1a880800384ec20a5279f16ef6cacdee70a2b61b037cf5d04d5886e5684d7",
+    "model-files.json": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+    "UPSTREAM-LICENSE": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+    "locking.py": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4"
+  },
+  "environment": {
+    "system": "Darwin",
+    "release": "27.0.0",
+    "machine": "arm64",
+    "python": "3.12.15",
+    "chip": "Apple M5 Max",
+    "memory_bytes": 137438953472,
+    "xcode": "Xcode 27.1\nBuild version 27A9275",
+    "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+  },
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+  "timing_contract": {
+    "cached_generation": "h3_generate synchronized host wall including decode and 124-frame AV export; excludes one complete warmup",
+    "cached_denoise_callback": "after packing/copy through synchronized GPU completion and output latent copy/unpack; warmed DiT pipelines and weights; online activation quantization/padding included",
+    "denoise_measurement_overhead": "includes progress callback logging/read checks; callback offsets are native monotonic timestamps, not pipe receipt times",
+    "native_profile_wall_caveat": "cached DiT profile wall marks span the preceding request's decode/export; never use them as per-request denoise latency",
+    "compile_free_e2e": "not claimed; audio VAE context setup/compilation API and loading repeat per request",
+    "offline_weight_preparation": "outside measured requests, included in warmup",
+    "kernel_only": "not measured",
+    "ordering": "one mode per process, three same-seed repetitions; no interleaved cross-mode stability claim",
+    "cache_policy": "precision/fusion environment is fixed for the process; upstream prepared cache keys omit these experimental environment controls"
+  },
+  "compilation_commands": {
+    "make": [
+      "make",
+      "-B",
+      "-j8"
+    ],
+    "driver": [
+      "clang",
+      "-std=c11",
+      "-O2",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-D_DARWIN_C_SOURCE",
+      "-DH3_SESSION_EXPERIMENT=1",
+      "-I",
+      "<source>",
+      "<run>/harness-snapshot/session.c",
+      "<source>/libh3.a",
+      "-framework",
+      "Foundation",
+      "-framework",
+      "Metal",
+      "-framework",
+      "MetalPerformanceShaders",
+      "-framework",
+      "MetalPerformanceShadersGraph",
+      "-framework",
+      "Accelerate",
+      "-licucore",
+      "-lm",
+      "-o",
+      "<run>/native-session"
+    ]
+  },
+  "validation": {
+    "same_runtime_source_and_pinned_harness": true,
+    "same_recipe_model_environment": true,
+    "full_warmup_plus_three_requests_each": true,
+    "raw_events_callbacks_logs_caches_media_verified": true,
+    "all_eight_original_videos_byte_identical": true,
+    "original_video_sha256": "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+    "nonoverlapping_session_process_intervals": true,
+    "permitted_policy_difference": "H256 fixed; none leaves both gate flags unset, attention explicitly sets FC2=0 and ATTN_OUT=1",
+    "git_provenance": "aggregate checkout revision/dirty state may differ due documentation; all runtime snapshot files are pinned and equal",
+    "binary_provenance": "each retained executable is hashed against its run record; source/toolchain match is required, archive/executable hashes are recorded separately"
+  },
+  "arms": {
+    "baseline": {
+      "fusion": "none",
+      "summary": "baseline.json",
+      "source_run_sha256": "3d9d31b8286fa20fcf5deb87d367f5d47fde373f0e483db9394f3b40c6592aa0",
+      "process_interval": {
+        "started_utc": "2026-10-19T00:29:25.464933+00:00",
+        "finished_utc": "2026-10-19T00:39:53.383878+00:00",
+        "wall_seconds": 627.9164939170005,
+        "log_sha256": "3aae1a189b3521c39b26737cc977e8bb421db05138488343e65706c14419f691"
+      },
+      "driver": {
+        "source_sha256": "52a52de9acdcf3d778d5c5fb0560c3eae0c848d89cbd3320e49d43eeb1448c2c",
+        "binary_sha256": "a6bf0dd6816b6337297e208b564483300b4c6cee529e3e9d72176a43210ddf19",
+        "library_sha256": "74bf1ce194e2527b766d0da56b69e9208cb5aa6dbe0705327ba9764e8474e50d",
+        "wrapper_sha256": "643c410c12ca3a96f85757c95f69e0e43d19808a878ee2312521cdbcc7a70b2f"
+      },
+      "summary_sha256": "ca417d3b50ca770d514409fd6a514f3b6b714bd34d6fb89c6cd56215aa079ae2"
+    },
+    "candidate": {
+      "fusion": "attention",
+      "summary": "candidate.json",
+      "source_run_sha256": "48c219d796b0a54b6074c10b25423782a89ee0f6e6b0326d5aa9bd9ba81afa1f",
+      "process_interval": {
+        "started_utc": "2026-10-19T00:40:45.312502+00:00",
+        "finished_utc": "2026-10-19T00:51:03.184694+00:00",
+        "wall_seconds": 617.8692360419991,
+        "log_sha256": "4592f66999c834cb802605c0a067ed4042bd690c1c8e7ee4a8c71cedcba7e8d1"
+      },
+      "driver": {
+        "source_sha256": "52a52de9acdcf3d778d5c5fb0560c3eae0c848d89cbd3320e49d43eeb1448c2c",
+        "binary_sha256": "a6bf0dd6816b6337297e208b564483300b4c6cee529e3e9d72176a43210ddf19",
+        "library_sha256": "3c6d04436f15087299e34ca4e26c87cafbb06e9cea281a55051bd3370feac256",
+        "wrapper_sha256": "643c410c12ca3a96f85757c95f69e0e43d19808a878ee2312521cdbcc7a70b2f"
+      },
+      "summary_sha256": "5cfb541c743a41ae1ad59ab40ff8c23c8fcaba29bf450154564850360f598001"
+    }
+  },
+  "execution_order": [
+    "baseline",
+    "candidate"
+  ],
+  "cached_generation": {
+    "baseline": {
+      "raw_seconds": [
+        151.126785,
+        151.210439,
+        149.808414
+      ],
+      "count": 3,
+      "median_seconds": 151.126785,
+      "min_seconds": 149.808414,
+      "max_seconds": 151.210439,
+      "range_seconds": 1.402025000000009
+    },
+    "candidate": {
+      "raw_seconds": [
+        147.752793,
+        149.613678,
+        147.617907
+      ],
+      "count": 3,
+      "median_seconds": 147.752793,
+      "min_seconds": 147.617907,
+      "max_seconds": 149.613678,
+      "range_seconds": 1.9957709999999906
+    },
+    "baseline_median_divided_by_candidate": 1.0228353855889547,
+    "median_seconds_saved": 3.3739920000000154,
+    "median_reduction_percent": 2.23255725316992,
+    "interpretation": "ratio/difference of separate three-sample medians; not paired per-repetition ratios, confidence intervals or statistical significance"
+  },
+  "cached_denoise_callback": {
+    "baseline": {
+      "raw_seconds": [
+        121.909995,
+        121.987383,
+        120.72794
+      ],
+      "count": 3,
+      "median_seconds": 121.909995,
+      "min_seconds": 120.72794,
+      "max_seconds": 121.987383,
+      "range_seconds": 1.2594429999999903
+    },
+    "candidate": {
+      "raw_seconds": [
+        118.566479,
+        120.543138,
+        118.564946
+      ],
+      "count": 3,
+      "median_seconds": 118.566479,
+      "min_seconds": 118.564946,
+      "max_seconds": 120.543138,
+      "range_seconds": 1.9781919999999928
+    },
+    "baseline_median_divided_by_candidate": 1.0281995048533068,
+    "median_seconds_saved": 3.343515999999994,
+    "median_reduction_percent": 2.742610234706344,
+    "interpretation": "ratio/difference of separate three-sample medians; not paired per-repetition ratios, confidence intervals or statistical significance"
+  },
+  "claims": {
+    "stable_promotion": "not_established",
+    "new_best": "not_claimed",
+    "statistical_significance": "not_evaluated",
+    "independent_replication": "not_established_by_three_requests_within_one_process",
+    "compilation_free_end_to_end": "not_claimed",
+    "quality": "same-seed byte-identical output only; not official-pipeline or perceptual acceptance"
+  },
+  "limitations": [
+    "One complete warmup and three same-seed timed requests per arm; one sequential process per policy, no interleaving within process.",
+    "Generation includes decode and original 124-frame AV export; repeated audio VAE setup prevents a compilation-free end-to-end claim.",
+    "Denoise uses synchronized native callback offsets, including online preparation and callback overhead; cached native profile wall is not substituted.",
+    "No latent capture is enabled. Shared-lock scheduling plus nonoverlap checks prevent these two arms overlapping; absence of unrelated external GPU load is not proven.",
+    "A second seed with reversed process order and independent repeated comparisons is still needed before stable performance promotion."
+  ],
+  "exporter_files_sha256": {
+    "compare_resident.py": "52f20ec505335289dd698a112d8e7f966d28bb02bdaa32cc249f302aaf516ea2",
+    "publish_resident.py": "459445ee19e7bafd67b49bea69c634ee7ce534a2ca4c134a5da3960aab884b4a",
+    "publish_samples.py": "40a31438bc0cf3a6235df9b4e870459736449cfb60a2250ad175dd5f26c2a9d3",
+    "run_native_session.py": "643c410c12ca3a96f85757c95f69e0e43d19808a878ee2312521cdbcc7a70b2f",
+    "run_session.py": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+    "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7"
+  }
+}

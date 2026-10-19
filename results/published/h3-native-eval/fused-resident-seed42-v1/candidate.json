@@ -1,0 +1,583 @@
+{
+  "benchmark": "fox-winter-t2va-cached-v1",
+  "prompt": "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+  "mode": "hadamard-fc2",
+  "fusion": "attention",
+  "seed": 42,
+  "width": 512,
+  "height": 512,
+  "steps": 20,
+  "source_frames": 124,
+  "warmups": 1,
+  "repetitions": 3,
+  "active_dit_blocks": 50,
+  "reuse": 1,
+  "core_reuse": 1,
+  "use_reference_rope": true,
+  "timing_contract": {
+    "cached_generation": "h3_generate synchronized host wall including decode and 124-frame AV export; excludes one complete warmup",
+    "cached_denoise_callback": "after packing/copy through synchronized GPU completion and output latent copy/unpack; warmed DiT pipelines and weights; online activation quantization/padding included",
+    "denoise_measurement_overhead": "includes progress callback logging/read checks; callback offsets are native monotonic timestamps, not pipe receipt times",
+    "native_profile_wall_caveat": "cached DiT profile wall marks span the preceding request's decode/export; never use them as per-request denoise latency",
+    "compile_free_e2e": "not claimed; audio VAE context setup/compilation API and loading repeat per request",
+    "offline_weight_preparation": "outside measured requests, included in warmup",
+    "kernel_only": "not measured",
+    "ordering": "one mode per process, three same-seed repetitions; no interleaved cross-mode stability claim",
+    "cache_policy": "precision/fusion environment is fixed for the process; upstream prepared cache keys omit these experimental environment controls"
+  },
+  "harness_files": {
+    "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+    "run_session.py": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+    "session.c": "52a52de9acdcf3d778d5c5fb0560c3eae0c848d89cbd3320e49d43eeb1448c2c",
+    "run_native_session.py": "643c410c12ca3a96f85757c95f69e0e43d19808a878ee2312521cdbcc7a70b2f",
+    "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+    "run_fused_campaign.py": "8eade2abe2665794481e758b4a09b6641efe66ca1d4bff11a575aa370a4be380",
+    "fused.patch": "cbd7239d98dffac8feb469caa7fdeee504a564dda51f625f95406284b2a806fe",
+    "hadamard.patch": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+    "fused_validate.c": "6105dad5dd401aea70f4db1ab153b49bb6817a315c1ff314741d2e24e22bce30",
+    "fused_reference.h": "18e1a880800384ec20a5279f16ef6cacdee70a2b61b037cf5d04d5886e5684d7",
+    "model-files.json": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+    "UPSTREAM-LICENSE": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+    "locking.py": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4"
+  },
+  "upstream": {
+    "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+    "dirty": true,
+    "status": "M h3_dit.c\n M h3_gpu.h\n M h3_gpu.m\n M h3_shaders.metal",
+    "source_sha256": "83ef61ace55a0ca9d8c2735d627e8c0ca96692bfebaae2376fae3b6fd9dbef7b"
+  },
+  "patch": {
+    "patch_sha256": "cbd7239d98dffac8feb469caa7fdeee504a564dda51f625f95406284b2a806fe",
+    "source_sha256": "83ef61ace55a0ca9d8c2735d627e8c0ca96692bfebaae2376fae3b6fd9dbef7b"
+  },
+  "driver": {
+    "source_sha256": "52a52de9acdcf3d778d5c5fb0560c3eae0c848d89cbd3320e49d43eeb1448c2c",
+    "binary_sha256": "a6bf0dd6816b6337297e208b564483300b4c6cee529e3e9d72176a43210ddf19",
+    "library_sha256": "3c6d04436f15087299e34ca4e26c87cafbb06e9cea281a55051bd3370feac256",
+    "wrapper_sha256": "643c410c12ca3a96f85757c95f69e0e43d19808a878ee2312521cdbcc7a70b2f"
+  },
+  "shape": {
+    "fps": 24,
+    "requested_seconds": 5,
+    "requested_frames": 120,
+    "aligned_frames": 124,
+    "aligned_seconds": 5.166666666666667,
+    "video_latent_t": 37,
+    "audio_latent_t": 207,
+    "video_tokens": 9472,
+    "stereo_audio_tokens": 414,
+    "text_tokens": 28,
+    "packed_sequence_tokens": 9914,
+    "shape_evidence": "text tokens derived from observed public cache bytes and pinned h3_cache_get_info formula; video/audio/layout from h3_host.c; INT8 arena allocation rounding from h3_dit.c; not a per-op tensor trace",
+    "int8_activation_arena_rows": 9984
+  },
+  "warmup_seconds": 172.149549,
+  "cached_generation": {
+    "raw_seconds": [
+      147.752793,
+      149.613678,
+      147.617907
+    ],
+    "count": 3,
+    "median_seconds": 147.752793,
+    "p10_seconds": 147.6448842,
+    "p90_seconds": 149.241501,
+    "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+  },
+  "cached_denoise_callback": {
+    "raw_seconds": [
+      118.566479,
+      120.543138,
+      118.564946
+    ],
+    "count": 3,
+    "median_seconds": 118.566479,
+    "p10_seconds": 118.56525260000001,
+    "p90_seconds": 120.1478062,
+    "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+  },
+  "all_repetition_videos_byte_identical": true,
+  "started_utc": "2026-10-19T00:39:53.984189+00:00",
+  "finished_utc": "2026-10-19T00:51:03.713526+00:00",
+  "schema_version": 2,
+  "status": "completed",
+  "source_run_sha256": "48c219d796b0a54b6074c10b25423782a89ee0f6e6b0326d5aa9bd9ba81afa1f",
+  "exporter_sha256": "459445ee19e7bafd67b49bea69c634ee7ce534a2ca4c134a5da3960aab884b4a",
+  "session_events": [
+    {
+      "event": "recipe",
+      "mode": "hadamard-fc2",
+      "width": 512,
+      "height": 512,
+      "frames": 124,
+      "fps": 24,
+      "steps": 20,
+      "seed": 42,
+      "layers": 50,
+      "reuse": 1,
+      "core_reuse": 1,
+      "use_reference_rope": true,
+      "warmups": 1,
+      "repetitions": 3,
+      "prompt": "A red fox walks through fresh snow in a pine forest. Medium tracking shot, natural winter light, realistic fur, soft footsteps and wind.",
+      "fusion": "attention",
+      "upstream_revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+      "model_revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+      "timing_scope": "h3_generate including AV export; audio VAE shader compilation API and weight loading repeat; not compilation-free",
+      "profile_caveat": "cached DiT wall marks include time since previous generation denoise mark; use fresh callback interval for denoise host timing",
+      "denoise_callback_scope": "first denoise enqueue after input packing/copy through synchronized GPU completion and latent unpack; excludes initial input packing/copy, includes final latent copy/unpack"
+    },
+    {
+      "event": "runtime_flags",
+      "H3_HADAMARD_FC2": "1",
+      "H3_FUSE_FC2_GATE": "0",
+      "H3_FUSE_ATTN_OUT_GATE": "1"
+    },
+    {
+      "event": "startup",
+      "wall_seconds": 0.038703,
+      "status": "completed"
+    },
+    {
+      "event": "device",
+      "name": "Apple M5 Max",
+      "physical_memory_bytes": 137438953472
+    },
+    {
+      "event": "generation",
+      "index": 0,
+      "warmup": true,
+      "started_unix_seconds": 1792370445,
+      "wall_seconds": 172.149549,
+      "status": "completed",
+      "output": "warmup-0.mp4",
+      "profile_log": "warmup-0.log",
+      "cache_before": {
+        "embedding_entries": 0,
+        "embedding_bytes": 0,
+        "prepared_dit": 0,
+        "video_decoder": 0
+      },
+      "cache_after": {
+        "embedding_entries": 1,
+        "embedding_bytes": 286748,
+        "prepared_dit": 1,
+        "video_decoder": 1
+      },
+      "denoise_callback_seconds": 118.764519,
+      "requested_seed": 42,
+      "result_seed": 42,
+      "denoise_start_phase": "denoise enqueue",
+      "denoise_end_phase": "denoise",
+      "denoise_total": 20,
+      "denoise_completed": 20,
+      "denoise_completion_events": 1,
+      "denoise_start_offset_seconds": 23.014701,
+      "denoise_end_offset_seconds": 141.77922
+    },
+    {
+      "event": "generation",
+      "index": 1,
+      "warmup": false,
+      "started_unix_seconds": 1792370617,
+      "wall_seconds": 147.752793,
+      "status": "completed",
+      "output": "timed-1.mp4",
+      "profile_log": "timed-1.log",
+      "cache_before": {
+        "embedding_entries": 1,
+        "embedding_bytes": 286748,
+        "prepared_dit": 1,
+        "video_decoder": 1
+      },
+      "cache_after": {
+        "embedding_entries": 1,
+        "embedding_bytes": 286748,
+        "prepared_dit": 1,
+        "video_decoder": 1
+      },
+      "denoise_callback_seconds": 118.566479,
+      "requested_seed": 42,
+      "result_seed": 42,
+      "denoise_start_phase": "denoise enqueue",
+      "denoise_end_phase": "denoise",
+      "denoise_total": 20,
+      "denoise_completed": 20,
+      "denoise_completion_events": 1,
+      "denoise_start_offset_seconds": 0.00587,
+      "denoise_end_offset_seconds": 118.572349
+    },
+    {
+      "event": "generation",
+      "index": 2,
+      "warmup": false,
+      "started_unix_seconds": 1792370765,
+      "wall_seconds": 149.613678,
+      "status": "completed",
+      "output": "timed-2.mp4",
+      "profile_log": "timed-2.log",
+      "cache_before": {
+        "embedding_entries": 1,
+        "embedding_bytes": 286748,
+        "prepared_dit": 1,
+        "video_decoder": 1
+      },
+      "cache_after": {
+        "embedding_entries": 1,
+        "embedding_bytes": 286748,
+        "prepared_dit": 1,
+        "video_decoder": 1
+      },
+      "denoise_callback_seconds": 120.543138,
+      "requested_seed": 42,
+      "result_seed": 42,
+      "denoise_start_phase": "denoise enqueue",
+      "denoise_end_phase": "denoise",
+      "denoise_total": 20,
+      "denoise_completed": 20,
+      "denoise_completion_events": 1,
+      "denoise_start_offset_seconds": 0.005746,
+      "denoise_end_offset_seconds": 120.548884
+    },
+    {
+      "event": "generation",
+      "index": 3,
+      "warmup": false,
+      "started_unix_seconds": 1792370915,
+      "wall_seconds": 147.617907,
+      "status": "completed",
+      "output": "timed-3.mp4",
+      "profile_log": "timed-3.log",
+      "cache_before": {
+        "embedding_entries": 1,
+        "embedding_bytes": 286748,
+        "prepared_dit": 1,
+        "video_decoder": 1
+      },
+      "cache_after": {
+        "embedding_entries": 1,
+        "embedding_bytes": 286748,
+        "prepared_dit": 1,
+        "video_decoder": 1
+      },
+      "denoise_callback_seconds": 118.564946,
+      "requested_seed": 42,
+      "result_seed": 42,
+      "denoise_start_phase": "denoise enqueue",
+      "denoise_end_phase": "denoise",
+      "denoise_total": 20,
+      "denoise_completed": 20,
+      "denoise_completion_events": 1,
+      "denoise_start_offset_seconds": 0.005746,
+      "denoise_end_offset_seconds": 118.570692
+    },
+    {
+      "event": "finished",
+      "exit_code": 0
+    }
+  ],
+  "session_events_sha256": "3a9103b273b9002473b1d0f4104ecfb84ad09713edf89bfbf3d62343878d18f1",
+  "profiles": [
+    {
+      "index": 0,
+      "phases": [
+        {
+          "component": "Qwen text encoder",
+          "phase": "total",
+          "raw": "h3 profile: Qwen text encoder        total          wall=   7.142s encode=  0.003s wait=   4.913s root-gpu=  1.564s peak=  3.638GiB alloc= 46.865GiB submissions=51 direct=801 linear=0 conv=0 attention=0",
+          "wall_s": 7.142,
+          "encode_s": 0.003,
+          "wait_s": 4.913,
+          "root_gpu_s": 1.564,
+          "peak_GiB": 3.638,
+          "alloc_GiB": 46.865,
+          "submissions": 51,
+          "direct": 801,
+          "linear": 0,
+          "conv": 0,
+          "attention": 0
+        },
+        {
+          "component": "H3 DiT",
+          "phase": "load",
+          "raw": "h3 profile: H3 DiT                   load           wall=  15.701s encode=  0.097s wait=  14.109s root-gpu=  0.640s peak= 19.812GiB alloc= 81.549GiB submissions=205 direct=231 linear=53 conv=0 attention=2",
+          "wall_s": 15.701,
+          "encode_s": 0.097,
+          "wait_s": 14.109,
+          "root_gpu_s": 0.64,
+          "peak_GiB": 19.812,
+          "alloc_GiB": 81.549,
+          "submissions": 205,
+          "direct": 231,
+          "linear": 53,
+          "conv": 0,
+          "attention": 2
+        },
+        {
+          "component": "H3 DiT",
+          "phase": "GPU Euler denoise",
+          "raw": "h3 profile: H3 DiT                   GPU Euler denoise wall= 118.770s encode=  0.049s wait= 118.714s root-gpu=  1.051s peak= 19.812GiB alloc=  0.000GiB submissions=20 direct=8200 linear=0 conv=0 attention=1000",
+          "wall_s": 118.77,
+          "encode_s": 0.049,
+          "wait_s": 118.714,
+          "root_gpu_s": 1.051,
+          "peak_GiB": 19.812,
+          "alloc_GiB": 0.0,
+          "submissions": 20,
+          "direct": 8200,
+          "linear": 0,
+          "conv": 0,
+          "attention": 1000
+        },
+        {
+          "component": "audio VAE decoder",
+          "phase": "total",
+          "raw": "h3 profile: audio VAE decoder        total          wall=   0.479s encode=  0.224s wait=   0.171s root-gpu=  0.150s peak=  0.283GiB alloc=  0.815GiB submissions=16 direct=340 linear=0 conv=136 attention=0",
+          "wall_s": 0.479,
+          "encode_s": 0.224,
+          "wait_s": 0.171,
+          "root_gpu_s": 0.15,
+          "peak_GiB": 0.283,
+          "alloc_GiB": 0.815,
+          "submissions": 16,
+          "direct": 340,
+          "linear": 0,
+          "conv": 136,
+          "attention": 0
+        }
+      ],
+      "log_sha256": "7b4ae83d31b9c16fc1f07ebcee0cec5f65783ecb70c55596d6c282de9fe2b4ec"
+    },
+    {
+      "index": 1,
+      "phases": [
+        {
+          "component": "H3 DiT",
+          "phase": "GPU Euler denoise",
+          "raw": "h3 profile: H3 DiT                   GPU Euler denoise wall= 148.943s encode=  0.045s wait= 118.520s root-gpu=  1.050s peak= 19.812GiB alloc=  0.000GiB submissions=20 direct=8200 linear=0 conv=0 attention=1000",
+          "wall_s": 148.943,
+          "encode_s": 0.045,
+          "wait_s": 118.52,
+          "root_gpu_s": 1.05,
+          "peak_GiB": 19.812,
+          "alloc_GiB": 0.0,
+          "submissions": 20,
+          "direct": 8200,
+          "linear": 0,
+          "conv": 0,
+          "attention": 1000
+        },
+        {
+          "component": "audio VAE decoder",
+          "phase": "total",
+          "raw": "h3 profile: audio VAE decoder        total          wall=   0.473s encode=  0.207s wait=   0.179s root-gpu=  0.148s peak=  0.283GiB alloc=  0.815GiB submissions=16 direct=340 linear=0 conv=136 attention=0",
+          "wall_s": 0.473,
+          "encode_s": 0.207,
+          "wait_s": 0.179,
+          "root_gpu_s": 0.148,
+          "peak_GiB": 0.283,
+          "alloc_GiB": 0.815,
+          "submissions": 16,
+          "direct": 340,
+          "linear": 0,
+          "conv": 136,
+          "attention": 0
+        }
+      ],
+      "log_sha256": "cc0bcb643014dd9c4642e61e716191ab891bd1dbddd639c0b1894d8dbe55405b"
+    },
+    {
+      "index": 2,
+      "phases": [
+        {
+          "component": "H3 DiT",
+          "phase": "GPU Euler denoise",
+          "raw": "h3 profile: H3 DiT                   GPU Euler denoise wall= 149.730s encode=  0.049s wait= 120.492s root-gpu=  1.061s peak= 19.812GiB alloc=  0.000GiB submissions=20 direct=8200 linear=0 conv=0 attention=1000",
+          "wall_s": 149.73,
+          "encode_s": 0.049,
+          "wait_s": 120.492,
+          "root_gpu_s": 1.061,
+          "peak_GiB": 19.812,
+          "alloc_GiB": 0.0,
+          "submissions": 20,
+          "direct": 8200,
+          "linear": 0,
+          "conv": 0,
+          "attention": 1000
+        },
+        {
+          "component": "audio VAE decoder",
+          "phase": "total",
+          "raw": "h3 profile: audio VAE decoder        total          wall=   0.430s encode=  0.204s wait=   0.171s root-gpu=  0.148s peak=  0.283GiB alloc=  0.815GiB submissions=16 direct=340 linear=0 conv=136 attention=0",
+          "wall_s": 0.43,
+          "encode_s": 0.204,
+          "wait_s": 0.171,
+          "root_gpu_s": 0.148,
+          "peak_GiB": 0.283,
+          "alloc_GiB": 0.815,
+          "submissions": 16,
+          "direct": 340,
+          "linear": 0,
+          "conv": 136,
+          "attention": 0
+        }
+      ],
+      "log_sha256": "8e79d6d7d4e30ce3d4e7c81dcdafab41a2bd6ba97005f6cda41ff7ddd1fd6ad0"
+    },
+    {
+      "index": 3,
+      "phases": [
+        {
+          "component": "H3 DiT",
+          "phase": "GPU Euler denoise",
+          "raw": "h3 profile: H3 DiT                   GPU Euler denoise wall= 147.636s encode=  0.043s wait= 118.520s root-gpu=  1.049s peak= 19.812GiB alloc=  0.000GiB submissions=20 direct=8200 linear=0 conv=0 attention=1000",
+          "wall_s": 147.636,
+          "encode_s": 0.043,
+          "wait_s": 118.52,
+          "root_gpu_s": 1.049,
+          "peak_GiB": 19.812,
+          "alloc_GiB": 0.0,
+          "submissions": 20,
+          "direct": 8200,
+          "linear": 0,
+          "conv": 0,
+          "attention": 1000
+        },
+        {
+          "component": "audio VAE decoder",
+          "phase": "total",
+          "raw": "h3 profile: audio VAE decoder        total          wall=   0.444s encode=  0.204s wait=   0.174s root-gpu=  0.148s peak=  0.283GiB alloc=  0.815GiB submissions=16 direct=340 linear=0 conv=136 attention=0",
+          "wall_s": 0.444,
+          "encode_s": 0.204,
+          "wait_s": 0.174,
+          "root_gpu_s": 0.148,
+          "peak_GiB": 0.283,
+          "alloc_GiB": 0.815,
+          "submissions": 16,
+          "direct": 340,
+          "linear": 0,
+          "conv": 136,
+          "attention": 0
+        }
+      ],
+      "log_sha256": "ca4688a51419e2bab3765ea32089f61082b2b5df399757fdc3f28256932d45f9"
+    }
+  ],
+  "profile_interpretation": "Native cached DiT profile wall spans time since the previous denoise mark and can include the previous decode; use cached_denoise_callback for request-local synchronized host wall. root_gpu_s is not total GPU time. These are host intervals, not kernel-only or compilation-free end-to-end latency.",
+  "model": {
+    "repository": "MiniMaxAI/MiniMax-H3",
+    "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+    "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+  },
+  "runtime_overrides": {
+    "H3_NAX": "qkv-attn",
+    "H3_NAX_DIAGNOSTIC": "1",
+    "H3_PROFILE": "1",
+    "H3_HADAMARD_FC2": "1",
+    "H3_FUSE_FC2_GATE": "0",
+    "H3_FUSE_ATTN_OUT_GATE": "1"
+  },
+  "observed_runtime_flags": {
+    "H3_HADAMARD_FC2": "1",
+    "H3_FUSE_FC2_GATE": "0",
+    "H3_FUSE_ATTN_OUT_GATE": "1"
+  },
+  "policy_evidence": [
+    {
+      "index": 0,
+      "enabled": {
+        "hadamard_fc2": true,
+        "fc2_gate": false,
+        "attention_output_gate": true
+      },
+      "initialization_marker_counts": {
+        "hadamard_fc2": 1,
+        "fc2_gate": 0,
+        "attention_output_gate": 1
+      },
+      "cache_hit_counts": {
+        "prepared_dit": 0,
+        "video_decoder": 0,
+        "conditioning": 0
+      },
+      "evidence": "initialization markers on warmup; fixed process environment and cache hits thereafter"
+    },
+    {
+      "index": 1,
+      "enabled": {
+        "hadamard_fc2": true,
+        "fc2_gate": false,
+        "attention_output_gate": true
+      },
+      "initialization_marker_counts": {
+        "hadamard_fc2": 0,
+        "fc2_gate": 0,
+        "attention_output_gate": 0
+      },
+      "cache_hit_counts": {
+        "prepared_dit": 1,
+        "video_decoder": 1,
+        "conditioning": 1
+      },
+      "evidence": "initialization markers on warmup; fixed process environment and cache hits thereafter"
+    },
+    {
+      "index": 2,
+      "enabled": {
+        "hadamard_fc2": true,
+        "fc2_gate": false,
+        "attention_output_gate": true
+      },
+      "initialization_marker_counts": {
+        "hadamard_fc2": 0,
+        "fc2_gate": 0,
+        "attention_output_gate": 0
+      },
+      "cache_hit_counts": {
+        "prepared_dit": 1,
+        "video_decoder": 1,
+        "conditioning": 1
+      },
+      "evidence": "initialization markers on warmup; fixed process environment and cache hits thereafter"
+    },
+    {
+      "index": 3,
+      "enabled": {
+        "hadamard_fc2": true,
+        "fc2_gate": false,
+        "attention_output_gate": true
+      },
+      "initialization_marker_counts": {
+        "hadamard_fc2": 0,
+        "fc2_gate": 0,
+        "attention_output_gate": 0
+      },
+      "cache_hit_counts": {
+        "prepared_dit": 1,
+        "video_decoder": 1,
+        "conditioning": 1
+      },
+      "evidence": "initialization markers on warmup; fixed process environment and cache hits thereafter"
+    }
+  ],
+  "harness": {
+    "revision": "137f2c738bbf7b77208092520dc6f70910c6b583",
+    "dirty": true
+  },
+  "environment": {
+    "system": "Darwin",
+    "release": "27.0.0",
+    "machine": "arm64",
+    "python": "3.12.15",
+    "chip": "Apple M5 Max",
+    "memory_bytes": 137438953472,
+    "xcode": "Xcode 27.1\nBuild version 27A9275",
+    "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+  },
+  "video_sha256": [
+    "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+    "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+    "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+    "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a"
+  ]
+}

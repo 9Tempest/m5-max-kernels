@@ -1,0 +1,222 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-18T23:54:03.194675+00:00",
+  "publisher_sha256": "e41098d3cde7942cf76f12582255bce688371766ba1c5d933c0c4942f062a466",
+  "scope": "generated sample videos, selected generation provenance and immutable paired evaluations",
+  "samples": [
+    {
+      "id": "deepseek-whale-maid-15s-v1-seed83-bf16",
+      "label": "BF16",
+      "mode": "bf16",
+      "recipe": {
+        "benchmark": "deepseek-whale-maid-15s-v1",
+        "prompt": "15\u79d2\uff0c16:9\u6a2a\u5c4f\uff0c\u7cbe\u81f4\u7684\u4e8c\u7ef4\u52a8\u6f2b\u77ed\u7247\uff0c\u6e29\u6696\u3001\u53ef\u7231\u3001\u6709\u660e\u786e\u7684\u559c\u5267\u8282\u594f\u3002\u4e00\u4e2a\u8fde\u7eed\u955c\u5934\uff0c\u56fa\u5b9a\u673a\u4f4d\uff0c\u4e2d\u666f\uff0c\u59cb\u7ec8\u80fd\u770b\u6e05\u9cb8\u9c7c\u5a18\u7684\u8138\u3001\u53cc\u624b\u3001\u684c\u4e0a\u7684\u996d\u7897\u548c\u8eab\u540e\u7684\u9cb8\u9c7c\u5c3e\u5df4\u3002\n\n\u4e3b\u89d2\u662fDeepSeek\u9cb8\u9c7c\u5a18\uff1a\u6df1\u84dd\u8272\u6e10\u53d8\u81f3\u6d45\u84dd\u8272\u7684\u84ec\u677e\u957f\u53d1\uff0c\u5934\u9876\u4e00\u6839\u5f2f\u66f2\u5446\u6bdb\uff0c\u84dd\u8272\u5927\u773c\u775b\uff0c\u9cb8\u9ccd\u5f62\u72b6\u7684\u8033\u6735\uff0c\u84dd\u8272\u5c0f\u8774\u8776\u7ed3\uff0c\u767d\u8272\u8377\u53f6\u8fb9\u53d1\u7b8d\uff0c\u6df1\u84dd\u4e0e\u767d\u8272\u7684\u957f\u8896\u5973\u4ec6\u88d9\uff0c\u8eab\u540e\u4e00\u6761\u5bbd\u5927\u84dd\u8272\u9cb8\u9c7c\u5c3e\u5df4\u3002\u5706\u6da6\u53ef\u7231\u7684Q\u7248\u6bd4\u4f8b\uff0c\u8868\u60c5\u751f\u52a8\u3002\u4fdd\u6301\u540c\u4e00\u4e2a\u89d2\u8272\u7684\u8138\u3001\u53d1\u578b\u3001\u670d\u88c5\u548c\u5c3e\u5df4\u9020\u578b\u4e0d\u53d8\u3002\n\n\u573a\u666f\u662f\u5348\u540e\u9633\u5149\u7167\u8fdb\u6765\u7684\u6e29\u99a8\u4e66\u623f\u3002\u9cb8\u9c7c\u5a18\u5750\u5728\u6728\u684c\u524d\uff0c\u753b\u9762\u5de6\u4fa7\u662f\u4e00\u53f0\u6253\u5f00\u7684\u94f6\u8272\u7b14\u8bb0\u672c\u7535\u8111\uff0c\u53f3\u4fa7\u662f\u4e00\u7897\u5192\u7740\u6de1\u6de1\u70ed\u6c14\u7684\u767d\u7c73\u996d\uff0c\u996d\u7897\u65c1\u8fb9\u653e\u7740\u4e00\u628a\u5c0f\u52fa\u5b50\u3002\u80cc\u666f\u4e66\u67b6\u67d4\u548c\u865a\u5316\u3002\n\n0\u20144\u79d2\uff1a\n\u9cb8\u9c7c\u5a18\u6258\u7740\u4e0b\u5df4\uff0c\u76b1\u7740\u5c0f\u7709\u5934\u76ef\u7740\u7535\u8111\uff0c\u8868\u60c5\u5f02\u5e38\u8ba4\u771f\uff0c\u4eff\u4f5b\u6b63\u5728\u601d\u8003\u4e00\u9053\u4e16\u754c\u7ea7\u96be\u9898\u3002\u5979\u7f13\u6162\u7728\u773c\uff0c\u5934\u9876\u5446\u6bdb\u8f7b\u8f7b\u6643\u52a8\uff0c\u5c3e\u5df4\u61d2\u6d0b\u6d0b\u5730\u5782\u5728\u8eab\u540e\u3002\u7c73\u996d\u7684\u70ed\u6c14\u7f13\u7f13\u5347\u8d77\u3002\n\n4\u201410\u79d2\uff1a\n\u5979\u7684\u5c0f\u9f3b\u5b50\u8f7b\u8f7b\u52a8\u4e86\u4e24\u4e0b\uff0c\u89c6\u7ebf\u6084\u6084\u4ece\u7535\u8111\u79fb\u5411\u7c73\u996d\u3002\u770b\u5230\u7c73\u996d\u7684\u77ac\u95f4\uff0c\u773c\u775b\u660e\u663e\u4eae\u8d77\u6765\uff0c\u5446\u6bdb\u7ad6\u8d77\uff0c\u4e25\u8083\u8868\u60c5\u7acb\u523b\u53d8\u6210\u85cf\u4e0d\u4f4f\u7684\u5f00\u5fc3\u3002\u5979\u8fc5\u901f\u62ff\u8d77\u5c0f\u52fa\uff0c\u8200\u8d77\u4e00\u5927\u53e3\u7c73\u996d\u9001\u8fdb\u5634\u91cc\uff0c\u6ee1\u8db3\u5730\u772f\u8d77\u773c\u775b\uff0c\u4e24\u8fb9\u8138\u988a\u9f13\u8d77\u6765\uff0c\u8eab\u540e\u7684\u9cb8\u9c7c\u5c3e\u5df4\u5f00\u59cb\u6b22\u5feb\u5730\u5de6\u53f3\u6446\u52a8\u3002\u4e00\u7c92\u767d\u7c73\u996d\u7c98\u5728\u5979\u7684\u5634\u89d2\u3002\n\n10\u201415\u79d2\uff1a\n\u5979\u7a81\u7136\u53d1\u73b0\u955c\u5934\u6b63\u5728\u770b\u7740\u81ea\u5df1\uff0c\u62ff\u7740\u52fa\u5b50\u7684\u624b\u505c\u5728\u534a\u7a7a\uff0c\u7741\u5706\u773c\u775b\uff0c\u50f5\u4f4f\u534a\u79d2\u3002\u968f\u540e\u82e5\u65e0\u5176\u4e8b\u5730\u628a\u52fa\u5b50\u653e\u56de\u996d\u7897\u65c1\uff0c\u91cd\u65b0\u6258\u4f4f\u4e0b\u5df4\uff0c\u8f6c\u56de\u7535\u8111\uff0c\u52aa\u529b\u6062\u590d\u4e00\u672c\u6b63\u7ecf\u7684\u601d\u8003\u8868\u60c5\u3002\u4f46\u5634\u89d2\u7684\u996d\u7c92\u8fd8\u5728\uff0c\u8138\u988a\u4ecd\u7136\u9f13\u9f13\u7684\uff0c\u8eab\u540e\u7684\u5927\u5c3e\u5df4\u4e5f\u5b8c\u5168\u505c\u4e0d\u4e0b\u6765\uff0c\u7ee7\u7eed\u5f00\u5fc3\u5730\u6446\u52a8\u3002\u6700\u540e\u4e24\u79d2\u4fdd\u7559\u8fd9\u4e2a\u201c\u88c5\u5f97\u5f88\u8ba4\u771f\uff0c\u5c3e\u5df4\u5374\u51fa\u5356\u4e86\u5979\u201d\u7684\u753b\u9762\u3002\n\n\u52a8\u4f5c\u6709\u6e05\u695a\u7684\u5148\u540e\u987a\u5e8f\u548c\u81ea\u7136\u505c\u987f\uff0c\u8868\u60c5\u53d8\u5316\u7ec6\u817b\uff0c\u624b\u4e0e\u52fa\u5b50\u63a5\u89e6\u51c6\u786e\uff0c\u996d\u7897\u548c\u7535\u8111\u7684\u4f4d\u7f6e\u8fde\u7eed\u4e00\u81f4\u3002\u5934\u53d1\u3001\u8863\u670d\u548c\u5c3e\u5df4\u968f\u8eab\u4f53\u52a8\u4f5c\u8f7b\u5fae\u81ea\u7136\u6446\u52a8\u3002\u5149\u7ebf\u7a33\u5b9a\uff0c\u7ebf\u6761\u6e05\u6670\uff0c\u8272\u5f69\u67d4\u548c\u3002\u5168\u7a0b\u65e0\u5bf9\u767d\u3001\u65e0\u5b57\u5e55\u3001\u65e0\u6587\u5b57\u6c14\u6ce1\u3001\u65e0\u6c34\u5370\u3001\u65e0\u5207\u955c\u3002\n",
+        "seed": 83,
+        "width": 512,
+        "height": 288,
+        "seconds": 15,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "source_run_sha256": "ada46b0a3401083e1370b9c50287a26a2c2a6522dfab5d577cba42544ca5f921",
+      "source_run_status": "completed",
+      "diagnostic_capture": true,
+      "runtime": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "dirty": true,
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+        "binary_sha256": "915881e195b1a1214d09a6f891bc58b291fd3820a77df7a437a5aa74b99a1e7c",
+        "library_sha256": "063715060ea3fbba80366f39cd35f935bba7d33f06b9e896f724b82b65934220"
+      },
+      "runtime_patch": {
+        "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+        "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec"
+      },
+      "environment": {
+        "system": "Darwin",
+        "release": "27.0.0",
+        "machine": "arm64",
+        "python": "3.12.15",
+        "chip": "Apple M5 Max",
+        "memory_bytes": 137438953472,
+        "xcode": "Xcode 27.1\nBuild version 27A9275",
+        "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+        "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+      },
+      "harness_revision": {
+        "revision": "7c800faa29e4ea5a43bd90ec99fe8623b7dee76e",
+        "dirty": true
+      },
+      "harness_files": {
+        "run_long_benchmark.py": "7b071c977903dde2c8c7eaf0c1ba74b2163b12823d862e57f7a57b8a71c19e22",
+        "long_benchmark.json": "ee6fb7632e4b65858c9f0ec2944f5ae2a95eb85ae0e3219e308fb6fd1295e21a",
+        "tokenizer_probe.c": "ae7c4b8201a2ca28211bc5aa5a448d02cbf5906e1c1579b0fdcb8ad97abad5d0",
+        "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+        "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+        "run_prepared_checkpoint.py": "1852cd2863cbbbe576b210fa940dba08ec5793f31fbc583b65bc627c1bf1ed40",
+        "derived_checkpoint.py": "39b9408e8954a8b84ee69cee990b859c616f845c95aff72f4dcbd83cf35dfdf2",
+        "prepared_checkpoint.py": "caf1d4c614370dc0b9096076760e27d6e773aa981ba2404870769636b5fc2cfb"
+      },
+      "prepared_checkpoint": false,
+      "model": {
+        "repository": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+      },
+      "video": {
+        "file": "videos/deepseek-whale-maid-15s-v1-seed83-bf16.mp4",
+        "sha256": "d208b56b550056022b8aded9e15a21ed5f185a51c4207be30198d6327a40928e",
+        "bytes": 2483310,
+        "frames": 360,
+        "fps": 24,
+        "duration_seconds": 15
+      },
+      "poster": "posters/deepseek-whale-maid-15s-v1-seed83-bf16.jpg",
+      "quality_decision": "not_evaluated",
+      "timing_note": "Sample capture timing is diagnostic; see the separate performance report.",
+      "conditioning": {
+        "mode": "first-frame",
+        "type": "first_frame",
+        "sha256": "b1b4c9330f8e27fd95c770e610210b366ad30933a651f71d1e39401bf63cf24d",
+        "image_sha256": "b1b4c9330f8e27fd95c770e610210b366ad30933a651f71d1e39401bf63cf24d",
+        "original_width": 1280,
+        "original_height": 720,
+        "width": 512,
+        "height": 288,
+        "preprocessing": "upstream_first_frame_stretch_to_render_canvas",
+        "target_canvas": [
+          512,
+          288
+        ]
+      },
+      "poster_sha256": "5b19d3f0ffa69a0a1c63878bfc7f83e2f19a51e36a78dc2a6395d2c81e8b4558"
+    },
+    {
+      "id": "deepseek-whale-maid-15s-v1-seed83-hadamard-fc2",
+      "label": "INT8 + H256 FC2",
+      "mode": "hadamard-fc2",
+      "recipe": {
+        "benchmark": "deepseek-whale-maid-15s-v1",
+        "prompt": "15\u79d2\uff0c16:9\u6a2a\u5c4f\uff0c\u7cbe\u81f4\u7684\u4e8c\u7ef4\u52a8\u6f2b\u77ed\u7247\uff0c\u6e29\u6696\u3001\u53ef\u7231\u3001\u6709\u660e\u786e\u7684\u559c\u5267\u8282\u594f\u3002\u4e00\u4e2a\u8fde\u7eed\u955c\u5934\uff0c\u56fa\u5b9a\u673a\u4f4d\uff0c\u4e2d\u666f\uff0c\u59cb\u7ec8\u80fd\u770b\u6e05\u9cb8\u9c7c\u5a18\u7684\u8138\u3001\u53cc\u624b\u3001\u684c\u4e0a\u7684\u996d\u7897\u548c\u8eab\u540e\u7684\u9cb8\u9c7c\u5c3e\u5df4\u3002\n\n\u4e3b\u89d2\u662fDeepSeek\u9cb8\u9c7c\u5a18\uff1a\u6df1\u84dd\u8272\u6e10\u53d8\u81f3\u6d45\u84dd\u8272\u7684\u84ec\u677e\u957f\u53d1\uff0c\u5934\u9876\u4e00\u6839\u5f2f\u66f2\u5446\u6bdb\uff0c\u84dd\u8272\u5927\u773c\u775b\uff0c\u9cb8\u9ccd\u5f62\u72b6\u7684\u8033\u6735\uff0c\u84dd\u8272\u5c0f\u8774\u8776\u7ed3\uff0c\u767d\u8272\u8377\u53f6\u8fb9\u53d1\u7b8d\uff0c\u6df1\u84dd\u4e0e\u767d\u8272\u7684\u957f\u8896\u5973\u4ec6\u88d9\uff0c\u8eab\u540e\u4e00\u6761\u5bbd\u5927\u84dd\u8272\u9cb8\u9c7c\u5c3e\u5df4\u3002\u5706\u6da6\u53ef\u7231\u7684Q\u7248\u6bd4\u4f8b\uff0c\u8868\u60c5\u751f\u52a8\u3002\u4fdd\u6301\u540c\u4e00\u4e2a\u89d2\u8272\u7684\u8138\u3001\u53d1\u578b\u3001\u670d\u88c5\u548c\u5c3e\u5df4\u9020\u578b\u4e0d\u53d8\u3002\n\n\u573a\u666f\u662f\u5348\u540e\u9633\u5149\u7167\u8fdb\u6765\u7684\u6e29\u99a8\u4e66\u623f\u3002\u9cb8\u9c7c\u5a18\u5750\u5728\u6728\u684c\u524d\uff0c\u753b\u9762\u5de6\u4fa7\u662f\u4e00\u53f0\u6253\u5f00\u7684\u94f6\u8272\u7b14\u8bb0\u672c\u7535\u8111\uff0c\u53f3\u4fa7\u662f\u4e00\u7897\u5192\u7740\u6de1\u6de1\u70ed\u6c14\u7684\u767d\u7c73\u996d\uff0c\u996d\u7897\u65c1\u8fb9\u653e\u7740\u4e00\u628a\u5c0f\u52fa\u5b50\u3002\u80cc\u666f\u4e66\u67b6\u67d4\u548c\u865a\u5316\u3002\n\n0\u20144\u79d2\uff1a\n\u9cb8\u9c7c\u5a18\u6258\u7740\u4e0b\u5df4\uff0c\u76b1\u7740\u5c0f\u7709\u5934\u76ef\u7740\u7535\u8111\uff0c\u8868\u60c5\u5f02\u5e38\u8ba4\u771f\uff0c\u4eff\u4f5b\u6b63\u5728\u601d\u8003\u4e00\u9053\u4e16\u754c\u7ea7\u96be\u9898\u3002\u5979\u7f13\u6162\u7728\u773c\uff0c\u5934\u9876\u5446\u6bdb\u8f7b\u8f7b\u6643\u52a8\uff0c\u5c3e\u5df4\u61d2\u6d0b\u6d0b\u5730\u5782\u5728\u8eab\u540e\u3002\u7c73\u996d\u7684\u70ed\u6c14\u7f13\u7f13\u5347\u8d77\u3002\n\n4\u201410\u79d2\uff1a\n\u5979\u7684\u5c0f\u9f3b\u5b50\u8f7b\u8f7b\u52a8\u4e86\u4e24\u4e0b\uff0c\u89c6\u7ebf\u6084\u6084\u4ece\u7535\u8111\u79fb\u5411\u7c73\u996d\u3002\u770b\u5230\u7c73\u996d\u7684\u77ac\u95f4\uff0c\u773c\u775b\u660e\u663e\u4eae\u8d77\u6765\uff0c\u5446\u6bdb\u7ad6\u8d77\uff0c\u4e25\u8083\u8868\u60c5\u7acb\u523b\u53d8\u6210\u85cf\u4e0d\u4f4f\u7684\u5f00\u5fc3\u3002\u5979\u8fc5\u901f\u62ff\u8d77\u5c0f\u52fa\uff0c\u8200\u8d77\u4e00\u5927\u53e3\u7c73\u996d\u9001\u8fdb\u5634\u91cc\uff0c\u6ee1\u8db3\u5730\u772f\u8d77\u773c\u775b\uff0c\u4e24\u8fb9\u8138\u988a\u9f13\u8d77\u6765\uff0c\u8eab\u540e\u7684\u9cb8\u9c7c\u5c3e\u5df4\u5f00\u59cb\u6b22\u5feb\u5730\u5de6\u53f3\u6446\u52a8\u3002\u4e00\u7c92\u767d\u7c73\u996d\u7c98\u5728\u5979\u7684\u5634\u89d2\u3002\n\n10\u201415\u79d2\uff1a\n\u5979\u7a81\u7136\u53d1\u73b0\u955c\u5934\u6b63\u5728\u770b\u7740\u81ea\u5df1\uff0c\u62ff\u7740\u52fa\u5b50\u7684\u624b\u505c\u5728\u534a\u7a7a\uff0c\u7741\u5706\u773c\u775b\uff0c\u50f5\u4f4f\u534a\u79d2\u3002\u968f\u540e\u82e5\u65e0\u5176\u4e8b\u5730\u628a\u52fa\u5b50\u653e\u56de\u996d\u7897\u65c1\uff0c\u91cd\u65b0\u6258\u4f4f\u4e0b\u5df4\uff0c\u8f6c\u56de\u7535\u8111\uff0c\u52aa\u529b\u6062\u590d\u4e00\u672c\u6b63\u7ecf\u7684\u601d\u8003\u8868\u60c5\u3002\u4f46\u5634\u89d2\u7684\u996d\u7c92\u8fd8\u5728\uff0c\u8138\u988a\u4ecd\u7136\u9f13\u9f13\u7684\uff0c\u8eab\u540e\u7684\u5927\u5c3e\u5df4\u4e5f\u5b8c\u5168\u505c\u4e0d\u4e0b\u6765\uff0c\u7ee7\u7eed\u5f00\u5fc3\u5730\u6446\u52a8\u3002\u6700\u540e\u4e24\u79d2\u4fdd\u7559\u8fd9\u4e2a\u201c\u88c5\u5f97\u5f88\u8ba4\u771f\uff0c\u5c3e\u5df4\u5374\u51fa\u5356\u4e86\u5979\u201d\u7684\u753b\u9762\u3002\n\n\u52a8\u4f5c\u6709\u6e05\u695a\u7684\u5148\u540e\u987a\u5e8f\u548c\u81ea\u7136\u505c\u987f\uff0c\u8868\u60c5\u53d8\u5316\u7ec6\u817b\uff0c\u624b\u4e0e\u52fa\u5b50\u63a5\u89e6\u51c6\u786e\uff0c\u996d\u7897\u548c\u7535\u8111\u7684\u4f4d\u7f6e\u8fde\u7eed\u4e00\u81f4\u3002\u5934\u53d1\u3001\u8863\u670d\u548c\u5c3e\u5df4\u968f\u8eab\u4f53\u52a8\u4f5c\u8f7b\u5fae\u81ea\u7136\u6446\u52a8\u3002\u5149\u7ebf\u7a33\u5b9a\uff0c\u7ebf\u6761\u6e05\u6670\uff0c\u8272\u5f69\u67d4\u548c\u3002\u5168\u7a0b\u65e0\u5bf9\u767d\u3001\u65e0\u5b57\u5e55\u3001\u65e0\u6587\u5b57\u6c14\u6ce1\u3001\u65e0\u6c34\u5370\u3001\u65e0\u5207\u955c\u3002\n",
+        "seed": 83,
+        "width": 512,
+        "height": 288,
+        "seconds": 15,
+        "steps": 20,
+        "active_dit_blocks": 50,
+        "reuse": 1,
+        "core_reuse": 1,
+        "reference_rope": true
+      },
+      "source_run_sha256": "f3db9931b2300c797a780860b9ffe2b04ae159a0dc5a62dc7734431beae8ee43",
+      "source_run_status": "completed",
+      "diagnostic_capture": true,
+      "runtime": {
+        "revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+        "dirty": true,
+        "source_sha256": "054ec73eb454e44dc75d71bf83fa53a7129e5bd1e30fb304236f545f92f9cd7e",
+        "binary_sha256": "e4af4c0d6d534503289e7e1a7c4a9fe0968a9e04ebdfb75be93e17ac636f2139",
+        "library_sha256": "86cda66e8fc9a645f618bee8e660a84f17f7d23745b96e4ca33b9af424bb5353"
+      },
+      "runtime_patch": {
+        "source_sha256": "054ec73eb454e44dc75d71bf83fa53a7129e5bd1e30fb304236f545f92f9cd7e",
+        "patch_sha256": "1cad08a5bddc2dfa37c29d2c00551fe467a032d358d1287072f93bfd9dc74c67"
+      },
+      "environment": {
+        "system": "Darwin",
+        "release": "27.0.0",
+        "machine": "arm64",
+        "python": "3.12.15",
+        "chip": "Apple M5 Max",
+        "memory_bytes": 137438953472,
+        "xcode": "Xcode 27.1\nBuild version 27A9275",
+        "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+        "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+      },
+      "harness_revision": {
+        "revision": "29b2b00d8a80a77e5daa8805111322f93974a7d3",
+        "dirty": true
+      },
+      "harness_files": {
+        "run_long_benchmark.py": "7b071c977903dde2c8c7eaf0c1ba74b2163b12823d862e57f7a57b8a71c19e22",
+        "long_benchmark.json": "ee6fb7632e4b65858c9f0ec2944f5ae2a95eb85ae0e3219e308fb6fd1295e21a",
+        "tokenizer_probe.c": "ae7c4b8201a2ca28211bc5aa5a448d02cbf5906e1c1579b0fdcb8ad97abad5d0",
+        "run.py": "194f80be30280b198a2a85b7d541c040c33e30fc1b4a7c86c1393fc987a710e3",
+        "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+        "run_prepared_checkpoint.py": "1852cd2863cbbbe576b210fa940dba08ec5793f31fbc583b65bc627c1bf1ed40",
+        "derived_checkpoint.py": "39b9408e8954a8b84ee69cee990b859c616f845c95aff72f4dcbd83cf35dfdf2",
+        "prepared_checkpoint.py": "caf1d4c614370dc0b9096076760e27d6e773aa981ba2404870769636b5fc2cfb"
+      },
+      "prepared_checkpoint": true,
+      "model": {
+        "manifest_sha256": "6840c91f6e5b9fcb4e8fe25292a1b1e2209d2f7f9c02e3427cfbbcbc71da4cda",
+        "source_model": {
+          "repository": "MiniMaxAI/MiniMax-H3",
+          "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+          "model_manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+        },
+        "producer": {
+          "upstream_revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+          "source_sha256": "833076975eeaaf14b0a9db01f6237d7de77930034222b1dd3b85cca7721f04ec",
+          "patch_sha256": "84065e6139c842aee2cb6d037a6c72ecfa9895e07b1696e9bf638bde3a5a8d1e",
+          "library_sha256": "b53575187831a606605c098225c0725abc48d3babb128968a9d0e8d5b3fb4eb3",
+          "exporter_source_sha256": "eded6d8e2a32c3499d0840fe0fd9b455809bc621961b6e4558c87921606ad9d5",
+          "exporter_binary_sha256": "581ca61547cd2f5e080472811a9c866cf6fb5c7daff8bde65e1c149b4ac54ba6"
+        },
+        "policy_id": "h3_dit_int8_native_fc2_h256_v1",
+        "prepared_manifest_sha256": "a2b3bb2d64954fb48bccaea138558183c09d721417147615e49cbebfc2888f1b",
+        "original_checkpoint_retained": true
+      },
+      "video": {
+        "file": "videos/deepseek-whale-maid-15s-v1-seed83-hadamard-fc2.mp4",
+        "sha256": "67299d8754d778285b65bf470a70bf02573777c432d1630ff839a7071eb38da5",
+        "bytes": 2579741,
+        "frames": 360,
+        "fps": 24,
+        "duration_seconds": 15
+      },
+      "poster": "posters/deepseek-whale-maid-15s-v1-seed83-hadamard-fc2.jpg",
+      "quality_decision": "not_evaluated",
+      "timing_note": "Sample capture timing is diagnostic; see the separate performance report.",
+      "conditioning": {
+        "mode": "first-frame",
+        "type": "first_frame",
+        "sha256": "b1b4c9330f8e27fd95c770e610210b366ad30933a651f71d1e39401bf63cf24d",
+        "image_sha256": "b1b4c9330f8e27fd95c770e610210b366ad30933a651f71d1e39401bf63cf24d",
+        "original_width": 1280,
+        "original_height": 720,
+        "width": 512,
+        "height": 288,
+        "preprocessing": "upstream_first_frame_stretch_to_render_canvas",
+        "target_canvas": [
+          512,
+          288
+        ]
+      },
+      "poster_sha256": "732145128f7f5731d99e5bc392fa7e776f41df2c0d40208136c5e6f8ea673746"
+    }
+  ],
+  "evaluations": [
+    {
+      "kind": "media",
+      "file": "evaluations/media-evaluation.json",
+      "sha256": "1f360cacecf35dd37696046f0d31bc7a2c5b7309cf579a30ce68fab291ee96d9",
+      "samples": {
+        "reference": "deepseek-whale-maid-15s-v1-seed83-bf16",
+        "candidate": "deepseek-whale-maid-15s-v1-seed83-hadamard-fc2"
+      }
+    },
+    {
+      "kind": "latents",
+      "file": "evaluations/whale-maid-15s-eval-001-long-evaluation.json",
+      "sha256": "19706c0fe7f2b49a3633569d011a9e327de6864a30b0050f7007e62ecbaacc60",
+      "samples": {
+        "bf16": "deepseek-whale-maid-15s-v1-seed83-bf16",
+        "hadamard": "deepseek-whale-maid-15s-v1-seed83-hadamard-fc2"
+      }
+    }
+  ]
+}

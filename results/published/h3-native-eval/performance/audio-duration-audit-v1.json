@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "audit": "posthoc_decoded_audio_duration_gate",
+  "checked_utc": "2026-10-19T00:11:33.368274+00:00",
+  "evaluator_sha256": "87cef468973618d809490bdd94e3b06926c524264d391f7e07c6f512f36ebed2",
+  "evaluations": [
+    {
+      "evaluation_file": "results/published/h3-native-eval/fox-two-seeds-v1/evaluations/eval-bf16-int8-seed42-002-evaluation.json",
+      "evaluation_sha256": "9bd829c8208b422ddaaa0ad567546b02cfc6019ba3c314fd7fd9a58402290b26",
+      "historical_evaluator_sha256": "e54704bba58a6c85bf2bddd6825f7ecbb39b4a50440f6a350708fdd3e5e62f8a",
+      "sides": {
+        "reference": {
+          "video_sha256": "1c5c50dce1ac856b8c41cfdedb655d7aec249e3bafb83f17b16e43af1bbe34ab",
+          "probe_sha256": "409746007000045bfb50e461a7e87785e5d0f943e6d494ce511c2e5ce0967d4f",
+          "duration_seconds": "5",
+          "decoded_audio_samples": 160000,
+          "last_frame_samples": 256,
+          "unresolved_skip_side_data": false,
+          "gate_passed": true
+        },
+        "candidate": {
+          "video_sha256": "993e73621f4028c9759058457f0f41ee2a06dd865bf8691de28f06baddcc3020",
+          "probe_sha256": "e83d44db1877be18346d28ed09d22e09eb28af52faaa4622aea9c7730e9832eb",
+          "duration_seconds": "5",
+          "decoded_audio_samples": 160000,
+          "last_frame_samples": 256,
+          "unresolved_skip_side_data": false,
+          "gate_passed": true
+        }
+      }
+    },
+    {
+      "evaluation_file": "results/published/h3-native-eval/fox-two-seeds-v1/evaluations/eval-bf16-hadamard-seed42-root-001-evaluation.json",
+      "evaluation_sha256": "c870b0adcb882be7716c15abd2fbeb285ee4190a69cd92b046517c55a8ae8396",
+      "historical_evaluator_sha256": "e54704bba58a6c85bf2bddd6825f7ecbb39b4a50440f6a350708fdd3e5e62f8a",
+      "sides": {
+        "reference": {
+          "video_sha256": "1c5c50dce1ac856b8c41cfdedb655d7aec249e3bafb83f17b16e43af1bbe34ab",
+          "probe_sha256": "409746007000045bfb50e461a7e87785e5d0f943e6d494ce511c2e5ce0967d4f",
+          "duration_seconds": "5",
+          "decoded_audio_samples": 160000,
+          "last_frame_samples": 256,
+          "unresolved_skip_side_data": false,
+          "gate_passed": true
+        },
+        "candidate": {
+          "video_sha256": "e5a1d1511b6f5104b218df1c9c266f7533c6b8e351bc9d4499009613b076bed6",
+          "probe_sha256": "67715d47f82989ca8df6366c0757ec3ec3b47f1598ed9ffa90a8124031c95889",
+          "duration_seconds": "5",
+          "decoded_audio_samples": 160000,
+          "last_frame_samples": 256,
+          "unresolved_skip_side_data": false,
+          "gate_passed": true
+        }
+      }
+    },
+    {
+      "evaluation_file": "results/published/h3-native-eval/fox-two-seeds-v1/evaluations/eval-bf16-native-seed43-001-evaluation.json",
+      "evaluation_sha256": "8c8ab2dab3d90cabc8cfcdbf07f7dfcd6683fe91ae3ddc8663fd03a64b4fe07e",
+      "historical_evaluator_sha256": "e54704bba58a6c85bf2bddd6825f7ecbb39b4a50440f6a350708fdd3e5e62f8a",
+      "sides": {
+        "reference": {
+          "video_sha256": "d4c7119fd287db604ed0a5d1ca465700670caa9be8d6c55cfecec71bc801b0c8",
+          "probe_sha256": "ba99fb411eb1d8a025b3720459466fd1c0de0964ccd134b4c1708a20d0db6623",
+          "duration_seconds": "5",
+          "decoded_audio_samples": 160000,
+          "last_frame_samples": 256,
+          "unresolved_skip_side_data": false,
+          "gate_passed": true
+        },
+        "candidate": {
+          "video_sha256": "e26020261fb97134f119d23fd09b8a101b56d987385c6115292ee94ae01401fe",
+          "probe_sha256": "ab56ee637f20f04db839c190878cba3e6b92834b9c5c0be5d9ad9e78b9387bc7",
+          "duration_seconds": "5",
+          "decoded_audio_samples": 160000,
+          "last_frame_samples": 256,
+          "unresolved_skip_side_data": false,
+          "gate_passed": true
+        }
+      }
+    },
+    {
+      "evaluation_file": "results/published/h3-native-eval/fox-two-seeds-v1/evaluations/eval-bf16-hadamard-seed43-001-evaluation.json",
+      "evaluation_sha256": "18bac4f73b36ae38c169c061f4b970e0054ee1ce0d560305b2b91b87f7fa2398",
+      "historical_evaluator_sha256": "e54704bba58a6c85bf2bddd6825f7ecbb39b4a50440f6a350708fdd3e5e62f8a",
+      "sides": {
+        "reference": {
+          "video_sha256": "d4c7119fd287db604ed0a5d1ca465700670caa9be8d6c55cfecec71bc801b0c8",
+          "probe_sha256": "ba99fb411eb1d8a025b3720459466fd1c0de0964ccd134b4c1708a20d0db6623",
+          "duration_seconds": "5",
+          "decoded_audio_samples": 160000,
+          "last_frame_samples": 256,
+          "unresolved_skip_side_data": false,
+          "gate_passed": true
+        },
+        "candidate": {
+          "video_sha256": "60def2380de0168b6e37ff9924b429a87457a7f928ebf8a2b769e2d366b0452b",
+          "probe_sha256": "f0f28a8aabc35475d0e47b0389cf6c0398e190ecc17190a1c5011139cf9f9b86",
+          "duration_seconds": "5",
+          "decoded_audio_samples": 160000,
+          "last_frame_samples": 256,
+          "unresolved_skip_side_data": false,
+          "gate_passed": true
+        }
+      }
+    },
+    {
+      "evaluation_file": "results/published/h3-native-eval/whale-maid-15s-v1/evaluations/media-evaluation.json",
+      "evaluation_sha256": "1f360cacecf35dd37696046f0d31bc7a2c5b7309cf579a30ce68fab291ee96d9",
+      "historical_evaluator_sha256": "e54704bba58a6c85bf2bddd6825f7ecbb39b4a50440f6a350708fdd3e5e62f8a",
+      "sides": {
+        "reference": {
+          "video_sha256": "d208b56b550056022b8aded9e15a21ed5f185a51c4207be30198d6327a40928e",
+          "probe_sha256": "e73aa0f276cd9c5ddd2e7df6ed28275935905f73d1edc2ecef502b711235e481",
+          "duration_seconds": "15",
+          "decoded_audio_samples": 480000,
+          "last_frame_samples": 768,
+          "unresolved_skip_side_data": false,
+          "gate_passed": true
+        },
+        "candidate": {
+          "video_sha256": "67299d8754d778285b65bf470a70bf02573777c432d1630ff839a7071eb38da5",
+          "probe_sha256": "82f4d4a3482792aab0cf11286e1a8e3f55f62f1c36251412dde4d887ff50db7c",
+          "duration_seconds": "15",
+          "decoded_audio_samples": 480000,
+          "last_frame_samples": 768,
+          "unresolved_skip_side_data": false,
+          "gate_passed": true
+        }
+      }
+    }
+  ],
+  "scope": "Revalidate saved FFprobe decoded-frame reports with the new exact decoded-audio-duration gate; probe bytes are bound to immutable original evaluation artifacts.",
+  "limitations": [
+    "No media is decoded again and no metric is recomputed. Historical evaluation JSON and evaluator hashes are unchanged.",
+    "Normal FFmpeg decoder skip/discard handling updates AVFrame nb_samples before ffprobe show_frames. The gate does not subtract encoded-packet padding a second time.",
+    "Unresolved decoded-frame Skip samples side data is explicitly unsupported; no silent tail trimming or padding."
+  ],
+  "primary_sources": [
+    "https://www.ffmpeg.org/doxygen/9.0/decode_8c_source.html",
+    "https://www.ffmpeg.org/doxygen/9.0/ffprobe_8c_source.html"
+  ],
+  "gpu_used": false
+}
