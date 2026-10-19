@@ -1,5 +1,31 @@
 # H3 coverage ledger
 
+Native integration follow-up: our grouped QKV/RMSNorm/RoPE tile and fused gated
+AdaLN/H256/INT8 preparation are now connected to actual H3 QKV/FC1 call sites
+under independent opt-in flags. On the combined pinned source, two reversed
+operator campaigns pass 32 supported QKV cases and 48 preparation cases. QKV
+M17 remains explicitly unsupported; M129 supplies supported tail coverage.
+At M9914/17455, the custom QKV online path is 6.1–6.9% slower than the native
+grouped fusion in both seeds and rounds. Preparation's staged/fused outputs
+are exact, but adding H256 costs more than native preparation without H256.
+Real QKV/FC1 samples and complete model captures are evaluated separately;
+local projection error improvements do not establish final video/audio gains.
+All four policies now have finite 20-step/final captures and strict media
+evaluation at seeds42/43. Disabled flags exactly reproduce old FC2-H256 latent
+and MP4 outputs. The combined policy's final video L2 rises
+0.335791→0.403528 and 0.203205→0.373968; audio at both seeds and RGB/PCM metrics
+also regress. Its numeric aggregate/tail review rejects default selection.
+The individual QKV policy improves video agreement but worsens final audio
+latent error and remains slower in the operator test. New flags stay off.
+The matched two-seed resident comparison also finds no gain: complete-request
+medians are 147.659017→149.364160 s and 147.807164→149.768661 s, or 1.155% and
+1.327% slower. Denoise is 1.573% and 1.631% slower. Each arm has one warmup
+and three timed requests; original outputs match its diagnostic capture by
+SHA256. These descriptive timings include online preparation and separate
+generation/decode scopes, with no compilation-free end-to-end claim.
+[Published raw evidence, decision and six samples](../results/published/h3-native-eval/kernel-integration-v1/results.md).
+[Native contracts, evidence and reproduction](../integrations/h3/kernel-integration.md).
+
 Projection-epilogue follow-up: gated residual placement now has a full two-projection chain comparison, retaining the BF16 branch/residual/AdaLN boundaries and residual side output. Two seeds with reversed order give 0.3–4.6% lower online latency across M4096/M9914 chains; full residual/codes/scales agree exactly. Q/K projection + per-head RMS + RoPE + head-major output has a separate synthetic INT8/H256 comparison, with exact paired outputs and 13–14% / about 18% online reductions at M4096/M9914. Small-M timings do not support promotion. The native upstream runtime already fuses grouped QKV/RMS/RoPE; our single-projection measurements do not establish native runtime improvement. [Gate epilogue](gate-epilogue-fusion.md), [Q/K epilogue](qk-rope-fusion.md).
 
 RMS algebra follow-up: zero-shift RMS/weighted RMS/H256 scale folding is implemented and measured at Q-sized M4096 across two seeds and 256/512-thread candidates. Fewer synchronizations did not establish a stable full-path speedup. Weighted RMS without H exceeds the synthetic outlier quality budget. Projecting nonzero shift into an output bias is also measured, including condition preparation, for shared P=1 only; no performance promotion. Bias-table maps have correctness coverage; actual H3 schedule-wide cache integration and model quality remain unmeasured. [Scale folding](rms-scale-folding.md), [shift splitting and cache costs](affine-shift-splitting.md).
@@ -13,9 +39,9 @@ Pinned official configuration revision: `42ed227ee7df40d41602854ae760620d6eb651f
 | Attention output | [T,7168] × [5376,7168]ᵀ | MLX and custom MPP |
 | SwiGLU gate / up | [T,5376] × [14336,5376]ᵀ each | Separate and fused-projection alternatives; compiled activation baseline |
 | FFN down | [T,14336] × [5376,14336]ᵀ | MLX and custom MPP |
-| Pre-norm / AdaLN application | Width 5376, FP32 RMS reduction | Compiled MLX and fused Metal; one shared modulation vector microbenchmark |
-| Gated residual into next AdaLN | BF16 residual update, then RMS/modulation, H256 and per-token INT8 packing | Separate gate + prior fused preparation compared with fused gate/preparation; both retain updated residual; synthetic Q/FFN-up results |
-| Q/K normalization and RoPE | Per-head RMS width 128; 48 split-half rotary pairs | Independent fused projection/RMS/RoPE and staged comparator, native BF16 boundaries and head-major output; single Q/K synthetic microbenchmark, grouped QKV integration pending |
+| Pre-norm / AdaLN application | Width 5376, FP32 RMS reduction | Compiled MLX and fused Metal; native QKV/FC1 H256 integration with real-row reference capture and independent mapped-table validation |
+| Gated residual into next AdaLN | BF16 residual update, then RMS/modulation, H256 and per-token INT8 packing | Native opt-in fused preparation; independent gate/norm maps, in-place residual, zeros/outliers/tails/padding; 48 cases pass and staged/fused outputs are exact |
+| Q/K normalization and RoPE | Per-head RMS width 128; 48 split-half rotary pairs | Custom grouped QKV connected; 32 supported native/H256 cases pass independent decoded references; V exact, Q/K reduction-rounding differences retained; large-shape custom path is slower |
 | Gated preceding projection | Attention output or FFN-down into next AdaLN/H256/INT8 projection | Gate in GEMM epilogue versus gate in next preparation; both projections and residual output included |
 | Text refiner | Two transformer blocks, same projection widths | Shape-equivalent GEMMs covered; block integration pending |
 | Text input projection | 5120→5376 | GEMM core; bias not fused |
@@ -36,7 +62,7 @@ The [first full BF16 request](h3-local-inference.md) uses the pinned native runt
 
 For this fox request, runtime FC2 capture now confirms 9914 packed rows: text [0,28), audio [28,442), video [442,9914), matching the tokenizer/source prediction. Finite post-SwiGLU FC2 samples cover steps0/10/19 and blocks0/24/49, with full K14336. All20 Euler video/audio states and final VAE inputs are captured for BF16/native INT8/H256 at seeds42/43. New prompts still require their own text/packed counts. [Native integration](h3-hadamard-native.md), [paired numerical/media evaluation](h3-evaluation.md).
 
-Next model-level milestones: (1) extend real calibration beyond FC2 and the fox request, (2) attribute DiT/encoder/VAE device time beyond measured phase walls, (3) measure repeated cross-mode prepared-checkpoint deployment performance, (4) complete motion/audio quality review of the person/rain/water/15-second pairs, (5) repeat the completed same-source fusion resident comparison with a second seed, reversed order and independent reruns. A partial target-process trace observes 99.1096% GPU-active union over its 10.8706 s observed span; it is not full-run utilization or operator attribution. Official-pipeline parity remains unverified. Changes to this ledger must reflect measured evidence, not planned support.
+Next model-level milestones: (1) extend real calibration beyond the captured FC2/QKV/FC1 fox rows, (2) attribute DiT/encoder/VAE device time beyond measured phase walls, (3) measure repeated cross-mode prepared-checkpoint deployment performance, (4) complete motion/audio quality review of the person/rain/water/15-second pairs, (5) repeat the earlier attention-gate fusion resident comparison with a second seed, reversed order and independent reruns. The new QKV/AdaLN experiment does not replace that distinct gate-fusion comparison. A partial target-process trace observes 99.1096% GPU-active union over its 10.8706 s observed span; it is not full-run utilization or operator attribution. Official-pipeline parity remains unverified. Changes to this ledger must reflect measured evidence, not planned support.
 
 The [public native evaluation package](../results/published/h3-native-eval/README.md) contains six playable BF16/native/H256 fox videos and immutable latent/media evaluations for seeds42/43. Final video latent relative L2 improves 0.372733→0.335791 and 0.221757→0.203205; RGB SSIM improves 0.690501→0.704100 and 0.833956→0.848317. Individual trajectory/tail regressions remain visible under the user's aggregate-plus-risk decision policy. Offline export of all 200 projections and derived-checkpoint assembly have completed with the original checkpoint retained. The [prepared seed42 replay](../results/local/h3/prepared-replay-seed42-001/run.json) loads all 200 projections with zero runtime weight rotation/quantization and matches all 42 latent tensors and both MP4 files byte-for-byte. Two native fusion campaigns pass independent and exact-pair numerical checks in all 24 cases. H256 FC2 shows no stable benefit across seeds; attention-output M9914 has lower medians in both seeds and rounds, while M2049 includes a reversal. Group1024 observations do not transfer to the H256 policy. [Repeated native fusion comparison](../results/published/h3-native-eval/fused-comparison-001-002-v1/README.md).
 
@@ -58,6 +84,6 @@ First campaign evidence is now published for all 55 MLX BF16 baseline cases, 46 
 
 Hadamard follow-up: identical normalized block rotations on A/W are implemented for INT8 projection experiments. Q, FFN-up and FFN-down at M=4096 have block/sign sweeps, tile tuning, a second-seed holdout and independent normal/outlier reruns. Weight rotation is offline; activation rotation is timed. INT8 + Hadamard and unrotated FP8 are separate candidates; the historical FP8 + Hadamard ablation is retained but will not be pursued. These operator studies are distinct from the later native FC2 integration above; FC2 rotation occurs after SwiGLU and is not commuted through it. [Results and contract](hadamard.md).
 
-AdaLN fusion follow-up: RMSNorm/modulation, H256 and per-token INT8 packing now share one Metal dispatch. Shared-vector RMS microbenchmarks cover Q at M=128/4096/9914 and FFN-up at M=4096 with independent seeds; Q4096's full online path improves about 9% over staged INT8. M9914 matches a deployment-request token count, but operands remain synthetic. LayerNorm and modality/timestep row-map selection have correctness tests; mapped-table performance and full model integration are not measured here. FFN-down remains a separate post-SwiGLU path. [Fusion results and trace](norm-hadamard-fusion.md).
+AdaLN fusion follow-up: RMSNorm/modulation, H256 and per-token INT8 packing now share one Metal dispatch. Shared-vector RMS microbenchmarks cover Q at M=128/4096/9914 and FFN-up at M=4096 with independent seeds; Q4096's full online path improves about 9% over staged INT8. M9914 matches a deployment-request token count, but operands remain synthetic. LayerNorm and modality/timestep row-map selection have correctness tests. These historical shared-vector measurements do not establish mapped-table performance or model quality; the later native integration at the top of this ledger supplies separate evidence for those paths. FFN-down remains a separate post-SwiGLU path. [Fusion results and trace](norm-hadamard-fusion.md).
 
 Gated residual follow-up: both the separate and fused INT8 paths materialize BF16 R_next before the next normalization and retain it for a later skip connection. Seed29/43 normal Q4096 online medians improve 3.942 → 3.698 ms and 3.875 → 3.713 ms over standalone gate-add plus the existing fused AdaLN/Hadamard/quantizer. Gains vary by shape and distribution; Q9914 outliers show no benefit in either rerun. Gate and upcoming modulation are independent operands/maps. Shared-vector synthetic performance and correctness do not establish mapped-table performance or model quality. [Contract and repeated evidence](gated-residual-fusion.md).

@@ -1,0 +1,1685 @@
+{
+  "schema": "h3_kernel_default_decision_v1",
+  "status": "completed",
+  "decision": "keep_experimental",
+  "eligible_for_default": false,
+  "runtime_defaults_modified": false,
+  "evaluator_sha256": "b9260e468c58b1270b69993dff58bbea6b8dc118aa45d98c56953d1939467948",
+  "performance": {
+    "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+    "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+    "model": {
+      "repository": "MiniMaxAI/MiniMax-H3",
+      "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+      "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+    },
+    "environment": {
+      "system": "Darwin",
+      "release": "27.0.0",
+      "machine": "arm64",
+      "python": "3.12.15",
+      "numpy": "2.4.4",
+      "chip": "Apple M5 Max",
+      "memory_bytes": 137438953472,
+      "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+      "xcode": "Xcode 27.1\nBuild version 27A9275",
+      "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+      "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+    },
+    "arms": [
+      {
+        "run_sha256": "65c15fa1b86be9518a2ff482f35805d840249c8f525e1a3213977b2d51eaa38a",
+        "policy": "baseline",
+        "seed": 42,
+        "producer": {
+          "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+          "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+          "model": {
+            "repository": "MiniMaxAI/MiniMax-H3",
+            "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+            "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+          },
+          "harness": {
+            "run_kernel_integration.py": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+            "kernel_integration.py": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+            "kernel_session.c": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+            "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+            "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+            "run_session.py": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+            "model-files.json": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+            "UPSTREAM-LICENSE": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+            "locking.py": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4"
+          },
+          "driver": {
+            "file": "kernel-session",
+            "binary_sha256": "673cb7640810d828290b5ae14d4258e1c986614a15cae0505fd65e26121cde90",
+            "library_sha256": "28ad81fd934d6dda5aae7fb4843b07c27a0257749850099390c2326036efca35"
+          }
+        },
+        "environment": {
+          "system": "Darwin",
+          "release": "27.0.0",
+          "machine": "arm64",
+          "python": "3.12.15",
+          "numpy": "2.4.4",
+          "chip": "Apple M5 Max",
+          "memory_bytes": 137438953472,
+          "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+          "xcode": "Xcode 27.1\nBuild version 27A9275",
+          "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+          "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+        },
+        "compilation": {
+          "make": [
+            "make",
+            "-B",
+            "-j8"
+          ],
+          "driver": [
+            "clang",
+            "-std=c11",
+            "-O2",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-D_DARWIN_C_SOURCE",
+            "-DH3_SESSION_EXPERIMENT=1",
+            "-I",
+            "<source>",
+            "<run>/harness-snapshot/kernel_session.c",
+            "<source>/libh3.a",
+            "-framework",
+            "Foundation",
+            "-framework",
+            "Metal",
+            "-framework",
+            "MetalPerformanceShaders",
+            "-framework",
+            "MetalPerformanceShadersGraph",
+            "-framework",
+            "Accelerate",
+            "-licucore",
+            "-lm",
+            "-o",
+            "<run>/kernel-session"
+          ]
+        },
+        "process": {
+          "started_utc": "2026-10-19T04:54:08.608180+00:00",
+          "finished_utc": "2026-10-19T05:04:26.450389+00:00",
+          "wall_seconds": 617.8381679580052,
+          "log_sha256": "de25cc0f1ccf90124eb598c14c730fa4757a9a113065de661ba78d5dd96580de"
+        },
+        "video_sha256": [
+          "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+          "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+          "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+          "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a"
+        ],
+        "timing": {
+          "cached_generation": {
+            "raw_seconds": [
+              149.21622,
+              147.646479,
+              147.659017
+            ],
+            "count": 3,
+            "median_seconds": 147.659017,
+            "p10_seconds": 147.6489866,
+            "p90_seconds": 148.9047794,
+            "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+          },
+          "cached_denoise_callback": {
+            "raw_seconds": [
+              120.058543,
+              118.455572,
+              118.525176
+            ],
+            "count": 3,
+            "median_seconds": 118.525176,
+            "p10_seconds": 118.4694928,
+            "p90_seconds": 119.7518696,
+            "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+          }
+        },
+        "timing_contract": {
+          "capture": "diagnostic extra waits/readbacks; not a performance sample",
+          "resident": "one full warmup then three same-seed complete requests in one process",
+          "denoise": "fresh synchronized native callbacks including online preparation and final copy/unpack; not stale cached profile wall",
+          "generation": "includes decode and original 124-frame AV export; excludes preflight/build and exact-duration trim",
+          "compilation_free_e2e": "not claimed: audio VAE setup repeats",
+          "weight_preparation": "outside timed resident requests, included in warmup"
+        },
+        "shape": {
+          "fps": 24,
+          "requested_seconds": 5,
+          "requested_frames": 120,
+          "aligned_frames": 124,
+          "aligned_seconds": 5.166666666666667,
+          "video_latent_t": 37,
+          "audio_latent_t": 207,
+          "video_tokens": 9472,
+          "stereo_audio_tokens": 414,
+          "text_tokens": 28,
+          "packed_sequence_tokens": 9914,
+          "shape_evidence": "text tokens derived from observed public cache bytes and pinned h3_cache_get_info formula; video/audio/layout from h3_host.c; INT8 arena allocation rounding from h3_dit.c; not a per-op tensor trace",
+          "int8_activation_arena_rows": 9984
+        },
+        "warmup_seconds": 172.564942
+      },
+      {
+        "run_sha256": "8b15f8e9842da6812b7d56afc0c2231a473e45f92008a8396c2b903d2e6e1263",
+        "policy": "combined",
+        "seed": 42,
+        "producer": {
+          "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+          "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+          "model": {
+            "repository": "MiniMaxAI/MiniMax-H3",
+            "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+            "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+          },
+          "harness": {
+            "run_kernel_integration.py": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+            "kernel_integration.py": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+            "kernel_session.c": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+            "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+            "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+            "run_session.py": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+            "model-files.json": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+            "UPSTREAM-LICENSE": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+            "locking.py": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4"
+          },
+          "driver": {
+            "file": "kernel-session",
+            "binary_sha256": "673cb7640810d828290b5ae14d4258e1c986614a15cae0505fd65e26121cde90",
+            "library_sha256": "1f92302b1c484601c64a8a0f6774e846bc471b5fd5e7014f5f17e6c7fbf432bb"
+          }
+        },
+        "environment": {
+          "system": "Darwin",
+          "release": "27.0.0",
+          "machine": "arm64",
+          "python": "3.12.15",
+          "numpy": "2.4.4",
+          "chip": "Apple M5 Max",
+          "memory_bytes": 137438953472,
+          "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+          "xcode": "Xcode 27.1\nBuild version 27A9275",
+          "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+          "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+        },
+        "compilation": {
+          "make": [
+            "make",
+            "-B",
+            "-j8"
+          ],
+          "driver": [
+            "clang",
+            "-std=c11",
+            "-O2",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-D_DARWIN_C_SOURCE",
+            "-DH3_SESSION_EXPERIMENT=1",
+            "-I",
+            "<source>",
+            "<run>/harness-snapshot/kernel_session.c",
+            "<source>/libh3.a",
+            "-framework",
+            "Foundation",
+            "-framework",
+            "Metal",
+            "-framework",
+            "MetalPerformanceShaders",
+            "-framework",
+            "MetalPerformanceShadersGraph",
+            "-framework",
+            "Accelerate",
+            "-licucore",
+            "-lm",
+            "-o",
+            "<run>/kernel-session"
+          ]
+        },
+        "process": {
+          "started_utc": "2026-10-19T05:05:19.299064+00:00",
+          "finished_utc": "2026-10-19T05:15:41.967490+00:00",
+          "wall_seconds": 622.6643486660032,
+          "log_sha256": "ff96b234ba76c5a5c09dba73b25104af65ee35a7d30e57d10aab6d7064e40419"
+        },
+        "video_sha256": [
+          "6d88e533b5c2870c73c8d5cf2089f6620e0212111306745fcf2bf0d9eacb55ae",
+          "6d88e533b5c2870c73c8d5cf2089f6620e0212111306745fcf2bf0d9eacb55ae",
+          "6d88e533b5c2870c73c8d5cf2089f6620e0212111306745fcf2bf0d9eacb55ae",
+          "6d88e533b5c2870c73c8d5cf2089f6620e0212111306745fcf2bf0d9eacb55ae"
+        ],
+        "timing": {
+          "cached_generation": {
+            "raw_seconds": [
+              149.428955,
+              149.36416,
+              149.317661
+            ],
+            "count": 3,
+            "median_seconds": 149.36416,
+            "p10_seconds": 149.3269608,
+            "p90_seconds": 149.415996,
+            "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+          },
+          "cached_denoise_callback": {
+            "raw_seconds": [
+              120.443899,
+              120.390033,
+              120.381656
+            ],
+            "count": 3,
+            "median_seconds": 120.390033,
+            "p10_seconds": 120.3833314,
+            "p90_seconds": 120.4331258,
+            "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+          }
+        },
+        "timing_contract": {
+          "capture": "diagnostic extra waits/readbacks; not a performance sample",
+          "resident": "one full warmup then three same-seed complete requests in one process",
+          "denoise": "fresh synchronized native callbacks including online preparation and final copy/unpack; not stale cached profile wall",
+          "generation": "includes decode and original 124-frame AV export; excludes preflight/build and exact-duration trim",
+          "compilation_free_e2e": "not claimed: audio VAE setup repeats",
+          "weight_preparation": "outside timed resident requests, included in warmup"
+        },
+        "shape": {
+          "fps": 24,
+          "requested_seconds": 5,
+          "requested_frames": 120,
+          "aligned_frames": 124,
+          "aligned_seconds": 5.166666666666667,
+          "video_latent_t": 37,
+          "audio_latent_t": 207,
+          "video_tokens": 9472,
+          "stereo_audio_tokens": 414,
+          "text_tokens": 28,
+          "packed_sequence_tokens": 9914,
+          "shape_evidence": "text tokens derived from observed public cache bytes and pinned h3_cache_get_info formula; video/audio/layout from h3_host.c; INT8 arena allocation rounding from h3_dit.c; not a per-op tensor trace",
+          "int8_activation_arena_rows": 9984
+        },
+        "warmup_seconds": 173.82121
+      },
+      {
+        "run_sha256": "9cfbc166d516b58729759e0b31a35fe9970fe832c0247820031cae43b8066e57",
+        "policy": "combined",
+        "seed": 43,
+        "producer": {
+          "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+          "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+          "model": {
+            "repository": "MiniMaxAI/MiniMax-H3",
+            "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+            "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+          },
+          "harness": {
+            "run_kernel_integration.py": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+            "kernel_integration.py": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+            "kernel_session.c": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+            "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+            "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+            "run_session.py": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+            "model-files.json": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+            "UPSTREAM-LICENSE": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+            "locking.py": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4"
+          },
+          "driver": {
+            "file": "kernel-session",
+            "binary_sha256": "673cb7640810d828290b5ae14d4258e1c986614a15cae0505fd65e26121cde90",
+            "library_sha256": "2c88c74ad34c2617225aac5ed0aec915bfd20fd9030dadc73e660911f5e0e2e9"
+          }
+        },
+        "environment": {
+          "system": "Darwin",
+          "release": "27.0.0",
+          "machine": "arm64",
+          "python": "3.12.15",
+          "numpy": "2.4.4",
+          "chip": "Apple M5 Max",
+          "memory_bytes": 137438953472,
+          "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+          "xcode": "Xcode 27.1\nBuild version 27A9275",
+          "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+          "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+        },
+        "compilation": {
+          "make": [
+            "make",
+            "-B",
+            "-j8"
+          ],
+          "driver": [
+            "clang",
+            "-std=c11",
+            "-O2",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-D_DARWIN_C_SOURCE",
+            "-DH3_SESSION_EXPERIMENT=1",
+            "-I",
+            "<source>",
+            "<run>/harness-snapshot/kernel_session.c",
+            "<source>/libh3.a",
+            "-framework",
+            "Foundation",
+            "-framework",
+            "Metal",
+            "-framework",
+            "MetalPerformanceShaders",
+            "-framework",
+            "MetalPerformanceShadersGraph",
+            "-framework",
+            "Accelerate",
+            "-licucore",
+            "-lm",
+            "-o",
+            "<run>/kernel-session"
+          ]
+        },
+        "process": {
+          "started_utc": "2026-10-19T05:16:34.758806+00:00",
+          "finished_utc": "2026-10-19T05:26:58.641145+00:00",
+          "wall_seconds": 623.8824654170021,
+          "log_sha256": "47fd10876d23d91f906fcdc08089cabb6c309b67024376e2d369e3cb62ae60b7"
+        },
+        "video_sha256": [
+          "7befa39c59b484ff5b6254b79422ba05b840721fbd14206cf409986dc5b1d595",
+          "7befa39c59b484ff5b6254b79422ba05b840721fbd14206cf409986dc5b1d595",
+          "7befa39c59b484ff5b6254b79422ba05b840721fbd14206cf409986dc5b1d595",
+          "7befa39c59b484ff5b6254b79422ba05b840721fbd14206cf409986dc5b1d595"
+        ],
+        "timing": {
+          "cached_generation": {
+            "raw_seconds": [
+              149.98371,
+              149.768661,
+              149.755262
+            ],
+            "count": 3,
+            "median_seconds": 149.768661,
+            "p10_seconds": 149.7579418,
+            "p90_seconds": 149.9407002,
+            "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+          },
+          "cached_denoise_callback": {
+            "raw_seconds": [
+              120.794514,
+              120.575822,
+              120.554058
+            ],
+            "count": 3,
+            "median_seconds": 120.575822,
+            "p10_seconds": 120.5584108,
+            "p90_seconds": 120.75077560000001,
+            "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+          }
+        },
+        "timing_contract": {
+          "capture": "diagnostic extra waits/readbacks; not a performance sample",
+          "resident": "one full warmup then three same-seed complete requests in one process",
+          "denoise": "fresh synchronized native callbacks including online preparation and final copy/unpack; not stale cached profile wall",
+          "generation": "includes decode and original 124-frame AV export; excludes preflight/build and exact-duration trim",
+          "compilation_free_e2e": "not claimed: audio VAE setup repeats",
+          "weight_preparation": "outside timed resident requests, included in warmup"
+        },
+        "shape": {
+          "fps": 24,
+          "requested_seconds": 5,
+          "requested_frames": 120,
+          "aligned_frames": 124,
+          "aligned_seconds": 5.166666666666667,
+          "video_latent_t": 37,
+          "audio_latent_t": 207,
+          "video_tokens": 9472,
+          "stereo_audio_tokens": 414,
+          "text_tokens": 28,
+          "packed_sequence_tokens": 9914,
+          "shape_evidence": "text tokens derived from observed public cache bytes and pinned h3_cache_get_info formula; video/audio/layout from h3_host.c; INT8 arena allocation rounding from h3_dit.c; not a per-op tensor trace",
+          "int8_activation_arena_rows": 9984
+        },
+        "warmup_seconds": 173.656967
+      },
+      {
+        "run_sha256": "2b6c13a52757ff3ab7e2acc6054f0f1ff5e0661a104c7c7693b647b129523f9f",
+        "policy": "baseline",
+        "seed": 43,
+        "producer": {
+          "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+          "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+          "model": {
+            "repository": "MiniMaxAI/MiniMax-H3",
+            "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+            "manifest_sha256": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be"
+          },
+          "harness": {
+            "run_kernel_integration.py": "f35307790afc31d0bc65cc96f3f8884cd8c41a6bf353d1d68da3d02fcda252dd",
+            "kernel_integration.py": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+            "kernel_session.c": "533e067cdddceaaa9161cb6ac95d8a748da2aa0ec3bb6e0145d593a68b04c42d",
+            "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+            "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562",
+            "run_session.py": "3ea762071e36f4bb047181ce799bee0e48ca7efad05a4436f93c695d589fa31b",
+            "model-files.json": "7597d33ca71af128705e802150b4b39395cf20f96bddc45d2041d668145c27be",
+            "UPSTREAM-LICENSE": "663e51edcd9a3a8f858018ce6924ad2895a24c269c26c39ad75325bcd0f7e5bc",
+            "locking.py": "a9957d5f9f82424c15d76b7d76b701676dcb47112d6d13a01697cb719556eff4"
+          },
+          "driver": {
+            "file": "kernel-session",
+            "binary_sha256": "673cb7640810d828290b5ae14d4258e1c986614a15cae0505fd65e26121cde90",
+            "library_sha256": "190f7247e89396d8b111edccab472818fbcc3230a35b3b1850c831ad1ea6e63f"
+          }
+        },
+        "environment": {
+          "system": "Darwin",
+          "release": "27.0.0",
+          "machine": "arm64",
+          "python": "3.12.15",
+          "numpy": "2.4.4",
+          "chip": "Apple M5 Max",
+          "memory_bytes": 137438953472,
+          "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+          "xcode": "Xcode 27.1\nBuild version 27A9275",
+          "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+          "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+        },
+        "compilation": {
+          "make": [
+            "make",
+            "-B",
+            "-j8"
+          ],
+          "driver": [
+            "clang",
+            "-std=c11",
+            "-O2",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-D_DARWIN_C_SOURCE",
+            "-DH3_SESSION_EXPERIMENT=1",
+            "-I",
+            "<source>",
+            "<run>/harness-snapshot/kernel_session.c",
+            "<source>/libh3.a",
+            "-framework",
+            "Foundation",
+            "-framework",
+            "Metal",
+            "-framework",
+            "MetalPerformanceShaders",
+            "-framework",
+            "MetalPerformanceShadersGraph",
+            "-framework",
+            "Accelerate",
+            "-licucore",
+            "-lm",
+            "-o",
+            "<run>/kernel-session"
+          ]
+        },
+        "process": {
+          "started_utc": "2026-10-19T05:27:51.206832+00:00",
+          "finished_utc": "2026-10-19T05:38:06.712171+00:00",
+          "wall_seconds": 615.502147459003,
+          "log_sha256": "5325878c3318fcfc9e72a274aef9942fb3cdd2f72e8f99a8143dfa6a6c147067"
+        },
+        "video_sha256": [
+          "7dbaecb9b953d0fead4fcbdeaa9fa80946bcd38df6fed92ae4743812bd2fec1b",
+          "7dbaecb9b953d0fead4fcbdeaa9fa80946bcd38df6fed92ae4743812bd2fec1b",
+          "7dbaecb9b953d0fead4fcbdeaa9fa80946bcd38df6fed92ae4743812bd2fec1b",
+          "7dbaecb9b953d0fead4fcbdeaa9fa80946bcd38df6fed92ae4743812bd2fec1b"
+        ],
+        "timing": {
+          "cached_generation": {
+            "raw_seconds": [
+              147.824244,
+              147.807164,
+              147.701214
+            ],
+            "count": 3,
+            "median_seconds": 147.807164,
+            "p10_seconds": 147.72240399999998,
+            "p90_seconds": 147.820828,
+            "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+          },
+          "cached_denoise_callback": {
+            "raw_seconds": [
+              118.640971,
+              118.655992,
+              118.59365
+            ],
+            "count": 3,
+            "median_seconds": 118.640971,
+            "p10_seconds": 118.6031142,
+            "p90_seconds": 118.65298779999999,
+            "percentile_method": "linear interpolation; three samples are descriptive, not stability proof"
+          }
+        },
+        "timing_contract": {
+          "capture": "diagnostic extra waits/readbacks; not a performance sample",
+          "resident": "one full warmup then three same-seed complete requests in one process",
+          "denoise": "fresh synchronized native callbacks including online preparation and final copy/unpack; not stale cached profile wall",
+          "generation": "includes decode and original 124-frame AV export; excludes preflight/build and exact-duration trim",
+          "compilation_free_e2e": "not claimed: audio VAE setup repeats",
+          "weight_preparation": "outside timed resident requests, included in warmup"
+        },
+        "shape": {
+          "fps": 24,
+          "requested_seconds": 5,
+          "requested_frames": 120,
+          "aligned_frames": 124,
+          "aligned_seconds": 5.166666666666667,
+          "video_latent_t": 37,
+          "audio_latent_t": 207,
+          "video_tokens": 9472,
+          "stereo_audio_tokens": 414,
+          "text_tokens": 28,
+          "packed_sequence_tokens": 9914,
+          "shape_evidence": "text tokens derived from observed public cache bytes and pinned h3_cache_get_info formula; video/audio/layout from h3_host.c; INT8 arena allocation rounding from h3_dit.c; not a per-op tensor trace",
+          "int8_activation_arena_rows": 9984
+        },
+        "warmup_seconds": 171.46086
+      }
+    ],
+    "comparisons": {
+      "baseline__combined": {
+        "42": {
+          "cached_generation": {
+            "baseline": {
+              "raw_seconds": [
+                149.21622,
+                147.646479,
+                147.659017
+              ],
+              "count": 3,
+              "median_seconds": 147.659017,
+              "min_seconds": 147.646479,
+              "max_seconds": 149.21622,
+              "range_seconds": 1.5697409999999934
+            },
+            "candidate": {
+              "raw_seconds": [
+                149.428955,
+                149.36416,
+                149.317661
+              ],
+              "count": 3,
+              "median_seconds": 149.36416,
+              "min_seconds": 149.317661,
+              "max_seconds": 149.428955,
+              "range_seconds": 0.1112940000000151
+            },
+            "baseline_median_divided_by_candidate": 0.9885839882874179,
+            "median_seconds_saved": -1.7051429999999925,
+            "median_reduction_percent": -1.154784201224901,
+            "interpretation": "ratio/difference of separate three-sample medians; not paired per-repetition ratios, confidence intervals or statistical significance"
+          },
+          "cached_denoise_callback": {
+            "baseline": {
+              "raw_seconds": [
+                120.058543,
+                118.455572,
+                118.525176
+              ],
+              "count": 3,
+              "median_seconds": 118.525176,
+              "min_seconds": 118.455572,
+              "max_seconds": 120.058543,
+              "range_seconds": 1.6029709999999966
+            },
+            "candidate": {
+              "raw_seconds": [
+                120.443899,
+                120.390033,
+                120.381656
+              ],
+              "count": 3,
+              "median_seconds": 120.390033,
+              "min_seconds": 120.381656,
+              "max_seconds": 120.443899,
+              "range_seconds": 0.06224299999999516
+            },
+            "baseline_median_divided_by_candidate": 0.9845098721752157,
+            "median_seconds_saved": -1.8648570000000007,
+            "median_reduction_percent": -1.5733847127972211,
+            "interpretation": "ratio/difference of separate three-sample medians; not paired per-repetition ratios, confidence intervals or statistical significance"
+          },
+          "same_seed_outputs_byte_identical": false
+        },
+        "43": {
+          "cached_generation": {
+            "baseline": {
+              "raw_seconds": [
+                147.824244,
+                147.807164,
+                147.701214
+              ],
+              "count": 3,
+              "median_seconds": 147.807164,
+              "min_seconds": 147.701214,
+              "max_seconds": 147.824244,
+              "range_seconds": 0.12302999999999997
+            },
+            "candidate": {
+              "raw_seconds": [
+                149.98371,
+                149.768661,
+                149.755262
+              ],
+              "count": 3,
+              "median_seconds": 149.768661,
+              "min_seconds": 149.755262,
+              "max_seconds": 149.98371,
+              "range_seconds": 0.22844800000001442
+            },
+            "baseline_median_divided_by_candidate": 0.9869031545925352,
+            "median_seconds_saved": -1.9614970000000085,
+            "median_reduction_percent": -1.327064904648334,
+            "interpretation": "ratio/difference of separate three-sample medians; not paired per-repetition ratios, confidence intervals or statistical significance"
+          },
+          "cached_denoise_callback": {
+            "baseline": {
+              "raw_seconds": [
+                118.640971,
+                118.655992,
+                118.59365
+              ],
+              "count": 3,
+              "median_seconds": 118.640971,
+              "min_seconds": 118.59365,
+              "max_seconds": 118.655992,
+              "range_seconds": 0.06234200000000101
+            },
+            "candidate": {
+              "raw_seconds": [
+                120.794514,
+                120.575822,
+                120.554058
+              ],
+              "count": 3,
+              "median_seconds": 120.575822,
+              "min_seconds": 120.554058,
+              "max_seconds": 120.794514,
+              "range_seconds": 0.24045600000000888
+            },
+            "baseline_median_divided_by_candidate": 0.9839532423009315,
+            "median_seconds_saved": -1.934851000000009,
+            "median_reduction_percent": -1.6308455533459831,
+            "interpretation": "ratio/difference of separate three-sample medians; not paired per-repetition ratios, confidence intervals or statistical significance"
+          },
+          "same_seed_outputs_byte_identical": false
+        },
+        "both_seeds_complete_request_benefit": false,
+        "neither_seed_denoise_regresses": false
+      }
+    },
+    "compared_policies": [
+      "baseline",
+      "combined"
+    ],
+    "execution_order": [
+      {
+        "seed": 42,
+        "policy": "baseline"
+      },
+      {
+        "seed": 42,
+        "policy": "combined"
+      },
+      {
+        "seed": 43,
+        "policy": "combined"
+      },
+      {
+        "seed": 43,
+        "policy": "baseline"
+      }
+    ],
+    "limitations": [
+      "Two separate seeds/processes, one warmup and three timed requests per policy; descriptive medians, not confidence intervals.",
+      "Complete requests include decode/export and repeated audio VAE setup; not compilation-free end-to-end.",
+      "Nonoverlap and shared lock do not rule out unrelated external device load.",
+      "Cross-policy byte identity is descriptive only; SIMD RMS may legitimately change BF16 rounding.",
+      "Performance alone never promotes a default; independent numerical gates and explicit aggregate/tail quality review remain required."
+    ]
+  },
+  "implementation_evidence": {
+    "qkv": [
+      {
+        "campaign_sha256": "b837b31f26aeeed9ebeb1b50767c5de1fc206b095c376d986e9fe8afed486bc5",
+        "kind": "qkv",
+        "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+        "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+        "cases": [
+          [
+            17,
+            17,
+            "native"
+          ],
+          [
+            17,
+            17,
+            "h256"
+          ],
+          [
+            17,
+            129,
+            "native"
+          ],
+          [
+            17,
+            129,
+            "h256"
+          ],
+          [
+            17,
+            2049,
+            "native"
+          ],
+          [
+            17,
+            2049,
+            "h256"
+          ],
+          [
+            17,
+            9914,
+            "native"
+          ],
+          [
+            17,
+            9914,
+            "h256"
+          ],
+          [
+            17,
+            17455,
+            "native"
+          ],
+          [
+            17,
+            17455,
+            "h256"
+          ],
+          [
+            29,
+            17,
+            "native"
+          ],
+          [
+            29,
+            17,
+            "h256"
+          ],
+          [
+            29,
+            129,
+            "native"
+          ],
+          [
+            29,
+            129,
+            "h256"
+          ],
+          [
+            29,
+            2049,
+            "native"
+          ],
+          [
+            29,
+            2049,
+            "h256"
+          ],
+          [
+            29,
+            9914,
+            "native"
+          ],
+          [
+            29,
+            9914,
+            "h256"
+          ],
+          [
+            29,
+            17455,
+            "native"
+          ],
+          [
+            29,
+            17455,
+            "h256"
+          ]
+        ],
+        "environment": {
+          "chip": "Apple M5 Max",
+          "memory_bytes": 137438953472,
+          "os": "macOS-27.0.1-arm64-arm-64bit",
+          "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+          "xcode": "Xcode 27.1\nBuild version 27A9275"
+        },
+        "started_utc": "2026-10-19T04:18:14.575978+00:00",
+        "finished_utc": "2026-10-19T04:19:27.731395+00:00",
+        "reverse": false,
+        "harness_files": {
+          "qkv_validate.c": "834dba37ca74a2516233a6bf61bc79434aae52ca256ca5cf00b6dde5bebe9e36",
+          "qkv_reference.h": "7e408ccbb618c0f2abee28b61bb04c9d7622d7f338f4b4bde5b42306a0a99815",
+          "run_qkv_campaign.py": "4134e250e99027e180a5cad4eabcf213cded37d20533873ed498f15e53dcd384",
+          "validate_qkv_report.py": "e0d5bbad453e88afa33fbfb71509d25f7b69d5fed89a0ec22395121f93c59ed5",
+          "kernel_integration.py": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+          "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+          "run_fused_campaign.py": "8eade2abe2665794481e758b4a09b6641efe66ca1d4bff11a575aa370a4be380",
+          "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562"
+        },
+        "supported_cases": 16,
+        "revalidator_sha256": "e0d5bbad453e88afa33fbfb71509d25f7b69d5fed89a0ec22395121f93c59ed5"
+      },
+      {
+        "campaign_sha256": "70397f67f69033fcda7c987fb48247e0f96b3dfad281d3817bac62ab39e9f77a",
+        "kind": "qkv",
+        "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+        "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+        "cases": [
+          [
+            29,
+            17455,
+            "h256"
+          ],
+          [
+            29,
+            17455,
+            "native"
+          ],
+          [
+            29,
+            9914,
+            "h256"
+          ],
+          [
+            29,
+            9914,
+            "native"
+          ],
+          [
+            29,
+            2049,
+            "h256"
+          ],
+          [
+            29,
+            2049,
+            "native"
+          ],
+          [
+            29,
+            129,
+            "h256"
+          ],
+          [
+            29,
+            129,
+            "native"
+          ],
+          [
+            29,
+            17,
+            "h256"
+          ],
+          [
+            29,
+            17,
+            "native"
+          ],
+          [
+            17,
+            17455,
+            "h256"
+          ],
+          [
+            17,
+            17455,
+            "native"
+          ],
+          [
+            17,
+            9914,
+            "h256"
+          ],
+          [
+            17,
+            9914,
+            "native"
+          ],
+          [
+            17,
+            2049,
+            "h256"
+          ],
+          [
+            17,
+            2049,
+            "native"
+          ],
+          [
+            17,
+            129,
+            "h256"
+          ],
+          [
+            17,
+            129,
+            "native"
+          ],
+          [
+            17,
+            17,
+            "h256"
+          ],
+          [
+            17,
+            17,
+            "native"
+          ]
+        ],
+        "environment": {
+          "chip": "Apple M5 Max",
+          "memory_bytes": 137438953472,
+          "os": "macOS-27.0.1-arm64-arm-64bit",
+          "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+          "xcode": "Xcode 27.1\nBuild version 27A9275"
+        },
+        "started_utc": "2026-10-19T04:26:31.302479+00:00",
+        "finished_utc": "2026-10-19T04:30:07.536426+00:00",
+        "reverse": true,
+        "harness_files": {
+          "qkv_validate.c": "834dba37ca74a2516233a6bf61bc79434aae52ca256ca5cf00b6dde5bebe9e36",
+          "qkv_reference.h": "7e408ccbb618c0f2abee28b61bb04c9d7622d7f338f4b4bde5b42306a0a99815",
+          "run_qkv_campaign.py": "4134e250e99027e180a5cad4eabcf213cded37d20533873ed498f15e53dcd384",
+          "validate_qkv_report.py": "e0d5bbad453e88afa33fbfb71509d25f7b69d5fed89a0ec22395121f93c59ed5",
+          "kernel_integration.py": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+          "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+          "run_fused_campaign.py": "8eade2abe2665794481e758b4a09b6641efe66ca1d4bff11a575aa370a4be380",
+          "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562"
+        },
+        "supported_cases": 16,
+        "revalidator_sha256": "e0d5bbad453e88afa33fbfb71509d25f7b69d5fed89a0ec22395121f93c59ed5"
+      }
+    ],
+    "prep": [
+      {
+        "campaign_sha256": "b2c717adbb47149ab88f6cf39569d2a238b388660be4e49a4379ee6464f9f747",
+        "kind": "prep",
+        "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+        "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+        "cases": [
+          [
+            17,
+            17,
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            17,
+            17,
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            17,
+            17,
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            17,
+            2049,
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            17,
+            2049,
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            17,
+            2049,
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            17,
+            9914,
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            17,
+            9914,
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            17,
+            9914,
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            17,
+            17455,
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            17,
+            17455,
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            17,
+            17455,
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            29,
+            17,
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            29,
+            17,
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            29,
+            17,
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            29,
+            2049,
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            29,
+            2049,
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            29,
+            2049,
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            29,
+            9914,
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            29,
+            9914,
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            29,
+            9914,
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            29,
+            17455,
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            29,
+            17455,
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            29,
+            17455,
+            [
+              1,
+              1
+            ]
+          ]
+        ],
+        "environment": {
+          "chip": "Apple M5 Max",
+          "memory_bytes": 137438953472,
+          "os": "macOS-27.0.1-arm64-arm-64bit",
+          "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+          "xcode": "Xcode 27.1\nBuild version 27A9275"
+        },
+        "started_utc": "2026-10-19T04:10:07.809436+00:00",
+        "finished_utc": "2026-10-19T04:10:19.453748+00:00",
+        "reverse": false,
+        "harness_files": {
+          "prep_validate.c": "6352d38e5c061cabe4c49fcff794214a0ecc7f4625f09d861a7799cca03b035f",
+          "fused_reference.h": "18e1a880800384ec20a5279f16ef6cacdee70a2b61b037cf5d04d5886e5684d7",
+          "run_prep_campaign.py": "6ae0e39d9c25c4890b2c60b5a29a39a2ff8966949edaa8f6c51fe1e6927d054c",
+          "kernel_integration.py": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+          "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+          "run_fused_campaign.py": "8eade2abe2665794481e758b4a09b6641efe66ca1d4bff11a575aa370a4be380",
+          "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562"
+        },
+        "supported_cases": 24,
+        "revalidator_sha256": "d98ab3d4d0c3bc443a53601ae75e43d852a807a973caba1d6f07b072ec5ddfd3"
+      },
+      {
+        "campaign_sha256": "98647472ae1e60cedc2a320c1ba07056ff25fb6bb6461bf42d5c42ec99a0d891",
+        "kind": "prep",
+        "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+        "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+        "cases": [
+          [
+            29,
+            17455,
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            29,
+            17455,
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            29,
+            17455,
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            29,
+            9914,
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            29,
+            9914,
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            29,
+            9914,
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            29,
+            2049,
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            29,
+            2049,
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            29,
+            2049,
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            29,
+            17,
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            29,
+            17,
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            29,
+            17,
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            17,
+            17455,
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            17,
+            17455,
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            17,
+            17455,
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            17,
+            9914,
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            17,
+            9914,
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            17,
+            9914,
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            17,
+            2049,
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            17,
+            2049,
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            17,
+            2049,
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            17,
+            17,
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            17,
+            17,
+            [
+              1,
+              0
+            ]
+          ],
+          [
+            17,
+            17,
+            [
+              0,
+              0
+            ]
+          ]
+        ],
+        "environment": {
+          "chip": "Apple M5 Max",
+          "memory_bytes": 137438953472,
+          "os": "macOS-27.0.1-arm64-arm-64bit",
+          "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+          "xcode": "Xcode 27.1\nBuild version 27A9275"
+        },
+        "started_utc": "2026-10-19T04:11:12.443996+00:00",
+        "finished_utc": "2026-10-19T04:11:23.658585+00:00",
+        "reverse": true,
+        "harness_files": {
+          "prep_validate.c": "6352d38e5c061cabe4c49fcff794214a0ecc7f4625f09d861a7799cca03b035f",
+          "fused_reference.h": "18e1a880800384ec20a5279f16ef6cacdee70a2b61b037cf5d04d5886e5684d7",
+          "run_prep_campaign.py": "6ae0e39d9c25c4890b2c60b5a29a39a2ff8966949edaa8f6c51fe1e6927d054c",
+          "kernel_integration.py": "b5fc783e16ac9a925b8a62ae299d008c285a99c6560505f525b0401f62d0b9b6",
+          "run.py": "4af33663e29de566716a373d5b5a03f4796c157a092f21aaf6d8df7bda8c82e7",
+          "run_fused_campaign.py": "8eade2abe2665794481e758b4a09b6641efe66ca1d4bff11a575aa370a4be380",
+          "run_fc2_experiment.py": "99b7ef56a9e43f9a2fe62e2e50b94f30c4a3f44819a2201d4eb0e575cab0a562"
+        },
+        "supported_cases": 24,
+        "revalidator_sha256": "d98ab3d4d0c3bc443a53601ae75e43d852a807a973caba1d6f07b072ec5ddfd3"
+      }
+    ]
+  },
+  "performance_quality_video_binding": {
+    "joins": [
+      {
+        "seed": 42,
+        "policy": "baseline",
+        "resident_run_sha256": "65c15fa1b86be9518a2ff482f35805d840249c8f525e1a3213977b2d51eaa38a",
+        "capture_run_sha256": "ca656da7f1d3f91ad1d0d55de52d315dd60c019edcfa171a514dae90afaa9ba2",
+        "original_video": {
+          "width": 512,
+          "height": 512,
+          "frames": 124,
+          "fps": 24,
+          "duration_seconds": 5.166667,
+          "file": "original.mp4",
+          "sha256": "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a"
+        },
+        "resident_video_sha256": [
+          "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+          "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+          "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a",
+          "633911dd89e877e1e8024ec7a83dc427520dfcaa5aa320827e53980382887f0a"
+        ],
+        "matching_generations": 4
+      },
+      {
+        "seed": 42,
+        "policy": "combined",
+        "resident_run_sha256": "8b15f8e9842da6812b7d56afc0c2231a473e45f92008a8396c2b903d2e6e1263",
+        "capture_run_sha256": "b25c59e78e85e6d0c010ee274b9a4b89bd223f74dacad44313d082f18dbb4dd5",
+        "original_video": {
+          "width": 512,
+          "height": 512,
+          "frames": 124,
+          "fps": 24,
+          "duration_seconds": 5.166667,
+          "file": "original.mp4",
+          "sha256": "6d88e533b5c2870c73c8d5cf2089f6620e0212111306745fcf2bf0d9eacb55ae"
+        },
+        "resident_video_sha256": [
+          "6d88e533b5c2870c73c8d5cf2089f6620e0212111306745fcf2bf0d9eacb55ae",
+          "6d88e533b5c2870c73c8d5cf2089f6620e0212111306745fcf2bf0d9eacb55ae",
+          "6d88e533b5c2870c73c8d5cf2089f6620e0212111306745fcf2bf0d9eacb55ae",
+          "6d88e533b5c2870c73c8d5cf2089f6620e0212111306745fcf2bf0d9eacb55ae"
+        ],
+        "matching_generations": 4
+      },
+      {
+        "seed": 43,
+        "policy": "baseline",
+        "resident_run_sha256": "2b6c13a52757ff3ab7e2acc6054f0f1ff5e0661a104c7c7693b647b129523f9f",
+        "capture_run_sha256": "d8dce56c265beff4dd7d1c528d84d26e8a8c2ef7a1c157d100499984978422cf",
+        "original_video": {
+          "width": 512,
+          "height": 512,
+          "frames": 124,
+          "fps": 24,
+          "duration_seconds": 5.166667,
+          "file": "original.mp4",
+          "sha256": "7dbaecb9b953d0fead4fcbdeaa9fa80946bcd38df6fed92ae4743812bd2fec1b"
+        },
+        "resident_video_sha256": [
+          "7dbaecb9b953d0fead4fcbdeaa9fa80946bcd38df6fed92ae4743812bd2fec1b",
+          "7dbaecb9b953d0fead4fcbdeaa9fa80946bcd38df6fed92ae4743812bd2fec1b",
+          "7dbaecb9b953d0fead4fcbdeaa9fa80946bcd38df6fed92ae4743812bd2fec1b",
+          "7dbaecb9b953d0fead4fcbdeaa9fa80946bcd38df6fed92ae4743812bd2fec1b"
+        ],
+        "matching_generations": 4
+      },
+      {
+        "seed": 43,
+        "policy": "combined",
+        "resident_run_sha256": "9cfbc166d516b58729759e0b31a35fe9970fe832c0247820031cae43b8066e57",
+        "capture_run_sha256": "ef016c8ddd715b336dfe9857d490c7c2ed5d8860ba3b05c69e3cdcb818f60d6b",
+        "original_video": {
+          "width": 512,
+          "height": 512,
+          "frames": 124,
+          "fps": 24,
+          "duration_seconds": 5.166667,
+          "file": "original.mp4",
+          "sha256": "7befa39c59b484ff5b6254b79422ba05b840721fbd14206cf409986dc5b1d595"
+        },
+        "resident_video_sha256": [
+          "7befa39c59b484ff5b6254b79422ba05b840721fbd14206cf409986dc5b1d595",
+          "7befa39c59b484ff5b6254b79422ba05b840721fbd14206cf409986dc5b1d595",
+          "7befa39c59b484ff5b6254b79422ba05b840721fbd14206cf409986dc5b1d595",
+          "7befa39c59b484ff5b6254b79422ba05b840721fbd14206cf409986dc5b1d595"
+        ],
+        "matching_generations": 4
+      }
+    ],
+    "scope": "Four validated original 124-frame resident exports match the reviewed same-seed/policy capture by SHA256. Video byte identity does not establish latent exactness."
+  },
+  "actual_activation_evidence": [
+    {
+      "analysis_sha256": "ce5a3f9c73a7be048a600d71852cbb0e65261b0b32b61a461ecb4163d2015562",
+      "source_run_sha256": "b25c59e78e85e6d0c010ee274b9a4b89bd223f74dacad44313d082f18dbb4dd5",
+      "seed": 42,
+      "case_count": 18,
+      "scope": "Actual H-trajectory rows; sampled output channels/full K. Quantization evidence is separate from GPU GEMM implementation proof."
+    },
+    {
+      "analysis_sha256": "158f31e03ad7c3767ef0d777f1f575f7e5e0c002f69936df38141b299ef47860",
+      "source_run_sha256": "ef016c8ddd715b336dfe9857d490c7c2ed5d8860ba3b05c69e3cdcb818f60d6b",
+      "seed": 43,
+      "case_count": 18,
+      "scope": "Actual H-trajectory rows; sampled output channels/full K. Quantization evidence is separate from GPU GEMM implementation proof."
+    }
+  ],
+  "quality_evidence": [
+    {
+      "seed": 42,
+      "evaluation_sha256": "db361a4c23e134063993ba98b135bd7956f9087c608c8b976ad81016fb559fb5",
+      "candidate_run_sha256": "b25c59e78e85e6d0c010ee274b9a4b89bd223f74dacad44313d082f18dbb4dd5",
+      "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+      "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "policy": "combined",
+      "capture_inputs": [
+        {
+          "run_sha256": "8f3131e51b850f76cb1e1bb385e5325d354dd5bd39125a470b180aa9acc288b6",
+          "video_sha256": "1c5c50dce1ac856b8c41cfdedb655d7aec249e3bafb83f17b16e43af1bbe34ab",
+          "role": "bf16"
+        },
+        {
+          "run_sha256": "41c701852bc7a0c5502ba4c67d6fb50633f592f520497373b803b8f877290a4f",
+          "video_sha256": "e5a1d1511b6f5104b218df1c9c266f7533c6b8e351bc9d4499009613b076bed6",
+          "role": "old_hadamard"
+        },
+        {
+          "run_sha256": "ca656da7f1d3f91ad1d0d55de52d315dd60c019edcfa171a514dae90afaa9ba2",
+          "video_sha256": "e5a1d1511b6f5104b218df1c9c266f7533c6b8e351bc9d4499009613b076bed6",
+          "role": "baseline-fused"
+        },
+        {
+          "run_sha256": "b25c59e78e85e6d0c010ee274b9a4b89bd223f74dacad44313d082f18dbb4dd5",
+          "video_sha256": "305359fc963f8248d9218a127b0775de9467ef7038deb7f129c44cb4751df1a3",
+          "role": "combined-fused"
+        }
+      ],
+      "scope": "Numeric aggregate/tail acceptance only; not perceptual quality certification"
+    },
+    {
+      "seed": 43,
+      "evaluation_sha256": "6c68c6cfc1503b7ac34886bb4e77808d888785494eccaa8614a391f41c270a3b",
+      "candidate_run_sha256": "ef016c8ddd715b336dfe9857d490c7c2ed5d8860ba3b05c69e3cdcb818f60d6b",
+      "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+      "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+      "policy": "combined",
+      "capture_inputs": [
+        {
+          "run_sha256": "61beb18429e7e79d33139fe47cd045854bc008a5b0ebe4f33110f7a4b234e889",
+          "video_sha256": "d4c7119fd287db604ed0a5d1ca465700670caa9be8d6c55cfecec71bc801b0c8",
+          "role": "bf16"
+        },
+        {
+          "run_sha256": "8ee7278426114e92fa5b04baf526406d4b63f1e55fdac8e496e9d4abc3b9318f",
+          "video_sha256": "60def2380de0168b6e37ff9924b429a87457a7f928ebf8a2b769e2d366b0452b",
+          "role": "old_hadamard"
+        },
+        {
+          "run_sha256": "d8dce56c265beff4dd7d1c528d84d26e8a8c2ef7a1c157d100499984978422cf",
+          "video_sha256": "60def2380de0168b6e37ff9924b429a87457a7f928ebf8a2b769e2d366b0452b",
+          "role": "baseline-fused"
+        },
+        {
+          "run_sha256": "ef016c8ddd715b336dfe9857d490c7c2ed5d8860ba3b05c69e3cdcb818f60d6b",
+          "video_sha256": "72c1cc1231b37e7244b5f1a9cb3b0bc46a5e3094733560ffaa7c3f1c9cddf05b",
+          "role": "combined-fused"
+        }
+      ],
+      "scope": "Numeric aggregate/tail acceptance only; not perceptual quality certification"
+    }
+  ],
+  "quality_review": {
+    "schema": "h3_kernel_quality_review_v1",
+    "policy": "combined",
+    "source_pin_sha256": "0836659da9c9ea35fd6ab9956cfbc88d0fd2063866848487d40a6885f87e89d5",
+    "scope": "Explicit numeric aggregate/tail review for default selection. Limited sampled still inspection only; continuous motion/audio listening and perceptual acceptance remain unevaluated.",
+    "reviews": [
+      {
+        "seed": 42,
+        "evaluation_sha256": "db361a4c23e134063993ba98b135bd7956f9087c608c8b976ad81016fb559fb5",
+        "reviewer": "Codex root; independent JSON audit by upstream_audit",
+        "decision": "rejected",
+        "findings": {
+          "per_step_latents": "video: 14/20 steps have greater BF16-relative L2; candidate/baseline ratios range 0.741015 to 1.21542; audio: 18/20 steps have greater BF16-relative L2; candidate/baseline ratios range 0.827638 to 1.75283. All 42 tensors are finite; disabled-flag baseline exactly replays the historical FC2-H trajectory.",
+          "final_video_latent": "BF16-relative L2 0.335791037 -> 0.403528022; SNR 9.478618 -> 7.882526 dB. This is numerical drift, not perceptual ground truth.",
+          "final_audio_latent": "BF16-relative L2 0.115167462 -> 0.197489928; SNR 18.7734 -> 14.0891 dB. This is numerical drift, not perceptual ground truth.",
+          "decoded_rgb": "RGB SSIM 0.704099592 -> 0.6518363; RGB SNR 13.24072 -> 11.74637 dB. Six sampled frames retain a fox walking in snow with pose/timing differences; continuous motion quality was not assessed.",
+          "decoded_pcm": "PCM SNR 15.29095 -> 10.99493 dB; relative L2 0.171969965 -> 0.282002888. Exact 32kHz stereo duration/alignment passed; no listening claim.",
+          "absolute_error_tails": "final_video: p95 0.708714857 -> 0.876391862, p99 1.29674308 -> 1.51190927, p999 2.21570667 -> 2.39541397; maximum 4.82470739 -> 5.32360208; final_audio: p95 0.102575782 -> 0.196397986, p99 0.166532443 -> 0.34015357, p999 0.272950724 -> 0.542039987; maximum 0.442941874 -> 0.76253587. No tolerance was relaxed.",
+          "activation_quantization_aggregate_and_tail": "All 18 sampled real QKV/FC1 cases improve projection aggregate relative L2 on identical X/W; all 288/288 selected rows improve relative L2. 1/288 rows regress in maximum absolute error. These isolated tail exceptions are retained, not used as an automatic veto. Prep independent references and rotation checks pass. CPU same-X/W projections sample channels with full K and do not independently prove GPU GEMM correctness.",
+          "bf16_relative_material_regression": "Reject default promotion on the combined aggregate and tail evidence: both final latent streams and decoded RGB/PCM drift worsen versus the existing FC2-H baseline. Local projection improvements do not offset this repeated whole-model regression. This rejects the numerical policy for this recipe; it does not certify perceptual inferiority or require every individual metric to improve."
+        }
+      },
+      {
+        "seed": 43,
+        "evaluation_sha256": "6c68c6cfc1503b7ac34886bb4e77808d888785494eccaa8614a391f41c270a3b",
+        "reviewer": "Codex root; independent JSON audit by upstream_audit",
+        "decision": "rejected",
+        "findings": {
+          "per_step_latents": "video: 19/20 steps have greater BF16-relative L2; candidate/baseline ratios range 0.827938 to 2.75241; audio: 16/20 steps have greater BF16-relative L2; candidate/baseline ratios range 0.511175 to 1.85083. All 42 tensors are finite; disabled-flag baseline exactly replays the historical FC2-H trajectory.",
+          "final_video_latent": "BF16-relative L2 0.203205321 -> 0.373968405; SNR 13.8413 -> 8.543302 dB. This is numerical drift, not perceptual ground truth.",
+          "final_audio_latent": "BF16-relative L2 0.0354876804 -> 0.0656816212; SNR 28.99845 -> 23.65112 dB. This is numerical drift, not perceptual ground truth.",
+          "decoded_rgb": "RGB SSIM 0.84831745 -> 0.7324741; RGB SNR 19.60921 -> 12.14588 dB. Six sampled frames retain a fox walking in snow with pose/timing differences; continuous motion quality was not assessed.",
+          "decoded_pcm": "PCM SNR 13.556 -> 11.12456 dB; relative L2 0.209990589 -> 0.277825359. Exact 32kHz stereo duration/alignment passed; no listening claim.",
+          "absolute_error_tails": "final_video: p95 0.43339971 -> 0.809317529, p99 0.780204852 -> 1.47026998, p999 1.41285123 -> 2.50538892; maximum 4.12566316 -> 4.68584609; final_audio: p95 0.0247836784 -> 0.0456307679, p99 0.0338798779 -> 0.081183212, p999 0.0567616961 -> 0.172448397; maximum 0.181555033 -> 0.291023206. No tolerance was relaxed.",
+          "activation_quantization_aggregate_and_tail": "All 18 sampled real QKV/FC1 cases improve projection aggregate relative L2 on identical X/W; all 288/288 selected rows improve relative L2. 2/288 rows regress in maximum absolute error. These isolated tail exceptions are retained, not used as an automatic veto. Prep independent references and rotation checks pass. CPU same-X/W projections sample channels with full K and do not independently prove GPU GEMM correctness.",
+          "bf16_relative_material_regression": "Reject default promotion on the combined aggregate and tail evidence: both final latent streams and decoded RGB/PCM drift worsen versus the existing FC2-H baseline. Local projection improvements do not offset this repeated whole-model regression. This rejects the numerical policy for this recipe; it does not certify perceptual inferiority or require every individual metric to improve."
+        }
+      }
+    ]
+  },
+  "quality_review_sha256": "d6aead86ada9f1ecb58f29d4bf0d4c87556db448328d9b52016b5ea3c8214699",
+  "policy": "combined",
+  "gates": {
+    "implementation": true,
+    "explicit_two_seed_quality": false,
+    "two_seed_e2e_benefit": false,
+    "denoise_no_regression": false
+  },
+  "recommended_flags": null,
+  "quality_review_scope": "Numeric aggregate/tail acceptance; not perceptual quality certification",
+  "scope": "Pinned model/source, M5 host, fixed two-seed five-second recipe; descriptive evidence, not universal quality or statistical significance."
+}

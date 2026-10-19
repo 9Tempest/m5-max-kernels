@@ -1,0 +1,1 @@
+{"schema":"h3_native_qkv_v1","status":"unsupported","rows":17,"seed":17,"reason":"native API requires M>=128; operand policy must be native or h256"}

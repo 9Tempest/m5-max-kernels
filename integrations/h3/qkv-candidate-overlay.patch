@@ -1,0 +1,290 @@
+--- a/h3_dit.c
++++ b/h3_dit.c
+@@ -90,6 +90,7 @@
+     int use_slower_grouped_quantizer;
+     int use_int8_row_fc2;
+     int use_hadamard_fc2;
++    int m5_qkv_rope;
+     int fuse_fc2_gate;
+     int fuse_attention_output_gate;
+     int ssd_streaming;
+@@ -1666,6 +1667,22 @@
+          getenv("H3_BENCH_INT8_QKV_AB"));
+     dit->use_slower_grouped_quantizer = use_slower_grouped_quantizer;
+     dit->use_int8_row_fc2 = dit->int8_mlp && use_int8_row_fc2;
++    const char *m5_qkv = getenv("H3_M5_QKV_ROPE");
++    if (m5_qkv && strcmp(m5_qkv, "0") && strcmp(m5_qkv, "1")) {
++        fail(error,error_size,"H3_M5_QKV_ROPE must be exactly 0 or 1"); goto failed;
++    }
++    dit->m5_qkv_rope = m5_qkv && !strcmp(m5_qkv,"1");
++    if (dit->m5_qkv_rope && (!dit->int8_qkv || dit->use_slower_unfused_qkv_rope ||
++        dit->use_slower_scalar_qkv_rms || dit->use_slower_uncached_int8_scales ||
++        getenv("H3_DISABLE_INT8_QKV") || getenv("H3_DISABLE_FUSED_INT8_QKV_ROPE") ||
++        getenv("H3_DISABLE_QKV_FULL_K") || getenv("H3_DISABLE_QKV_LOCAL_SCALES") ||
++        getenv("H3_DISABLE_VECTOR_QKV_RMS") || getenv("H3_DISABLE_VECTOR_QKV_ROPE"))) {
++        fail(error,error_size,"M5 QKV candidate requires default INT8 QKV route; no fallback"); goto failed;
++    }
++    /* Hadamard flags are validated by the combined H256 loader overlay. */
++    fprintf(stderr,"h3 kernel integration: m5_qkv_rope=%d hadamard_qkv=%d hadamard_fc1=%d\n",
++        dit->m5_qkv_rope, getenv("H3_HADAMARD_QKV") && !strcmp(getenv("H3_HADAMARD_QKV"),"1"),
++        getenv("H3_HADAMARD_FC1") && !strcmp(getenv("H3_HADAMARD_FC1"),"1"));
+     const char *hadamard_fc2 = getenv("H3_HADAMARD_FC2");
+     if (hadamard_fc2 && strcmp(hadamard_fc2, "0") && strcmp(hadamard_fc2, "1")) {
+         fail(error, error_size, "H3_HADAMARD_FC2 must be exactly 0 or 1");
+@@ -2041,7 +2058,15 @@
+             weight->norm1, modulation, row_map, rows, HIDDEN, SLOTS,
+             0, 1, 1e-5f), "DiT attention AdaLN");
+     if (dit->int8_qkv && !getenv("H3_DISABLE_INT8_QKV")) {
+-        OP(h3_gpu_grouped_qkv_linear_rope_int8(
++        if (dit->m5_qkv_rope) {
++            OP(h3_gpu_m5_grouped_qkv_linear_rope_int8(
++                dit->gpu, dit->query, dit->key, dit->value,
++                dit->int8_activation, dit->int8_activation_scales,
++                dit->mod_attention, weight->qkv_int8, weight->qkv_scales,
++                weight->q_norm, weight->k_norm, rope_cos, rope_sin,
++                rows, HIDDEN, HEADS, HEAD_DIM, ROPE_HALF, 1e-5f,
++                attention_input_quantized), "DiT M5 custom int8 QKV/norm/RoPE");
++        } else OP(h3_gpu_grouped_qkv_linear_rope_int8(
+             dit->gpu, dit->query, dit->key, dit->value,
+             dit->int8_activation, dit->int8_activation_scales,
+             dit->mod_attention, weight->qkv_int8, weight->qkv_scales,
+@@ -2854,7 +2879,7 @@
+     struct timespec wall,mono;
+     clock_gettime(CLOCK_REALTIME,&wall); clock_gettime(CLOCK_MONOTONIC,&mono);
+     const char *seed=getenv("H3_CAPTURE_SEED");
+-    fprintf(f,"{\"schema\":1,\"scope\":\"diagnostic_CPU_readback_after_completed_GPU_Euler\",\"dtype\":\"float32_little_endian\",\"seed\":%s,\"seed_source\":\"caller_declared_H3_CAPTURE_SEED_verify_against_request_manifest\",\"completed_steps\":%d,\"time_unix_seconds\":%.9f,\"time_monotonic_seconds\":%.9f,\"final_video_shape\":[%d,%d,%d,%d],\"final_audio_shape\":[%d,%d,%d],\"final_layout\":\"unpacked_contiguous_VAE_input_before_decoder\",\"per_step_video_shape\":[%u,%d],\"per_step_audio_shape\":[%u,%d],\"per_step_layout\":\"packed_model_rows_after_Euler_before_unpack\",\"final_video_sigma\":%.9g,\"final_audio_sigma\":%.9g,\"int8_mlp\":%d,\"int8_qkv\":%d,\"int8_attention_out\":%d,\"hadamard_fc2\":%d,\"finite\":true}\n",seed?seed:"null",dit->sigmas.steps,(double)wall.tv_sec+(double)wall.tv_nsec*1e-9,(double)mono.tv_sec+(double)mono.tv_nsec*1e-9,VIDEO_CHANNELS,dit->latent_t,dit->latent_h,dit->latent_w,AUDIO_CHANNELS,AUDIO_STREAMS,dit->audio_t,dit->video_rows,VIDEO_PATCH,dit->audio_rows,AUDIO_CHANNELS,dit->sigmas.video[dit->sigmas.steps],dit->sigmas.audio[dit->sigmas.steps],dit->int8_mlp,dit->int8_qkv,dit->int8_attention_out,dit->use_hadamard_fc2);
++    fprintf(f,"{\"schema\":1,\"scope\":\"diagnostic_CPU_readback_after_completed_GPU_Euler\",\"dtype\":\"float32_little_endian\",\"seed\":%s,\"seed_source\":\"caller_declared_H3_CAPTURE_SEED_verify_against_request_manifest\",\"completed_steps\":%d,\"time_unix_seconds\":%.9f,\"time_monotonic_seconds\":%.9f,\"final_video_shape\":[%d,%d,%d,%d],\"final_audio_shape\":[%d,%d,%d],\"final_layout\":\"unpacked_contiguous_VAE_input_before_decoder\",\"per_step_video_shape\":[%u,%d],\"per_step_audio_shape\":[%u,%d],\"per_step_layout\":\"packed_model_rows_after_Euler_before_unpack\",\"final_video_sigma\":%.9g,\"final_audio_sigma\":%.9g,\"int8_mlp\":%d,\"int8_qkv\":%d,\"int8_attention_out\":%d,\"hadamard_fc2\":%d,\"m5_qkv_rope\":%d,\"finite\":true}\n",seed?seed:"null",dit->sigmas.steps,(double)wall.tv_sec+(double)wall.tv_nsec*1e-9,(double)mono.tv_sec+(double)mono.tv_nsec*1e-9,VIDEO_CHANNELS,dit->latent_t,dit->latent_h,dit->latent_w,AUDIO_CHANNELS,AUDIO_STREAMS,dit->audio_t,dit->video_rows,VIDEO_PATCH,dit->audio_rows,AUDIO_CHANNELS,dit->sigmas.video[dit->sigmas.steps],dit->sigmas.audio[dit->sigmas.steps],dit->int8_mlp,dit->int8_qkv,dit->int8_attention_out,dit->use_hadamard_fc2,dit->m5_qkv_rope);
+     int ok=!ferror(f); ok=fclose(f)==0 && ok;
+     if(!ok) fail(error,error_size,"final latent metadata write failed");
+     return ok;
+--- a/h3_gpu.h
++++ b/h3_gpu.h
+@@ -523,6 +523,26 @@
+                                  int use_slower_unfused_qkv_rope,
+                                  int use_slower_scalar_qkv_rms,
+                                  int use_slower_uncached_int8_scales);
++/* Independent TM64 candidate; same codes/scales/layout as the native API.
++ * Packed inputs may come from native or H256 preparation; no reinterpretation. */
++int h3_gpu_m5_grouped_qkv_linear_rope_int8(
++                                 h3_gpu *gpu,
++                                 h3_gpu_tensor *query,
++                                 h3_gpu_tensor *key,
++                                 h3_gpu_tensor *value,
++                                 h3_gpu_tensor *quantized_input,
++                                 h3_gpu_tensor *input_scales,
++                                 const h3_gpu_tensor *input,
++                                 const h3_gpu_tensor *weight,
++                                 const h3_gpu_tensor *weight_scales,
++                                 const h3_gpu_tensor *q_norm,
++                                 const h3_gpu_tensor *k_norm,
++                                 const h3_gpu_tensor *rope_cos,
++                                 const h3_gpu_tensor *rope_sin,
++                                 uint32_t rows, uint32_t input_dim,
++                                 uint32_t heads, uint32_t head_dim,
++                                 uint32_t rope_half, float epsilon,
++                                 int input_is_quantized);
+ int h3_gpu_sdpa_bf16(h3_gpu *gpu, h3_gpu_tensor *output,
+                      const h3_gpu_tensor *query, const h3_gpu_tensor *key,
+                      const h3_gpu_tensor *value, uint32_t sequence,
+--- a/h3_gpu.m
++++ b/h3_gpu.m
+@@ -435,6 +435,7 @@
+             @"h3_vae_encoder_group_norm_silu_f32"
+         ] mutableCopy];
+         if (gpu.tensorOpsEnabled) {
++            [names addObject:@"h3_m5_qkv_rope_int8_r64_swizzle8"];
+             [names addObject:@"h3_linear_int8_nax_r128_full_k14336_gate"];
+             [names addObject:@"h3_linear_int8_grouped_local_nax_r128x64_gate"];
+             [names addObject:@"h3_linear_int8_local_scales_nax_r128_gate"];
+@@ -4327,6 +4328,98 @@
+     return 1;
+ }
+ 
++/* M5MaxLocalBenchmark TM64 grouped projection/RMS/RoPE candidate. */
++int h3_gpu_m5_grouped_qkv_linear_rope_int8(
++                                 h3_gpu *opaque,
++                                 h3_gpu_tensor *query,
++                                 h3_gpu_tensor *key,
++                                 h3_gpu_tensor *value,
++                                 h3_gpu_tensor *quantized_input,
++                                 h3_gpu_tensor *input_scales,
++                                 const h3_gpu_tensor *input,
++                                 const h3_gpu_tensor *weight,
++                                 const h3_gpu_tensor *weight_scales,
++                                 const h3_gpu_tensor *q_norm,
++                                 const h3_gpu_tensor *k_norm,
++                                 const h3_gpu_tensor *rope_cos,
++                                 const h3_gpu_tensor *rope_sin,
++                                 uint32_t rows, uint32_t input_dim,
++                                 uint32_t heads, uint32_t head_dim,
++                                 uint32_t rope_half, float epsilon,
++                                 int input_is_quantized) {
++    H3GPU *gpu = GPU(opaque);
++    gpu.headMajorSDPAInputs = NO;
++    uint32_t inner = heads * head_dim;
++    uint32_t padded_rows = (rows + 127u) & ~127u;
++    size_t projected = (size_t)rows * inner;
++    size_t rope_count = (size_t)rows * rope_half;
++    if (!gpu.tensorOpsEnabled || rows < 128 || rows > UINT32_MAX-127u ||
++        !input_dim || input_dim % 128 || !heads || !isfinite(epsilon) || epsilon <= 0 ||
++        head_dim != 128 || heads % 4 || rope_half != 48 ||
++        !h3_gpu_require_i8(gpu, weight,
++                           (size_t)inner * 3 * input_dim,
++                           @"int8 QKV projection weight") ||
++        !h3_gpu_require_f32(gpu, weight_scales, inner * 3,
++                            @"int8 QKV weight scales") ||
++        !h3_gpu_require_i8(gpu, quantized_input,
++                           (size_t)padded_rows * input_dim,
++                           @"int8 QKV input") ||
++        !h3_gpu_require_f32(gpu, input_scales, padded_rows,
++                            @"int8 QKV input scales") ||
++        (!input_is_quantized &&
++         !h3_gpu_require_bf16(gpu, input, (size_t)rows * input_dim,
++                              @"BF16 QKV input")) ||
++        !h3_gpu_require_bf16(gpu, q_norm, head_dim, @"int8 Q norm") ||
++        !h3_gpu_require_bf16(gpu, k_norm, head_dim, @"int8 K norm") ||
++        !h3_gpu_require_bf16(gpu, rope_cos, rope_count,
++                             @"int8 RoPE cosine") ||
++        !h3_gpu_require_bf16(gpu, rope_sin, rope_count,
++                             @"int8 RoPE sine") ||
++        !h3_gpu_require_bf16(gpu, query, projected, @"int8 query") ||
++        !h3_gpu_require_bf16(gpu, key, projected, @"int8 key") ||
++        !h3_gpu_require_bf16(gpu, value, projected, @"int8 value") ||
++        !h3_gpu_require_command(gpu)) return 0;
++    if (!input_is_quantized && !h3_gpu_quantize_bf16_int8_rows(
++            opaque, quantized_input, input_scales, input, rows, padded_rows,
++            input_dim, 1.0f, @"int8 QKV input")) return 0;
++    id<MTLComputePipelineState> projection = h3_gpu_pipeline(
++        gpu, @"h3_m5_qkv_rope_int8_r64_swizzle8");
++    if (!projection || projection.maxTotalThreadsPerThreadgroup < 128) {
++        h3_gpu_set_error(gpu, @"M5 custom grouped QKV candidate unavailable; no fallback");
++        return 0;
++    }
++    typedef struct {
++        uint32_t rows, input_dim, heads, head_dim, rope_half, head_major;
++        float epsilon;
++    } qkv_project_rope_args;
++    qkv_project_rope_args args = {rows, input_dim, heads, head_dim, rope_half, 1u, epsilon};
++    @autoreleasepool {
++        id<MTLComputeCommandEncoder> encoder = [gpu.command computeCommandEncoder];
++        [encoder setComputePipelineState:projection];
++        [encoder setBuffer:TENSOR(quantized_input).buffer offset:0 atIndex:0];
++        [encoder setBuffer:TENSOR(weight).buffer offset:0 atIndex:1];
++        [encoder setBuffer:TENSOR(input_scales).buffer offset:0 atIndex:2];
++        [encoder setBuffer:TENSOR(weight_scales).buffer offset:0 atIndex:3];
++        [encoder setBuffer:TENSOR(query).buffer offset:0 atIndex:4];
++        [encoder setBuffer:TENSOR(key).buffer offset:0 atIndex:5];
++        [encoder setBuffer:TENSOR(value).buffer offset:0 atIndex:6];
++        [encoder setBuffer:TENSOR(q_norm).buffer offset:0 atIndex:7];
++        [encoder setBuffer:TENSOR(k_norm).buffer offset:0 atIndex:8];
++        [encoder setBuffer:TENSOR(rope_cos).buffer offset:0 atIndex:9];
++        [encoder setBuffer:TENSOR(rope_sin).buffer offset:0 atIndex:10];
++        [encoder setBytes:&args length:sizeof(args) atIndex:11];
++        NSUInteger groups = (NSUInteger)((rows+63u)/64u)*heads*3u;
++        [encoder dispatchThreadgroups:MTLSizeMake(groups,1,1)
++                 threadsPerThreadgroup:MTLSizeMake(128,1,1)];
++        [encoder endEncoding];
++    }
++    h3_gpu_stats stats = gpu.stats;
++    stats.direct_dispatches += 1;
++    gpu.stats = stats;
++    gpu.headMajorSDPAInputs = YES;
++    return 1;
++}
++
+ int h3_gpu_swiglu_bf16(h3_gpu *opaque, h3_gpu_tensor *output,
+                        const h3_gpu_tensor *fused, uint32_t rows,
+                        uint32_t width) {
+--- a/h3_shaders.metal
++++ b/h3_shaders.metal
+@@ -1752,6 +1752,90 @@
+         threadgroup_barrier(mem_flags::mem_threadgroup);
+     }
+ }
++
++/* Original MIT-licensed M5MaxLocalBenchmark Q/K tile port.
++ * Source: src/m5kernels/shaders/qk_rope_projection.metal + qk_rope_body.metal.
++ * TM64/TN128/four SIMD groups/swizzle8; native grouped Q,K,V weight layout.
++ * This is a candidate, not an asserted improvement over native grouped QKV.
++ * Include inside H3_METAL_HAS_TENSOR after h3_qkv_project_rope_args. */
++kernel void h3_m5_qkv_rope_int8_r64_swizzle8(
++    device int8_t *input [[buffer(0)]],
++    device int8_t *weight [[buffer(1)]],
++    device const float *input_scales [[buffer(2)]],
++    device const float *weight_scales [[buffer(3)]],
++    device bfloat *query [[buffer(4)]],
++    device bfloat *key [[buffer(5)]],
++    device bfloat *value [[buffer(6)]],
++    device const bfloat *q_gamma [[buffer(7)]],
++    device const bfloat *k_gamma [[buffer(8)]],
++    device const bfloat *rope_cos [[buffer(9)]],
++    device const bfloat *rope_sin [[buffer(10)]],
++    constant h3_qkv_project_rope_args &args [[buffer(11)]],
++    uint group_id [[threadgroup_position_in_grid]],
++    uint lane [[thread_index_in_simdgroup]],
++    uint sg [[simdgroup_index_in_threadgroup]]) {
++    constexpr uint TM=64, TN=128, GROUPS=4, SWIZZLE=8, D=128, HALF=48;
++    uint row_tiles=(args.rows+TM-1)/TM, columns=args.heads*3;
++    uint band=group_id/(columns*SWIZZLE), start=band*SWIZZLE;
++    uint height=min(SWIZZLE,row_tiles-start), inner=group_id%(columns*SWIZZLE);
++    uint row_start=(start+inner%height)*TM, column_tile=inner/height;
++    uint head=column_tile/3, stream=column_tile%3, weight_start=column_tile*D;
++    uint padded_rows=(args.rows+127u)&~127u;
++    device bfloat *output=stream==0?query:stream==1?key:value;
++    threadgroup bfloat projected[TM*D];
++    auto a=tensor(input,dextents<int,2>(int(args.input_dim),int(padded_rows)),
++                  array<int,2>{1,int(args.input_dim)});
++    auto w=tensor(weight,dextents<int,2>(int(args.input_dim),int(columns*D)),
++                  array<int,2>{1,int(args.input_dim)});
++    auto ta=a.slice(0,int(row_start)), tw=w.slice(0,int(weight_start));
++    constexpr auto desc=matmul2d_descriptor(TM,TN,dynamic_length_v<int>,false,true);
++    matmul2d<desc,execution_simdgroups<GROUPS>> op;
++    auto accum=op.get_destination_cooperative_tensor<decltype(ta),decltype(tw),int>();
++    op.run(ta,tw,accum);
++    #pragma unroll
++    for(ushort i=0;i<accum.get_capacity();++i) {
++        if(!accum.is_valid_element(i)) continue;
++        auto ij=accum.get_multidimensional_index(i);
++        uint local_row=uint(ij[1]), dimension=uint(ij[0]);
++        uint row=row_start+local_row;
++        if(row<args.rows) {
++            // Preserve native left-associated scales and BF16 projection round.
++            bfloat rounded=bfloat(float(accum[i])*input_scales[row]*
++                                  weight_scales[weight_start+dimension]);
++            if(stream==2)
++                output[(ulong(head)*args.rows+row)*D+dimension]=rounded;
++            else projected[local_row*D+dimension]=rounded;
++        }
++    }
++    // Stream is uniform across the threadgroup. V bypasses normalization/RoPE.
++    if(stream==2) return;
++    threadgroup_barrier(mem_flags::mem_threadgroup);
++    device const bfloat *gamma=stream==0?q_gamma:k_gamma;
++    for(uint local_row=sg;local_row<TM;local_row+=GROUPS) {
++        uint row=row_start+local_row;
++        if(row>=args.rows) continue;
++        float square_sum=0.0f;
++        #pragma unroll
++        for(uint d=lane;d<D;d+=32) {
++            float x=float(projected[local_row*D+d]);
++            square_sum+=x*x;
++        }
++        float inverse=rsqrt(simd_sum(square_sum)/float(D)+args.epsilon);
++        #pragma unroll
++        for(uint d=lane;d<D;d+=32) {
++            float y=float(projected[local_row*D+d])*inverse*float(gamma[d]);
++            if(d<2*HALF) {
++                uint pair=d<HALF?d+HALF:d-HALF, angle=d<HALF?d:d-HALF;
++                float paired=float(projected[local_row*D+pair])*inverse*float(gamma[pair]);
++                float c=float(rope_cos[ulong(row)*HALF+angle]);
++                float s=float(rope_sin[ulong(row)*HALF+angle]);
++                y=d<HALF?y*c-paired*s:y*c+paired*s;
++            }
++            output[(ulong(head)*args.rows+row)*D+d]=bfloat(y);
++        }
++    }
++}
++
+ 
+ /* Int8 H3 QKV projection. Checkpoint columns are grouped as
+  * [head, q/k/v, dimension], so each 128-column TensorOps tile writes one

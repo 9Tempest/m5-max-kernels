@@ -1,0 +1,679 @@
+--- a/h3_dit.c
++++ b/h3_dit.c
+@@ -90,6 +90,9 @@
+     int use_slower_grouped_quantizer;
+     int use_int8_row_fc2;
+     int use_hadamard_fc2;
++    int use_hadamard_qkv;
++    int use_hadamard_fc1;
++    int hadamard_prep_staged;
+     int fuse_fc2_gate;
+     int fuse_attention_output_gate;
+     int ssd_streaming;
+@@ -706,9 +709,11 @@
+     int ok = block->fc1_int8 && block->fc1_scales &&
+              block->fc2_int8 && block->fc2_scales &&
+              h3_gpu_begin(dit->gpu) &&
+-             h3_gpu_quantize_weight_int8(
++             (dit->use_hadamard_fc1 ? h3_gpu_quantize_h256_int8(
+                  dit->gpu, block->fc1_int8, block->fc1_scales, block->fc1,
+-                 FFN * 2, HIDDEN) &&
++                 FFN * 2, FFN * 2, HIDDEN) : h3_gpu_quantize_weight_int8(
++                 dit->gpu, block->fc1_int8, block->fc1_scales, block->fc1,
++                 FFN * 2, HIDDEN)) &&
+              (dit->use_hadamard_fc2 ? h3_gpu_quantize_h256_int8(
+                  dit->gpu, block->fc2_int8, block->fc2_scales, block->fc2,
+                  HIDDEN, HIDDEN, FFN) : h3_gpu_quantize_weight_int8(
+@@ -734,9 +739,11 @@
+     block->qkv_scales = h3_gpu_tensor_new_f32(dit->gpu, INNER * 3);
+     int ok = block->qkv_int8 && block->qkv_scales &&
+              h3_gpu_begin(dit->gpu) &&
+-             h3_gpu_quantize_weight_int8(
++             (dit->use_hadamard_qkv ? h3_gpu_quantize_h256_int8(
+                  dit->gpu, block->qkv_int8, block->qkv_scales, block->qkv,
+-                 INNER * 3, HIDDEN) &&
++                 INNER * 3, INNER * 3, HIDDEN) : h3_gpu_quantize_weight_int8(
++                 dit->gpu, block->qkv_int8, block->qkv_scales, block->qkv,
++                 INNER * 3, HIDDEN)) &&
+              h3_gpu_submit(dit->gpu);
+     if (!ok) {
+         fail(error, error_size, "cannot quantize DiT QKV weight: %s",
+@@ -1666,6 +1673,33 @@
+          getenv("H3_BENCH_INT8_QKV_AB"));
+     dit->use_slower_grouped_quantizer = use_slower_grouped_quantizer;
+     dit->use_int8_row_fc2 = dit->int8_mlp && use_int8_row_fc2;
++
++    const char *h_qkv=getenv("H3_HADAMARD_QKV");
++    const char *h_fc1=getenv("H3_HADAMARD_FC1");
++    const char *h_staged=getenv("H3_HADAMARD_PREP_STAGED");
++    if((h_qkv && strcmp(h_qkv,"0") && strcmp(h_qkv,"1")) ||
++       (h_fc1 && strcmp(h_fc1,"0") && strcmp(h_fc1,"1")) ||
++       (h_staged && strcmp(h_staged,"0") && strcmp(h_staged,"1"))) {
++        fail(error,error_size,"H3_HADAMARD_QKV/FC1/PREP_STAGED must be exactly 0 or 1"); goto failed;
++    }
++    dit->use_hadamard_qkv=h_qkv && !strcmp(h_qkv,"1");
++    dit->use_hadamard_fc1=h_fc1 && !strcmp(h_fc1,"1");
++    dit->hadamard_prep_staged=h_staged && !strcmp(h_staged,"1");
++    if((dit->use_hadamard_qkv || dit->use_hadamard_fc1) &&
++       (dit->ssd_streaming || dit->token_reduction || getenv("H3_PREPARED_DIR") ||
++        getenv("H3_PREPARED_DIT_CACHE") || getenv("H3_PREPARED_DIT_MANIFEST_SHA256") ||
++        getenv("H3_INT8_ACTIVATION_CLIP") || getenv("H3_INT8_MLP_STAGE") ||
++        (dit->use_hadamard_qkv && (!dit->int8_qkv || getenv("H3_DISABLE_INT8_QKV"))) ||
++        (dit->use_hadamard_fc1 && (!dit->int8_mlp || getenv("H3_DISABLE_INT8_MLP"))))) {
++        fail(error,error_size,"QKV/FC1 H256 requires original weights, unreduced native INT8, no streaming/stage/clip overrides; no fallback"); goto failed;
++    }
++    if(dit->hadamard_prep_staged && !dit->use_hadamard_qkv && !dit->use_hadamard_fc1) {
++        fail(error,error_size,"H3_HADAMARD_PREP_STAGED requires QKV or FC1 H256"); goto failed;
++    }
++    if(dit->use_hadamard_qkv || dit->use_hadamard_fc1)
++        fprintf(stderr,"h3 precision: H256 QKV=%d FC1=%d staged_prep=%d; original BF16 boundaries, FP32 transform, whole-row INT8; experimental\n",
++            dit->use_hadamard_qkv,dit->use_hadamard_fc1,dit->hadamard_prep_staged);
++
+     const char *hadamard_fc2 = getenv("H3_HADAMARD_FC2");
+     if (hadamard_fc2 && strcmp(hadamard_fc2, "0") && strcmp(hadamard_fc2, "1")) {
+         fail(error, error_size, "H3_HADAMARD_FC2 must be exactly 0 or 1");
+@@ -1677,6 +1711,11 @@
+         getenv("H3_INT8_ACTIVATION_CLIP"))) {
+         fail(error, error_size, "H256 FC2 requires native INT8 MLP and no row/stage/clip override; no fallback");
+         goto failed;
++    }
++    const char *adaln_capture=getenv("H3_ADALN_CAPTURE_DIR");
++    if(adaln_capture && (!*adaln_capture ||
++        (!dit->use_hadamard_qkv && !dit->use_hadamard_fc1) || dit->token_reduction)) {
++        fail(error,error_size,"AdaLN capture needs nonempty directory, enabled QKV/FC1 H256 and unreduced rows"); goto failed;
+     }
+     const char *capture_dir=getenv("H3_FC2_CAPTURE_DIR");
+     if (capture_dir && (!*capture_dir || !dit->int8_mlp ||
+@@ -2015,6 +2054,149 @@
+     return 1;
+ }
+ 
++
++/* Opt-in actual prep capture; inputs are snapshotted before any in-place gate.
++ * Normal execution makes exactly the selected prep call, with no new dispatch
++ * or readback. Captures deliberately submit/restart and are never perf runs. */
++static int h256_capture_write(const char *stem, const char *suffix,
++                              const void *data, size_t bytes) {
++    char path[4096];
++    int n=snprintf(path,sizeof(path),"%s-%s",stem,suffix);
++    if(n<0 || (size_t)n>=sizeof(path)) return 0;
++    int fd=open(path,O_WRONLY|O_CREAT|O_EXCL,0600);
++    if(fd<0) return 0;
++    FILE *f=fdopen(fd,"wb");
++    if(!f) { close(fd); return 0; }
++    int ok=fwrite(data,1,bytes,f)==bytes;
++    return fclose(f)==0 && ok;
++}
++
++static int prepare_h256_input(h3_dit *dit, const char *family, unsigned block,
++        int step, uint32_t rows, const h3_gpu_tensor *branch,
++        const h3_gpu_tensor *gamma, const h3_gpu_tensor *gate_modulation,
++        const h3_gpu_tensor *norm_modulation, const h3_gpu_tensor *gate_map,
++        const h3_gpu_tensor *norm_map, unsigned gate_slot, unsigned shift_slot,
++        unsigned scale_slot, int apply_gate, h3_gpu_tensor *scratch,
++        char *error, size_t error_size) {
++    const char *directory=getenv("H3_ADALN_CAPTURE_DIR");
++    int capture=directory && (step==0 || step==dit->sigmas.steps/2 ||
++        step==dit->sigmas.steps-1) && (block==0 || block==24 || block==49);
++    uint32_t padded=(rows+127u)&~127u;
++    uint32_t ids[16], gm[16]={0}, nm[16]={0};
++    size_t count=0;
++    uint16_t *samples=NULL;
++    char stem[4096];
++    if(capture) {
++        if(!*directory || rows!=dit->sequence || dit->token_reduction_active) {
++            fail(error,error_size,"H256 capture needs a nonempty directory and full packed rows"); return 0;
++        }
++        /* Include each actual modality boundary, then spread remaining rows. */
++        for(size_t segment=0;segment<dit->layout.segment_count;++segment) {
++            const h3_segment *part=&dit->layout.segments[segment];
++            if(part->stop<=part->start) continue;
++            size_t selected[]={part->start,part->start+(part->stop-part->start)/2,part->stop-1};
++            for(size_t j=0;j<3;++j) {
++                int seen=0;
++                for(size_t k=0;k<count;++k) seen|=ids[k]==selected[j];
++                if(!seen) {
++                    if(count==16) { fail(error,error_size,"H256 capture exceeds 16 boundary rows"); return 0; }
++                    ids[count++]=(uint32_t)selected[j];
++                }
++            }
++        }
++        for(uint32_t divisor=16;count<16 && divisor<=256;divisor*=2) {
++            for(uint32_t j=1;j<divisor && count<16;++j) {
++                uint32_t id=(uint32_t)(((uint64_t)(rows-1)*j)/divisor);
++                int seen=0;
++                for(size_t k=0;k<count;++k) seen|=ids[k]==id;
++                if(!seen) ids[count++]=id;
++            }
++        }
++        if(count!=16) { fail(error,error_size,"H256 capture requires 16 distinct rows"); return 0; }
++        int n=snprintf(stem,sizeof(stem),"%s/%s-step%02d-block%02u",directory,family,step,block);
++        if(n<0 || (size_t)n>=sizeof(stem)) { fail(error,error_size,"H256 capture path too long"); return 0; }
++        if(!h3_gpu_submit(dit->gpu)) { fail(error,error_size,"H256 capture input submit failed"); return 0; }
++        /* Per-row residual, branch, gate, shift, scale; one gamma vector. */
++        size_t span=count*HIDDEN;
++        samples=calloc(5*span+HIDDEN,sizeof(*samples));
++        int ok=samples!=NULL;
++        for(size_t j=0;j<count && ok;++j) {
++            ok=h3_gpu_tensor_read_bf16_range(dit->hidden,(size_t)ids[j]*HIDDEN,
++                    samples+j*HIDDEN,HIDDEN) &&
++               h3_gpu_tensor_read_u32_range(norm_map,ids[j],nm+j,1);
++            if(apply_gate) ok=ok &&
++                h3_gpu_tensor_read_bf16_range(branch,(size_t)ids[j]*HIDDEN,samples+span+j*HIDDEN,HIDDEN) &&
++                h3_gpu_tensor_read_u32_range(gate_map,ids[j],gm+j,1) &&
++                h3_gpu_tensor_read_bf16_range(gate_modulation,
++                    ((size_t)gm[j]*SLOTS+gate_slot)*HIDDEN,samples+2*span+j*HIDDEN,HIDDEN);
++            ok=ok && h3_gpu_tensor_read_bf16_range(norm_modulation,
++                    ((size_t)nm[j]*SLOTS+shift_slot)*HIDDEN,samples+3*span+j*HIDDEN,HIDDEN) &&
++                h3_gpu_tensor_read_bf16_range(norm_modulation,
++                    ((size_t)nm[j]*SLOTS+scale_slot)*HIDDEN,samples+4*span+j*HIDDEN,HIDDEN);
++        }
++        ok=ok && h3_gpu_tensor_read_bf16(gamma,samples+5*span,HIDDEN);
++        size_t nonfinite=0;
++        if(samples) for(size_t j=0;j<5*span+HIDDEN;++j) nonfinite+=(samples[j]&0x7f80u)==0x7f80u;
++        if(!ok || nonfinite) { free(samples); fail(error,error_size,"H256 capture inputs unreadable/nonfinite"); return 0; }
++        const char *names[]={"residual.bf16","branch.bf16","gate.bf16","shift.bf16","scale.bf16"};
++        for(size_t j=0;j<5 && ok;++j) ok=h256_capture_write(stem,names[j],samples+j*span,span*sizeof(*samples));
++        ok=ok && h256_capture_write(stem,"gamma.bf16",samples+5*span,HIDDEN*sizeof(*samples)) &&
++            h256_capture_write(stem,"gate-map.u32",gm,count*sizeof(*gm)) &&
++            h256_capture_write(stem,"norm-map.u32",nm,count*sizeof(*nm));
++        free(samples); samples=NULL;
++        if(!ok || !h3_gpu_begin(dit->gpu)) { fail(error,error_size,"H256 input capture write/restart failed"); return 0; }
++    }
++    int ok=h3_gpu_adaln_h256_int8(dit->gpu,dit->hidden,dit->int8_activation,
++        dit->int8_activation_scales,(dit->hadamard_prep_staged || capture) ? scratch : NULL,
++        dit->hidden,branch,gamma,gate_modulation,norm_modulation,gate_map,norm_map,
++        rows,padded,HIDDEN,SLOTS,gate_slot,shift_slot,scale_slot,1e-5f,
++        apply_gate,dit->hadamard_prep_staged);
++    if(!ok) { fail(error,error_size,"H256 %s preparation failed: %s",family,h3_gpu_error(dit->gpu)); return 0; }
++    if(!capture) return 1;
++    if(!h3_gpu_submit(dit->gpu)) { fail(error,error_size,"H256 output capture submit failed"); return 0; }
++    size_t span=count*HIDDEN;
++    samples=malloc(2*span*sizeof(*samples));
++    int8_t *codes=malloc(span);
++    float scales[16];
++    ok=samples && codes;
++    for(size_t j=0;j<count && ok;++j)
++        ok=h3_gpu_tensor_read_bf16_range(dit->hidden,(size_t)ids[j]*HIDDEN,samples+j*HIDDEN,HIDDEN) &&
++            h3_gpu_tensor_read_bf16_range(scratch,(size_t)ids[j]*HIDDEN,samples+span+j*HIDDEN,HIDDEN) &&
++            h3_gpu_tensor_read_i8_range(dit->int8_activation,(size_t)ids[j]*HIDDEN,codes+j*HIDDEN,HIDDEN) &&
++            h3_gpu_tensor_read_f32_range(dit->int8_activation_scales,ids[j],scales+j,1);
++    if(ok) {
++        for(size_t j=0;j<2*span;++j) if((samples[j]&0x7f80u)==0x7f80u) ok=0;
++        for(size_t j=0;j<count;++j) if(!isfinite(scales[j]) || scales[j]<=0) ok=0;
++        for(size_t j=0;j<span;++j) if(codes[j]==INT8_MIN) ok=0;
++    }
++    ok=ok && h256_capture_write(stem,"gated.bf16",samples,span*sizeof(*samples)) &&
++        h256_capture_write(stem,"adaln.bf16",samples+span,span*sizeof(*samples)) &&
++        h256_capture_write(stem,"codes.i8",codes,span) &&
++        h256_capture_write(stem,"scales.f32",scales,count*sizeof(*scales));
++    free(samples); free(codes);
++    if(!ok) { fail(error,error_size,"H256 output capture read/write/nonfinite failure"); return 0; }
++    char path[4096];
++    int n=snprintf(path,sizeof(path),"%s.json",stem);
++    if(n<0 || (size_t)n>=sizeof(path)) { fail(error,error_size,"H256 metadata path too long"); return 0; }
++    int fd=open(path,O_WRONLY|O_CREAT|O_EXCL,0600);
++    FILE *f=fd<0 ? NULL : fdopen(fd,"w");
++    if(!f) { if(fd>=0) close(fd); fail(error,error_size,"H256 metadata exclusive open failed"); return 0; }
++    fprintf(f,"{\"schema\":1,\"scope\":\"diagnostic_with_extra_gpu_waits\",\"family\":\"%s\",\"step\":%d,\"block\":%u,\"packed_rows\":%u,\"sample_rows\":%zu,\"width\":%d,\"slots\":%d,\"gate_slot\":%u,\"shift_slot\":%u,\"scale_slot\":%u,\"apply_gate\":%d,\"staged\":%d,\"hadamard_qkv\":%d,\"hadamard_fc1\":%d,\"hadamard_fc2\":%d,\"epsilon\":1e-5,\"row_ids\":[",
++        family,step,block,rows,count,HIDDEN,SLOTS,gate_slot,shift_slot,scale_slot,apply_gate,
++        dit->hadamard_prep_staged,dit->use_hadamard_qkv,dit->use_hadamard_fc1,dit->use_hadamard_fc2);
++    for(size_t j=0;j<count;++j) fprintf(f,"%s%u",j?",":"",ids[j]);
++    fprintf(f,"],\"segments\":[");
++    for(size_t j=0;j<dit->layout.segment_count;++j) {
++        const h3_segment *part=&dit->layout.segments[j];
++        fprintf(f,"%s{\"kind\":%d,\"start\":%zu,\"stop\":%zu}",j?",":"",part->kind,part->start,part->stop);
++    }
++    fprintf(f,"],\"input_layout\":\"selected_rows_full_K_BF16_little_endian\",\"modulation_layout\":\"gate_shift_scale_gathered_per_sample_using_independent_maps\",\"gamma_shape\":[%d],\"codes_layout\":\"selected_rows_full_K_signed_INT8\",\"scales_layout\":\"one_FP32_little_endian_per_sample\",\"zero_row_scale\":1,\"nonfinite\":0}\n",HIDDEN);
++    ok=!ferror(f); ok=fclose(f)==0 && ok;
++    if(!ok || !h3_gpu_begin(dit->gpu)) { fail(error,error_size,"H256 metadata/restart failed"); return 0; }
++    fprintf(stderr,"h3 adaln capture: family=%s step=%d block=%u rows=%zu K=%d (diagnostic extra waits)\n",family,step,block,count,HIDDEN);
++    return 1;
++}
++
+ static int run_block(h3_dit *dit, unsigned index, int step,
+                      h3_dit_block *weight,
+                      int attention_adaln_ready,
+@@ -2036,7 +2218,18 @@
+ #define OP(call, label) do {                                                    \
+     if (!gpu_op(dit, (call), error, error_size, label)) return 0;               \
+ } while (0)
+-    if (!attention_adaln_ready)
++    if (dit->use_hadamard_qkv && !attention_input_quantized) {
++        uint32_t padded_rows=(rows+127u)&~127u;
++        if(attention_adaln_ready) {
++            OP(h3_gpu_quantize_h256_int8(dit->gpu,dit->int8_activation,
++                dit->int8_activation_scales,dit->mod_attention,rows,padded_rows,HIDDEN),
++                "DiT carried attention AdaLN H256 packing");
++        } else {
++            if(!prepare_h256_input(dit,"qkv",index,step,rows,NULL,weight->norm1,
++                NULL,modulation,NULL,row_map,0,0,1,0,dit->mod_attention,error,error_size)) return 0;
++        }
++        attention_input_quantized=1;
++    } else if (!attention_adaln_ready && !dit->use_hadamard_qkv)
+         OP(h3_gpu_adaln_bf16(dit->gpu, dit->mod_attention, dit->hidden,
+             weight->norm1, modulation, row_map, rows, HIDDEN, SLOTS,
+             0, 1, 1e-5f), "DiT attention AdaLN");
+@@ -2101,11 +2294,15 @@
+             dit->attention_heads, weight->out, NULL, rows, INNER, HIDDEN),
+            "DiT attention output");
+     }
+-    int fused_int8_mlp_input = dit->int8_mlp &&
++    int fused_int8_mlp_input = dit->use_hadamard_fc1 || (dit->int8_mlp &&
+         !dit->use_slower_unfused_int8_inputs &&
+         !getenv("H3_DISABLE_FUSED_INT8_MLP_INPUT") &&
+-        !getenv("H3_INT8_MLP_STAGE");
+-    if (dit->fuse_attention_output_gate) {
++        !getenv("H3_INT8_MLP_STAGE"));
++    if(dit->use_hadamard_fc1) {
++        if(!prepare_h256_input(dit,"fc1",index,step,rows,dit->attention_output,
++            weight->norm2,modulation,modulation,row_map,row_map,2,3,4,
++            !dit->fuse_attention_output_gate,dit->mod_mlp,error,error_size)) return 0;
++    } else if (dit->fuse_attention_output_gate) {
+         if (!fused_int8_mlp_input) { fail(error, error_size, "fused attention gate requires fused INT8 MLP input"); return 0; }
+         uint32_t padded_rows = (rows + 127u) & ~127u;
+         OP(h3_gpu_adaln_quantize_int8_pre_gated(
+@@ -2191,7 +2388,12 @@
+             !dit->use_slower_unfused_int8_inputs &&
+             !getenv("H3_DISABLE_INT8_QKV") &&
+             !getenv("H3_DISABLE_FUSED_INT8_QKV_INPUT");
+-        if (dit->fuse_fc2_gate) {
++        if(dit->use_hadamard_qkv) {
++            if(!prepare_h256_input(dit,"qkv",next_index,step,rows,mlp_output,
++                next_weight->norm1,modulation,next_modulation,row_map,row_map,5,0,1,
++                !dit->fuse_fc2_gate,dit->mod_attention,error,error_size)) return 0;
++            *next_attention_input_quantized=1;
++        } else if (dit->fuse_fc2_gate) {
+             if (!fuse_int8_qkv_input) { fail(error, error_size, "fused FC2 gate requires next INT8 input fusion"); return 0; }
+             uint32_t padded_rows = (rows + 127u) & ~127u;
+             OP(h3_gpu_adaln_quantize_int8_pre_gated(
+@@ -2854,7 +3056,7 @@
+     struct timespec wall,mono;
+     clock_gettime(CLOCK_REALTIME,&wall); clock_gettime(CLOCK_MONOTONIC,&mono);
+     const char *seed=getenv("H3_CAPTURE_SEED");
+-    fprintf(f,"{\"schema\":1,\"scope\":\"diagnostic_CPU_readback_after_completed_GPU_Euler\",\"dtype\":\"float32_little_endian\",\"seed\":%s,\"seed_source\":\"caller_declared_H3_CAPTURE_SEED_verify_against_request_manifest\",\"completed_steps\":%d,\"time_unix_seconds\":%.9f,\"time_monotonic_seconds\":%.9f,\"final_video_shape\":[%d,%d,%d,%d],\"final_audio_shape\":[%d,%d,%d],\"final_layout\":\"unpacked_contiguous_VAE_input_before_decoder\",\"per_step_video_shape\":[%u,%d],\"per_step_audio_shape\":[%u,%d],\"per_step_layout\":\"packed_model_rows_after_Euler_before_unpack\",\"final_video_sigma\":%.9g,\"final_audio_sigma\":%.9g,\"int8_mlp\":%d,\"int8_qkv\":%d,\"int8_attention_out\":%d,\"hadamard_fc2\":%d,\"finite\":true}\n",seed?seed:"null",dit->sigmas.steps,(double)wall.tv_sec+(double)wall.tv_nsec*1e-9,(double)mono.tv_sec+(double)mono.tv_nsec*1e-9,VIDEO_CHANNELS,dit->latent_t,dit->latent_h,dit->latent_w,AUDIO_CHANNELS,AUDIO_STREAMS,dit->audio_t,dit->video_rows,VIDEO_PATCH,dit->audio_rows,AUDIO_CHANNELS,dit->sigmas.video[dit->sigmas.steps],dit->sigmas.audio[dit->sigmas.steps],dit->int8_mlp,dit->int8_qkv,dit->int8_attention_out,dit->use_hadamard_fc2);
++    fprintf(f,"{\"schema\":1,\"scope\":\"diagnostic_CPU_readback_after_completed_GPU_Euler\",\"dtype\":\"float32_little_endian\",\"seed\":%s,\"seed_source\":\"caller_declared_H3_CAPTURE_SEED_verify_against_request_manifest\",\"completed_steps\":%d,\"time_unix_seconds\":%.9f,\"time_monotonic_seconds\":%.9f,\"final_video_shape\":[%d,%d,%d,%d],\"final_audio_shape\":[%d,%d,%d],\"final_layout\":\"unpacked_contiguous_VAE_input_before_decoder\",\"per_step_video_shape\":[%u,%d],\"per_step_audio_shape\":[%u,%d],\"per_step_layout\":\"packed_model_rows_after_Euler_before_unpack\",\"final_video_sigma\":%.9g,\"final_audio_sigma\":%.9g,\"int8_mlp\":%d,\"int8_qkv\":%d,\"int8_attention_out\":%d,\"hadamard_fc2\":%d,\"hadamard_qkv\":%d,\"hadamard_fc1\":%d,\"hadamard_prep_staged\":%d,\"finite\":true}\n",seed?seed:"null",dit->sigmas.steps,(double)wall.tv_sec+(double)wall.tv_nsec*1e-9,(double)mono.tv_sec+(double)mono.tv_nsec*1e-9,VIDEO_CHANNELS,dit->latent_t,dit->latent_h,dit->latent_w,AUDIO_CHANNELS,AUDIO_STREAMS,dit->audio_t,dit->video_rows,VIDEO_PATCH,dit->audio_rows,AUDIO_CHANNELS,dit->sigmas.video[dit->sigmas.steps],dit->sigmas.audio[dit->sigmas.steps],dit->int8_mlp,dit->int8_qkv,dit->int8_attention_out,dit->use_hadamard_fc2,dit->use_hadamard_qkv,dit->use_hadamard_fc1,dit->hadamard_prep_staged);
+     int ok=!ferror(f); ok=fclose(f)==0 && ok;
+     if(!ok) fail(error,error_size,"final latent metadata write failed");
+     return ok;
+--- a/h3_gpu.h
++++ b/h3_gpu.h
+@@ -83,6 +83,10 @@
+                                   size_t elements);
+ int h3_gpu_tensor_read_i8_range(const h3_gpu_tensor *tensor,
+                                 size_t source_offset, int8_t *values,
++                                size_t elements);
++/* Diagnostic readback; caller must submit/wait before reading. */
++int h3_gpu_tensor_read_u32_range(const h3_gpu_tensor *tensor,
++                                size_t source_offset, uint32_t *values,
+                                 size_t elements);
+ int h3_gpu_tensor_write_f32(h3_gpu_tensor *tensor, const float *values,
+                             size_t elements);
+@@ -703,4 +707,30 @@
+                             const h3_gpu_tensor *gate_row_map,
+                             uint32_t gate_slots, uint32_t gate_slot);
+ 
++
++/* Native RMS/AdaLN BF16 boundary -> normalized H256 -> row INT8.
++ * Independent U32 maps index [condition,slots,width] BF16 tables; callers
++ * guarantee map bounds and finite inputs before encoding. In-place residual
++ * updates are supported; other outputs must not alias inputs/each other.
++ * staged=1 uses existing gate/AdaLN plus independent H packing, requiring
++ * BF16 scratch[rows,width]. Fused (staged=0) accepts NULL scratch, or writes
++ * the post-AdaLN BF16 values to supplied scratch for diagnostic readback.
++ * apply_gate=0 requires gated_residual==residual and leaves it unchanged.
++ * No synchronization/readback is performed by this API. */
++int h3_gpu_adaln_h256_int8(h3_gpu *opaque,
++                     h3_gpu_tensor *gated_residual,
++                     h3_gpu_tensor *quantized_output, h3_gpu_tensor *quantized_scales,
++                     h3_gpu_tensor *bf16_scratch,
++                     const h3_gpu_tensor *residual, const h3_gpu_tensor *branch,
++                     const h3_gpu_tensor *norm_weight,
++                     const h3_gpu_tensor *gate_modulation,
++                     const h3_gpu_tensor *norm_modulation,
++                     const h3_gpu_tensor *gate_row_map,
++                     const h3_gpu_tensor *norm_row_map,
++                     uint32_t rows, uint32_t padded_rows, uint32_t width,
++                     uint32_t slots, uint32_t gate_slot,
++                     uint32_t shift_slot, uint32_t scale_slot,
++                     float epsilon, int apply_gate, int staged)
++;
++
+ #endif
+--- a/h3_gpu.m
++++ b/h3_gpu.m
+@@ -449,6 +449,8 @@
+             [names addObject:@"h3_fc1_swiglu_bf16_nax_r128_morton"];
+             [names addObject:@"h3_fc1_swiglu_bf16_nax_r128_morton4"];
+             [names addObject:@"h3_quantize_bf16_h256_int8_rows_k14336"];
++            [names addObject:@"h3_quantize_bf16_h256_int8_rows_k5376"];
++            [names addObject:@"h3_adaln_h256_int8_k5376"];
+             [names addObject:@"h3_quantize_bf16_int8_rows"];
+             [names addObject:@"h3_quantize_bf16_int8_rows_scalar"];
+             [names addObject:
+@@ -858,6 +860,16 @@
+         elements > TENSOR(tensor).elements - source_offset) return 0;
+     const unsigned char *source = TENSOR(tensor).buffer.contents;
+     memcpy(values, source + source_offset * sizeof(uint16_t), elements * sizeof(uint16_t));
++    return 1;
++}
++int h3_gpu_tensor_read_u32_range(const h3_gpu_tensor *tensor,
++                                  size_t source_offset, uint32_t *values,
++                                  size_t elements) {
++    if (!tensor || !values || TENSOR(tensor).dtype != H3_GPU_U32 ||
++        source_offset > TENSOR(tensor).elements ||
++        elements > TENSOR(tensor).elements - source_offset) return 0;
++    const unsigned char *source = TENSOR(tensor).buffer.contents;
++    memcpy(values, source + source_offset * sizeof(uint32_t), elements * sizeof(uint32_t));
+     return 1;
+ }
+ 
+@@ -2987,8 +2999,9 @@
+                               uint32_t padded_rows, uint32_t columns) {
+     H3GPU *gpu = GPU(opaque);
+     if (!gpu.tensorOpsEnabled || !rows || padded_rows < rows ||
+-        columns != 14336u) {
+-        h3_gpu_set_error(gpu, @"H256 INT8 requires M5 TensorOps, nonzero rows and K=14336");
++        (columns != 14336u && columns != 5376u) ||
++        (size_t)padded_rows * columns > UINT32_MAX) {
++        h3_gpu_set_error(gpu, @"H256 INT8 requires M5 TensorOps, nonzero rows and K=5376 or 14336");
+         return 0;
+     }
+     if (!h3_gpu_require_bf16(gpu, input, (size_t)rows * columns, @"H256 input") ||
+@@ -2996,7 +3009,8 @@
+         !h3_gpu_require_f32(gpu, scales, padded_rows, @"H256 scales") ||
+         !h3_gpu_require_command(gpu)) return 0;
+     id<MTLComputePipelineState> pipeline = h3_gpu_pipeline(
+-        gpu, @"h3_quantize_bf16_h256_int8_rows_k14336");
++        gpu, columns == 5376u ? @"h3_quantize_bf16_h256_int8_rows_k5376" :
++                               @"h3_quantize_bf16_h256_int8_rows_k14336");
+     if (!pipeline || pipeline.maxTotalThreadsPerThreadgroup < 256) {
+         h3_gpu_set_error(gpu, @"H256 INT8 pipeline unavailable; no fallback");
+         return 0;
+@@ -5013,3 +5027,92 @@
+             [encoder setBytes:&elements length:sizeof(elements) atIndex:3];
+         });
+ }
++
++/* Native RMS/AdaLN BF16 boundary -> normalized H256 -> row INT8.
++ * Independent U32 maps index [condition,slots,width] BF16 tables; callers
++ * guarantee map bounds and finite inputs before encoding. In-place residual
++ * updates are supported; other outputs must not alias inputs/each other.
++ * staged=1 uses existing gate/AdaLN plus independent H packing, requiring
++ * BF16 scratch[rows,width]. Fused (staged=0) accepts NULL scratch, or writes
++ * the post-AdaLN BF16 values to supplied scratch for diagnostic readback.
++ * apply_gate=0 requires gated_residual==residual and leaves it unchanged.
++ * No synchronization/readback is performed by this API. */
++int h3_gpu_adaln_h256_int8(h3_gpu *opaque,
++                     h3_gpu_tensor *gated_residual,
++                     h3_gpu_tensor *quantized_output, h3_gpu_tensor *quantized_scales,
++                     h3_gpu_tensor *bf16_scratch,
++                     const h3_gpu_tensor *residual, const h3_gpu_tensor *branch,
++                     const h3_gpu_tensor *norm_weight,
++                     const h3_gpu_tensor *gate_modulation,
++                     const h3_gpu_tensor *norm_modulation,
++                     const h3_gpu_tensor *gate_row_map,
++                     const h3_gpu_tensor *norm_row_map,
++                     uint32_t rows, uint32_t padded_rows, uint32_t width,
++                     uint32_t slots, uint32_t gate_slot,
++                     uint32_t shift_slot, uint32_t scale_slot,
++                     float epsilon, int apply_gate, int staged)
++ {
++    H3GPU *gpu=GPU(opaque);
++    size_t elements=(size_t)rows*width, padded=(size_t)padded_rows*width;
++    if(!gpu.tensorOpsEnabled || width!=5376u || !rows || padded_rows<rows ||
++       padded>UINT32_MAX || !slots || gate_slot>=slots || shift_slot>=slots ||
++       scale_slot>=slots || !isfinite(epsilon) || epsilon<=0.0f ||
++       (apply_gate!=0 && apply_gate!=1) || (staged!=0 && staged!=1) ||
++       (staged && !bf16_scratch) || (!apply_gate && gated_residual!=residual) ||
++       (bf16_scratch && (bf16_scratch==residual || bf16_scratch==gated_residual ||
++                        bf16_scratch==branch))) {
++        h3_gpu_set_error(gpu,@"AdaLN H256 requires K5376, valid dimensions/slots, explicit 0/1 modes and staged scratch; no fallback");
++        return 0;
++    }
++    if(!h3_gpu_require_bf16(gpu,residual,elements,@"H256 residual") ||
++       !h3_gpu_require_bf16(gpu,gated_residual,elements,@"H256 residual output") ||
++       !h3_gpu_require_bf16(gpu,norm_weight,width,@"H256 gamma") ||
++       !h3_gpu_require_bf16(gpu,norm_modulation,(size_t)slots*width,@"H256 modulation") ||
++       !h3_gpu_require_elements(gpu,norm_row_map,rows,@"H256 norm row map") ||
++       TENSOR(norm_row_map).dtype!=H3_GPU_U32 ||
++       !h3_gpu_require_i8(gpu,quantized_output,padded,@"H256 codes") ||
++       !h3_gpu_require_f32(gpu,quantized_scales,padded_rows,@"H256 scales") ||
++       (bf16_scratch && !h3_gpu_require_bf16(gpu,bf16_scratch,elements,@"H256 AdaLN capture")) ||
++       !h3_gpu_require_command(gpu)) return 0;
++    if(apply_gate &&
++       (!h3_gpu_require_bf16(gpu,branch,elements,@"H256 branch") ||
++        !h3_gpu_require_bf16(gpu,gate_modulation,(size_t)slots*width,@"H256 gate modulation") ||
++        !h3_gpu_require_elements(gpu,gate_row_map,rows,@"H256 gate row map") ||
++        TENSOR(gate_row_map).dtype!=H3_GPU_U32)) return 0;
++    if(staged) {
++        if(apply_gate && !h3_gpu_gate_bf16(opaque,gated_residual,residual,
++            branch,gate_modulation,gate_row_map,rows,width,slots,gate_slot)) return 0;
++        return h3_gpu_adaln_bf16(opaque,bf16_scratch,
++            apply_gate ? gated_residual : residual,norm_weight,norm_modulation,
++            norm_row_map,rows,width,slots,shift_slot,scale_slot,epsilon) &&
++            h3_gpu_quantize_h256_int8(opaque,quantized_output,quantized_scales,
++                bf16_scratch,rows,padded_rows,width);
++    }
++    id<MTLComputePipelineState> pipeline=h3_gpu_pipeline(gpu,@"h3_adaln_h256_int8_k5376");
++    if(!pipeline || pipeline.maxTotalThreadsPerThreadgroup<256) {
++        h3_gpu_set_error(gpu,@"AdaLN H256 pipeline unavailable; no fallback"); return 0;
++    }
++    typedef struct {
++        uint32_t rows,width,slots,gate_slot,shift_slot,scale_slot;
++        float epsilon;
++        uint32_t apply_gate,write_adaln;
++    } h256_args;
++    h256_args args={rows,width,slots,gate_slot,shift_slot,scale_slot,epsilon,
++                   (uint32_t)apply_gate,bf16_scratch ? 1u : 0u};
++    @autoreleasepool {
++        id<MTLComputeCommandEncoder> encoder=[gpu.command computeCommandEncoder];
++        [encoder setComputePipelineState:pipeline];
++        const h3_gpu_tensor *buffers[]={residual,apply_gate ? branch : residual,
++            norm_weight,apply_gate ? gate_modulation : norm_modulation,
++            norm_modulation,apply_gate ? gate_row_map : norm_row_map,norm_row_map,
++            gated_residual,quantized_output,quantized_scales,
++            bf16_scratch ? bf16_scratch : gated_residual};
++        for(NSUInteger i=0;i<11;++i) [encoder setBuffer:TENSOR(buffers[i]).buffer offset:0 atIndex:i];
++        [encoder setBytes:&args length:sizeof(args) atIndex:11];
++        [encoder dispatchThreadgroups:MTLSizeMake(padded_rows,1,1)
++                 threadsPerThreadgroup:MTLSizeMake(256,1,1)];
++        [encoder endEncoding];
++    }
++    h3_gpu_stats stats=gpu.stats; stats.direct_dispatches++; gpu.stats=stats;
++    return 1;
++}
+--- a/h3_shaders.metal
++++ b/h3_shaders.metal
+@@ -1384,6 +1384,73 @@
+         #pragma unroll
+         for(uint reg=0;reg<registers;++reg)
+             output[base+block*256+reg*32+lane]=int8_t(clamp(
++                rint(values[slot][reg]/scale),-127.0f,127.0f));
++    }
++}
++
++/* K5376: 21 H256 blocks; padded M and SIMD slots are zero. */
++kernel void h3_quantize_bf16_h256_int8_rows_k5376(
++        device const bfloat *input [[buffer(0)]],
++        device int8_t *output [[buffer(1)]],
++        device float *scales [[buffer(2)]],
++        constant int8_quant_args &args [[buffer(3)]],
++        uint tid [[thread_index_in_threadgroup]],
++        ushort sg [[simdgroup_index_in_threadgroup]],
++        ushort lane [[thread_index_in_simdgroup]],
++        uint row [[threadgroup_position_in_grid]]) {
++    constexpr uint width=5376, slots=3, registers=8, groups=8;
++    uint base=row*width;
++    if(row>=args.rows) {
++        for(uint j=tid;j<width;j+=256) output[base+j]=0;
++        if(tid==0) scales[row]=1.0f;
++        return;
++    }
++    float values[slots][registers];
++    threadgroup float partials[groups];
++    float peak=0.0f;
++    #pragma unroll
++    for(uint slot=0;slot<slots;++slot) {
++        uint block=slot*groups+sg;
++        #pragma unroll
++        for(uint reg=0;reg<registers;++reg) {
++            float v=block<21 ? float(input[base+block*256+reg*32+lane]) : 0.0f;
++            #pragma unroll
++            for(uint stride=1;stride<32;stride*=2) {
++                float peer=simd_shuffle_xor(v,stride);
++                v=(lane&stride) ? peer-v : v+peer;
++            }
++            values[slot][reg]=v;
++        }
++        #pragma unroll
++        for(uint stride=1;stride<registers;stride*=2) {
++            #pragma unroll
++            for(uint start=0;start<registers;start+=2*stride) {
++                #pragma unroll
++                for(uint j=0;j<stride;++j) {
++                    float a=values[slot][start+j], b=values[slot][start+j+stride];
++                    values[slot][start+j]=a+b;
++                    values[slot][start+j+stride]=a-b;
++                }
++            }
++        }
++        #pragma unroll
++        for(uint reg=0;reg<registers;++reg) {
++            values[slot][reg]*=0.0625f;
++            peak=max(peak,abs(values[slot][reg]));
++        }
++    }
++    peak=simd_max(peak);
++    if(lane==0) partials[sg]=peak;
++    threadgroup_barrier(mem_flags::mem_threadgroup);
++    peak=simd_max(lane<groups ? partials[lane] : 0.0f);
++    float scale=peak==0.0f ? 1.0f : peak/127.0f;
++    if(tid==0) scales[row]=scale;
++    #pragma unroll
++    for(uint slot=0;slot<slots;++slot) {
++        uint block=slot*groups+sg;
++        #pragma unroll
++        for(uint reg=0;reg<registers;++reg)
++            if(block<21) output[base+block*256+reg*32+lane]=int8_t(clamp(
+                 rint(values[slot][reg]/scale),-127.0f,127.0f));
+     }
+ }
+@@ -4776,3 +4843,117 @@
+     float other = h3_bf16_to_f32(up[gid]);
+     output[gid] = h3_f32_to_bf16(value / (1.0f + exp(-value)) * other);
+ }
++
++struct h3_adaln_h256_args {
++    uint rows, width, slots, gate_slot, shift_slot, scale_slot;
++    float epsilon;
++    uint apply_gate, write_adaln;
++};
++
++kernel void h3_adaln_h256_int8_k5376(
++        device const ushort *residual [[buffer(0)]],
++        device const ushort *branch [[buffer(1)]],
++        device const ushort *gamma [[buffer(2)]],
++        device const ushort *gate_modulation [[buffer(3)]],
++        device const ushort *norm_modulation [[buffer(4)]],
++        device const uint *gate_map [[buffer(5)]],
++        device const uint *norm_map [[buffer(6)]],
++        device ushort *gated_residual [[buffer(7)]],
++        device int8_t *codes [[buffer(8)]],
++        device float *scales [[buffer(9)]],
++        device ushort *adaln_capture [[buffer(10)]],
++        constant h3_adaln_h256_args &args [[buffer(11)]],
++        uint tid [[thread_index_in_threadgroup]],
++        ushort sg [[simdgroup_index_in_threadgroup]],
++        ushort lane [[thread_index_in_simdgroup]],
++        uint row [[threadgroup_position_in_grid]]) {
++    constexpr uint width=5376, groups=8, slots=3, registers=8;
++    uint base=row*width;
++    if(row>=args.rows) {
++        for(uint j=tid;j<width;j+=256) codes[base+j]=0;
++        if(tid==0) scales[row]=1.0f;
++        return;
++    }
++    threadgroup ushort rounded[width];
++    threadgroup float reductions[256];
++    uint norm_base=norm_map[row]*args.slots*width;
++    uint gate_base=args.apply_gate ? gate_map[row]*args.slots*width : 0;
++    float sum=0.0f;
++    for(uint j=tid;j<width;j+=256) {
++        ushort bits=residual[base+j];
++        if(args.apply_gate) {
++            float gate=h3_bf16_to_f32(gate_modulation[gate_base+args.gate_slot*width+j]);
++            bits=h3_f32_to_bf16(h3_bf16_to_f32(bits)+
++                h3_bf16_to_f32(branch[base+j])*gate);
++            gated_residual[base+j]=bits;
++        }
++        rounded[j]=bits;
++        float x=h3_bf16_to_f32(bits);
++        sum=fma(x,x,sum);
++    }
++    reductions[tid]=sum;
++    threadgroup_barrier(mem_flags::mem_threadgroup);
++    for(uint stride=128;stride;stride>>=1) {
++        if(tid<stride) reductions[tid]+=reductions[tid+stride];
++        threadgroup_barrier(mem_flags::mem_threadgroup);
++    }
++    float inv=rsqrt(reductions[0]/float(width)+args.epsilon);
++    for(uint j=tid;j<width;j+=256) {
++        float normalized=h3_bf16_to_f32(rounded[j])*inv*h3_bf16_to_f32(gamma[j]);
++        float shift=h3_bf16_to_f32(norm_modulation[norm_base+args.shift_slot*width+j]);
++        float scale=h3_bf16_to_f32(norm_modulation[norm_base+args.scale_slot*width+j]);
++        ushort bits=h3_f32_to_bf16(normalized*(1.0f+scale)+shift);
++        rounded[j]=bits;
++        if(args.write_adaln) adaln_capture[base+j]=bits;
++    }
++    threadgroup_barrier(mem_flags::mem_threadgroup);
++    float values[slots][registers];
++    float peak=0.0f;
++    #pragma unroll
++    for(uint slot=0;slot<slots;++slot) {
++        uint block=slot*groups+sg;
++        #pragma unroll
++        for(uint reg=0;reg<registers;++reg) {
++            float v=block<21 ? h3_bf16_to_f32(rounded[block*256+reg*32+lane]) : 0.0f;
++            #pragma unroll
++            for(uint stride=1;stride<32;stride*=2) {
++                float peer=simd_shuffle_xor(v,stride);
++                v=(lane&stride) ? peer-v : v+peer;
++            }
++            values[slot][reg]=v;
++        }
++        #pragma unroll
++        for(uint stride=1;stride<registers;stride*=2) {
++            #pragma unroll
++            for(uint start=0;start<registers;start+=2*stride) {
++                #pragma unroll
++                for(uint j=0;j<stride;++j) {
++                    float a=values[slot][start+j], b=values[slot][start+j+stride];
++                    values[slot][start+j]=a+b;
++                    values[slot][start+j+stride]=a-b;
++                }
++            }
++        }
++        #pragma unroll
++        for(uint reg=0;reg<registers;++reg) {
++            values[slot][reg]*=0.0625f;
++            peak=max(peak,abs(values[slot][reg]));
++        }
++    }
++    peak=simd_max(peak);
++    if(lane==0) reductions[sg]=peak;
++    threadgroup_barrier(mem_flags::mem_threadgroup);
++    peak=simd_max(lane<groups ? reductions[lane] : 0.0f);
++    float scale=peak==0.0f ? 1.0f : peak/127.0f;
++    if(tid==0) scales[row]=scale;
++    #pragma unroll
++    for(uint slot=0;slot<slots;++slot) {
++        uint block=slot*groups+sg;
++        if(block<21) {
++            #pragma unroll
++            for(uint reg=0;reg<registers;++reg)
++                codes[base+block*256+reg*32+lane]=int8_t(clamp(
++                    rint(values[slot][reg]/scale),-127.0f,127.0f));
++        }
++    }
++}

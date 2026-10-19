@@ -1,0 +1,31 @@
+{
+  "seed": 17,
+  "rows": 17,
+  "policy": "native",
+  "status": "unsupported",
+  "process": {
+    "command": [
+      "results/local/h3/kernel-qkv-campaign-r2/qkv-validate",
+      "checkpoints/MiniMax-H3/42ed227ee7df40d41602854ae760620d6eb651fe/FL2VA/transformer",
+      ".cache/h3.c-kernel-integration/h3_shaders.metal",
+      "17",
+      "17",
+      "native",
+      "results/local/h3/kernel-qkv-campaign-r2/native-m17-seed17/driver.json",
+      "3",
+      "10"
+    ],
+    "cwd": ".cache/h3.c-kernel-integration",
+    "returncode": 2,
+    "started_utc": "2026-10-19T04:30:07.508100+00:00",
+    "finished_utc": "2026-10-19T04:30:07.511624+00:00",
+    "wall_seconds": 0.003521750000800239,
+    "log": "validation.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fallback_detected": false
+  },
+  "driver_sha256": "b6301dba19df6db01961b4ccccf456122d129e20dbd6155aac6bac44afcce0c8",
+  "summary": {
+    "status": "unsupported"
+  }
+}

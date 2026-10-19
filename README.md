@@ -6,6 +6,15 @@ Initial machine: **Apple M5 Max, 40 GPU cores, 128 GiB unified memory**, macOS 2
 
 The separate [native H3 integration](integrations/h3/README.md) runs the pinned open-source `h3.c` runtime with real model weights. Its [evaluation results](results/published/h3-native-eval/README.md) include playable BF16, native INT8 and INT8 + Hadamard samples, paired latent/media metrics, source checksums and explicit performance limits. Model-level evidence remains separate from the kernel measurements below.
 
+The [native QKV and QKV/FC1 AdaLN–Hadamard follow-up](integrations/h3/kernel-integration.md)
+connects both kernel families to H3 inference with separate opt-in policies.
+Its comparator is the existing native fusion: passing numerical checks does
+not guarantee a speedup, and improved local quantization can still increase
+whole-model drift. Two-seed model comparisons show increased drift with the
+combined policy, so the new flags remain off by default.
+The matched resident requests are also 1.15% and 1.33% slower at seeds 42 and
+43. [Complete results and six candidate samples](results/published/h3-native-eval/kernel-integration-v1/results.md).
+
 ## First measured outcome
 
 At M=4096, tuned W8A8 projections take **3.49 ms Q**, **6.58 ms FFN-up**, and **8.00 ms FFN-down**, including online activation quantization: **1.49× / 1.54× / 1.68×** faster than interleaved MLX BF16 baselines. Normal-input total relative L2 is about 1.3%. **FFN-down INT8 fails the synthetic outlier quality gate (8.84% error)**; FP8 passes that check (3.78%). These are kernel experiments, not a validated model precision policy.

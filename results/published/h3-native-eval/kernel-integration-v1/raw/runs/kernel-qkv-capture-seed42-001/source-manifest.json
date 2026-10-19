@@ -1,0 +1,19 @@
+{
+  "schema": "h3_kernel_integration_source_v1",
+  "status": "frozen",
+  "upstream_revision": "8974cc055ea9c02fcd14cc27dfda3e1027c05153",
+  "source_sha256": "7b694d2313a13012dab2714f15d1b2a58adff4b067230857dae284f0744c12d0",
+  "changed_files": [
+    "h3_dit.c",
+    "h3_gpu.h",
+    "h3_gpu.m",
+    "h3_shaders.metal"
+  ],
+  "patches": [
+    {
+      "file": "kernel-integration.patch",
+      "sha256": "f92f680a19b1ab81ab3eccead7c70720ccaa7a41c729da61fdc774d7eff6c01c"
+    }
+  ],
+  "note": "Combined source for explicit QKV kernel and QKV/FC1 Hadamard preparation experiments; no performance or promotion claim."
+}

@@ -1,0 +1,45 @@
+{
+  "seed": 17,
+  "rows": 129,
+  "policy": "native",
+  "status": "completed",
+  "process": {
+    "command": [
+      "results/local/h3/kernel-qkv-campaign-r2/qkv-validate",
+      "checkpoints/MiniMax-H3/42ed227ee7df40d41602854ae760620d6eb651fe/FL2VA/transformer",
+      ".cache/h3.c-kernel-integration/h3_shaders.metal",
+      "129",
+      "17",
+      "native",
+      "results/local/h3/kernel-qkv-campaign-r2/native-m129-seed17/driver.json",
+      "3",
+      "10"
+    ],
+    "cwd": ".cache/h3.c-kernel-integration",
+    "returncode": 0,
+    "started_utc": "2026-10-19T04:30:07.262522+00:00",
+    "finished_utc": "2026-10-19T04:30:07.457075+00:00",
+    "wall_seconds": 0.19455804099925444,
+    "log": "validation.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fallback_detected": false
+  },
+  "driver_sha256": "30b3ee9f0b71e53ca55766ec23d8dd7d23666d3f86f9671c27644dc1013e2a41",
+  "summary": {
+    "status": "completed",
+    "prepacked_qkv": {
+      "wall_median_seconds": {
+        "native": 0.001565999999005,
+        "candidate": 0.001312000000325
+      },
+      "native_over_candidate": 1.1935975599215556
+    },
+    "online_activation_plus_qkv": {
+      "wall_median_seconds": {
+        "native": 0.0007489999989049999,
+        "candidate": 0.0007089999999155
+      },
+      "native_over_candidate": 1.0564174880031978
+    }
+  }
+}
